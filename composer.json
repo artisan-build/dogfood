@@ -74,7 +74,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ArtisanBuild\\HallwayFlux\\HallwayFluxServiceProvider"
+                "ArtisanBuild\\HallwayFlux\\Providers\\HallwayFluxServiceProvider"
             ]
         }
     },
