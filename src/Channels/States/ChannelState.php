@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ArtisanBuild\Hallway\Channels\States;
+
+use ArtisanBuild\Hallway\Channels\Enums\ChannelTypes;
+use ArtisanBuild\Jetstream\States\UserState;
+use Illuminate\Support\Collection;
+use Thunk\Verbs\State;
+
+class ChannelState extends State
+{
+    public string $name;
+    public ChannelTypes $type;
+
+    public array $user_ids = [];
+
+    public function users(): Collection
+    {
+        return collect($this->user_ids)->map(fn(int $id) => UserState::load($id));
+    }
+}

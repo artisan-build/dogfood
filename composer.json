@@ -70,7 +70,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ArtisanBuild\\Hallway\\Providers\\HallwayServiceProvider"
+                "ArtisanBuild\\Hallway\\HallwayServiceProvider"
             ]
         }
     },

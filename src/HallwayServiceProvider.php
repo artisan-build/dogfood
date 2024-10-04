@@ -1,10 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Hallway\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class HallwayServiceProvider extends ServiceProvider
-{
-
-}
+class HallwayServiceProvider extends ServiceProvider {}
