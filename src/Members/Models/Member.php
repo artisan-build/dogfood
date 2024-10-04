@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Hallway\Members\Models;
 
 use Illuminate\Database\Eloquent\Model;
