@@ -68,4 +68,3 @@ describe('event created', function (): void {
         );
     })->throws(AuthorizationException::class)->with(collect(UsersFixture::cases())->filter(fn($case) => UsersFixture::Admin !== $case));
 });
-
