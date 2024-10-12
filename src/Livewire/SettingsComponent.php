@@ -6,10 +6,10 @@ namespace ArtisanBuild\HallwayFlux\Livewire;
 
 use Livewire\Component;
 
-class DashboardComponent extends Component
+class SettingsComponent extends Component
 {
     public function render()
     {
-        return view('hallway-flux::livewire.dashboard')->layout('hallway-flux::layouts.app');
+        return view('hallway-flux::livewire.settings')->layout('hallway-flux::layouts.app');
     }
 }
