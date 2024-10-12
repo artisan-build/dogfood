@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Channels\Enums;
 
-enum ChannelTypes: string
+enum ChannelTypes: int
 {
-    case OpenFree = 'OpenFree';
-    case OpenPaid = 'OpenPaid';
-    case PrivateFree = 'PrivateFree';
-    case PrivatePaid = 'PrivatePaid';
+    case OpenFree = 0;
+    case OpenPremium = 1;
+    case PrivateFree = 2;
+    case PrivatePremium = 3;
+    case MemberInvitationOnly = 4;
+    case MemberAddByMention = 5;
 }

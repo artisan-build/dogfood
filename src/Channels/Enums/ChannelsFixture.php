@@ -20,10 +20,10 @@ enum ChannelsFixture: int
     case FreeOpen = 229906193380057088;
 
     #[WithData([
-        'name' => 'Paid Open Channel',
-        'type' => ChannelTypes::OpenPaid,
+        'name' => 'Premium Open Channel',
+        'type' => ChannelTypes::OpenPremium,
     ])]
-    case PaidOpen = 229906217885343744;
+    case PremiumOpen = 229906217885343744;
 
     #[WithData([
         'name' => 'Free Private Channel',
@@ -32,8 +32,8 @@ enum ChannelsFixture: int
     case FreePrivate = 229906241970610176;
 
     #[WithData([
-        'name' => 'Paid Private Channel',
-        'type' => ChannelTypes::PrivatePaid,
+        'name' => 'Premium Private Channel',
+        'type' => ChannelTypes::PrivatePremium,
     ])]
-    case PaidPrivate = 229906264325832704;
+    case PremiumPrivate = 229906264325832704;
 }

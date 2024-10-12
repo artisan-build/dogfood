@@ -14,10 +14,10 @@ class ChannelState extends State
     public string $name;
     public ChannelTypes $type;
 
-    public array $user_ids = [];
+    public array $member_ids = [];
 
-    public function users(): Collection
+    public function members(): Collection
     {
-        return collect($this->user_ids)->map(fn(int $id) => UserState::load($id));
+        return collect($this->member_ids)->map(fn(int $id) => UserState::load($id));
     }
 }

@@ -6,7 +6,7 @@ namespace ArtisanBuild\Hallway\Calendar\Events;
 
 use Thunk\Verbs\Event;
 
-class UserSaidYesToGathering extends Event
+class MemberSaidYesToGathering extends Event
 {
     public function handle(): void
     {

@@ -16,14 +16,16 @@ class Channel extends Model
 
     protected string $stateClass = ChannelState::class;
 
+    public function casts()
+    {
+        return [
+            'member_ids' => 'array',
+        ];
+    }
+
     public function getRows(): array
     {
         return $this->loadStatesIntoSushi();
-    }
-
-    public function sushiShouldCache()
-    {
-        return true;
     }
 
 }

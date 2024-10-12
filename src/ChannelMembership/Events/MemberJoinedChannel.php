@@ -2,31 +2,33 @@
 
 declare(strict_types=1);
 
-namespace ArtisanBuild\Hallway\Channels\Events;
+namespace ArtisanBuild\Hallway\ChannelMembership\Events;
 
-use ArtisanBuild\Hallway\Channels\Enums\ChannelTypes;
+use ArtisanBuild\Adverbs\Traits\SimpleApply;
+use ArtisanBuild\Hallway\ChannelMembership\Models\ChannelMembership;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
+use ArtisanBuild\Hallway\Members\States\MemberState;
 use ArtisanBuild\Jetstream\Traits\AuthorizesBasedOnUserRole;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
-class ChannelCreated extends Event
+class MemberJoinedChannel extends Event
 {
     use AuthorizesBasedOnUserRole;
+    use SimpleApply;
+
+    #[StateId(MemberState::class)]
+    public int $member_id;
 
     #[StateId(ChannelState::class)]
     public int $channel_id;
 
-    public ChannelTypes $type;
-    public string $name;
-
-
-
-    public function apply(ChannelState $state): void
+    public function validate(): bool
     {
-        $state->name = $this->name;
-        $state->type = $this->type;
+        return ! ChannelMembership::where('channel_id', $this->channel_id)
+            ->where('member_id', $this->member_id)->exists();
     }
+
 
     public function handle(): void
     {
