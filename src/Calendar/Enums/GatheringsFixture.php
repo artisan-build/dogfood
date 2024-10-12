@@ -23,13 +23,13 @@ enum GatheringsFixture: int
     case PastFree = 230759683206791168;
 
     #[WithData([
-        'title' => 'Past Paid Event',
+        'title' => 'Past Premium Event',
         'description' => 'A paid event that has already happened',
         'start' => '-16',
         'end' => '-15',
-        'invitation_level' => InvitationLevels::Paid,
+        'invitation_level' => InvitationLevels::Premium,
     ])]
-    case PastPaid = 230759733484122112;
+    case PastPremium = 230759733484122112;
 
     #[WithData([
         'title' => 'Ongoing Free Event',
@@ -41,11 +41,11 @@ enum GatheringsFixture: int
     case OngoingFree = 230759817777078272;
 
     #[WithData([
-        'title' => 'Ongoing Paid Event',
+        'title' => 'Ongoing Premium Event',
         'description' => 'A paid event that is currently happening',
         'start' => '-100',
         'end' => '100',
-        'invitation_level' => InvitationLevels::Paid,
+        'invitation_level' => InvitationLevels::Premium,
     ])]
     case OngoingPremium = 230759863271579648;
 
@@ -59,11 +59,11 @@ enum GatheringsFixture: int
     case UpcomingFree = 230759893013221376;
 
     #[WithData([
-        'title' => 'Upcoming Paid Event',
+        'title' => 'Upcoming Premium Event',
         'description' => 'A paid event that has not yet happened',
         'start' => '100',
         'end' => '101',
-        'invitation_level' => InvitationLevels::Paid,
+        'invitation_level' => InvitationLevels::Premium,
     ])]
     case UpcomingPremium = 230759936195096576;
 

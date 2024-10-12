@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Moderation\Enums;
 
-enum ModerationMessageStates
+enum ModerationMessageStates: int
 {
-    case None; // No moderation action has been taken on this message
-    case Reported; // User or AI reported as possible violation
-    case Okay; // Moderator accepted message as okay
-    case Warning; // Moderator applied warning cover
-    case Removed; // Moderator removed the message
+    case None = 0; // No moderation action has been taken on this message
+    case Reported = 1; // User or AI reported as possible violation
+    case Okay = 2; // Moderator accepted message as okay
+    case Warning = 3; // Moderator applied warning cover
+    case Removed = 4; // Moderator removed the message
 
 
 }

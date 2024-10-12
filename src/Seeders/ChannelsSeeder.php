@@ -19,7 +19,7 @@ class ChannelsSeeder extends Seeder
             ChannelCreated::commit(
                 channel_id: $case->value,
                 name: $case->data($case, 'name'),
-                type: $case->data($case, 'type')->name,
+                type: $case->data($case, 'type'),
             );
         }
     }
