@@ -40,7 +40,10 @@
         "psr-4": {
             "ArtisanBuild\\Hallway\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
-        }
+        },
+        "files": [
+            "src/Functions.php"
+        ]
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
