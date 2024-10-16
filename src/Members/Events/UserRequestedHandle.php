@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Members\Events;
 
-use ArtisanBuild\Jetstream\States\UserState;
+use App\States\UserState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 

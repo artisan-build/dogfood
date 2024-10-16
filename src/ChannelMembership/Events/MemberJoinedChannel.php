@@ -8,13 +8,13 @@ use ArtisanBuild\Adverbs\Traits\SimpleApply;
 use ArtisanBuild\Hallway\ChannelMembership\Models\ChannelMembership;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use ArtisanBuild\Hallway\Members\States\MemberState;
-use ArtisanBuild\Jetstream\Traits\AuthorizesBasedOnUserRole;
+use ArtisanBuild\Hallway\Members\Traits\AuthorizesBasedOnMemberRole;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 class MemberJoinedChannel extends Event
 {
-    use AuthorizesBasedOnUserRole;
+    use AuthorizesBasedOnMemberRole;
     use SimpleApply;
 
     #[StateId(MemberState::class)]

@@ -4,41 +4,29 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Members\Events;
 
-use ArtisanBuild\Hallway\Channels\States\ChannelState;
+use ArtisanBuild\Adverbs\Traits\SimpleApply;
+use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Members\States\MemberState;
-use ArtisanBuild\Jetstream\States\UserState;
-use Illuminate\Support\Collection;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 class MemberCreated extends Event
 {
-    #[StateId(MemberState::class)]
-    public int $member_id;
+    use SimpleApply;
 
-    #[StateId(UserState::class)]
+    #[StateId(MemberState::class)]
+    public ?int $member_id = null;
+
     public int $user_id;
 
+    public MemberRoles $role = MemberRoles::Member;
+
     public string $handle;
+
+    public string $display_name;
 
 
     public array $channel_ids = [];
 
-    public function applyToMemberState(MemberState $state): void
-    {
-        $state->user_id = $this->user_id;
-        $state->handle = $this->handle;
-    }
-
-    public function applyToUserState(UserState $state): void
-    {
-        $state->member_ids[] = $this->member_id;
-    }
-
-
-    public function channels(): Collection
-    {
-        return collect($this->channel_ids)->map(fn(int $id) => ChannelState::load($id));
-    }
 
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Channels\States;
 
+use App\States\UserState;
 use ArtisanBuild\Hallway\Channels\Enums\ChannelTypes;
-use ArtisanBuild\Jetstream\States\UserState;
 use Illuminate\Support\Collection;
 use Thunk\Verbs\State;
 

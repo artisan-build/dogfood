@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Seeders;
 
+use App\Models\User;
 use ArtisanBuild\Hallway\Members\Events\MemberCreated;
-use ArtisanBuild\Jetstream\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
