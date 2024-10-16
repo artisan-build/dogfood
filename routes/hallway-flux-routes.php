@@ -23,7 +23,7 @@ Route::prefix(config('hallway-flux.route-prefix'))
     ->group(function (): void {
 
         Route::get('/lobby', LobbyComponent::class)->name('lobby');
-        Route::get('/calendar', CalendarComponent::class)->name('calendar');
+        Route::get('/calendar/{range?}', CalendarComponent::class)->name('calendar');
         Route::get('/members', MembersComponent::class)->name('members');
         Route::get('/mentions', MentionsComponent::class)->name('mentions');
         Route::get('/bookmarks', BookmarksComponent::class)->name('bookmarks');
