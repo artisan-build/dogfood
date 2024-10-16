@@ -49,7 +49,7 @@ class GatheringCreated extends Event
         name: 'Duration',
         label: 'Duration in minutes',
     )]
-    public int $duration;
+    public int $duration = 30;
     public ?Carbon $published_at = null;
     public ?Carbon $cancelled_at = null;
     public InvitationLevels $invitation_level;
