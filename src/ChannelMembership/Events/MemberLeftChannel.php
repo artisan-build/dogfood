@@ -7,13 +7,13 @@ namespace ArtisanBuild\Hallway\ChannelMembership\Events;
 use ArtisanBuild\Adverbs\Traits\SimpleApply;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use ArtisanBuild\Hallway\Members\States\MemberState;
-use ArtisanBuild\Jetstream\Traits\AuthorizesBasedOnUserRole;
+use ArtisanBuild\Hallway\Members\Traits\AuthorizesBasedOnMemberRole;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 class MemberLeftChannel extends Event
 {
-    use AuthorizesBasedOnUserRole;
+    use AuthorizesBasedOnMemberRole;
     use SimpleApply;
 
     #[StateId(MemberState::class)]

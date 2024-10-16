@@ -7,14 +7,14 @@ namespace ArtisanBuild\Hallway\Calendar\Events;
 use ArtisanBuild\Adverbs\Traits\SimpleApply;
 use ArtisanBuild\Hallway\Calendar\Enums\InvitationLevels;
 use ArtisanBuild\Hallway\Calendar\States\GatheringState;
-use ArtisanBuild\Jetstream\Traits\AuthorizesBasedOnUserRole;
+use ArtisanBuild\Hallway\Members\Traits\AuthorizesBasedOnMemberRole;
 use Carbon\Carbon;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 class GatheringUpdated extends Event
 {
-    use AuthorizesBasedOnUserRole;
+    use AuthorizesBasedOnMemberRole;
     use SimpleApply;
 
     #[StateId(GatheringState::class)]
