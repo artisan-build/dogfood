@@ -2,13 +2,29 @@
 
 declare(strict_types=1);
 
+use App\Enums\UsersFixture;
 use ArtisanBuild\Hallway\Channels\Enums\ChannelsFixture;
 use ArtisanBuild\Hallway\Channels\Events\ChannelNameChanged;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
-use ArtisanBuild\Jetstream\Enums\UsersFixture;
 use Illuminate\Auth\Access\AuthorizationException;
 
 describe('change the channel name', function (): void {
+    test('owners can change a channel name', function (): void {
+        test()->actingAs(UsersFixture::Owner->get());
+
+        $id = ChannelsFixture::FreeOpen->value;
+
+
+        expect(ChannelState::load($id)->name)->toBe('Free Open');
+
+        ChannelNameChanged::commit(
+            channel_id: ChannelsFixture::FreeOpen->value,
+            name: 'Test Channel',
+        );
+
+        expect(ChannelState::load($id)->name)->toBe('Test Channel');
+    });
+
     test('admins can change a channel name', function (): void {
         test()->actingAs(UsersFixture::Admin->get());
 
@@ -43,5 +59,5 @@ describe('change the channel name', function (): void {
             name: 'Test Channel',
         );
     })->throws(AuthorizationException::class)
-        ->with(collect(UsersFixture::cases())->filter(fn($user) => UsersFixture::Admin !== $user));
+        ->with(collect(UsersFixture::cases())->filter(fn($user) => UsersFixture::Admin !== $user && UsersFixture::Owner !== $user));
 });
