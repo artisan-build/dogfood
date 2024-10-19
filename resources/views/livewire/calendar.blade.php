@@ -47,27 +47,6 @@
 
 
     <flux:modal name="add-gathering" variant="flyout" class="space-y-6">
-        <div>
-            <flux:heading size="lg">Add Gathering</flux:heading>
-            <flux:subheading>Add an event to your community calendar.</flux:subheading>
-        </div>
-
-        <flux:input label="Title" placeholder="A very merry gathering"/>
-
-        <flux:field>
-            <flux:label>Duration</flux:label>
-            <flux:input.group>
-                <flux:input placeholder="30"/>
-
-                <flux:input.group.suffix> Minutes</flux:input.group.suffix>
-            </flux:input.group>
-        </flux:field>
-
-
-        <div class="flex">
-            <flux:spacer/>
-
-            <flux:button type="submit" variant="primary">Add Gathering</flux:button>
-        </div>
+        <livewire:event-form :event="\ArtisanBuild\Hallway\Calendar\Events\GatheringCreated::class"/>
     </flux:modal>
 </div>
