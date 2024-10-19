@@ -7,18 +7,16 @@ namespace ArtisanBuild\Hallway\Calendar\Events;
 use ArtisanBuild\Hallway\Calendar\Enums\InvitationLevels;
 use ArtisanBuild\Hallway\Calendar\States\GatheringState;
 use ArtisanBuild\Hallway\Members\Traits\AuthorizesBasedOnMemberRole;
-use ArtisanBuild\VerbsFlux\Attributes\FluxDateTimeInput;
 use ArtisanBuild\VerbsFlux\Attributes\FluxForm;
-use ArtisanBuild\VerbsFlux\Attributes\FluxTextInput;
+use ArtisanBuild\VerbsFlux\Attributes\FluxInput;
+use ArtisanBuild\VerbsFlux\Enums\InputTypes;
 use Carbon\Carbon;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 #[FluxForm(
-    submit_text: 'Create a Gathering',
-    success: 'success',
+    submit_text: 'Create New Gathering',
 )]
-
 class GatheringCreated extends Event
 {
     use AuthorizesBasedOnMemberRole;
@@ -26,33 +24,34 @@ class GatheringCreated extends Event
     #[StateId(GatheringState::class)]
     public ?int $gathering_id = null;
 
-    #[FluxTextInput(
-        name: 'title',
-        label: 'Title',
+
+    #[FluxInput(
+        type: InputTypes::Text,
     )]
     public string $title;
-    #[FluxTextInput(
-        name: 'description',
-        label: 'Description',
+
+    #[FluxInput(
+        type: InputTypes::Textarea,
+        params: ['rows' => 'auto'],
     )]
     public string $description;
 
-    #[FluxDateTimeInput(
-        name: 'start',
-        label: 'Start',
-        min: 'now',
-        max: 'months:6',
+    #[FluxInput(
+        type: InputTypes::DatetimeLocal,
+        params: ['min' => 'now', 'max' => 'months:6'],
     )]
     public Carbon $start;
 
-    #[FluxTextInput(
-        name: 'Duration',
-        label: 'Duration in minutes',
+    #[FluxInput(
+        type: InputTypes::Number,
+        params: ['min' => 5, 'max' => 120],
+        description: 'Length of meeting in minutes',
+        suffix: 'Minutes',
     )]
     public int $duration = 30;
     public ?Carbon $published_at = null;
     public ?Carbon $cancelled_at = null;
-    public InvitationLevels $invitation_level;
+    public InvitationLevels $invitation_level = InvitationLevels::Free;
 
     public function apply(GatheringState $state): void
     {
