@@ -13,7 +13,7 @@ mutates([GatheringCreated::class, GatheringState::class]);
 
 describe('event created', function (): void {
     test('owner can create an event', function (): void {
-        test()->actingAs(UsersFixture::Owner->get());
+        test()->asUser(UsersFixture::Owner->get());
 
         // It seems unlikely that the test would start before midnight and end after midnight, but  why take the chance?
         Carbon::setTestNow(now()->startOfDay());
@@ -41,7 +41,7 @@ describe('event created', function (): void {
     });
 
     test('admin can create an event', function (): void {
-        test()->actingAs(UsersFixture::Admin->get());
+        test()->asUser(UsersFixture::Admin->get());
 
         // It seems unlikely that the test would start before midnight and end after midnight, but  why take the chance?
         Carbon::setTestNow(now()->startOfDay());
@@ -83,7 +83,7 @@ describe('event created', function (): void {
 
 
     it('throws if any non-admin user tries to create a gathering', function ($user): void {
-        test()->actingAs($user->get());
+        test()->asUser($user->get());
         $gathering_id = snowflake_id();
 
         GatheringCreated::commit(
