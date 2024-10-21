@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 use App\Enums\UsersFixture;
 use ArtisanBuild\Hallway\Channels\Enums\ChannelTypes;
-use ArtisanBuild\Hallway\Channels\Events\ChannelCreated;
+use ArtisanBuild\Hallway\Channels\Events\CommunityChannelCreated;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use Illuminate\Auth\Access\AuthorizationException;
 
 describe('Channel creation', function (): void {
     test('owners can create a channel', function (): void {
-        test()->actingAs(UsersFixture::Owner->get());
+        test()->asUser(UsersFixture::Owner->get());
 
         $id = snowflake_id();
 
-        ChannelCreated::commit(
+        CommunityChannelCreated::commit(
             channel_id: $id,
             name: 'Test Channel',
             type: ChannelTypes::OpenFree,
@@ -27,11 +27,11 @@ describe('Channel creation', function (): void {
     });
 
     test('admins can create a channel', function (): void {
-        test()->actingAs(UsersFixture::Admin->get());
+        test()->asUser(UsersFixture::Admin->get());
 
         $id = snowflake_id();
 
-        ChannelCreated::commit(
+        CommunityChannelCreated::commit(
             channel_id: $id,
             name: 'Test Channel',
             type: ChannelTypes::OpenFree,
@@ -46,7 +46,7 @@ describe('Channel creation', function (): void {
     it('throws if a guest tries to create a channel', function (): void {
         $id = snowflake_id();
 
-        ChannelCreated::commit(
+        CommunityChannelCreated::commit(
             channel_id: $id,
             name: 'Test Channel',
             type: ChannelTypes::OpenFree,
@@ -55,10 +55,10 @@ describe('Channel creation', function (): void {
 
 
     it('throws if any non-admin user tries to create a channel', function ($user): void {
-        test()->actingAs($user->get());
+        test()->asUser($user->get());
         $id = snowflake_id();
 
-        ChannelCreated::commit(
+        CommunityChannelCreated::commit(
             channel_id: $id,
             name: 'Test Channel',
             type: ChannelTypes::OpenFree,

@@ -5,13 +5,19 @@ declare(strict_types=1);
 namespace ArtisanBuild\Hallway\Channels\Events;
 
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
-use ArtisanBuild\Hallway\Members\Traits\AuthorizesBasedOnMemberRole;
+use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
+use ArtisanBuild\Hallway\Members\Traits\AuthorizesBasedOnMemberState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
-class ChannelNameChanged extends Event
+class CommunityChannelNameChanged extends Event
 {
-    use AuthorizesBasedOnMemberRole;
+    use AuthorizesBasedOnMemberState;
+
+    public array $authorized_member_roles = [
+        MemberRoles::Owner,
+        MemberRoles::Admin,
+    ];
 
     #[StateId(ChannelState::class)]
     public int $channel_id;

@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 use App\Enums\UsersFixture;
 use ArtisanBuild\Hallway\Channels\Enums\ChannelsFixture;
-use ArtisanBuild\Hallway\Channels\Events\ChannelNameChanged;
+use ArtisanBuild\Hallway\Channels\Events\CommunityChannelNameChanged;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use Illuminate\Auth\Access\AuthorizationException;
 
 describe('change the channel name', function (): void {
     test('owners can change a channel name', function (): void {
-        test()->actingAs(UsersFixture::Owner->get());
+        test()->asUser(UsersFixture::Owner->get());
 
         $id = ChannelsFixture::FreeOpen->value;
 
 
         expect(ChannelState::load($id)->name)->toBe('Free Open');
 
-        ChannelNameChanged::commit(
+        CommunityChannelNameChanged::commit(
             channel_id: ChannelsFixture::FreeOpen->value,
             name: 'Test Channel',
         );
@@ -26,14 +26,14 @@ describe('change the channel name', function (): void {
     });
 
     test('admins can change a channel name', function (): void {
-        test()->actingAs(UsersFixture::Admin->get());
+        test()->asUser(UsersFixture::Admin->get());
 
         $id = ChannelsFixture::FreeOpen->value;
 
 
         expect(ChannelState::load($id)->name)->toBe('Free Open');
 
-        ChannelNameChanged::commit(
+        CommunityChannelNameChanged::commit(
             channel_id: ChannelsFixture::FreeOpen->value,
             name: 'Test Channel',
         );
@@ -44,17 +44,17 @@ describe('change the channel name', function (): void {
     it('throws if a guest tries to rename a channel', function (): void {
         $id = ChannelsFixture::FreeOpen->value;
 
-        ChannelNameChanged::commit(
+        CommunityChannelNameChanged::commit(
             channel_id: $id,
             name: 'Test Channel',
         );
     })->throws(AuthorizationException::class);
 
     it('throws if a non-admin tries to rename a channel', function ($user): void {
-        test()->actingAs($user->get());
+        test()->asUser($user->get());
         $id = ChannelsFixture::FreeOpen->value;
 
-        ChannelNameChanged::commit(
+        CommunityChannelNameChanged::commit(
             channel_id: $id,
             name: 'Test Channel',
         );
