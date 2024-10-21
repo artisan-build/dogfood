@@ -2,7 +2,7 @@
 <div>
     <div class="flex space-x-4">
         <div class="flex-grow">
-            @if (\Illuminate\Support\Facades\Auth::user()->hallway_members->first()->role->can(GatheringCreated::class))
+            @if (\Illuminate\Support\Facades\Context::get('active_member')->can(GatheringCreated::class))
                 <div class="float-right">
                     <flux:modal.trigger name="add-gathering">
                         <flux:button>Add Gathering</flux:button>
