@@ -6,7 +6,8 @@ namespace ArtisanBuild\Hallway\Calendar\Events;
 
 use ArtisanBuild\Hallway\Calendar\Enums\InvitationLevels;
 use ArtisanBuild\Hallway\Calendar\States\GatheringState;
-use ArtisanBuild\Hallway\Members\Traits\AuthorizesBasedOnMemberRole;
+use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
+use ArtisanBuild\Hallway\Members\Traits\AuthorizesBasedOnMemberState;
 use ArtisanBuild\VerbsFlux\Attributes\FluxForm;
 use ArtisanBuild\VerbsFlux\Attributes\FluxInput;
 use ArtisanBuild\VerbsFlux\Enums\InputTypes;
@@ -19,7 +20,12 @@ use Thunk\Verbs\Event;
 )]
 class GatheringCreated extends Event
 {
-    use AuthorizesBasedOnMemberRole;
+    use AuthorizesBasedOnMemberState;
+
+    public array $authorized_member_roles = [
+        MemberRoles::Owner,
+        MemberRoles::Admin,
+    ];
 
     #[StateId(GatheringState::class)]
     public ?int $gathering_id = null;
