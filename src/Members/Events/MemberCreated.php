@@ -17,6 +17,7 @@ class MemberCreated extends Event
     #[StateId(MemberState::class)]
     public ?int $member_id = null;
 
+
     public int $user_id;
 
     public MemberRoles $role = MemberRoles::Member;
@@ -24,6 +25,8 @@ class MemberCreated extends Event
     public string $handle;
 
     public string $display_name;
+
+    public ?string $profile_picture_url = null;
 
 
     public array $channel_ids = [];

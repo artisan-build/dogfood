@@ -6,10 +6,12 @@ namespace ArtisanBuild\Hallway\Channels\Enums;
 
 enum ChannelTypes: int
 {
+    // Community Channel Types
     case OpenFree = 0;
     case OpenPremium = 1;
     case PrivateFree = 2;
     case PrivatePremium = 3;
-    case MemberInvitationOnly = 4;
-    case MemberAddByMention = 5;
+
+    // Member Channels
+    case Member = 11;
 }
