@@ -69,13 +69,13 @@
         </flux:navlist>
         @auth
             <flux:dropdown position="top" align="start" class="max-lg:hidden">
-                <flux:profile avatar="{{ Auth::user()?->profile_photo_url }}" name="{{ Auth::user()?->name }}"/>
+                <flux:profile avatar="{{ Context::get('active_member')?->profile_picture_url }}" name="{{ Context::get('active_member')?->display_name }}"/>
 
 
                 <flux:menu>
                     <flux:menu.radio.group>
                         @foreach (\Illuminate\Support\Facades\Auth::user()?->hallway_members as $member)
-                            <flux:menu.radio checked>{{ $member->handle }}</flux:menu.radio>
+                            <flux:menu.radio :checked="$member->id === Context::get('active_member')->id">{{ $member->handle }}</flux:menu.radio>
                         @endforeach
                     </flux:menu.radio.group>
 
@@ -102,12 +102,12 @@
 
         @auth
             <flux:dropdown position="top" align="start">
-                <flux:profile avatar="{{ Auth::user()?->profile_photo_url }}"/>
+                <flux:profile avatar="{{ Context::get('member')?->profile_picture_url }}"/>
 
                 <flux:menu>
                     <flux:menu.radio.group>
                         @foreach (\Illuminate\Support\Facades\Auth::user()?->hallway_members as $member)
-                            <flux:menu.radio checked>{{ $member->handle }}</flux:menu.radio>
+                            <flux:menu.radio :checked="$member->id === Context::get('active_member')->id">{{ $member->handle }}</flux:menu.radio>
                         @endforeach
                     </flux:menu.radio.group>
 
