@@ -15,14 +15,9 @@ use Sushi\Sushi;
 class ChannelMembership extends Model
 {
     use HasVerbsState;
-    use Sushi;
 
     protected string $stateClass = ChannelMembershipState::class;
 
-    public function getRows(): array
-    {
-        return $this->loadStatesIntoSushi();
-    }
 
     public function member(): BelongsTo
     {
