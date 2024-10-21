@@ -12,7 +12,6 @@ use Sushi\Sushi;
 class Channel extends Model
 {
     use HasVerbsState;
-    use Sushi;
 
     protected string $stateClass = ChannelState::class;
 
@@ -22,10 +21,4 @@ class Channel extends Model
             'member_ids' => 'array',
         ];
     }
-
-    public function getRows(): array
-    {
-        return $this->loadStatesIntoSushi();
-    }
-
 }

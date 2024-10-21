@@ -19,17 +19,13 @@ use Sushi\Sushi;
  */
 class Member extends Model
 {
+
     use HasVerbsState;
-    use Sushi;
 
     public $incrementing = false;
 
     protected string $stateClass = MemberState::class;
 
-    public function getRows(): array
-    {
-        return $this->loadStatesIntoSushi();
-    }
 
     public function casts(): array
     {
