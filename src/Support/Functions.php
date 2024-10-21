@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Support;
 
-use Illuminate\Support\Facades\Auth;
+use ArtisanBuild\Hallway\Members\States\MemberState;
+use Illuminate\Support\Facades\Context;
 
 class Functions
 {
-    public static function can(string $event)
+    public static function can(string $event, ?MemberState $member = null)
     {
-        return Auth::user()->hallway_members->first()->role->can($event);
+        $member ??= Context::get('active_member');
+        return $member->can($event);
     }
 
 }

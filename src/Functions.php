@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
+use ArtisanBuild\Hallway\Members\States\MemberState;
+use ArtisanBuild\Hallway\Support\Functions;
+
 if ( ! function_exists('hallway')) {
     function hallway(): void {}
 }
 
 if ( ! function_exists('hallway_can')) {
-    function hallway_can(string $event)
+    function hallway_can(string $event, ?MemberState $member = null)
     {
-        return Illuminate\Support\Facades\Auth::user()->hallway_members->first()->role->can($event);
+        return Functions::can($event, $member);
     }
 }
