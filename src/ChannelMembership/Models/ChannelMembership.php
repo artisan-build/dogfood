@@ -10,7 +10,6 @@ use ArtisanBuild\Hallway\Members\Models\Member;
 use ArtisanBuild\Hallway\Members\States\ChannelMembershipState;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Sushi\Sushi;
 
 class ChannelMembership extends Model
 {

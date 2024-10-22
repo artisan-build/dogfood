@@ -7,7 +7,6 @@ namespace ArtisanBuild\Hallway\Calendar\Models;
 use ArtisanBuild\Adverbs\Traits\HasVerbsState;
 use ArtisanBuild\Hallway\Calendar\States\GatheringState;
 use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
 
 class Gathering extends Model
 {
