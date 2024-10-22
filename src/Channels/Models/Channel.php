@@ -7,7 +7,6 @@ namespace ArtisanBuild\Hallway\Channels\Models;
 use ArtisanBuild\Adverbs\Traits\HasVerbsState;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
 
 class Channel extends Model
 {
