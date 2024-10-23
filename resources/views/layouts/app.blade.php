@@ -228,6 +228,10 @@
 
 @stack('modals')
 
+@persist('toast')
+<flux:toast position="top right" />
+@endpersist
+
 @livewireScripts
 @fluxScripts
 </body>
