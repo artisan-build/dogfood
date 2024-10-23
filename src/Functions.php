@@ -6,7 +6,10 @@ use ArtisanBuild\Hallway\Members\States\MemberState;
 use ArtisanBuild\Hallway\Support\Functions;
 
 if ( ! function_exists('hallway')) {
-    function hallway(): void {}
+    function hallway(): string
+    {
+        return 'hallway';
+    }
 }
 
 if ( ! function_exists('hallway_can')) {
