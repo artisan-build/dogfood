@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\ChannelMembership\Models;
 
+use ArtisanBuild\Adverbs\Traits\GetsRowsFromVerbsStates;
 use ArtisanBuild\Adverbs\Traits\HasVerbsState;
 use ArtisanBuild\Hallway\Channels\Models\Channel;
 use ArtisanBuild\Hallway\Members\Models\Member;
 use ArtisanBuild\Hallway\Members\States\ChannelMembershipState;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Sushi\Sushi;
 
 class ChannelMembership extends Model
 {
+    use GetsRowsFromVerbsStates;
     use HasVerbsState;
 
     protected string $stateClass = ChannelMembershipState::class;
