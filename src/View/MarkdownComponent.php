@@ -32,7 +32,7 @@ class MarkdownComponent extends Component
 
     public function render()
     {
-        $this->content = $this->converter->convert($this->content);
+        $this->content = $this->converter->convert($this->content)->getContent();
         return view('hallway-flux::components.markdown-component');
     }
 }
