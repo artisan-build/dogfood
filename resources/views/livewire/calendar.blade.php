@@ -3,15 +3,22 @@
     <div class="flex space-x-4">
         <div class="flex-grow">
             @if (\Illuminate\Support\Facades\Context::get('active_member')->can(GatheringCreated::class))
-                <div class="float-right">
-                    <flux:modal.trigger name="add-gathering">
-                        <flux:button>Add Gathering</flux:button>
-                    </flux:modal.trigger>
-                </div>
+
+                @foreach ($upcoming->where('month', $range) as $gathering)
+
+                @endforeach
             @endif
 
         </div>
         <div class="flex-0">
+            <x-hallway::can :event="GatheringCreated::class">
+                <div class="text-right mb-6">
+                    <flux:modal.trigger name="add-gathering">
+                        <flux:button>Add Gathering</flux:button>
+                    </flux:modal.trigger>
+                </div>
+            </x-hallway::can>
+
             @foreach ($months as $key => $month)
                 @if ($range === '' || $range === $key)
                     <flux:card>
@@ -32,7 +39,7 @@
                             <flux:button.group>
                                 @foreach ($week as $day)
                                     <flux:button
-                                        class="rounded-none {{ random_int(1, 5) !== 3 ? '!text-zinc-400' : '' }}"
+                                        class="rounded-none {{ blank(data_get($day, 'gatherings')) ? '!text-zinc-400' : '' }}"
                                         square="true"
                                         variant="{{ data_get($day, 'today') ? 'filled' : 'outline' }}">{{ data_get($day, 'number') }}</flux:button>
                                 @endforeach
@@ -42,6 +49,7 @@
                 @endif
 
             @endforeach
+
         </div>
     </div>
 

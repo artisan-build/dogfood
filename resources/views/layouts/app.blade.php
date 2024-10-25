@@ -20,6 +20,8 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.7.0/github-markdown.min.css" integrity="sha512-RXrQNShK831yZVcMWsLosdpsHddeG5xP7zMmlDu/OLQdfx24Z9pO1KiFZ1eZrMqY8P9hYgknwU/O6GxR2Fc0Gw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Styles -->
     @livewireStyles
     @fluxStyles

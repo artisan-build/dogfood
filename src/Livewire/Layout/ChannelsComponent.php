@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\HallwayFlux\Livewire\Layout;
 
-use ArtisanBuild\Hallway\Channels\Models\Channel;
+use ArtisanBuild\Hallway\Channels\Events\ChannelsRequested;
 use Livewire\Component;
 
 class ChannelsComponent extends Component
@@ -13,7 +13,7 @@ class ChannelsComponent extends Component
 
     public function mount(): void
     {
-        $this->channels = Channel::all();
+        $this->channels = ChannelsRequested::commit();
     }
     public function render()
     {
