@@ -48,8 +48,6 @@ class CommunityChannelCreated extends Event
     )]
     public ChannelTypes $type;
 
-
-
     /**
      * @throws Throwable
      */
