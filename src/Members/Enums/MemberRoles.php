@@ -31,4 +31,25 @@ enum MemberRoles: int
         // TODO: Is this faster than a match statement or in_array or something else?
         return Str::endsWith('Bot', $this->name);
     }
+
+    public function getColor(): string
+    {
+        /**
+         * Available Flux Badge Colors:
+         * zinc, red, orange, amber, yellow, lime,
+         * green, emerald, teal, cyan, sky, blue,
+         * indigo, violet, purple, fuchsia, pink, rose
+         */
+
+        return match ($this) {
+            self::Owner         => 'red',
+            self::Admin         => 'yellow',
+            self::Moderator     => 'lime',
+            self::Member        => 'sky',
+            self::ReadOnlyMember => 'indigo',
+            self::ModeratorBot  => 'violet',
+            self::ReadWriteBot  => 'purple',
+            self::ReadBot       => 'rose',
+        };
+    }
 }
