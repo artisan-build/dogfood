@@ -20,6 +20,17 @@ enum ChannelTypes: int
     case Member = 11;
     case MemberPrivate = 12;
 
+    public function isOpenChannel(): bool
+    {
+        return in_array($this, [
+            self::OpenFree,
+            self::OpenPremium,
+            self::ReadOnlyFree,
+            self::ReadOnlyPremium,
+            self::Blog,
+        ], true);
+    }
+
     public function isCommunityChannel(): bool
     {
         return in_array($this, [

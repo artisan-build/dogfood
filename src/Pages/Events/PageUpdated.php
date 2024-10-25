@@ -14,10 +14,10 @@ use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 #[EventForm(
-    submit_text: 'Create New Page',
-    success: 'Page created!',
+    submit_text: 'Update Page',
+    success: 'Page updated!',
 )]
-class PageCreated extends Event
+class PageUpdated extends Event
 {
     use SimpleApply;
 
@@ -27,18 +27,12 @@ class PageCreated extends Event
     ];
 
     #[StateId(PageState::class)]
-    public ?int $page_id = null;
+    public int $page_id;
 
     #[EventInput(
         type: InputTypes::Text,
     )]
     public string $title;
-
-
-    #[EventInput(
-        type: InputTypes::Checkbox,
-    )]
-    public bool $is_lobby = false;
 
     #[EventInput(
         type: InputTypes::Textarea,

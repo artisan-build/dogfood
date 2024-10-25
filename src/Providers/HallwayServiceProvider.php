@@ -11,6 +11,6 @@ class HallwayServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        Blade::anonymousComponentNamespace(__DIR__ . '/../../resources/views/components', 'hallway');
+        Blade::anonymousComponentPath(__DIR__ . '/../../resources/views/components', 'hallway');
     }
 }

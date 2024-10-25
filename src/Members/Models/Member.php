@@ -6,13 +6,10 @@ namespace ArtisanBuild\Hallway\Members\Models;
 
 use ArtisanBuild\Adverbs\Traits\GetsRowsFromVerbsStates;
 use ArtisanBuild\Adverbs\Traits\HasVerbsState;
-use ArtisanBuild\Hallway\ChannelMembership\Models\ChannelMembership;
-use ArtisanBuild\Hallway\Channels\Models\Channel;
 use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Members\States\MemberState;
+use ArtisanBuild\Hallway\Members\Traits\HasChannelMemberships;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * @property MemberRoles $role
@@ -20,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 class Member extends Model
 {
     use GetsRowsFromVerbsStates;
+    use HasChannelMemberships;
     use HasVerbsState;
 
     public $incrementing = false;
@@ -32,16 +30,6 @@ class Member extends Model
         return [
             'role' => MemberRoles::class,
         ];
-    }
-
-    public function channel_memberships(): HasMany
-    {
-        return $this->hasMany(ChannelMembership::class);
-    }
-
-    public function channels(): HasManyThrough
-    {
-        return $this->hasManyThrough(Channel::class, ChannelMembership::class);
     }
 
 }
