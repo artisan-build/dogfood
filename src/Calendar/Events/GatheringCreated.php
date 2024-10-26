@@ -8,14 +8,14 @@ use ArtisanBuild\Hallway\Calendar\Enums\InvitationLevels;
 use ArtisanBuild\Hallway\Calendar\States\GatheringState;
 use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Members\Traits\AuthorizesBasedOnMemberState;
-use ArtisanBuild\VerbsFlux\Attributes\FluxForm;
-use ArtisanBuild\VerbsFlux\Attributes\FluxInput;
+use ArtisanBuild\VerbsFlux\Attributes\EventForm;
+use ArtisanBuild\VerbsFlux\Attributes\EventInput;
 use ArtisanBuild\VerbsFlux\Enums\InputTypes;
 use Carbon\Carbon;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
-#[FluxForm(
+#[EventForm(
     submit_text: 'Create New Gathering',
 )]
 class GatheringCreated extends Event
@@ -31,24 +31,24 @@ class GatheringCreated extends Event
     public ?int $gathering_id = null;
 
 
-    #[FluxInput(
+    #[EventInput(
         type: InputTypes::Text,
     )]
     public string $title;
 
-    #[FluxInput(
+    #[EventInput(
         type: InputTypes::Textarea,
         params: ['rows' => 'auto'],
     )]
     public string $description;
 
-    #[FluxInput(
+    #[EventInput(
         type: InputTypes::DatetimeLocal,
         params: ['min' => 'now', 'max' => 'months:6'],
     )]
     public Carbon $start;
 
-    #[FluxInput(
+    #[EventInput(
         type: InputTypes::Number,
         params: ['min' => 5, 'max' => 120],
         description: 'Length of meeting in minutes',
