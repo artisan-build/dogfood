@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\HallwayFlux\Livewire;
 
+use ArtisanBuild\Hallway\Calendar\Events\UpcomingGatheringsRequested;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -14,9 +15,13 @@ class CalendarComponent extends Component
 
     public string $range = '';
 
+    public $upcoming;
+
     public function mount(): void
     {
+        $this->upcoming = UpcomingGatheringsRequested::commit();
         $this->months = $this->generateCalendar('2024-10', '2025-10');
+
     }
 
     public function generateCalendar(string $startMonth, string $endMonth): Collection
@@ -36,12 +41,12 @@ class CalendarComponent extends Component
             while ($weekStart->lessThanOrEqualTo($startDate->copy()->endOfMonth())) {
                 $week = [
                     'sunday' => ['date' => $date = $weekStart, 'number' => $date->format('j'), 'today' => $date->isToday()],
-                    'monday' => ['date' => $date = $weekStart->copy()->addDays(1), 'number' => $date->format('j'), 'today' => $date->isToday()],
-                    'tuesday' => ['date' => $date = $weekStart->copy()->addDays(2), 'number' =>  $date->format('j'), 'today' => $date->isToday()],
-                    'wednesday' => ['date' => $date = $weekStart->copy()->addDays(3), 'number' =>  $date->format('j'), 'today' => $date->isToday()],
-                    'thursday' => ['date' => $date = $weekStart->copy()->addDays(4), 'number' =>  $date->format('j'), 'today' => $date->isToday()],
-                    'friday' => ['date' => $date = $weekStart->copy()->addDays(5), 'number' =>  $date->format('j'), 'today' => $date->isToday()],
-                    'saturday' => ['date' => $date = $weekStart->copy()->addDays(6), 'number' =>  $date->format('j'), 'today' => $date->isToday()],
+                    'monday' => ['date' => $date = $weekStart->copy()->addDays(1), 'number' => $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->where('day', $date->format('Y-m-d'))],
+                    'tuesday' => ['date' => $date = $weekStart->copy()->addDays(2), 'number' =>  $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->where('day', $date->format('Y-m-d'))],
+                    'wednesday' => ['date' => $date = $weekStart->copy()->addDays(3), 'number' =>  $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->where('day', $date->format('Y-m-d'))],
+                    'thursday' => ['date' => $date = $weekStart->copy()->addDays(4), 'number' =>  $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->where('day', $date->format('Y-m-d'))],
+                    'friday' => ['date' => $date = $weekStart->copy()->addDays(5), 'number' =>  $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->where('day', $date->format('Y-m-d'))],
+                    'saturday' => ['date' => $date = $weekStart->copy()->addDays(6), 'number' =>  $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->where('day', $date->format('Y-m-d'))],
                 ];
 
                 $weeks[] = $week;

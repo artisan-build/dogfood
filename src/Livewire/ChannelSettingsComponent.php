@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\HallwayFlux\Livewire;
 
-use ArtisanBuild\Hallway\Channels\Models\Channel;
+use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use Livewire\Component;
 
 class ChannelSettingsComponent extends Component
 {
-    public Channel $channel;
+    public ChannelState $channel;
 
     public function render()
     {

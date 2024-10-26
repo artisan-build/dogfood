@@ -6,10 +6,10 @@ namespace ArtisanBuild\HallwayFlux\Livewire;
 
 use Livewire\Component;
 
-class WelcomeComponent extends Component
+class ShortCodeComponent extends Component
 {
     public function render()
     {
-        return view('welcome')->layout('hallway-flux::layouts.app');
+        return view('hallway-flux::livewire.short_code');
     }
 }
