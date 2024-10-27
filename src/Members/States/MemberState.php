@@ -6,6 +6,7 @@ namespace ArtisanBuild\Hallway\Members\States;
 
 use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Payment\Enums\PaymentStates;
+use Illuminate\Support\Facades\Context;
 use ReflectionClass;
 use Thunk\Verbs\State;
 
@@ -23,11 +24,18 @@ class MemberState extends State
 
     public ?string $profile_picture_url = null;
 
+    public array $channel_ids = [];
+
 
 
     // Member notification preferences
     public array $notify_channel_ids = [];
     public array $notify_member_ids = [];
+
+    public function inChannel(): bool
+    {
+        return in_array(Context::get('channel')?->id, $this->channel_ids, true);
+    }
 
     public function can(string $event)
     {
@@ -48,7 +56,4 @@ class MemberState extends State
 
         return true;
     }
-
-
-
 }
