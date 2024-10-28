@@ -10,5 +10,4 @@ enum ChannelPermissionTypes: string
     case Write = 'write';
     case Comment = 'comment';
     case Invite = 'invite';
-    case Join = 'join';
 }

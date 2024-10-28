@@ -10,7 +10,13 @@ class InChannel
 {
     public function __invoke()
     {
-        return Context::get('active_member')->inChannel();
+        $member = Context::get('active_member');
+
+        if ($member->in_channel) {
+            return true;
+        }
+
+        return $member->inChannel();
     }
 
 }

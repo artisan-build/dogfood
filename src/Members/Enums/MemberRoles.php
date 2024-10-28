@@ -38,6 +38,11 @@ enum MemberRoles: int
         return Str::endsWith('Bot', $this->name);
     }
 
+    public function hasCommunityWritePrivileges(): bool
+    {
+        return ! in_array($this, [self::ReadOnlyMember, self::ReadBot], true);
+    }
+
     public function getColor(): string
     {
         /**

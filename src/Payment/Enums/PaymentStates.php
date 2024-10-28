@@ -7,30 +7,24 @@ namespace ArtisanBuild\Hallway\Payment\Enums;
 enum PaymentStates: int
 {
     case Free = 0; // User has not paid
-    case Premium = 1; // User has paid and is current
-    case Exempt = 2; // Exempt from any payment-related restrictions
-    case Cancelled = 3; // User was paid but has cancelled
-    case GracePeriod = 4; // User owes and is past due, but on grace period
-    case Suspended = 5; // User owes and is suspended until payment received
+    case Cancelled = 1; // User was paid but has cancelled
+    case Suspended = 2; // User owes and is suspended until payment received
 
-    public function can(AbilitiesByPaymentStatus $ability): bool
-    {
-        return in_array($ability, $this->abilities(), true);
-    }
+    case Premium = 11; // User has paid and is current
+    case GracePeriod = 12; // User owes and is past due, but on grace period
+    case Trial = 13; // User owes and is past due, but on grace period
+    case Exempt = 20; // Exempt from any payment-related restrictions
 
-    public function abilities(): array
+
+
+
+    public function isCurrentlyPremium(): bool
     {
-        return match ($this) {
-            self::Free, self::Cancelled, self::Suspended => [
-                AbilitiesByPaymentStatus::PostInFreeChannels,
-                AbilitiesByPaymentStatus::ReadFreeChannels,
-            ],
-            self::GracePeriod, self::Premium, self::Exempt => [
-                AbilitiesByPaymentStatus::PostInFreeChannels,
-                AbilitiesByPaymentStatus::ReadFreeChannels,
-                AbilitiesByPaymentStatus::PostInPremiumChannels,
-                AbilitiesByPaymentStatus::ReadPremiumChannels,
-            ],
-        };
+        return in_array($this, [
+            self::Premium,
+            self::GracePeriod,
+            self::Trial,
+            self::Exempt,
+        ], true);
     }
 }

@@ -15,6 +15,7 @@ class IsPremiumMember
             PaymentStates::Premium,
             PaymentStates::Exempt,
             PaymentStates::GracePeriod,
+            PaymentStates::Trial,
         ], true);
     }
 }
