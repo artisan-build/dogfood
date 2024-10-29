@@ -40,6 +40,11 @@ class MemberState extends State
     /** @deprecated */
     public bool $in_channel = false;
 
+    // Always false in real states. Using it to get around having to write to the database during permissions tests
+    /** @deprecated */
+    public bool $owns_channel = false;
+
+
 
 
     // Member notification preferences

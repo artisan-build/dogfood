@@ -64,7 +64,7 @@ enum ChannelTypes: int
     #[ChannelPermissions(
         read: [Authenticated::class, IsNotSuspended::class],
         write: [Authenticated::class, IsOnAdminTeam::class, HasCommunityWritePrivileges::class, IsNotSuspended::class],
-        comment: [Authenticated::class, IsOnAdminTeam::class, HasCommunityWritePrivileges::class, IsNotSuspended::class],
+        comment: [Authenticated::class, HasCommunityWritePrivileges::class, IsNotSuspended::class],
     )]
     case Announcements = 6;
 
@@ -72,13 +72,13 @@ enum ChannelTypes: int
     #[ChannelPermissions(
         read: [All::class, IsNotSuspended::class],
         write: [Authenticated::class, IsOnModerationTeam::class, HasCommunityWritePrivileges::class, IsNotSuspended::class],
-        comment: [Authenticated::class, IsOnModerationTeam::class, HasCommunityWritePrivileges::class, IsNotSuspended::class],
+        comment: [Authenticated::class, HasCommunityWritePrivileges::class, IsNotSuspended::class],
     )]
     case Blog = 7;
     #[ChannelPermissions(
         read: [All::class, IsNotSuspended::class],
         write: [Authenticated::class, IsOnModerationTeam::class, HasCommunityWritePrivileges::class, IsNotSuspended::class],
-        comment: [Authenticated::class, Authenticated::class, HasCommunityWritePrivileges::class, IsNotSuspended::class],
+        comment: [Authenticated::class, IsOnAdminTeam::class, HasCommunityWritePrivileges::class, IsNotSuspended::class],
     )]
     case PublicAnnouncements = 8;
 
