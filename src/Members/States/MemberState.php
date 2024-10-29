@@ -37,6 +37,7 @@ class MemberState extends State
     public array $channel_ids = [];
 
     // Always false in real states. Using it to get around having to write to the database during permissions tests
+    /** @deprecated */
     public bool $in_channel = false;
 
 
@@ -50,6 +51,9 @@ class MemberState extends State
         return in_array(Context::get('channel')?->id, $this->channel_ids, true);
     }
 
+    /**
+     * @param Event|class-string<Event> $event
+     */
     public function can(Event|string $event)
     {
         $reflection = new ReflectionClass($event);

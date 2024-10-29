@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use ArtisanBuild\Hallway\Channels\Enums\ChannelPermissionTypes;
+use ArtisanBuild\Hallway\Channels\Enums\ChannelTestSwitches;
 use ArtisanBuild\Hallway\Channels\Enums\ChannelTypes;
 use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Moderation\Enums\ModerationMemberStates;
@@ -20,7 +21,7 @@ test('read permissions for open free channels', function (
         role: $role,
         payment_state: $payment_state,
         moderation_state: $moderation_state,
-        in_channel: false,
+        switch: ChannelTestSwitches::None,
         expected: $expected,
     );
 })->with([
@@ -67,7 +68,7 @@ test('write permissions for open free channels', function (
         role: $role,
         payment_state: $payment_state,
         moderation_state: $moderation_state,
-        in_channel: false,
+        switch: ChannelTestSwitches::None,
         expected: $expected,
     );
 })->with([
@@ -114,7 +115,7 @@ test('comment permissions for open free channels', function (
         role: $role,
         payment_state: $payment_state,
         moderation_state: $moderation_state,
-        in_channel: false,
+        switch: ChannelTestSwitches::None,
         expected: $expected,
     );
 })->with([

@@ -9,7 +9,7 @@ use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Moderation\Enums\ModerationMemberStates;
 use ArtisanBuild\Hallway\Payment\Enums\PaymentStates;
 
-test('read permissions for private free channels', function (
+test('read permissions for private premium channels', function (
     MemberRoles $role,
     PaymentStates $payment_state,
     ModerationMemberStates $moderation_state,
@@ -17,7 +17,7 @@ test('read permissions for private free channels', function (
     bool $expected,
 ): void {
     channel_permissions(
-        channel_type: ChannelTypes::PrivateFree,
+        channel_type: ChannelTypes::PrivatePremium,
         permission_type: ChannelPermissionTypes::Read,
         role: $role,
         payment_state: $payment_state,
@@ -42,11 +42,11 @@ test('read permissions for private free channels', function (
     [MemberRoles::Member, PaymentStates::GracePeriod, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
     [MemberRoles::Member, PaymentStates::Trial, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
     [MemberRoles::Member, PaymentStates::Trial, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::Member, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::Member, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::Member, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::Member, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::Member, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::Member, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::Member, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::Member, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::Member, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
     [MemberRoles::ReadOnlyMember, PaymentStates::Premium, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
     [MemberRoles::ReadOnlyMember, PaymentStates::Premium, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
@@ -54,11 +54,11 @@ test('read permissions for private free channels', function (
     [MemberRoles::ReadOnlyMember, PaymentStates::GracePeriod, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
     [MemberRoles::ReadOnlyMember, PaymentStates::Trial, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
     [MemberRoles::ReadOnlyMember, PaymentStates::Trial, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::ReadOnlyMember, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::ReadOnlyMember, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::ReadOnlyMember, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::ReadOnlyMember, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::ReadOnlyMember, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::ReadOnlyMember, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::ReadOnlyMember, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::ReadOnlyMember, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::ReadOnlyMember, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
     // Now test member types as exempt from payment on the moderation status variables
     [MemberRoles::Member, PaymentStates::Exempt, ModerationMemberStates::Limited, ChannelTestSwitches::InChannel, true],
@@ -79,7 +79,7 @@ test('read permissions for private free channels', function (
     [MemberRoles::ReadOnlyMember, PaymentStates::Exempt, ModerationMemberStates::SuspensionAppealed, ChannelTestSwitches::None, false],
 ]);
 
-test('write permissions for private free channels', function (
+test('write permissions for private premium channels', function (
     MemberRoles $role,
     PaymentStates $payment_state,
     ModerationMemberStates $moderation_state,
@@ -87,7 +87,7 @@ test('write permissions for private free channels', function (
     bool $expected,
 ): void {
     channel_permissions(
-        channel_type: ChannelTypes::PrivateFree,
+        channel_type: ChannelTypes::PrivatePremium,
         permission_type: ChannelPermissionTypes::Write,
         role: $role,
         payment_state: $payment_state,
@@ -113,11 +113,11 @@ test('write permissions for private free channels', function (
     [MemberRoles::Member, PaymentStates::GracePeriod, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
     [MemberRoles::Member, PaymentStates::Trial, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
     [MemberRoles::Member, PaymentStates::Trial, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::Member, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::Member, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::Member, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::Member, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::Member, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::Member, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::Member, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::Member, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::Member, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
     [MemberRoles::ReadOnlyMember, PaymentStates::Premium, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::ReadOnlyMember, PaymentStates::Premium, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
@@ -150,7 +150,7 @@ test('write permissions for private free channels', function (
     [MemberRoles::ReadOnlyMember, PaymentStates::Exempt, ModerationMemberStates::SuspensionAppealed, ChannelTestSwitches::None, false],
 ]);
 
-test('comment permissions for private free channels', function (
+test('comment permissions for private premium channels', function (
     MemberRoles $role,
     PaymentStates $payment_state,
     ModerationMemberStates $moderation_state,
@@ -158,7 +158,7 @@ test('comment permissions for private free channels', function (
     bool $expected,
 ): void {
     channel_permissions(
-        channel_type: ChannelTypes::PrivateFree,
+        channel_type: ChannelTypes::PrivatePremium,
         permission_type: ChannelPermissionTypes::Comment,
         role: $role,
         payment_state: $payment_state,
@@ -183,11 +183,11 @@ test('comment permissions for private free channels', function (
     [MemberRoles::Member, PaymentStates::GracePeriod, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
     [MemberRoles::Member, PaymentStates::Trial, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
     [MemberRoles::Member, PaymentStates::Trial, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::Member, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::Member, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::Member, PaymentStates::Free, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::Member, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::Member, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::Member, PaymentStates::Cancelled, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
-    [MemberRoles::Member, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, true],
+    [MemberRoles::Member, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::Member, PaymentStates::Suspended, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
     [MemberRoles::ReadOnlyMember, PaymentStates::Premium, ModerationMemberStates::Active, ChannelTestSwitches::InChannel, false],
     [MemberRoles::ReadOnlyMember, PaymentStates::Premium, ModerationMemberStates::Active, ChannelTestSwitches::None, false],
