@@ -15,13 +15,14 @@ class MessageState extends State
     public int $member_id;
 
     public ModerationMessageStates $moderation_state = ModerationMessageStates::None;
-    public ?int $thread_id;
+    public ?int $thread_id = null;
 
     public string $content;
 
     public ?Carbon $pinned_at = null;
     public ?int $pinned_by_id = null;
 
+    public array $comments = [];
     public array $revisions = [];
     public array $mentions = [];
 

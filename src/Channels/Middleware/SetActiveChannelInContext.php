@@ -12,6 +12,9 @@ class SetActiveChannelInContext
 {
     public function handle(Request $request, Closure $next)
     {
+        if ($request->routeIs('livewire.update')) {
+            return $next($request);
+        }
         if ($channel = $request->route('channel')) {
             Context::add('channel', $channel);
         } else {
