@@ -15,5 +15,4 @@
             <span class="text-slate-700 dark:text-slate-200 font-semibold">{{ $member->display_name }}</span>
         </div>
     </div>
-    <flux:button class="w-full" icon="envelope">Send Direct Message</flux:button>
 </div>
