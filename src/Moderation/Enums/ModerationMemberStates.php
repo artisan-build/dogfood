@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Moderation\Enums;
 
-enum ModerationMemberStates: string
+enum ModerationMemberStates: int
 {
-    case Active = 'Active';
-    case Limited = 'Limited';
-    case Suspended = 'Suspended';
-    case LimitAppealed = 'LimitAppealed';
-    case SuspensionAppealed = 'SuspensionAppealed';
+    case Active = 0;
+    case Limited = 10;
+    case LimitAppealed = 11;
+    case Suspended = 20;
+    case SuspensionAppealed = 21;
+
+    public function hasCommunityWritePrivileges(): bool
+    {
+        return self::Active === $this;
+    }
 
 }

@@ -22,14 +22,25 @@ enum MemberRoles: int
     case ReadOnlyMember = 4;
 
     // Bot Roles
-    case ModeratorBot = 5;
-    case ReadWriteBot = 6;
-    case ReadBot = 7;
+    case ModeratorBot = 21;
+    case ReadWriteBot = 22;
+    case ReadBot = 23;
+
+    // Guest Role
+    case Guest = 98;
+
+    // Role does not matter at all
+    case All = 99;
 
     public function isBot(): bool
     {
         // TODO: Is this faster than a match statement or in_array or something else?
         return Str::endsWith('Bot', $this->name);
+    }
+
+    public function hasCommunityWritePrivileges(): bool
+    {
+        return ! in_array($this, [self::ReadOnlyMember, self::ReadBot], true);
     }
 
     public function getColor(): string
@@ -50,6 +61,7 @@ enum MemberRoles: int
             self::ModeratorBot  => 'violet',
             self::ReadWriteBot  => 'purple',
             self::ReadBot       => 'rose',
+            default => 'gray',
         };
     }
 }

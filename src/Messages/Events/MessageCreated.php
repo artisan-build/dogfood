@@ -9,11 +9,12 @@ use ArtisanBuild\Hallway\Messages\States\MessageState;
 use ArtisanBuild\VerbsFlux\Attributes\EventForm;
 use ArtisanBuild\VerbsFlux\Attributes\EventInput;
 use ArtisanBuild\VerbsFlux\Enums\InputTypes;
+use Illuminate\Support\Facades\Context;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
 #[EventForm()]
-abstract class MessageCreated extends Event
+class MessageCreated extends Event
 {
     #[StateId(MessageState::class)]
     public ?int $message_id = null;
@@ -21,12 +22,21 @@ abstract class MessageCreated extends Event
     #[StateId(ChannelState::class)]
     public int $channel_id;
 
-    #[StateId(MessageState::class)]
-    public ?int $thread_id = null;
-
     #[EventInput(
         type: InputTypes::Textarea,
         label: 'Your Message',
     )]
     public string $content;
+
+    public function applyToMessageState(MessageState $state): void
+    {
+        $state->channel_id = $this->channel_id;
+        $state->member_id = Context::get('active_member')->id;
+        $state->content = $this->content;
+    }
+
+    public function applyToChannelState(ChannelState $state): void
+    {
+        $state->message_ids[] = $this->message_id;
+    }
 }
