@@ -11,7 +11,10 @@ use ArtisanBuild\HallwayFlux\View\MarkdownComponent;
 use ArtisanBuild\VerbsFlux\Contracts\RedirectsOnSuccess;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use Livewire\Component;
 use Livewire\Livewire;
+use Spatie\StructureDiscoverer\Discover;
 
 class HallwayFluxServiceProvider extends ServiceProvider
 {
@@ -29,5 +32,9 @@ class HallwayFluxServiceProvider extends ServiceProvider
         Livewire::component('logout-button', LogoutButton::class);
 
         Blade::component('markdown', MarkdownComponent::class);
+
+        // TODO: We should create a command to list all registered livewire components so we can see what these keys look like
+        collect(Discover::in(__DIR__ . '/../')->classes()->extending(Component::class)->get())
+            ->each(fn($class) => Livewire::component(Str::of($class)->slug()->toString(), $class));
     }
 }

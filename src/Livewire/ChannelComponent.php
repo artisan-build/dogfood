@@ -5,11 +5,27 @@ declare(strict_types=1);
 namespace ArtisanBuild\HallwayFlux\Livewire;
 
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class ChannelComponent extends Component
 {
     public ChannelState $channel;
+
+    public Collection $threads;
+
+    public function mount(): void
+    {
+        $this->threads = $this->channel->messages();
+    }
+
+    public function refreshChannel(): void
+    {
+        $this->threads = $this->channel->messages();
+        $this->dispatch('reload');
+    }
+
+
 
     public function render()
     {

@@ -1,3 +1,3 @@
-<div class="markdown-body">
+<span class="markdown-body">
     {!! $content !!}
-</div>
+</span>
