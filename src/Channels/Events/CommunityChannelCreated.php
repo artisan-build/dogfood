@@ -55,4 +55,5 @@ class CommunityChannelCreated extends Event
     {
         $this->assert($this->type->isCommunityChannel());
     }
+
 }

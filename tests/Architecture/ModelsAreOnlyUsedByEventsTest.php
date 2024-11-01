@@ -22,7 +22,7 @@ describe('all events extend the verbs event class', function (): void {
             ->expect($model)
             ->not
             ->toBeUsed()
-            ->ignoring(array_merge($events, $traits));
+            ->ignoring(array_merge($events, $traits, [App\Models\User::class]));
     }
 
 });

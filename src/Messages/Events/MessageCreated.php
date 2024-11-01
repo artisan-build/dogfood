@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Messages\Events;
 
+use ArtisanBuild\Hallway\Channels\Enums\ChannelPermissionTypes;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
+use ArtisanBuild\Hallway\Members\Traits\AuthorizesBasedOnMemberState;
 use ArtisanBuild\Hallway\Messages\States\MessageState;
 use ArtisanBuild\VerbsFlux\Attributes\EventForm;
 use ArtisanBuild\VerbsFlux\Attributes\EventInput;
@@ -16,6 +18,10 @@ use Thunk\Verbs\Event;
 #[EventForm()]
 class MessageCreated extends Event
 {
+    use AuthorizesBasedOnMemberState;
+
+    public ChannelPermissionTypes $needs_channel_permissions = ChannelPermissionTypes::Comment;
+
     #[StateId(MessageState::class)]
     public ?int $message_id = null;
 

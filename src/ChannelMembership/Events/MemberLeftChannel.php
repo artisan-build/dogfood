@@ -22,8 +22,4 @@ class MemberLeftChannel extends Event
     #[StateId(ChannelState::class)]
     public int $channel_id;
 
-    public function handle(): void
-    {
-        // It ain't my birthday but I got my name on the cake - Lil Wayne
-    }
 }

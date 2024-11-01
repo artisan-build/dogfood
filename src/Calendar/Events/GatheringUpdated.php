@@ -34,10 +34,4 @@ class GatheringUpdated extends Event
     public ?Carbon $cancelled_at = null;
     public ?InvitationLevels $invitation_level = null;
 
-
-
-    public function handle(): void
-    {
-        // Most of yall don't get the picture unless the flash is on. - Lil Wayne
-    }
 }

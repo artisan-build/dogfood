@@ -6,10 +6,4 @@ namespace ArtisanBuild\Hallway\Calendar\Events;
 
 use Thunk\Verbs\Event;
 
-class MemberAttendedGathering extends Event
-{
-    public function handle(): void
-    {
-        // You think you're calling shots, you got the wrong number. I love Benjamin Franklin more than his own mother. - Lil Wayne
-    }
-}
+class MemberAttendedGathering extends Event {}

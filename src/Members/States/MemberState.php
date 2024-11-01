@@ -28,7 +28,7 @@ class MemberState extends State
 
     public MemberRoles $role;
 
-    public PaymentStates $payment_state;
+    public PaymentStates $payment_state = PaymentStates::Free;
 
     public ModerationMemberStates $moderation_state = ModerationMemberStates::Active;
 
