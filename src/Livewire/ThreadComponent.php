@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\HallwayFlux\Livewire;
 
 use ArtisanBuild\Hallway\Messages\States\MessageState;
