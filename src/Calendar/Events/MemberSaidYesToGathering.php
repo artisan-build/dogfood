@@ -6,10 +6,4 @@ namespace ArtisanBuild\Hallway\Calendar\Events;
 
 use Thunk\Verbs\Event;
 
-class MemberSaidYesToGathering extends Event
-{
-    public function handle(): void
-    {
-        // And I swear to everything, when I leave this Earth, it's gonna be on both feet, never knees in the dirt. - Lil Wayne
-    }
-}
+class MemberSaidYesToGathering extends Event {}

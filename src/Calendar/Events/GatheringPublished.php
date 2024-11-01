@@ -13,8 +13,5 @@ class GatheringPublished extends Event
         MemberRoles::Owner,
         MemberRoles::Admin,
     ];
-    public function handle(): void
-    {
-        // I'm on a paper chase until my toes bleed - Lil Wayne
-    }
+
 }

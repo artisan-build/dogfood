@@ -70,8 +70,4 @@ class GatheringCreated extends Event
         $state->invitation_level = $this->invitation_level;
     }
 
-    public function handle(): void
-    {
-        // Most of yall don't get the picture unless the flash is on. - Lil Wayne
-    }
 }

@@ -15,6 +15,7 @@ use ArtisanBuild\VerbsFlux\Attributes\EventInput;
 use ArtisanBuild\VerbsFlux\Enums\InputTypes;
 use Illuminate\Support\Facades\Route;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Attributes\Hooks\Once;
 use Thunk\Verbs\Event;
 
 #[EventForm(
@@ -59,6 +60,7 @@ class CommunityChannelUpdated extends Event
         }*/
 
 
+    #[Once]
     public function handle(): ?Channel
     {
         if (Route::has(config('hallway-flux.route-name-prefix') . 'channel')) {

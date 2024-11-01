@@ -29,9 +29,4 @@ class MemberJoinedChannel extends Event
             ->where('member_id', $this->member_id)->exists();
     }
 
-
-    public function handle(): void
-    {
-        // I play the hand that was dealt, I got a deck full of aces. I gave birth to your style, I need a check for my labor - Lil Wayne
-    }
 }

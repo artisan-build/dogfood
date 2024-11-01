@@ -22,8 +22,4 @@ class MemberRemovedFromChannel extends Event
     #[StateId(ChannelState::class)]
     public int $channel_id;
 
-    public function handle(): void
-    {
-        // Most of yall don't get the picture unless the flash is on. - Lil Wayne
-    }
 }

@@ -6,10 +6,4 @@ namespace ArtisanBuild\Hallway\Calendar\Events;
 
 use Thunk\Verbs\Event;
 
-class MemberSaidNoToGathering extends Event
-{
-    public function handle(): void
-    {
-        // I need a Wynn-Dixie grocery bag full of money rig  - Lil Wayne
-    }
-}
+class MemberSaidNoToGathering extends Event {}
