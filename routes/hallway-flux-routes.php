@@ -11,6 +11,7 @@ use ArtisanBuild\HallwayFlux\Livewire\LobbyComponent;
 use ArtisanBuild\HallwayFlux\Livewire\MembersComponent;
 use ArtisanBuild\HallwayFlux\Livewire\MentionsComponent;
 use ArtisanBuild\HallwayFlux\Livewire\SettingsComponent;
+use ArtisanBuild\HallwayFlux\Livewire\ThreadComponent;
 use ArtisanBuild\HallwayFlux\Livewire\WelcomeComponent;
 
 if (config('hallway-flux.serves_welcome')) {
@@ -34,4 +35,5 @@ Route::prefix(config('hallway-flux.route-prefix'))
             Route::get('/members', MembersComponent::class)->name('channel_members');
             Route::get('/settings', ChannelSettingsComponent::class)->name('channel_settings');
         });
+        Route::get('/thread/{message}', ThreadComponent::class)->name('thread');
     });
