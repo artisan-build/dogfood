@@ -6,7 +6,9 @@ namespace ArtisanBuild\Hallway\Members\Events;
 
 use ArtisanBuild\Adverbs\Attributes\Inert;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
+use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Members\Models\Member;
+use Illuminate\Support\Collection;
 use Thunk\Verbs\Attributes\Hooks\Once;
 use Thunk\Verbs\Event;
 
@@ -18,22 +20,18 @@ class MembersRequested extends Event
     public int $skip = 0;
 
     #[Once]
-    public function handle()
+    public function handle(): Collection
     {
         if (null === $this->channel_id || ChannelState::load($this->channel_id)->type->isOpenChannel()) {
             return Member::query()
+                ->whereNotNull('role')
+                ->where('role', '<>', MemberRoles::Guest->value)
                 ->skip($this->skip)
                 ->take($this->take)
                 ->get();
         }
 
-        return Member::query()
-            ->whereHas('channel_memberships', function ($query): void {
-                $query->where('channel_id', $this->channel_id);
-            })
-            ->skip($this->skip)
-            ->take($this->take)
-            ->get();
+        return ChannelState::load($this->channel_id)->members();
     }
 
 }
