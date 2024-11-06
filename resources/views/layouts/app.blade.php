@@ -2,10 +2,10 @@
     use App\Enums\UsersFixture;
     use ArtisanBuild\Hallway\Channels\Models\Channel;
     use ArtisanBuild\Hallway\Members\Models\Member;
-    use ArtisanBuild\HallwayFlux\Livewire\Layout\ChannelsComponent;
-    use ArtisanBuild\HallwayFlux\Livewire\Layout\LogoutButton;
+    use ArtisanBuild\HallwayFlux\Livewire\Layout\MyChannelsComponent;
+    use ArtisanBuild\HallwayFlux\Livewire\Layout\DetectMemberTimezone;use ArtisanBuild\HallwayFlux\Livewire\Layout\LogoutButton;
 @endphp
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -20,7 +20,10 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.7.0/github-markdown.min.css" integrity="sha512-RXrQNShK831yZVcMWsLosdpsHddeG5xP7zMmlDu/OLQdfx24Z9pO1KiFZ1eZrMqY8P9hYgknwU/O6GxR2Fc0Gw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.7.0/github-markdown.min.css"
+          integrity="sha512-RXrQNShK831yZVcMWsLosdpsHddeG5xP7zMmlDu/OLQdfx24Z9pO1KiFZ1eZrMqY8P9hYgknwU/O6GxR2Fc0Gw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <!-- Styles -->
     @livewireStyles
@@ -53,10 +56,11 @@
                                href="{{ route(config('hallway-flux.route-name-prefix') .'lobby') }}">Lobby
             </flux:navlist.item>
             <flux:navlist.item icon="calendar" wire:navigate
-                               href="{{ route(config('hallway-flux.route-name-prefix') .'calendar', ['range' => now()->format('Y-m')]) }}">Calendar
+                               href="{{ route(config('hallway-flux.route-name-prefix') .'calendar', ['range' => now()->format('Y-m')]) }}">
+                Calendar
             </flux:navlist.item>
 
-            @livewire(ChannelsComponent::class)
+            @livewire(MyChannelsComponent::class)
         </flux:navlist>
 
         <flux:spacer/>
@@ -71,13 +75,15 @@
         </flux:navlist>
         @auth
             <flux:dropdown position="top" align="start" class="max-lg:hidden">
-                <flux:profile avatar="{{ Context::get('active_member')?->profile_picture_url }}" name="{{ Context::get('active_member')?->display_name }}"/>
+                <flux:profile avatar="{{ Context::get('active_member')?->profile_picture_url }}"
+                              name="{{ Context::get('active_member')?->display_name }}"/>
 
 
                 <flux:menu>
                     <flux:menu.radio.group>
                         @foreach (\Illuminate\Support\Facades\Auth::user()?->hallway_members as $member)
-                            <flux:menu.radio :checked="$member->id === Context::get('active_member')->id">{{ $member->handle }}</flux:menu.radio>
+                            <flux:menu.radio
+                                :checked="$member->id === Context::get('active_member')->id">{{ $member->handle }}</flux:menu.radio>
                         @endforeach
                     </flux:menu.radio.group>
 
@@ -109,7 +115,8 @@
                 <flux:menu>
                     <flux:menu.radio.group>
                         @foreach (\Illuminate\Support\Facades\Auth::user()?->hallway_members as $member)
-                            <flux:menu.radio :checked="$member->id === Context::get('active_member')->id">{{ $member->handle }}</flux:menu.radio>
+                            <flux:menu.radio
+                                :checked="$member->id === Context::get('active_member')->id">{{ $member->handle }}</flux:menu.radio>
                         @endforeach
                     </flux:menu.radio.group>
 
@@ -155,9 +162,9 @@
                 </flux:navbar.item>
             @else
                 @env('local')
-                <flux:modal.trigger name="local-logins">
-                    <flux:navbar.item>[Development Logins]</flux:navbar.item>
-                </flux:modal.trigger>
+                    <flux:modal.trigger name="local-logins">
+                        <flux:navbar.item>[Development Logins]</flux:navbar.item>
+                    </flux:modal.trigger>
                 @endenv
                 <flux:navbar.item wire:navigate href="{{ route('register') }}">Register</flux:navbar.item>
                 <flux:navbar.item wire:navigate href="{{ route('login') }}">Log In</flux:navbar.item>
@@ -171,70 +178,81 @@
 </flux:main>
 
 @env('local')
-<flux:modal name="local-logins" variant="bare" class="w-auto h-fit bg-white dark:bg-zinc-800 border border-transparent dark:border-zinc-700">
-    <div class="mt-8 flow-root">
-        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                <table class="min-w-full divide-y divide-gray-300 dark:divide-slate-700">
-                    <thead>
-                    <tr>
-                        <th scope="col"
-                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-slate-200 sm:pl-3">Name
-                        </th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-slate-200">
-                            Role
-                        </th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-slate-200">
-                            Email
-                        </th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-slate-200">Payment
-                            Status
-                        </th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-slate-200">Moderation
-                            Status
-                        </th>
-                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-3">
-                            <span class="sr-only">Edit</span>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody class="bg-white dark:bg-slate-800">
-                    @foreach (collect(UsersFixture::cases())->sortBy('name') as $case)
-                        <tr class="even:bg-gray-50 dark:even:bg-slate-900">
-                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-slate-200 sm:pl-3">
-                                {{ $case->data($case, 'name') }}
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $case->data($case, 'role')->name }}
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {{ $case->data($case, 'email') }}
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $case->data($case, 'payment_status')->name }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $case->data($case, 'moderation_status')->name }}</td>
-                            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
-                                <a href="{{ route('local-log-in', ['user' => (string)$case->value]) }}"
-                                   class="text-indigo-600 hover:text-indigo-900 dark:text-slate-300 dark:hover:text-slate-100">Log In<span
-                                        class="sr-only">, Log In As {{ $case->data($case, 'name') }}</span></a>
-                            </td>
+    <flux:modal name="local-logins" variant="bare"
+                class="w-auto h-fit bg-white dark:bg-zinc-800 border border-transparent dark:border-zinc-700">
+        <div class="mt-8 flow-root">
+            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                    <table class="min-w-full divide-y divide-gray-300 dark:divide-slate-700">
+                        <thead>
+                        <tr>
+                            <th scope="col"
+                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-slate-200 sm:pl-3">
+                                Name
+                            </th>
+                            <th scope="col"
+                                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-slate-200">
+                                Role
+                            </th>
+                            <th scope="col"
+                                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-slate-200">
+                                Email
+                            </th>
+                            <th scope="col"
+                                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-slate-200">
+                                Payment
+                                Status
+                            </th>
+                            <th scope="col"
+                                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-slate-200">
+                                Moderation
+                                Status
+                            </th>
+                            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-3">
+                                <span class="sr-only">Edit</span>
+                            </th>
                         </tr>
-                    @endforeach
+                        </thead>
+                        <tbody class="bg-white dark:bg-slate-800">
+                        @foreach (collect(UsersFixture::cases())->sortBy('name') as $case)
+                            <tr class="even:bg-gray-50 dark:even:bg-slate-900">
+                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-slate-200 sm:pl-3">
+                                    {{ $case->data($case, 'name') }}
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $case->data($case, 'role')->name }}
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    {{ $case->data($case, 'email') }}
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $case->data($case, 'payment_status')->name }}</td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $case->data($case, 'moderation_status')->name }}</td>
+                                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
+                                    <a href="{{ route('local-log-in', ['user' => (string)$case->value]) }}"
+                                       class="text-indigo-600 hover:text-indigo-900 dark:text-slate-300 dark:hover:text-slate-100">Log
+                                        In<span
+                                            class="sr-only">, Log In As {{ $case->data($case, 'name') }}</span></a>
+                                </td>
+                            </tr>
+                        @endforeach
 
-                    <!-- More people... -->
-                    </tbody>
-                </table>
+                        <!-- More people... -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</flux:modal>
+    </flux:modal>
 @endenv
 
 @stack('modals')
 
 @persist('toast')
-<flux:toast position="top right" />
+<flux:toast position="top right"/>
 @endpersist
+
 
 @livewireScripts
 @fluxScripts
+<livewire:detect-member-timezone/>
 </body>
 </html>

@@ -6,6 +6,7 @@ namespace ArtisanBuild\HallwayFlux\Providers;
 
 use App\Livewire\Synthesizers\StateSynth;
 use ArtisanBuild\HallwayFlux\Actions\RedirectOnSuccess;
+use ArtisanBuild\HallwayFlux\Livewire\Layout\DetectMemberTimezone;
 use ArtisanBuild\HallwayFlux\Livewire\Layout\LogoutButton;
 use ArtisanBuild\HallwayFlux\View\MarkdownComponent;
 use ArtisanBuild\VerbsFlux\Contracts\RedirectsOnSuccess;
@@ -30,6 +31,7 @@ class HallwayFluxServiceProvider extends ServiceProvider
     {
         Livewire::propertySynthesizer(StateSynth::class);
         Livewire::component('logout-button', LogoutButton::class);
+        Livewire::component('detect-member-timezone', DetectMemberTimezone::class);
 
         Blade::component('markdown', MarkdownComponent::class);
 

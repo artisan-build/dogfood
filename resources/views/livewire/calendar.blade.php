@@ -1,23 +1,18 @@
 @php use ArtisanBuild\Hallway\Calendar\Events\GatheringCreated; @endphp
 <div>
     <div class="flex space-x-4">
-        <div class="flex-grow">
-            @if (\Illuminate\Support\Facades\Context::get('active_member')->can(GatheringCreated::class))
+        <div class="flex-grow space-y-6">
 
+            <x-hallway::can :event="GatheringCreated::class">
                 @foreach ($upcoming->where('month', $range) as $gathering)
-
+                    <x-hallway-flux::gathering :gathering="$gathering"/>
                 @endforeach
-            @endif
+            </x-hallway::can>
+
 
         </div>
         <div class="flex-0">
-            <x-hallway::can :event="GatheringCreated::class">
-                <div class="text-right mb-6">
-                    <flux:modal.trigger name="add-gathering">
-                        <flux:button>Add Gathering</flux:button>
-                    </flux:modal.trigger>
-                </div>
-            </x-hallway::can>
+
 
             @foreach ($months as $key => $month)
                 @if ($range === '' || $range === $key)
@@ -45,10 +40,19 @@
                                 @endforeach
                             </flux:button.group>
                         @endforeach
+                        <x-hallway::can :event="GatheringCreated::class">
+                            <div class="text-right mt-6">
+                                <flux:modal.trigger name="add-gathering">
+                                    <flux:button>Add Gathering</flux:button>
+                                </flux:modal.trigger>
+                            </div>
+                        </x-hallway::can>
                     </flux:card>
                 @endif
 
             @endforeach
+
+
 
         </div>
     </div>

@@ -6,6 +6,7 @@ namespace ArtisanBuild\HallwayFlux\Livewire;
 
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use ArtisanBuild\Hallway\Members\Events\MembersRequested;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -16,9 +17,11 @@ class MembersComponent extends Component
     public int $take = 25;
 
     #[Computed]
-    public function members()
+    public Collection $members;
+
+    public function mount(): void
     {
-        return MembersRequested::commit(
+        $this->members = MembersRequested::commit(
             channel_id: $this->channel?->id,
             skip: $this->skip,
             take: $this->take,

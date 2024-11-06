@@ -5,6 +5,7 @@ declare(strict_types=1);
 use ArtisanBuild\HallwayFlux\Livewire\BookmarksComponent;
 use ArtisanBuild\HallwayFlux\Livewire\CalendarComponent;
 use ArtisanBuild\HallwayFlux\Livewire\ChannelComponent;
+use ArtisanBuild\HallwayFlux\Livewire\ChannelsComponent;
 use ArtisanBuild\HallwayFlux\Livewire\ChannelSettingsComponent;
 use ArtisanBuild\HallwayFlux\Livewire\HelpComponent;
 use ArtisanBuild\HallwayFlux\Livewire\LobbyComponent;
@@ -25,6 +26,7 @@ Route::prefix(config('hallway-flux.route-prefix'))
 
         Route::get('/lobby', LobbyComponent::class)->name('lobby');
         Route::get('/calendar/{range?}', CalendarComponent::class)->name('calendar');
+        Route::get('/channels', ChannelsComponent::class)->name('channels');
         Route::get('/members', MembersComponent::class)->name('members');
         Route::get('/mentions', MentionsComponent::class)->name('mentions');
         Route::get('/bookmarks', BookmarksComponent::class)->name('bookmarks');

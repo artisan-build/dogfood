@@ -3,7 +3,7 @@
 @php assert($member instanceof Member); @endphp
 
 <div class="relative flex flex-col justify-between rounded-lg shadow-lg bg-gray-50 dark:bg-gray-600">
-    <flux:badge :color="$member->role->getColor()" class="absolute top-4 right-4 -mr-2 -mt-2">{{ $member->role->name }}</flux:badge>
+    <flux:badge :color="$member->role?->getColor()" class="absolute top-4 right-4 -mr-2 -mt-2">{{ $member->role?->name }}</flux:badge>
     <div class="p-4 flex gap-4 items-end">
         <img
             src="{{ $member->profile_picture_url }}"
