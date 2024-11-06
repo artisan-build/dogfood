@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\HallwayFlux\Livewire;
 
-use ArtisanBuild\Hallway\Calendar\Events\UpcomingGatheringsRequested;
+use ArtisanBuild\Bench\Attributes\ChatGPT;
+use ArtisanBuild\Hallway\Calendar\Events\GatheringsRequested;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -19,11 +20,11 @@ class CalendarComponent extends Component
 
     public function mount(): void
     {
-        $this->upcoming = UpcomingGatheringsRequested::commit();
+        $this->upcoming = GatheringsRequested::commit();
         $this->months = $this->generateCalendar('2024-10', '2025-10');
-
     }
 
+    #[ChatGPT]
     public function generateCalendar(string $startMonth, string $endMonth): Collection
     {
         $startDate = Carbon::createFromFormat('Y-m', $startMonth)?->startOfMonth();

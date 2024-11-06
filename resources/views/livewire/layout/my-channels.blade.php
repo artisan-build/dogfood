@@ -5,6 +5,8 @@
                            href="{{ route(config('hallway-flux.route-name-prefix') . 'channel', ['channel' => $channel]) }}"
                            icon="lock-open">{{ $channel->name }}</flux:navlist.item>
     @endforeach
+    <flux:navlist.item wire:navigate="true"
+                       href="{{ route(config('hallway-flux.route-name-prefix') . 'channels') }}" icon="queue-list">All Channels</flux:navlist.item>
     @if (\Illuminate\Support\Facades\Context::get('active_member')?->can(CommunityChannelCreated::class))
             <flux:modal.trigger name="add-community-channel">
                 <flux:navlist.item icon="plus">Add Community Channel</flux:navlist.item>
