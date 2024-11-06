@@ -6,6 +6,7 @@ namespace ArtisanBuild\Hallway\Calendar\Enums;
 
 enum InvitationLevels: int
 {
-    case Free = 0;
-    case Premium = 1;
+    case Public = 0;
+    case Free = 11;
+    case Premium = 21;
 }
