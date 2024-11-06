@@ -12,6 +12,7 @@ use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Moderation\Enums\ModerationMemberStates;
 use ArtisanBuild\Hallway\Payment\Enums\PaymentStates;
 use ArtisanBuild\Mirror\Mirror;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Context;
 use ReflectionClass;
 use ReflectionClassConstant;
@@ -50,6 +51,9 @@ class MemberState extends State
     // Member notification preferences
     public array $notify_channel_ids = [];
     public array $notify_member_ids = [];
+
+    public ?string $timezone = null;
+    public ?Carbon $timezone_at = null;
 
     public function inChannel(): bool
     {

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use ArtisanBuild\Hallway\Members\Middleware\GetCurrentActiveMemberFromSession;
+
 describe('all events extend the verbs event class', function (): void {
 
     $directory = __DIR__ . '/../../src/';
@@ -22,7 +24,7 @@ describe('all events extend the verbs event class', function (): void {
             ->expect($model)
             ->not
             ->toBeUsed()
-            ->ignoring(array_merge($events, $traits, [App\Models\User::class]));
+            ->ignoring(array_merge($events, $traits, [App\Models\User::class, GetCurrentActiveMemberFromSession::class]));
     }
 
 });

@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property-read Carbon $start
+ * @property Carbon $start
+ * @property Carbon $end
  */
 class Gathering extends Model
 {
@@ -40,7 +41,8 @@ class Gathering extends Model
     public function casts()
     {
         return [
-            'start' => 'datetime',
+            'start' => 'immutable_datetime',
+            'end' => 'immutable_datetime',
         ];
     }
 

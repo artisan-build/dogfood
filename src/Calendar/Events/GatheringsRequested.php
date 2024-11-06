@@ -11,12 +11,12 @@ use Thunk\Verbs\Attributes\Hooks\Once;
 use Thunk\Verbs\Event;
 
 #[Inert]
-class UpcomingGatheringsRequested extends Event
+class GatheringsRequested extends Event
 {
     #[Once]
     public function handle(): Collection
     {
-        return Gathering::where('start', '>', now())->get();
+        return Gathering::orderBy('start')->where('start', '>', now()->startOfMonth())->get();
     }
 
 }
