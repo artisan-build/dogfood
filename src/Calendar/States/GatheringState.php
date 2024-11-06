@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ArtisanBuild\Hallway\Calendar\States;
 
 use ArtisanBuild\Hallway\Calendar\Enums\InvitationLevels;
+use ArtisanBuild\Hallway\Members\States\MemberState;
 use Carbon\Carbon;
 use Thunk\Verbs\State;
 
@@ -17,4 +18,19 @@ class GatheringState extends State
     public ?Carbon $published_at = null;
     public ?Carbon $cancelled_at = null;
     public InvitationLevels $invitation_level;
+
+    // Allow events to be added to channels
+    public ?int $channel_id = null;
+
+    public ?int $capacity = null;
+
+    public ?string $url = null;
+
+    public function forMember(MemberState $member): static
+    {
+        $this->start = $this->start->setTimezone($member->timezone);
+        $this->end = $this->end->setTimezone($member->timezone);
+        return $this;
+    }
+
 }

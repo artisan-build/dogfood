@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Members\Enums;
 
-use ArtisanBuild\FatEnums\Attributes\VerbsCan;
+use ArtisanBuild\FatEnums\Attributes\WithData;
+use ArtisanBuild\FatEnums\Traits\HasKeyValueAttributes;
 use Illuminate\Support\Str;
 
 enum MemberRoles: int
 {
+    use HasKeyValueAttributes;
+
     case Owner = 0;
     case Admin = 1;
 
-    #[VerbsCan([
-
-    ])]
     case Moderator = 2;
 
     case Member = 3;
@@ -27,6 +27,7 @@ enum MemberRoles: int
     case ReadBot = 23;
 
     // Guest Role
+    #[WithData(['id' => 244416654529658880])]
     case Guest = 98;
 
     // Role does not matter at all

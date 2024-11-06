@@ -24,6 +24,7 @@ describe('event created', function (): void {
             title: 'Test Gathering',
             description: 'Gathering created during a test',
             start: now()->addDay()->hour(13),
+            timezone: 'America/Chicago',
             duration: 60,
             invitation_level: InvitationLevels::Free,
         );
@@ -34,8 +35,8 @@ describe('event created', function (): void {
             ->toBeInstanceOf(GatheringState::class)
             ->and($state->title)->toBe('Test Gathering')
             ->and($state->description)->toBe('Gathering created during a test')
-            ->and($state->start->toDateTimeString())->toBe(now()->addDay()->hour(13)->toDateTimeString())
-            ->and($state->end->toDateTimeString())->toBe(now()->addDay()->hour(14)->toDateTimeString())
+            ->and($state->start->toDateTimeString())->toBe(now()->addDay()->hour(19)->toDateTimeString())
+            ->and($state->end->toDateTimeString())->toBe(now()->addDay()->hour(20)->toDateTimeString())
             ->and($state->invitation_level)->toBe(InvitationLevels::Free);
 
     });
@@ -52,6 +53,7 @@ describe('event created', function (): void {
             title: 'Test Gathering',
             description: 'Gathering created during a test',
             start: now()->addDay()->hour(13),
+            timezone: 'UTC',
             duration: 60,
             invitation_level: InvitationLevels::Free,
         );
@@ -76,6 +78,7 @@ describe('event created', function (): void {
             title: 'Test Gathering',
             description: 'Gathering created during a test',
             start: now()->addDay()->hour(13),
+            timezone: 'UTC',
             duration: 60,
             invitation_level: InvitationLevels::Free,
         );

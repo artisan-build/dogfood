@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace ArtisanBuild\Hallway\Members\Middleware;
 
 use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
+use ArtisanBuild\Hallway\Members\Events\MemberCreated;
+use ArtisanBuild\Hallway\Members\Models\Member;
 use ArtisanBuild\Hallway\Members\States\MemberState;
-use ArtisanBuild\Hallway\Payment\Enums\PaymentStates;
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Session;
 use Thunk\Verbs\State;
@@ -42,10 +44,25 @@ class GetCurrentActiveMemberFromSession
 
     private function guest(): State
     {
-        return new class () extends MemberState {
-            public MemberRoles $role = MemberRoles::Guest;
-            public PaymentStates $payment_state = PaymentStates::Free;
-        };
+        return Cache::rememberForever('guest_state', function () {
+            $id = MemberRoles::Guest->data(MemberRoles::Guest, 'id');
+            $guest = Member::find($id);
+
+            if ($guest instanceof Member) {
+                return $guest->verbs_state();
+            }
+
+            MemberCreated::commit(
+                member_id: $id,
+                role: MemberRoles::Guest,
+                user_id: 0,
+                handle: '__guest__',
+                display_name: 'Guest',
+            );
+
+            return MemberState::load($id);
+        });
+
     }
 
 }
