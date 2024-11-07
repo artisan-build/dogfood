@@ -15,4 +15,10 @@
             <span class="text-slate-700 dark:text-slate-200 font-semibold">{{ $member->display_name }}</span>
         </div>
     </div>
+    @if ($member->timezone)
+    <div class="flex flex-row px-4 pb-2">
+        <span class="text-slate-400 dark:text-slate-400 text-sm flex-grow">{{ $member->timezone }}</span>
+        <span class="text-slate-400 dark:text-slate-400 text-sm flex-shrink">{{ now()->setTimezone($member->timezone)->format('H:i') }}</span>
+    </div>
+        @endif
 </div>
