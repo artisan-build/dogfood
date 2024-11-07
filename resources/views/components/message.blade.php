@@ -1,7 +1,7 @@
 @php use Illuminate\Support\Carbon; @endphp
 @php use Glhd\Bits\Snowflake; @endphp
 @props(['message'])
-<div class="flex space-x-4">
+<div class="flex space-x-4 my-4">
     <div class="flex-shrink">
         <img
             alt=""
