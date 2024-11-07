@@ -41,6 +41,13 @@ class CommunityChannelUpdated extends Event
     public ?string $name = null;
 
     #[EventInput(
+        type: InputTypes::Text,
+        params: ['maxlength' => '128'],
+        rules: ['string', 'required', 'max:128'],
+    )]
+    public string $description = '';
+
+    #[EventInput(
         type: InputTypes::Select,
         rules: ['required'],
         options: ChannelTypes::class,

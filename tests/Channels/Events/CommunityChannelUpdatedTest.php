@@ -22,7 +22,7 @@ describe('change the channel name', function (): void {
         $id = ChannelsFixture::FreeOpen->value;
 
 
-        expect(ChannelState::load($id)->name)->toBe('Free Open');
+        expect(ChannelState::load($id)->name)->toBe('General');
 
         CommunityChannelUpdated::commit(
             channel_id: ChannelsFixture::FreeOpen->value,
@@ -38,7 +38,7 @@ describe('change the channel name', function (): void {
         $id = ChannelsFixture::FreeOpen->value;
 
 
-        expect(ChannelState::load($id)->name)->toBe('Free Open');
+        expect(ChannelState::load($id)->name)->toBe('General');
 
         CommunityChannelUpdated::commit(
             channel_id: ChannelsFixture::FreeOpen->value,

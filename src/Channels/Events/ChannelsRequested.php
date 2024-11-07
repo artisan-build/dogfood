@@ -15,7 +15,6 @@ class ChannelsRequested extends Event
     #[Once]
     public function handle()
     {
-        return Channel::all();
-
+        return Channel::get()->map(fn($channel) => $channel->verbs_state());
     }
 }
