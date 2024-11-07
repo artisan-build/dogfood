@@ -13,6 +13,7 @@ use ArtisanBuild\Hallway\Moderation\Enums\ModerationMemberStates;
 use ArtisanBuild\Hallway\Payment\Enums\PaymentStates;
 use ArtisanBuild\Mirror\Mirror;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Context;
 use ReflectionClass;
 use ReflectionClassConstant;
@@ -36,6 +37,7 @@ class MemberState extends State
     public ?string $profile_picture_url = null;
 
     public array $channel_ids = [];
+    public array $muted_channel_ids = [];
 
     // Always false in real states. Using it to get around having to write to the database during permissions tests
     /** @deprecated */
@@ -54,6 +56,11 @@ class MemberState extends State
 
     public ?string $timezone = null;
     public ?Carbon $timezone_at = null;
+
+    public function channels(): Collection
+    {
+        return collect(array_diff($this->channel_ids, $this->muted_channel_ids))->map(fn(int $id) => ChannelState::load($id));
+    }
 
     public function inChannel(): bool
     {
