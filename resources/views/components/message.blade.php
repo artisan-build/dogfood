@@ -1,6 +1,7 @@
-@php use Illuminate\Support\Carbon; @endphp
+@php use ArtisanBuild\Hallway\Messages\Actions\ExtractMessagePreview;use Illuminate\Support\Carbon; @endphp
 @php use Glhd\Bits\Snowflake; @endphp
-@props(['message'])
+@props(['message', 'preview' => true])
+
 <div class="flex space-x-4 my-4">
     <div class="flex-shrink">
         <img
@@ -12,12 +13,25 @@
     <div class="flex-grow">
         <div>
             {{ $message->member()->display_name }}
-                <span class="float-right text-sm italic">
+            <span class="float-right text-sm italic">
                     {{ Snowflake::coerce($message->id)->toCarbon()->diffForHumans() }}
                 </span>
         </div>
 
-        <x-markdown :content="$message->content"/>
+
+        <div x-data="{preview: @js($preview)}">
+            <div x-show="preview === true">
+                {!! trim($message->preview()) !!}@if ($message->needsPreview())&hellip; <div x-show="preview" x-on:click="preview = !preview"><flux:button variant="ghost" class="-ml-4">Read More</flux:button></div>@endif
+            </div>
+            <div x-cloak x-show="preview === false">
+                {!! $message->rendered() !!}
+            </div>
+
+
+
+        </div>
+
+
     </div>
 </div>
 
