@@ -1,6 +1,6 @@
 @php use ArtisanBuild\Hallway\Messages\Events\CommentCreated; @endphp
 <div class="space-y-8">
-    <x-hallway-flux::message :message="$message"/>
+    <x-hallway-flux::message :message="$message" :preview="false"/>
     <div class="pl-24 space-y-6">
         @foreach ($message->comments as $comment)
             <x-hallway-flux::message :message="ArtisanBuild\Hallway\Messages\States\MessageState::load($comment['message_id'])"/>
