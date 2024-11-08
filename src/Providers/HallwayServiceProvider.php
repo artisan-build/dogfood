@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Providers;
 
+use ArtisanBuild\Hallway\TextRendering\Contracts\ConvertsMarkdownToHtml;
+use ArtisanBuild\Hallway\TextRendering\Contracts\HandlesEmbeddableLinks;
+use ArtisanBuild\Hallway\TextRendering\Markdown\ConvertMarkdownToHtml;
+use ArtisanBuild\Hallway\TextRendering\Markdown\CopyEmbeddableTagsToNewLines;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class HallwayServiceProvider extends ServiceProvider
 {
-    public function register(): void {}
+    public function register(): void
+    {
+        $this->app->bindIf(ConvertsMarkdownToHtml::class, ConvertMarkdownToHtml::class);
+        $this->app->bindIf(HandlesEmbeddableLinks::class, CopyEmbeddableTagsToNewLines::class);
+    }
     public function boot(): void
     {
         Arr::macro('addUniqueToList', function (array $array, mixed $value): array {

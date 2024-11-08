@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace ArtisanBuild\Hallway\Messages\States;
 
 use ArtisanBuild\Hallway\Members\States\MemberState;
+use ArtisanBuild\Hallway\Messages\Actions\ExtractMessagePreview;
 use ArtisanBuild\Hallway\Moderation\Enums\ModerationMessageStates;
+use ArtisanBuild\Hallway\TextRendering\Contracts\ConvertsMarkdownToHtml;
 use Carbon\Carbon;
 use Thunk\Verbs\State;
 
@@ -34,6 +36,21 @@ class MessageState extends State
     public function pinned_by(): ?MemberState
     {
         return null === $this->pinned_by_id ? null : MemberState::load($this->pinned_by_id);
+    }
+
+    public function rendered(): string
+    {
+        return app(ConvertsMarkdownToHtml::class)($this->content);
+    }
+
+    public function preview(): string
+    {
+        return app(ExtractMessagePreview::class)($this->rendered());
+    }
+
+    public function needsPreview(): bool
+    {
+        return strip_tags(trim($this->preview())) !== strip_tags(trim($this->rendered()));
     }
 
 }
