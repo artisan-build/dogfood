@@ -4,7 +4,7 @@
         <div class="flex-grow space-y-6">
 
             <x-hallway::can :event="GatheringCreated::class">
-                @foreach ($upcoming->where('month', $range) as $gathering)
+                @foreach ($upcoming->filter(fn($item) => $item->start->format('Y-m') === $range) as $gathering)
                     <x-hallway-flux::gathering :gathering="$gathering"/>
                 @endforeach
             </x-hallway::can>

@@ -7,7 +7,7 @@
                 Minutes
             </flux:badge>
         </flux:heading>
-        <flux:subheading>{{ $gathering->verbs_state()->forMember(\Illuminate\Support\Facades\Context::get('active_member'))->start->format('l F jS Y h:i A') }}</flux:subheading>
+        <flux:subheading>{{ $gathering->forMember(\Illuminate\Support\Facades\Context::get('active_member'))->start->format('l F jS Y h:i A') }}</flux:subheading>
     </div>
 
     <div class="markdown_body">{!! $gathering->description !!}</div>
