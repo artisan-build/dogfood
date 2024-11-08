@@ -16,7 +16,8 @@ class GatheringsRequested extends Event
     #[Once]
     public function handle(): Collection
     {
-        return Gathering::orderBy('start')->where('start', '>', now()->startOfMonth())->get();
+        return Gathering::orderBy('start')->where('start', '>', now()->startOfMonth())->get()
+            ->map(fn($gathering) => $gathering->verbs_state());
     }
 
 }
