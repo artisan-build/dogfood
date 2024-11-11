@@ -27,7 +27,10 @@
                                              class="{{ $months->has(data_get($month, 'previous')) ? '' : 'cursor-not-allowed !text-zinc-400' }}"></flux:button>
                                 <flux:button wire:navigate
                                              href="{{ $months->has(data_get($month, 'next')) ? route(config('hallway-flux.route-name-prefix') . 'calendar', ['range' => data_get($month, 'next')]) : url()->current() }}"
-                                             size="xs" icon="chevron-double-right" square="true"></flux:button>
+                                             size="xs" icon="chevron-double-right" square="true"
+                                             variant="{{ $months->has(data_get($month, 'next')) ? 'outline' : 'filled' }}"
+                                             class="{{ $months->has(data_get($month, 'next')) ? '' : 'cursor-not-allowed !text-zinc-400' }}">
+                                </flux:button>
                             </flux:button.group>
                         </flux:heading>
                         @foreach (data_get($month, 'weeks') as $week)
@@ -51,7 +54,6 @@
                 @endif
 
             @endforeach
-
 
 
         </div>
