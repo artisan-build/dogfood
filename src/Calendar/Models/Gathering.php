@@ -41,8 +41,8 @@ class Gathering extends Model
     public function casts()
     {
         return [
-            'start' => 'immutable_datetime',
-            'end' => 'immutable_datetime',
+            'start' => 'datetime',
+            'end' => 'datetime',
         ];
     }
 

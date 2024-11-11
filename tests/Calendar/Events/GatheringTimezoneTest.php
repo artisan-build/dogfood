@@ -16,9 +16,8 @@ it('sets the correct time in UTC', function (): void {
         timezone: 'Asia/Tokyo',
     );
 
-    $gathering_id = snowflake_id();
-    GatheringCreated::commit(
-        gathering_id: $gathering_id,
+
+    $created = GatheringCreated::commit(
         title: 'Test Gathering',
         description: 'Gathering created during a test',
         start: now()->addDay()->hour(13)->minute(0)->second(0)->millisecond(0),
@@ -27,7 +26,7 @@ it('sets the correct time in UTC', function (): void {
         invitation_level: InvitationLevels::Free,
     );
 
-    $gathering = Gathering::find($gathering_id);
+    $gathering = Gathering::find($created->id);
 
     expect($gathering->start->format('Y-m-d\TH:i'))
         ->toBe(now()->addDay()->hour(13)->minute(0)->second(0)->millisecond(0)->subHours(9)->format('Y-m-d\TH:i'))
