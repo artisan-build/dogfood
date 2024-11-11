@@ -1,4 +1,4 @@
-@php use ArtisanBuild\HallwayFlux\Livewire\RsvpComponent; @endphp
+@php use ArtisanBuild\Hallway\Calendar\Events\GatheringUpdated;use ArtisanBuild\HallwayFlux\Livewire\RsvpComponent; @endphp
 @props(['gathering'])
 <flux:card :class="$gathering->end->isPast() ? 'opacity-50 space-y-6' : 'space-y-6'">
     <div>
@@ -13,4 +13,11 @@
     <div class="markdown_body">{!! $gathering->description !!}</div>
 
     @livewire(RsvpComponent::class, ['gathering' => $gathering])
+
+    @if ($gathering->url)
+        <x-markdown :content='"\n".$gathering->url'/>
+    @endif
+    <x-hallway::can :event="GatheringUpdated::class">
+        <x-event-form-button :event="GatheringUpdated::class" :state="$gathering" button_text="Edit Gathering"/>
+    </x-hallway::can>
 </flux:card>
