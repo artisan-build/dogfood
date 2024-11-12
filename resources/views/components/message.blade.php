@@ -3,7 +3,7 @@
 @props(['message', 'preview' => true])
 
 <div class="flex space-x-4 my-4">
-    <div class="flex-shrink">
+    <div class="flex-shrink min-w-12">
         <img
             alt=""
             src="{{ $message->member()->profile_picture_url }}"
@@ -12,7 +12,7 @@
     </div>
     <div class="flex-grow">
         <div>
-            {{ $message->member()->display_name }}
+            <span class="font-bold">{{ $message->member()->display_name }}</span>
             <span class="float-right text-sm italic">
                     {{ Snowflake::coerce($message->id)->toCarbon()->diffForHumans() }}
                 </span>

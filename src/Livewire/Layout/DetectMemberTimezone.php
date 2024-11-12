@@ -8,6 +8,7 @@ use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Members\MemberTimezoneUpdated;
 use Flux\Flux;
 use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class DetectMemberTimezone extends Component
@@ -20,6 +21,8 @@ class DetectMemberTimezone extends Component
     }
     public function setTimezone(string $timezone): void
     {
+        Session::remember('timezone', fn() => $timezone);
+        Context::add('timezone', $timezone);
         if ($timezone !== $this->timezone) {
             MemberTimezoneUpdated::fire(
                 member_id: Context::get('active_member')->id,
