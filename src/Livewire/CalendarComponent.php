@@ -21,6 +21,9 @@ class CalendarComponent extends Component
 
     public function mount(): void
     {
+        if ('' === $this->range) {
+            $this->range = date('Y-m');
+        }
         $this->upcoming = GatheringsRequested::commit();
 
         $this->months = $this->generateCalendar(
@@ -58,7 +61,6 @@ class CalendarComponent extends Component
                 $weeks[] = $week;
                 $weekStart->addWeek();
             }
-
             $months->put($monthKey, [
                 'weeks' => $weeks,
                 'title' => $startDate->format('F Y'),

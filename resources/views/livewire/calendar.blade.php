@@ -2,18 +2,13 @@
 <div>
     <div class="flex space-x-4">
         <div class="flex-grow space-y-6">
-
-            <x-hallway::can :event="GatheringCreated::class">
-                @foreach ($upcoming->filter(fn($item) => $item->start->format('Y-m') === $range) as $gathering)
-                    <x-hallway-flux::gathering :gathering="$gathering"/>
-                @endforeach
-            </x-hallway::can>
-
-
+            @forelse ($upcoming->filter(fn($item) => $item->start->format('Y-m') === $range) as $gathering)
+                <x-hallway-flux::gathering :gathering="$gathering"/>
+            @empty
+                <flux:heading>There are no gatherings currently scheduled for this month.</flux:heading>
+            @endforelse
         </div>
         <div class="flex-0">
-
-
             @foreach ($months as $key => $month)
                 @if ($range === '' || $range === $key)
                     <flux:card>
@@ -33,7 +28,18 @@
                                 </flux:button>
                             </flux:button.group>
                         </flux:heading>
+
+                        <flux:button.group>
+                            @foreach (['S', 'M', 'T', 'W', 'T', 'F', 'S'] as $day)
+                                <flux:button
+                                    class="rounded-none"
+                                    square="true"
+                                    variant="filled">{{ $day }}</flux:button>
+                            @endforeach
+                        </flux:button.group>
+
                         @foreach (data_get($month, 'weeks') as $week)
+
                             <flux:button.group>
                                 @foreach ($week as $day)
                                     <flux:button
