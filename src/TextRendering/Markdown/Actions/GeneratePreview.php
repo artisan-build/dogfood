@@ -2,22 +2,23 @@
 
 declare(strict_types=1);
 
-namespace ArtisanBuild\Hallway\Messages\Actions;
+namespace ArtisanBuild\Hallway\TextRendering\Markdown\Actions;
 
-use ArtisanBuild\Bench\Attributes\ChatGPT;
+use ArtisanBuild\Hallway\TextRendering\Markdown\MarkdownContent;
+use Closure;
 use DOMDocument;
 
-#[ChatGPT]
-class ExtractMessagePreview
+class GeneratePreview
 {
-    public function __invoke(string $content, ?int $limit = null)
+    public function __invoke(MarkdownContent $content, Closure $next)
     {
-        $limit ??= 500;
-
+        // TODO: This is going to be a configuration variable, but we need it in the database
+        $limit = 500;
+        libxml_use_internal_errors(true);
         $doc = new DOMDocument();
-        $doc->loadXML('<div>' . mb_encode_numericentity(
+        $doc->loadHTML('<div>' . mb_encode_numericentity(
             htmlspecialchars_decode(
-                htmlentities($content, ENT_NOQUOTES, 'UTF-8', false),
+                htmlentities($content->parsed, ENT_NOQUOTES, 'UTF-8', false),
                 ENT_IGNORE,
             ),
             [0x80, 0x10FFFF, 0, ~0],
@@ -41,7 +42,9 @@ class ExtractMessagePreview
             $previewContent .= "</{$tag}>";
         }
 
-        return trim(html_entity_decode($previewContent));
+        $content->preview = trim(html_entity_decode($previewContent));
+
+        return $next($content);
     }
 
     protected function processNode($node, $limit, &$previewContent, &$visibleTextCount, &$openTags, &$stop): void
