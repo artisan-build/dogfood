@@ -2,7 +2,6 @@
     "name": "artisan-build/hallway-core",
     "description": "The core files of the hallway.fm community software",
     "keywords": [
-
     ],
     "homepage": "https://hallway.fm",
     "license": "proprietary",
@@ -15,7 +14,9 @@
     ],
     "require": {
         "php": "^8.3",
-        "illuminate/contracts": "^11.0"
+        "illuminate/contracts": "^11.0",
+        "ext-dom": "*",
+        "ext-libxml": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
