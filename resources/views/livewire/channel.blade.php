@@ -1,6 +1,16 @@
-@php use ArtisanBuild\Hallway\Messages\Events\MessageCreated;use ArtisanBuild\HallwayFlux\Livewire\ThreadComponent; @endphp
-<div class="flex space-x-6">
-    <div class="flex-grow max-w-7xl space-y-6">
+@php use ArtisanBuild\Hallway\Messages\Events\MessageCreated;use ArtisanBuild\HallwayFlux\Livewire\NewMessageComponent;use ArtisanBuild\HallwayFlux\Livewire\ThreadComponent; @endphp
+<div class="max-w-5xl flex flex-col" wire:poll.10s x-data
+     x-init="
+        const targetNode = $refs.messageContainer;
+        const config = { childList: true };
+
+        const observer = new MutationObserver(() => {
+            targetNode.scrollTop = targetNode.scrollHeight;
+        });
+
+        observer.observe(targetNode, config);
+    ">
+    <div id="messageContainer" x-ref="messageContainer" class="flex-grow space-y-6">
         @forelse ($threads as $thread)
             <x-hallway-flux::thread :message="$thread"/>
         @empty
@@ -10,11 +20,10 @@
             </flux:subheading>
         @endforelse
     </div>
-    <div>
+    <x-slot name="footer">
         <x-can :event="MessageCreated::class">
-            <x-event-form-button :event="MessageCreated::class" :event_data="['channel_id' => $channel->id]"
-                                 button_text="New Conversation" close="refreshChannel"/>
+            @livewire(NewMessageComponent::class)
         </x-can>
-    </div>
+    </x-slot>
 
 </div>

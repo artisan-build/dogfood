@@ -14,6 +14,10 @@ class ChannelComponent extends Component
 
     public Collection $threads;
 
+    public $listeners = [
+        'saved' => 'refreshChannel',
+    ];
+
     public function mount(): void
     {
         $this->threads = $this->channel->messages();

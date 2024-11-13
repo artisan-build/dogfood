@@ -25,6 +25,8 @@
           integrity="sha512-RXrQNShK831yZVcMWsLosdpsHddeG5xP7zMmlDu/OLQdfx24Z9pO1KiFZ1eZrMqY8P9hYgknwU/O6GxR2Fc0Gw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
+    {{ $head ?? '' }}
+
     <!-- Styles -->
     @livewireStyles
     @fluxStyles
@@ -176,6 +178,10 @@
 <flux:main>
     {{ $slot }}
 </flux:main>
+
+<x-flux::footer>
+    {{ $footer ?? '' }}
+</x-flux::footer>
 
 @env('local')
     <flux:modal name="local-logins" variant="bare"
