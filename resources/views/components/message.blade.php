@@ -33,12 +33,10 @@
                 {!! $media['linted'] !!}
                 <div class="text-xs"><flux:link href="{{ $media['link'] }}" variant="subtle" external="true">{{ $media['link'] }}</flux:link></div>
             @endforeach
-
-
-
+            @foreach ($message->attachments() as $attachment)
+                {!! $attachment->template->render($attachment->url) !!}
+            @endforeach
         </div>
-
-
     </div>
 </div>
 
