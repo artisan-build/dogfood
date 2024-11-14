@@ -259,6 +259,10 @@
 
 @livewireScripts
 @fluxScripts
+@filepondScripts
+<!-- Scripts Stack -->
+@stack('scripts')
+<!-- End Scripts Stack -->
 <livewire:detect-member-timezone/>
 </body>
 </html>
