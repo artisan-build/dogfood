@@ -39,6 +39,8 @@ class MemberState extends State
     public array $channel_ids = [];
     public array $muted_channel_ids = [];
 
+    public array $attachment_ids = [];
+
     // Always false in real states. Using it to get around having to write to the database during permissions tests
     /** @deprecated */
     public bool $in_channel = false;

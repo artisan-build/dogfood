@@ -23,6 +23,8 @@ class ChannelState extends State
 
     public array $message_ids = [];
 
+    public array $attachment_ids = [];
+
     public function members(): Collection
     {
         return collect($this->member_ids)->map(fn(int $id) => MemberState::load($id));
