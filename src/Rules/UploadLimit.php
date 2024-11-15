@@ -21,14 +21,14 @@ class UploadLimit implements ValidationRule
             ],
             'max' => 5 * 1024,
         ],
-        'documents' => [
+        /*'documents' => [
             'mimetypes' => [
                 'application/pdf',
                 'text/csv',
                 'text/plain',
             ],
             'max' => 20 * 1024,
-        ],
+        ],*/
     ];
 
     public static function allowedMimeTypes(): array
