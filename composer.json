@@ -16,7 +16,8 @@
         "php": "^8.3",
         "illuminate/contracts": "^11.0",
         "ext-dom": "*",
-        "ext-libxml": "*"
+        "ext-libxml": "*",
+        "ext-fileinfo": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",

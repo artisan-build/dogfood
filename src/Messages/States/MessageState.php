@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Hallway\Messages\States;
 
+use ArtisanBuild\Hallway\Attachments\States\AttachmentState;
 use ArtisanBuild\Hallway\Members\States\MemberState;
 use ArtisanBuild\Hallway\Moderation\Enums\ModerationMessageStates;
 use ArtisanBuild\Hallway\TextRendering\Contracts\ConvertsMarkdownToHtml;
@@ -24,6 +25,8 @@ class MessageState extends State
     public ?Carbon $pinned_at = null;
     public ?int $pinned_by_id = null;
 
+    public array $attachment_ids = [];
+
     public array $comments = [];
     public array $revisions = [];
     public array $mentions = [];
@@ -31,6 +34,11 @@ class MessageState extends State
     public function member(): MemberState
     {
         return MemberState::load($this->member_id);
+    }
+
+    public function attachments()
+    {
+        return collect($this->attachment_ids)->map(fn($id) => AttachmentState::load($id));
     }
 
     public function pinned_by(): ?MemberState
