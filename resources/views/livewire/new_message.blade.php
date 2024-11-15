@@ -26,7 +26,8 @@
         ></flux:textarea>
         <div class="flex">
             <div class="flex-grow">
-
+                <x-filepond::upload drop-on-page="true" drop-on-element="false" multiple="true" max-files="4"
+                                    :accepted-file-types="UploadLimit::allowedMimeTypes()" wire:model="file"/>
             </div>
             <div class="flex-shrink-0 pr-2">
                 <flux:button.group>
@@ -42,7 +43,12 @@
         </div>
     </form>
 
-    <x-filepond::upload drop-on-page="true" drop-on-element="false" multiple="true" max-files="4"
-                        :accepted-file-types="UploadLimit::allowedMimeTypes()" wire:model="file"/>
 
+
+    <!-- TODO: This does not work -->
+    <script>
+        Livewire.on("filepond-reset-file", function () {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+        });
+    </script>
 </section>

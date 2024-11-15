@@ -1,15 +1,5 @@
 @php use ArtisanBuild\Hallway\Messages\Events\MessageCreated;use ArtisanBuild\HallwayFlux\Livewire\NewMessageComponent;use ArtisanBuild\HallwayFlux\Livewire\ThreadComponent; @endphp
-<div class="max-w-5xl flex flex-col" wire:poll.10s x-data
-     x-init="
-        const targetNode = $refs.messageContainer;
-        const config = { childList: true };
-
-        const observer = new MutationObserver(() => {
-            targetNode.scrollTop = targetNode.scrollHeight;
-        });
-
-        observer.observe(targetNode, config);
-    ">
+<div class="max-w-5xl flex flex-col" wire:poll.10s x-data>
     <div id="messageContainer" x-ref="messageContainer" class="flex-grow space-y-6">
         @forelse ($threads as $thread)
             <x-hallway-flux::thread :message="$thread"/>

@@ -33,9 +33,27 @@
                 {!! $media['linted'] !!}
                 <div class="text-xs"><flux:link href="{{ $media['link'] }}" variant="subtle" external="true">{{ $media['link'] }}</flux:link></div>
             @endforeach
-            @foreach ($message->attachments() as $attachment)
-                {!! $attachment->template->render($attachment->url) !!}
-            @endforeach
+
+            <div x-data>
+                @if ($message->attachments()->count() > 1)
+                    <flux:tab.group>
+                        @foreach ($message->attachments() as $attachment)
+                            <flux:tab.panel :name="implode('-', ['at', $message->id, $loop->iteration])">
+                                <x-hallway-flux::media-wrapper :attachment="$attachment"/>
+                            </flux:tab.panel>
+                        @endforeach
+                        <div class="text-center"><flux:tabs variant="segmented" size="sm">
+                                @foreach (range(1, $message->attachments()->count()) as $number)
+                                    <flux:tab :name="implode('-', ['at', $message->id, $loop->iteration])">{{ $number }}</flux:tab>
+                                @endforeach
+                            </flux:tabs></div>
+                    </flux:tab.group>
+
+                @elseif ($message->attachments()->count() === 1)
+                    <x-hallway-flux::media-wrapper :attachment="$message->attachments()->first()"/>
+                @endif
+            </div>
+
         </div>
     </div>
 </div>
