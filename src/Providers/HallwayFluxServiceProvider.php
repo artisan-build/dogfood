@@ -37,6 +37,6 @@ class HallwayFluxServiceProvider extends ServiceProvider
 
         // TODO: We should create a command to list all registered livewire components so we can see what these keys look like
         collect(Discover::in(__DIR__ . '/../')->classes()->extending(Component::class)->get())
-            ->each(fn($class) => Livewire::component(Str::of($class)->slug()->toString(), $class));
+            ->each(fn($class) => Livewire::component(Str::of($class)->headline()->slug()->toString(), $class));
     }
 }
