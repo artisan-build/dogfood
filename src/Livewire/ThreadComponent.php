@@ -15,7 +15,7 @@ class ThreadComponent extends Component
         'saved' => 'refreshThread',
     ];
 
-    public function refreshThread()
+    public function refreshThread(): void
     {
         $this->message = $this->message->fresh();
         $this->dispatch('reload');

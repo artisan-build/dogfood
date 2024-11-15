@@ -68,14 +68,13 @@ class NewMessageComponent extends Component
 
         $message_id = snowflake_id();
 
-        if ($this->thread_id === null) {
+        if (null === $this->thread_id) {
             MessageCreated::commit(
                 message_id: $message_id,
                 channel_id: $this->channel_id,
                 content: $this->content,
             );
-        }
-        else {
+        } else {
             CommentCreated::commit(
                 message_id: $message_id,
                 channel_id: $this->channel_id,
