@@ -19,13 +19,11 @@ class SetActiveChannelInContext
         }
         if ($channel = $request->route('channel')) {
             Context::add('channel', $channel);
-        }
-        elseif ($thread = $request->route('message')) {
+        } elseif ($thread = $request->route('message')) {
             Context::add('thread', $thread);
             assert($thread instanceof MessageState);
             Context::add('channel', ChannelState::load($thread->channel_id));
-        }
-        else {
+        } else {
             Context::forget('channel');
         }
 
