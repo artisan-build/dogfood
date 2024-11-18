@@ -1,6 +1,6 @@
 @php use ArtisanBuild\Hallway\Channels\Events\CommunityChannelCreated;use ArtisanBuild\HallwayFlux\Livewire\ChannelsComponent; @endphp
 <div>
-    <flux:navlist.group expandable="true" heading="Channels" class="hidden lg:grid">
+    <flux:navlist.group expandable="true" heading="Channels" class="grid">
         @foreach ($channels as $channel)
             @if ($channel->inChannel())
                 <flux:navlist.item wire:navigate="true"
