@@ -112,7 +112,9 @@
 
         @auth
             <flux:dropdown position="top" align="start">
-                <flux:profile avatar="{{ Context::get('member')?->profile_picture_url }}"/>
+
+                <flux:profile avatar="{{ Context::get('active_member')?->profile_picture_url }}"
+                              name="{{ Context::get('active_member')?->display_name }}"/>
 
                 <flux:menu>
                     <flux:menu.radio.group>
@@ -230,8 +232,8 @@
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     {{ $case->data($case, 'email') }}
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $case->data($case, 'payment_status')->name }}</td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $case->data($case, 'moderation_status')->name }}</td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $case->data($case, 'payment_state')->name }}</td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $case->data($case, 'moderation_state')->name }}</td>
                                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
                                     <a href="{{ route('local-log-in', ['user' => (string)$case->value]) }}"
                                        class="text-indigo-600 hover:text-indigo-900 dark:text-slate-300 dark:hover:text-slate-100">Log
@@ -250,19 +252,18 @@
     </flux:modal>
 @endenv
 
+{{-- Start Scripts --}}
 @stack('modals')
-
 @persist('toast')
 <flux:toast position="top right"/>
 @endpersist
-
-
 @livewireScripts
 @fluxScripts
 @filepondScripts
-<!-- Scripts Stack -->
 @stack('scripts')
-<!-- End Scripts Stack -->
+{{-- End Scripts --}}
+
 <livewire:detect-member-timezone/>
+
 </body>
 </html>
