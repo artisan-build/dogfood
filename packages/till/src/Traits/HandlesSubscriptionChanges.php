@@ -6,13 +6,21 @@ use ArtisanBuild\Till\Actions\GetPlanById;
 use ArtisanBuild\Till\States\SubscriberState;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Cache;
+use RuntimeException;
 
 trait HandlesSubscriptionChanges
 {
     public function handle(): array
     {
+        /** @var SubscriberState $state */
+        $state = $this->state(SubscriberState::class);
+
+        if (! property_exists($state, 'plan_id')) {
+            throw new RuntimeException('State class must have a plan_id property');
+        }
+
         $abilities = [];
-        foreach (data_get(app(GetPlanById::class)($this->state(SubscriberState::class)->plan_id), 'can') as $ability) {
+        foreach (data_get(app(GetPlanById::class)($state->plan_id), 'can') as $ability) {
             $abilities[$ability[0]] = app($ability[0])(...$ability[1]);
         }
         Cache::put('subscription-'.$this->subscriber_id, $abilities, $this->getCacheExpiration());
