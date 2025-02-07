@@ -1,3 +1,0 @@
-<div>
-    Pricing Section
-</div>
