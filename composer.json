@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.3",
         "artisan-build/adverbs": "*",
+        "artisan-build/artisan-ui": "*",
         "artisan-build/bench": "*",
         "artisan-build/docsidian": "*",
         "artisan-build/fat-enums": "*",

@@ -4,6 +4,7 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 export default {
     darkMode: 'selector',
     content: [
+        './packages/**/resources/**/*.blade.php',
 		'./vendor/artisan-build/**/resources/**/*.blade.php',
 		'./vendor/livewire/flux/stubs/**/*.blade.php',
 		'./vendor/livewire/flux-pro/stubs/**/*.blade.php',

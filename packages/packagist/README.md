@@ -42,7 +42,7 @@ $connector = new PackagistConnector();
 
 ### The Requests
 
-See the [Packagist API Docs](https://packagist.org/apidoc) for details on the constructor arguments. 
+See the [Packagist API Docs](https://packagist.org/apidoc) for details on the constructor arguments.
 
 ```php
 // List Packages

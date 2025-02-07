@@ -21,44 +21,28 @@
 
         <flux:subheading size="xl">Artisan Build makes it easy to go from idea to MVP in a weekend.</flux:subheading>
 
-        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/RhVPFY86O4I?si=MQkf8pFBrz9anpIi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe class="mx-auto" width="560" height="315"
+                src="https://www.youtube.com/embed/RhVPFY86O4I?si=MQkf8pFBrz9anpIi" title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
 
-    <section name="features">
-        <div class="py-24 sm:py-32">
-            <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
-                <div class="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6 lg:grid-rows-2">
-                    <div class="relative lg:col-span-3">
-                        <flux:card class="relative flex h-full flex-col overflow-hidden">
+    <section name="features" class="py-24 sm:py-32">
+        <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
+            <x-artisan-ui::bentos.grid-six-column>
+                <x-artisan-ui::bentos.cell-four-column>
 
-                        </flux:card>
-                    </div>
-                    <div class="relative lg:col-span-3">
-                        <flux:card class="relative flex h-full flex-col overflow-hidden">
-
-                        </flux:card>
-                    </div>
-
-                    <div class="relative lg:col-span-2">
-                        <flux:card class="relative flex h-full flex-col overflow-hidden">
-
-                        </flux:card>
-                    </div>
-                    <div class="relative lg:col-span-2">
-                        <flux:card class="relative flex h-full flex-col overflow-hidden">
-
-                        </flux:card>
-                    </div>
-                    <div class="relative lg:col-span-2">
-                        <flux:card class="relative flex h-full flex-col overflow-hidden">
-                            <flux:heading level="3">Ready To Deploy On Day One</flux:heading>
-                            <x-flux::subheading>Newly create apps include a form to start collecting leads even before you set up a marketing platform. </x-flux::subheading>
-                            <flux:text>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</flux:text>
-                        </flux:card>
-                    </div>
-                </div>
-            </div>
+                </x-artisan-ui::bentos.cell-four-column>
+                <x-artisan-ui::bentos.cell-two-column></x-artisan-ui::bentos.cell-two-column>
+                <x-artisan-ui::bentos.cell-two-column></x-artisan-ui::bentos.cell-two-column>
+                <x-artisan-ui::bentos.cell-four-column></x-artisan-ui::bentos.cell-four-column>
+            </x-artisan-ui::bentos.grid-six-column>
         </div>
+    </section>
+
+    <section name="pricing">
+        <livewire:till:pricing-section/>
     </section>
 
     <section name="email-signup" class="my-24">

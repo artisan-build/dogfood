@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\States\TeamState;
+use ArtisanBuild\Adverbs\Traits\HasVerbsState;
 use ArtisanBuild\Verbstream\Team as JetstreamTeam;
 use Database\Factories\TeamFactory;
 use Eloquent;
@@ -48,9 +50,21 @@ class Team extends JetstreamTeam
     /** @use HasFactory<TeamFactory> */
     use HasFactory;
 
+    use HasVerbsState;
+
+    protected function getStateClass(): string
+    {
+        return TeamState::class;
+    }
+
     protected $fillable = [
         'name',
         'personal_team',
+        'user_id',
+    ];
+
+    protected $casts = [
+        'personal_team' => 'boolean',
     ];
 
     /**
