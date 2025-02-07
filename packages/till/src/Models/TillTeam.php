@@ -10,17 +10,49 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Sushi\Sushi;
 
+/**
+ * @property int $id
+ * @property string|null $name
+ * @property int|null $user_id
+ * @property-read User|null $owner
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TeamInvitation> $teamInvitations
+ * @property-read int|null $team_invitations_count
+ * @property-read \App\Models\Membership|null $membership
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $users
+ * @property-read int|null $users_count
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam whereUserId($value)
+ *
+ * @mixin \Eloquent
+ */
 class TillTeam extends Model
 {
     use Sushi;
 
+    protected $with = ['owner'];
+
+    protected $fillable = [
+        'name',
+        'user_id',
+    ];
+
     public function getRows(): array
     {
         return [
-            ['id' => 1, 'name' => 'Team'],
+            ['id' => 1, 'name' => 'Team', 'user_id' => 1],
         ];
     }
 
+    /**
+     * Get the owner of the team.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function owner()
     {
         return $this->belongsTo(Verbstream::userModel(), 'user_id');
