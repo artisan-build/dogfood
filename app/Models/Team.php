@@ -52,11 +52,19 @@ class Team extends JetstreamTeam
 
     use HasVerbsState;
 
-    protected string $state_class = TeamState::class;
+    protected function getStateClass(): string
+    {
+        return TeamState::class;
+    }
 
     protected $fillable = [
         'name',
         'personal_team',
+        'user_id',
+    ];
+
+    protected $casts = [
+        'personal_team' => 'boolean',
     ];
 
     /**

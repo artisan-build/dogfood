@@ -4,6 +4,7 @@ namespace ArtisanBuild\Till\Plans;
 
 use ArtisanBuild\Till\Attributes\TeamPlan;
 use ArtisanBuild\Till\Attributes\UnavailablePlan;
+use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\Currencies;
 use ArtisanBuild\Till\Enums\PaymentProcessors;
 use ArtisanBuild\Till\Enums\TestPlans;
@@ -12,7 +13,7 @@ use ArtisanBuild\Till\Traits\IsPricingPlan;
 
 #[TeamPlan]
 #[UnavailablePlan]
-class OldScalerPlan
+class OldScalerPlan implements PlanInterface
 {
     use IsPricingPlan;
 

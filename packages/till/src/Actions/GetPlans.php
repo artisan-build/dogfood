@@ -63,8 +63,7 @@ class GetPlans
                     $plan->current = true;
                 }
 
-
-                if ($user->subscription()->plan_id === null && !empty($reflection->getAttributes(DefaultPlan::class))) {
+                if ($user->subscription()->plan_id === null && ! empty($reflection->getAttributes(DefaultPlan::class))) {
                     $plan->current = true;
                 }
 
