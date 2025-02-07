@@ -15,12 +15,16 @@ enum Currencies: string
     case SEK = 'kr';
     case NZD = 'NZ$';
 
-    public function format(int|float $amount): string
+    public function format(int|float|null $amount): string
     {
+        if ((int) $amount === 0) {
+            return 'Free';
+        }
+
         return match ($this) {
-            self::JPY, self::CNY => $this->value . number_format($amount, 0),
-            self::SEK => number_format($amount, 2) . ' ' . $this->value,
-            default => $this->value . number_format($amount, 2),
+            self::JPY, self::CNY => $this->value.number_format($amount, 0),
+            self::SEK => number_format($amount, is_float($amount) ? 2 : 0).' '.$this->value,
+            default => $this->value.number_format($amount, is_float($amount) ? 2 : 0),
         };
     }
 }

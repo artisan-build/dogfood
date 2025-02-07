@@ -2,6 +2,7 @@
 
 namespace ArtisanBuild\Till\Providers;
 
+use ArtisanBuild\Till\Commands\InstallCommand;
 use ArtisanBuild\Till\Livewire\PricingSectionComponent;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -14,6 +15,11 @@ class TillServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/till.php', 'till');
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'till');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/till.php');
+
+        $this->commands([
+            InstallCommand::class,
+        ]);
     }
 
     public function boot(): void

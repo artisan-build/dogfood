@@ -3,7 +3,7 @@
 namespace ArtisanBuild\Till\Plans;
 
 use ArtisanBuild\Till\Attributes\TeamPlan;
-use ArtisanBuild\Till\Contracts\PlanInterface;
+use ArtisanBuild\Till\Attributes\UnavailablePlan;
 use ArtisanBuild\Till\Enums\Currencies;
 use ArtisanBuild\Till\Enums\PaymentProcessors;
 use ArtisanBuild\Till\Enums\TestPlans;
@@ -11,11 +11,12 @@ use ArtisanBuild\Till\Plans\Abilities\AddSeats;
 use ArtisanBuild\Till\Traits\IsPricingPlan;
 
 #[TeamPlan]
-class StartupPlan implements PlanInterface
+#[UnavailablePlan]
+class OldScalerPlan
 {
     use IsPricingPlan;
 
-    public int $id = TestPlans::Startup->value;
+    public int $id = TestPlans::OldScaler->value;
 
     public bool $current = false;
 
@@ -25,14 +26,14 @@ class StartupPlan implements PlanInterface
 
     public array $prices = [
         'month' => [
-            'price' => 10,
-            'live' => 'startup-month',
-            'test' => 'startup-month-test',
+            'price' => 40,
+            'live' => 'scaler-old-month',
+            'test' => 'scaler-old-month-test',
         ],
         'year' => [
-            'price' => 100,
-            'live' => 'startup-year',
-            'test' => 'startup-year-test',
+            'price' => 400,
+            'live' => 'scaler-old-year',
+            'test' => 'scaler-old-year-test',
         ],
         'life' => [
             'price' => null,
@@ -42,21 +43,21 @@ class StartupPlan implements PlanInterface
     ];
 
     public array $badge = [
-        'size' => 'sm',
+        'size' => '',
         'variant' => '',
-        'color' => 'lime',
-        'text' => 'Most Popular',
-        'icon' => 'user-group',
+        'color' => '',
+        'text' => '',
+        'icon' => '',
     ];
 
-    public string $heading = 'Startup';
+    public string $heading = 'Scaler';
 
-    public string $subheading = 'A great value for your growing team';
+    public string $subheading = 'Everything you need to run your business';
 
     public array $features = [
-        ['text' => 'Up to 5 Users', 'icon' => 'user-group'],
-        ['text' => '500 Queries / Day', 'icon' => null],
-        ['text' => 'Email Support', 'icon' => null],
+        ['text' => 'Unlimited Users', 'icon' => null],
+        ['text' => 'Unlimited Queries', 'icon' => null],
+        ['text' => 'Phone Support', 'icon' => null],
     ];
 
     public array $can = [

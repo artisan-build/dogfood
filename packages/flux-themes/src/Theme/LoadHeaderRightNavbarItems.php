@@ -19,6 +19,12 @@ class LoadHeaderRightNavbarItems implements LoadsHeaderRightNavbarItems
     {
         $items = [];
 
+        $items[] = [
+            'type' => NavbarItemTypes::BladeComponent->value,
+            'component' => 'till::flux-navbar-item-pricing-if-not-subscribed',
+            'params' => [],
+        ];
+
         if ($this->hasDarkMode()) {
 
             $items[] = [

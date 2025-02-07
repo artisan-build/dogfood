@@ -1,30 +1,46 @@
 <?php
 
-namespace App\Plans;
+namespace ArtisanBuild\Till\Plans;
 
-use App\Plans\Abilities\AddSeats;
 use ArtisanBuild\Till\Attributes\DefaultPlan;
+use ArtisanBuild\Till\Attributes\TeamPlan;
+use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\Currencies;
 use ArtisanBuild\Till\Enums\PaymentProcessors;
+use ArtisanBuild\Till\Enums\TestPlans;
+use ArtisanBuild\Till\Plans\Abilities\AddSeats;
 use ArtisanBuild\Till\Traits\IsPricingPlan;
 
 #[DefaultPlan]
-class SoloPlan
+#[TeamPlan]
+class SoloPlan implements PlanInterface
 {
     use IsPricingPlan;
 
-    public int $id = 277786259502444544;
+    public int $id = TestPlans::Solo->value;
+
+    public bool $current = false;
 
     public PaymentProcessors $processor = PaymentProcessors::Stripe;
+
     public Currencies $currency = Currencies::USD;
 
-    public string $processor_price = 'solo';
-    public string $processor_sandbox_price = 'solo_test';
-
-    public array $price = [
-        'month' => 0,
-        'year' => 0,
-        'life' => null,
+    public array $prices = [
+        'month' => [
+            'price' => 0,
+            'live' => 'solo-month',
+            'test' => 'solo-month-test',
+        ],
+        'year' => [
+            'price' => 0,
+            'live' => 'solo-year',
+            'test' => 'solo-year-test',
+        ],
+        'life' => [
+            'price' => null,
+            'live' => null,
+            'test' => null,
+        ],
     ];
 
     public array $badge = [
@@ -36,6 +52,7 @@ class SoloPlan
     ];
 
     public string $heading = 'Solo';
+
     public string $subheading = 'Everything the indie hacker needs';
 
     public array $features = [
@@ -48,5 +65,4 @@ class SoloPlan
         [AddSeats::class, ['limit' => 1]],
 
     ];
-
 }

@@ -2,7 +2,8 @@
 
 namespace ArtisanBuild\Till\Plans;
 
-use ArtisanBuild\Till\Attributes\TeamPlan;
+use ArtisanBuild\Till\Attributes\DefaultPlan;
+use ArtisanBuild\Till\Attributes\IndividualPlan;
 use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\Currencies;
 use ArtisanBuild\Till\Enums\PaymentProcessors;
@@ -10,12 +11,13 @@ use ArtisanBuild\Till\Enums\TestPlans;
 use ArtisanBuild\Till\Plans\Abilities\AddSeats;
 use ArtisanBuild\Till\Traits\IsPricingPlan;
 
-#[TeamPlan]
-class StartupPlan implements PlanInterface
+#[DefaultPlan]
+#[IndividualPlan]
+class HobbyistPlan implements PlanInterface
 {
     use IsPricingPlan;
 
-    public int $id = TestPlans::Startup->value;
+    public int $id = TestPlans::Hobbyist->value;
 
     public bool $current = false;
 
@@ -25,14 +27,14 @@ class StartupPlan implements PlanInterface
 
     public array $prices = [
         'month' => [
-            'price' => 10,
-            'live' => 'startup-month',
-            'test' => 'startup-month-test',
+            'price' => 0,
+            'live' => 'hobbyist-month',
+            'test' => 'hobbyist-month-test',
         ],
         'year' => [
-            'price' => 100,
-            'live' => 'startup-year',
-            'test' => 'startup-year-test',
+            'price' => 0,
+            'live' => 'hobbyist-year',
+            'test' => 'hobbyist-year-test',
         ],
         'life' => [
             'price' => null,
@@ -42,20 +44,20 @@ class StartupPlan implements PlanInterface
     ];
 
     public array $badge = [
-        'size' => 'sm',
+        'size' => '',
         'variant' => '',
-        'color' => 'lime',
-        'text' => 'Most Popular',
-        'icon' => 'user-group',
+        'color' => '',
+        'text' => '',
+        'icon' => '',
     ];
 
-    public string $heading = 'Startup';
+    public string $heading = 'Solo';
 
-    public string $subheading = 'A great value for your growing team';
+    public string $subheading = 'Everything the indie hacker needs';
 
     public array $features = [
-        ['text' => 'Up to 5 Users', 'icon' => 'user-group'],
-        ['text' => '500 Queries / Day', 'icon' => null],
+        ['text' => 'One User', 'icon' => null],
+        ['text' => '50 Queries / Day', 'icon' => null],
         ['text' => 'Email Support', 'icon' => null],
     ];
 

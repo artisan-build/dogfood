@@ -1,28 +1,44 @@
 <?php
 
-namespace App\Plans;
+namespace ArtisanBuild\Till\Plans;
 
-use App\Plans\Abilities\AddSeats;
+use ArtisanBuild\Till\Attributes\TeamPlan;
+use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\Currencies;
 use ArtisanBuild\Till\Enums\PaymentProcessors;
+use ArtisanBuild\Till\Enums\TestPlans;
+use ArtisanBuild\Till\Plans\Abilities\AddSeats;
 use ArtisanBuild\Till\Traits\IsPricingPlan;
 
-class ScalerPlan
+#[TeamPlan]
+class ScalerPlan implements PlanInterface
 {
     use IsPricingPlan;
 
-    public int $id = 277786470450941952;
+    public bool $current = false;
+
+    public int $id = TestPlans::Scaler->value;
 
     public PaymentProcessors $processor = PaymentProcessors::Stripe;
+
     public Currencies $currency = Currencies::USD;
 
-    public string $processor_price = 'scaler';
-    public string $processor_sandbox_price = 'scaler_test';
-
-    public array $price = [
-        'month' => 50,
-        'year' => 500,
-        'life' => null,
+    public array $prices = [
+        'month' => [
+            'price' => 50,
+            'live' => 'scaler-month',
+            'test' => 'scaler-month-test',
+        ],
+        'year' => [
+            'price' => 500,
+            'live' => 'scaler-year',
+            'test' => 'scaler-year-test',
+        ],
+        'life' => [
+            'price' => null,
+            'live' => null,
+            'test' => null,
+        ],
     ];
 
     public array $badge = [
@@ -34,6 +50,7 @@ class ScalerPlan
     ];
 
     public string $heading = 'Scaler';
+
     public string $subheading = 'Everything you need to run your business';
 
     public array $features = [
