@@ -37,23 +37,29 @@ Code Style and Architecture:
 - Prefer direct actions over Laravel's event system. Instead of dispatching Laravel events that are handled by listeners, perform the actions directly in Verbs events. This makes the code more explicit and easier to follow.
 - Example: Instead of `event(new Registered($user))` which triggers a listener to send a verification email, directly call `$user->notify(new VerifyEmail)` in the Verbs event.
 
+Creating Draft PRs:
+- Save PR description to a temporary file (e.g., `pr_description.txt`)
+- Use GitHub CLI to create a draft PR: `gh pr create --draft --title "title" --body-file pr_description.txt`
+- Clean up by removing the temporary file after PR is created
+- This workflow makes it easy to prepare and edit the PR description before submitting
+
 # Scratch Pad
 
 ## Verbstream Database Operations to Convert to Verbs Events
 
 ### Team Management
 - [x] Create Team (TeamController@store)
-  - Create new team record
-  - Create team-user pivot record for owner
-  - Update user's current_team_id if needed
+  - Create team record
+  - Set owner as first member
+  - Set as current team for owner
 
 - [x] Update Team Name (TeamController@update)
   - Update team name
 
 - [x] Delete Team (TeamController@destroy)
-  - Remove all team members
-  - Update current_team_id for affected users
   - Delete team record
+  - Remove all team members
+  - Update current_team_id for all members
 
 - [x] Switch Current Team (CurrentTeamController@update)
   - Update user's current_team_id
@@ -74,10 +80,10 @@ Code Style and Architecture:
 - [x] Create Team Invitation (TeamInvitationController@store)
   - Create team invitation record
 
-- [ ] Accept Team Invitation
-  - Delete invitation record
-  - Create team-user pivot record
-  - Set role for new member
+- [x] Accept Team Invitation (TeamInvitationController@accept)
+  - Add user to team with invited role
+  - Delete invitation
+  - Set as current team if user has no current team
 
 ### User Profile
 - [ ] Update Profile Information (UserProfileController@update)
