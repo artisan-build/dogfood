@@ -86,7 +86,7 @@ Creating Draft PRs:
   - Set as current team if user has no current team
 
 ### User Profile
-- [ ] Update Profile Information (UserProfileController@update)
+- [x] Update Profile Information (UserProfileController@update)
   - Update user record with new name/email
   - Handle email verification if email changed
 
