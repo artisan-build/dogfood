@@ -71,7 +71,7 @@ Code Style and Architecture:
   - Update user's current_team_id if needed
 
 ### Team Invitations
-- [ ] Create Team Invitation (TeamInvitationController@store)
+- [x] Create Team Invitation (TeamInvitationController@store)
   - Create team invitation record
 
 - [ ] Accept Team Invitation
