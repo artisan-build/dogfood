@@ -36,6 +36,7 @@ When using Verbs events:
 Code Style and Architecture:
 - Prefer direct actions over Laravel's event system. Instead of dispatching Laravel events that are handled by listeners, perform the actions directly in Verbs events. This makes the code more explicit and easier to follow.
 - Example: Instead of `event(new Registered($user))` which triggers a listener to send a verification email, directly call `$user->notify(new VerifyEmail)` in the Verbs event.
+- All git commit messages should be single line to avoid issues with command execution and readability.
 
 Creating Draft PRs:
 - Save PR description to a temporary file (e.g., `pr_description.txt`)
@@ -98,11 +99,15 @@ Creating Draft PRs:
 - [x] Create API Token (ApiTokenController@store)
   - Create new token record
 
-- [ ] Update API Token Permissions (ApiTokenController@updateApiToken)
+- [x] Update API Token Permissions (ApiTokenController@updateApiToken)
   - Update token abilities
+  - Validate token ownership
+  - Validate abilities against configuration
 
-- [ ] Delete API Token (ApiTokenController@deleteApiToken)
+- [x] Delete API Token (ApiTokenController@deleteApiToken)
   - Delete token record
+  - Validate token ownership
+  - Handle non-existent tokens
 
 ### Fortify Actions to Override
 - [ ] Two Factor Authentication
