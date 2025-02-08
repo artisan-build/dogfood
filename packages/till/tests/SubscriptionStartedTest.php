@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Thunk\Verbs\Facades\Verbs;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Verbs::commitImmediately();
 
     // Create a user and team
@@ -26,7 +26,7 @@ beforeEach(function () {
     Auth::login($user);
 });
 
-test('subscription started → it creates a state for the subscription', function () {
+test('subscription started → it creates a state for the subscription', function (): void {
 
     SubscriptionStarted::fire(
         subscriber_id: Auth::user()->current_team_id,
@@ -38,7 +38,7 @@ test('subscription started → it creates a state for the subscription', functio
     expect($state->plan_id)->toBe(TestPlans::Solo->value);
 });
 
-test('subscription started → it caches the correct abilities', function () {
+test('subscription started → it caches the correct abilities', function (): void {
     // Create a new state
 
     // Fire the subscription started event
@@ -49,5 +49,5 @@ test('subscription started → it caches the correct abilities', function () {
 
     $abilities = Cache::get('subscription-'.Auth::user()->currentTeam->id);
     expect($abilities)->toBeArray()
-        ->and(array_key_exists('ArtisanBuild\Till\Plans\Abilities\AddSeats', $abilities))->toBeTrue();
+        ->and(array_key_exists(\ArtisanBuild\Till\Plans\Abilities\AddSeats::class, $abilities))->toBeTrue();
 });
