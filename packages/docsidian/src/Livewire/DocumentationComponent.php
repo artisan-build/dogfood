@@ -4,18 +4,8 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Docsidian\Livewire;
 
-use ArtisanBuild\Docsidian\Contracts\ConvertsMarkdownToHtml;
-use ArtisanBuild\Docsidian\Contracts\DecoratesBlockQuoteCallouts;
-use ArtisanBuild\Docsidian\Contracts\DecoratesHashTags;
-use ArtisanBuild\Docsidian\Contracts\GeneratesOnPageNavigation;
-use ArtisanBuild\Docsidian\Contracts\GetsTitle;
-use ArtisanBuild\Docsidian\Contracts\HandlesShortCodes;
-use ArtisanBuild\Docsidian\Contracts\RestoresCodeBlocks;
-use ArtisanBuild\Docsidian\Contracts\StylesHeadings;
-use ArtisanBuild\Docsidian\Contracts\StylesLinks;
-use ArtisanBuild\Docsidian\Contracts\StylesPlainText;
-use ArtisanBuild\Docsidian\Contracts\TemporarilyRemovesCodeBlocks;
 use ArtisanBuild\Docsidian\DocsidianPage;
+use Illuminate\Contracts\View\View as ViewContract;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\File;
@@ -37,7 +27,7 @@ class DocumentationComponent extends Component
 
     protected string $template = 'docsidian::documentation';
 
-    protected $page;
+    protected DocsidianPage $page;
 
     public function mount(): void
     {
@@ -57,33 +47,23 @@ class DocumentationComponent extends Component
 
         // TODO: Handle caching
 
-        $this->content = Blade::render(Pipeline::send($this->page)->through([
-            HandlesShortCodes::class,
-            DecoratesHashTags::class,
-            ConvertsMarkdownToHtml::class,
-            TemporarilyRemovesCodeBlocks::class,
-            DecoratesBlockQuoteCallouts::class,
-            GeneratesOnPageNavigation::class,
-            GetsTitle::class,
-            StylesPlainText::class,
-            StylesHeadings::class,
-            StylesLinks::class,
-            RestoresCodeBlocks::class,
-        ])->thenReturn()->html);
+        $this->content = Blade::render(
+            Pipeline::send($this->page)
+                ->through(config('docsidian.transformations'))
+                ->thenReturn()
+                ->html
+        );
 
         View::share('title', $this->page->title);
         View::share('folder', $this->folder);
 
         // Build sidebar navigation
         $navigation = collect(File::directories(config('docsidian.markdown_root')))
-            ->filter(fn ($folder) => File::exists(implode('/', [$folder, 'index.md'])))
-            ->map(function ($folder) {
+            ->filter(fn (string $folder): bool => File::exists(implode('/', [$folder, 'index.md'])))
+            ->map(function (string $folder): array {
                 /** @var DocsidianPage $page */
                 $page = Pipeline::send(new DocsidianPage(File::get(implode('/', [$folder, 'index.md']))))
-                    ->through([
-                        ConvertsMarkdownToHtml::class,
-                        GetsTitle::class,
-                    ])
+                    ->through(config('docsidian.navigation_transformations'))
                     ->thenReturn();
 
                 return [
@@ -96,7 +76,6 @@ class DocumentationComponent extends Component
             })->sortBy('weight');
 
         View::share('navigation', $navigation);
-
     }
 
     public function page(string $to): void
@@ -104,7 +83,7 @@ class DocumentationComponent extends Component
         $this->redirect($to, true);
     }
 
-    public function render()
+    public function render(): ViewContract
     {
         return view($this->template)->layout('docsidian::components.documentation-layout');
     }
