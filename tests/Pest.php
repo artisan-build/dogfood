@@ -11,10 +11,12 @@
 |
 */
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Tests\TestCase;
 
-pest()->extends(TestCase::class, DatabaseTransactions::class)
+pest()->extends(TestCase::class, LazilyRefreshDatabase::class)
     ->in('Feature', '../packages/*')
     ->beforeEach(fn () => $this->withoutVite());
 
