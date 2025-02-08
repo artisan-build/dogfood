@@ -99,6 +99,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
     ];
 
+    /**
+     * Override the default email verification notification to use our Verbs event.
+     */
+    public function sendEmailVerificationNotification(): void
+    {
+        \ArtisanBuild\Verbstream\Events\EmailVerificationNotificationSent::fire(user_id: $this->id);
+    }
+
     protected function casts(): array
     {
         return [

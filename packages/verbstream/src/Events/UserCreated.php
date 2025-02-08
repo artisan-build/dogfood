@@ -29,18 +29,31 @@ class UserCreated extends Event
 
     public function handle()
     {
-        $user = DB::transaction(fn () => tap(User::create([
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => $this->password,
-        ]), static function (User $user): void {
-            $user->ownedTeams()->save(Team::forceCreate([
-                'user_id' => $user->id,
-                'name' => explode(' ', $user->name, 2)[0]."'s ".config('verbstream.team_label')->value,
-                'personal_team' => true,
-            ]));
-        }));
+        return DB::transaction(function () {
+            // Create the user
+            $user = User::create([
+                'name' => $this->name,
+                'email' => $this->email,
+                'password' => $this->password,
+            ]);
 
-        return $user;
+            // Create personal team
+            $team = Team::forceCreate([
+                'user_id' => $user->id,
+                'name' => explode(' ', (string) $user->name, 2)[0]."'s ".config('verbstream.team_label')->value,
+                'personal_team' => true,
+            ]);
+
+            // Set current team and create pivot record
+            $user->forceFill(['current_team_id' => $team->id])->save();
+            $user->teams()->attach($team, ['role' => 'owner']);
+
+            // Send email verification if needed
+            if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail) {
+                EmailVerificationNotificationSent::fire(user_id: $user->id);
+            }
+
+            return $user->fresh();
+        });
     }
 }

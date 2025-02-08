@@ -25,3 +25,144 @@ Do not work beyond the scope of any request. Keep your changes small. We prefer 
 making large sweeping changes.
 
 # Lessons Learned
+
+Working with Verbs Events:
+1. Event Creation:
+   - NEVER use `new Event()` to create events manually
+   - NEVER set event properties directly after creation
+   - ALWAYS use static methods `fire()` or `commit()` with named arguments
+   - Example: `UserCreated::fire(name: 'John', email: 'john@example.com')`
+
+2. Event Handling:
+   - Use `commit()` when you need the result from the event's handle() method
+   - Use `fire()` when you don't need the result (void methods)
+   - Example with commit: `$user = UserCreated::commit(name: 'John', email: 'john@example.com')`
+   - Example with fire: `EmailVerificationNotificationSent::fire(user_id: $user->id)`
+
+3. Testing Events:
+   - ALWAYS use `Verbs::commitImmediately()` in test setup to ensure events are processed immediately
+   - When testing events, use the same static methods as in production code
+   - Don't mix Laravel events with Verbs events in tests
+   - Example test setup:
+     ```php
+     beforeEach(function () {
+         Verbs::commitImmediately();
+     });
+     ```
+
+4. Event Naming and Structure:
+   - Name event classes in past tense (they represent things that happened)
+   - Good: `UserCreated`, `EmailVerificationNotificationSent`
+   - Bad: `CreateUser`, `SendEmailVerificationNotification`
+   - Use constructor property promotion for required properties
+   - Use named arguments for clarity and maintainability
+
+5. Event Best Practices:
+   - Keep events focused and single-purpose
+   - Handle side effects in the event's handle() method
+   - Use state management through the apply() method
+   - Validate inputs within the handle() method
+   - Use custom exceptions for domain-specific errors
+
+Code Style and Architecture:
+- Prefer direct actions over Laravel's event system. Instead of dispatching Laravel events that are handled by listeners, perform the actions directly in Verbs events. This makes the code more explicit and easier to follow.
+- Example: Instead of `event(new Registered($user))` which triggers a listener to send a verification email, directly call `$user->notify(new VerifyEmail)` in the Verbs event.
+- All git commit messages should be single line to avoid issues with command execution and readability.
+
+Creating Draft PRs:
+- Save PR description to a temporary file (e.g., `pr_description.txt`)
+- Use GitHub CLI to create a draft PR: `gh pr create --draft --title "title" --body-file pr_description.txt`
+- Clean up by removing the temporary file after PR is created
+- This workflow makes it easy to prepare and edit the PR description before submitting
+
+# Scratch Pad
+
+## Verbstream Database Operations to Convert to Verbs Events
+
+### Team Management
+- [x] Create Team (TeamController@store)
+  - Create team record
+  - Set owner as first member
+  - Set as current team for owner
+
+- [x] Update Team Name (TeamController@update)
+  - Update team name
+
+- [x] Delete Team (TeamController@destroy)
+  - Delete team record
+  - Remove all team members
+  - Update current_team_id for all members
+
+- [x] Switch Current Team (CurrentTeamController@update)
+  - Update user's current_team_id
+
+### Team Members
+- [x] Add Team Member (TeamController@addTeamMember)
+  - Create team-user pivot record
+  - Set role for new member
+
+- [x] Update Team Member Role (TeamController@updateTeamMemberRole)
+  - Update role in team-user pivot record
+
+- [x] Remove Team Member (TeamController@removeTeamMember)
+  - Remove team-user pivot record
+  - Update user's current_team_id if needed
+
+### Team Invitations
+- [x] Create Team Invitation (TeamInvitationController@store)
+  - Create team invitation record
+
+- [x] Accept Team Invitation (TeamInvitationController@accept)
+  - Add user to team with invited role
+  - Delete invitation
+  - Set as current team if user has no current team
+
+### User Profile
+- [x] Update Profile Information (UserProfileController@update)
+  - Update user record with new name/email
+  - Handle email verification if email changed
+
+- [x] Update Profile Photo
+  - Update user's profile_photo_path
+  - Handle photo storage
+
+### API Tokens
+- [x] Create API Token (ApiTokenController@store)
+  - Create new token record
+
+- [x] Update API Token Permissions (ApiTokenController@updateApiToken)
+  - Update token abilities
+  - Validate token ownership
+  - Validate abilities against configuration
+
+- [x] Delete API Token (ApiTokenController@deleteApiToken)
+  - Delete token record
+  - Validate token ownership
+  - Handle non-existent tokens
+
+### Fortify Actions to Override
+- [ ] Two Factor Authentication
+  - Enable/disable 2FA
+  - Confirm 2FA
+  - Generate/regenerate recovery codes
+  - Store 2FA settings and recovery codes
+
+- [ ] Password Management
+  - Update password
+  - Reset password
+  - Confirm password
+
+- [ ] Browser Sessions
+  - Log out other browser sessions
+  - Update session data
+
+### Already Converted
+- [x] Create User with Personal Team (UserCreated event)
+  - Create user record
+  - Create personal team
+  - Create team-user pivot record
+  - Set current_team_id
+
+- [x] Send Email Verification (EmailVerificationNotificationSent event)
+  - Send verification email
+  - Track verification status

@@ -75,7 +75,7 @@ class TillTeam extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(Verbstream::userModel(), Verbstream::membershipModel())
+        return $this->belongsToMany(Verbstream::userModel(), 'team_user', 'team_id', 'user_id')
             ->withPivot('role')
             ->withTimestamps()
             ->as('membership');
