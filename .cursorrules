@@ -90,7 +90,7 @@ Creating Draft PRs:
   - Update user record with new name/email
   - Handle email verification if email changed
 
-- [ ] Update Profile Photo
+- [x] Update Profile Photo
   - Update user's profile_photo_path
   - Handle photo storage
 
