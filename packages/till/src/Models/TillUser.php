@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Sushi\Sushi;
 
 /**
- * 
- *
  * @property int $id
  * @property string|null $name
  * @property string|null $email
@@ -25,6 +23,7 @@ use Sushi\Sushi;
  * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser query()
@@ -33,6 +32,7 @@ use Sushi\Sushi;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser wherePassword($value)
+ *
  * @mixin \Eloquent
  */
 class TillUser extends User

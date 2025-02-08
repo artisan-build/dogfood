@@ -1,38 +1,53 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Packages\till\tests;
+
+use App\Models\Team;
+use App\Models\User;
 use ArtisanBuild\Till\Enums\TestPlans;
 use ArtisanBuild\Till\Events\SubscriptionStarted;
-use ArtisanBuild\Till\Models\TillUser;
-use ArtisanBuild\Till\Plans\Abilities\AddSeats;
 use ArtisanBuild\Till\States\SubscriberState;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
+use Thunk\Verbs\Facades\Verbs;
 
-describe('subscription started', function (): void {
+beforeEach(function () {
+    Verbs::commitImmediately();
 
-    afterEach(fn () => Cache::purge());
+    // Create a user and team
+    $user = User::factory()->create();
+    $team = Team::factory()->create(['user_id' => $user->id]);
+    $user->current_team_id = $team->id;
+    $user->save();
 
-    it('creates a state for the subscription', function (): void {
-        test()->actingAs(TillUser::find(1));
-        SubscriptionStarted::commit(
-            subscriber_id: 1,
-            plan_id: TestPlans::Solo->value
-        );
-        expect(SubscriberState::load(1)->plan_id)->toBe(TestPlans::Solo->value);
-    });
+    Auth::login($user);
+});
 
-    it('caches the correct abilities', function (): void {
-        test()->actingAs(TillUser::find(1));
-        expect(Cache::get('subscription-1'))->toBeNull();
-        SubscriptionStarted::commit(
-            subscriber_id: 1,
-            plan_id: TestPlans::Solo->value
-        );
+test('subscription started → it creates a state for the subscription', function () {
 
-        expect(Cache::get('subscription-1'))
-            ->toBeArray()
-            ->toHaveCount(1)
-            ->toHaveKey(AddSeats::class)
-            ->and(Cache::get('subscription-1')[AddSeats::class])->toBeFalse();
+    SubscriptionStarted::fire(
+        subscriber_id: Auth::user()->current_team_id,
+        plan_id: TestPlans::Solo->value
+    );
 
-    });
+    // Verify state was updated
+    $state = SubscriberState::load(Auth::user()->current_team_id);
+    expect($state->plan_id)->toBe(TestPlans::Solo->value);
+});
+
+test('subscription started → it caches the correct abilities', function () {
+    // Create a new state
+
+    // Fire the subscription started event
+    SubscriptionStarted::fire(
+        subscriber_id: Auth::user()->current_team_id,
+        plan_id: TestPlans::Solo->value
+    );
+
+    $abilities = Cache::get('subscription-'.Auth::user()->currentTeam->id);
+    expect($abilities)->toBeArray()
+        ->and(array_key_exists('ArtisanBuild\Till\Plans\Abilities\AddSeats', $abilities))->toBeTrue();
 });

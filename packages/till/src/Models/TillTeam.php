@@ -11,8 +11,6 @@ use Illuminate\Support\Collection;
 use Sushi\Sushi;
 
 /**
- * 
- *
  * @property int $id
  * @property string|null $name
  * @property int|null $user_id
@@ -22,12 +20,14 @@ use Sushi\Sushi;
  * @property-read \App\Models\Membership|null $membership
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $users
  * @property-read int|null $users_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillTeam whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class TillTeam extends Model
@@ -75,7 +75,7 @@ class TillTeam extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(Verbstream::userModel(), Verbstream::membershipModel())
+        return $this->belongsToMany(Verbstream::userModel(), 'team_user', 'team_id', 'user_id')
             ->withPivot('role')
             ->withTimestamps()
             ->as('membership');

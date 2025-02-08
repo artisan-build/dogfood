@@ -26,12 +26,43 @@ making large sweeping changes.
 
 # Lessons Learned
 
-When using Verbs events:
-- Don't instantiate events and build them up manually (don't use `new Event()` and set properties)
-- Instead, use static methods `fire()` or `commit()` directly on the event class with named arguments
-- Use `commit()` when you need the result back from the event's handle method
-- Use `Verbs::commitImmediately()` in tests to ensure events are processed immediately
-- Name event classes in the past tense to indicate they represent something that has happened (e.g., `EmailVerificationNotificationSent` instead of `SendEmailVerificationNotification`)
+Working with Verbs Events:
+1. Event Creation:
+   - NEVER use `new Event()` to create events manually
+   - NEVER set event properties directly after creation
+   - ALWAYS use static methods `fire()` or `commit()` with named arguments
+   - Example: `UserCreated::fire(name: 'John', email: 'john@example.com')`
+
+2. Event Handling:
+   - Use `commit()` when you need the result from the event's handle() method
+   - Use `fire()` when you don't need the result (void methods)
+   - Example with commit: `$user = UserCreated::commit(name: 'John', email: 'john@example.com')`
+   - Example with fire: `EmailVerificationNotificationSent::fire(user_id: $user->id)`
+
+3. Testing Events:
+   - ALWAYS use `Verbs::commitImmediately()` in test setup to ensure events are processed immediately
+   - When testing events, use the same static methods as in production code
+   - Don't mix Laravel events with Verbs events in tests
+   - Example test setup:
+     ```php
+     beforeEach(function () {
+         Verbs::commitImmediately();
+     });
+     ```
+
+4. Event Naming and Structure:
+   - Name event classes in past tense (they represent things that happened)
+   - Good: `UserCreated`, `EmailVerificationNotificationSent`
+   - Bad: `CreateUser`, `SendEmailVerificationNotification`
+   - Use constructor property promotion for required properties
+   - Use named arguments for clarity and maintainability
+
+5. Event Best Practices:
+   - Keep events focused and single-purpose
+   - Handle side effects in the event's handle() method
+   - Use state management through the apply() method
+   - Validate inputs within the handle() method
+   - Use custom exceptions for domain-specific errors
 
 Code Style and Architecture:
 - Prefer direct actions over Laravel's event system. Instead of dispatching Laravel events that are handled by listeners, perform the actions directly in Verbs events. This makes the code more explicit and easier to follow.
