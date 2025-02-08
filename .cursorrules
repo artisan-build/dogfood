@@ -63,7 +63,7 @@ Code Style and Architecture:
   - Create team-user pivot record
   - Set role for new member
 
-- [ ] Update Team Member Role (TeamController@updateTeamMemberRole)
+- [x] Update Team Member Role (TeamController@updateTeamMemberRole)
   - Update role in team-user pivot record
 
 - [ ] Remove Team Member (TeamController@removeTeamMember)
