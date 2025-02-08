@@ -23,8 +23,7 @@
     <flux:header container class="bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-700">
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" />
 
-        <flux:brand href="/" logo="https://fluxui.dev/img/demo/logo.png" :name="config('app.name')" class="max-lg:hidden dark:hidden" />
-        <flux:brand href="/" logo="https://fluxui.dev/img/demo/dark-mode-logo.png" :name="config('app.name')" class="max-lg:!hidden hidden dark:flex" />
+        <flux:heading size="xl"><a href="/" class="flex"><x-svg.logo class="w-6 mr-2"/> {{ config('app.name') }}</a></flux:heading>
 
         <livewire:ft:header-left-navbar/>
 
@@ -85,6 +84,10 @@
         <livewire:ft:footer/>
 
     </flux:main>
+
+    @persist('toast')
+    <flux:toast />
+    @endpersist
 
     @livewireScripts
     @fluxScripts

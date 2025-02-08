@@ -1,7 +1,6 @@
 <?php
 
-use ArtisanBuild\Verbstream\Providers\FortifyServiceProvider;
-
 return [
-    FortifyServiceProvider::class,
+    App\Providers\AppServiceProvider::class,
+    ArtisanBuild\Verbstream\Providers\FortifyServiceProvider::class,
 ];

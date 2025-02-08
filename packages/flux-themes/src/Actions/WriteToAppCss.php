@@ -21,7 +21,8 @@ class WriteToAppCss
         }
         $new .= "    }\n\n    .dark {\n";
         foreach ($properties as $key) {
-            $new .= '        --'.str_replace('_', '-', $key).": var({$property['light']});\n";
+            $property = $theme->$key;
+            $new .= '        --'.str_replace('_', '-', $key).": var({$property['dark']});\n";
         }
         $new .= "    }\n}";
 

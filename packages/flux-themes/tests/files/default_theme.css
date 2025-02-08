@@ -12,6 +12,6 @@
     .dark {
         --color-accent: var(--color-zinc-800);
         --color-accent-content: var(--color-zinc-800);
-        --color-accent-foreground: var(--color-zinc-800);
+        --color-accent-foreground: var(--color-white);
     }
 }

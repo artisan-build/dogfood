@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\DashboardComponent;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->get('/', fn () => view('welcome'));
@@ -9,5 +10,5 @@ Route::middleware([
     config('verbstream.auth_session'),
     'verified',
 ])->group(function (): void {
-    Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
+    Route::get('/dashboard', DashboardComponent::class)->name('dashboard');
 });

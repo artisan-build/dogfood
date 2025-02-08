@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use ArtisanBuild\Till\Traits\Tillable;
 use ArtisanBuild\Verbstream\Traits\HasProfilePhoto;
 use ArtisanBuild\Verbstream\Traits\HasTeams;
 use Database\Factories\UserFactory;
@@ -78,6 +79,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasProfilePhoto;
     use HasTeams;
     use Notifiable;
+    use Tillable;
     use TwoFactorAuthenticatable;
 
     protected $fillable = [

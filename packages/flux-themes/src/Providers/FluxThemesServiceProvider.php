@@ -42,5 +42,6 @@ class FluxThemesServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../config/flux-themes.php' => config_path('flux-themes.php'),
         ], 'flux-themes');
+
     }
 }

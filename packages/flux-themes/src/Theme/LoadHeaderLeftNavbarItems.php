@@ -52,13 +52,6 @@ class LoadHeaderLeftNavbarItems implements LoadsHeaderRightNavbarItems
             [
                 'type' => NavbarItemTypes::NavbarItem->value,
                 'href' => '#',
-                'text' => 'Features',
-                'icon' => null,
-                'target' => null,
-            ],
-            [
-                'type' => NavbarItemTypes::NavbarItem->value,
-                'href' => '#',
                 'text' => 'Pricing',
                 'icon' => null,
                 'target' => null,

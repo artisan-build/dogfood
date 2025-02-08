@@ -34,8 +34,8 @@ class WriteToTailwindConfig
 
     protected function ensureColorsAreSet(string $configContent): string
     {
-        if (! str_contains($configContent, "import colors from 'tailwindcss/colors';")) {
-            $configContent = implode("\n", ["import colors from 'tailwindcss/colors';", $configContent]);
+        if (! str_contains($configContent, "const colors = require('tailwindcss/colors');")) {
+            $configContent = implode("\n", ["const colors = require('tailwindcss/colors');", $configContent]);
         }
 
         return $configContent;

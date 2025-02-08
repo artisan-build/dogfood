@@ -11,8 +11,8 @@
     }
 
     .dark {
-        --color-accent: var(--color-white);
-        --color-accent-content: var(--color-white);
+        --color-accent: var(--color-red-500);
+        --color-accent-content: var(--color-red-400);
         --color-accent-foreground: var(--color-white);
     }
 }

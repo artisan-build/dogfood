@@ -4,6 +4,7 @@
 	"type": "library",
 	"license": "MIT",
 	"require": {
+        "calebporzio/sushi": "^2.0",
         "illuminate/support": "^11.36"
     },
     "require-dev": {
