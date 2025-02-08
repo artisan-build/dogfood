@@ -95,7 +95,7 @@ Creating Draft PRs:
   - Handle photo storage
 
 ### API Tokens
-- [ ] Create API Token (ApiTokenController@store)
+- [x] Create API Token (ApiTokenController@store)
   - Create new token record
 
 - [ ] Update API Token Permissions (ApiTokenController@updateApiToken)
