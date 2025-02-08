@@ -66,7 +66,7 @@ Code Style and Architecture:
 - [x] Update Team Member Role (TeamController@updateTeamMemberRole)
   - Update role in team-user pivot record
 
-- [ ] Remove Team Member (TeamController@removeTeamMember)
+- [x] Remove Team Member (TeamController@removeTeamMember)
   - Remove team-user pivot record
   - Update user's current_team_id if needed
 
