@@ -25,3 +25,102 @@ Do not work beyond the scope of any request. Keep your changes small. We prefer 
 making large sweeping changes.
 
 # Lessons Learned
+
+When using Verbs events:
+- Don't instantiate events and build them up manually (don't use `new Event()` and set properties)
+- Instead, use static methods `fire()` or `commit()` directly on the event class with named arguments
+- Use `commit()` when you need the result back from the event's handle method
+- Use `Verbs::commitImmediately()` in tests to ensure events are processed immediately
+- Name event classes in the past tense to indicate they represent something that has happened (e.g., `EmailVerificationNotificationSent` instead of `SendEmailVerificationNotification`)
+
+Code Style and Architecture:
+- Prefer direct actions over Laravel's event system. Instead of dispatching Laravel events that are handled by listeners, perform the actions directly in Verbs events. This makes the code more explicit and easier to follow.
+- Example: Instead of `event(new Registered($user))` which triggers a listener to send a verification email, directly call `$user->notify(new VerifyEmail)` in the Verbs event.
+
+# Scratch Pad
+
+## Verbstream Database Operations to Convert to Verbs Events
+
+### Team Management
+- [x] Create Team (TeamController@store)
+  - Create new team record
+  - Create team-user pivot record for owner
+  - Update user's current_team_id if needed
+
+- [x] Update Team Name (TeamController@update)
+  - Update team name
+
+- [x] Delete Team (TeamController@destroy)
+  - Remove all team members
+  - Update current_team_id for affected users
+  - Delete team record
+
+- [x] Switch Current Team (CurrentTeamController@update)
+  - Update user's current_team_id
+
+### Team Members
+- [x] Add Team Member (TeamController@addTeamMember)
+  - Create team-user pivot record
+  - Set role for new member
+
+- [ ] Update Team Member Role (TeamController@updateTeamMemberRole)
+  - Update role in team-user pivot record
+
+- [ ] Remove Team Member (TeamController@removeTeamMember)
+  - Remove team-user pivot record
+  - Update user's current_team_id if needed
+
+### Team Invitations
+- [ ] Create Team Invitation (TeamInvitationController@store)
+  - Create team invitation record
+
+- [ ] Accept Team Invitation
+  - Delete invitation record
+  - Create team-user pivot record
+  - Set role for new member
+
+### User Profile
+- [ ] Update Profile Information (UserProfileController@update)
+  - Update user record with new name/email
+  - Handle email verification if email changed
+
+- [ ] Update Profile Photo
+  - Update user's profile_photo_path
+  - Handle photo storage
+
+### API Tokens
+- [ ] Create API Token (ApiTokenController@store)
+  - Create new token record
+
+- [ ] Update API Token Permissions (ApiTokenController@updateApiToken)
+  - Update token abilities
+
+- [ ] Delete API Token (ApiTokenController@deleteApiToken)
+  - Delete token record
+
+### Fortify Actions to Override
+- [ ] Two Factor Authentication
+  - Enable/disable 2FA
+  - Confirm 2FA
+  - Generate/regenerate recovery codes
+  - Store 2FA settings and recovery codes
+
+- [ ] Password Management
+  - Update password
+  - Reset password
+  - Confirm password
+
+- [ ] Browser Sessions
+  - Log out other browser sessions
+  - Update session data
+
+### Already Converted
+- [x] Create User with Personal Team (UserCreated event)
+  - Create user record
+  - Create personal team
+  - Create team-user pivot record
+  - Set current_team_id
+
+- [x] Send Email Verification (EmailVerificationNotificationSent event)
+  - Send verification email
+  - Track verification status

@@ -22,8 +22,9 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
 /**
- * @template TFactory of Factory
+ * 
  *
+ * @template TFactory of Factory
  * @property-read Team|null $currentTeam
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
@@ -35,12 +36,10 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $teams_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
- *
  * @method static UserFactory factory($count = null, $state = [])
  * @method static Builder<static>|User newModelQuery()
  * @method static Builder<static>|User newQuery()
  * @method static Builder<static>|User query()
- *
  * @property int $id
  * @property string $name
  * @property string $email
@@ -55,7 +54,6 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property string|null $two_factor_recovery_codes
  * @property string|null $two_factor_confirmed_at
  * @property-read TFactory|null $use_factory
- *
  * @method static Builder<static>|User whereCreatedAt($value)
  * @method static Builder<static>|User whereCurrentTeamId($value)
  * @method static Builder<static>|User whereEmail($value)
@@ -69,7 +67,6 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static Builder<static>|User whereTwoFactorRecoveryCodes($value)
  * @method static Builder<static>|User whereTwoFactorSecret($value)
  * @method static Builder<static>|User whereUpdatedAt($value)
- *
  * @mixin Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail
