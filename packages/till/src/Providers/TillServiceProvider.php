@@ -20,10 +20,6 @@ class TillServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'till');
         $this->loadRoutesFrom(__DIR__.'/../../routes/till.php');
 
-        Blade::directive('till_allows', function (): void {
-            // Camel case whatever comes in. Call it $can
-            // return data_get($user->abilities(), $can, false);
-        });
     }
 
     public function boot(): void
