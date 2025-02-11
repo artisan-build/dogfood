@@ -43,4 +43,5 @@
             </div>
         @endforeach
     </div>
+
 </flux:card>

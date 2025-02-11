@@ -2,7 +2,7 @@
 
 use ArtisanBuild\Till\Actions\GetDefaultPlan;
 use ArtisanBuild\Till\Plans\HobbyistPlan;
-use ArtisanBuild\Till\Plans\SoloPlan;
+use ArtisanBuild\Till\Plans\UnsubscribedPlan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\MultipleItemsFoundException;
@@ -12,7 +12,7 @@ afterEach(function (): void {
 });
 
 it('gets the default plan', function (): void {
-    expect(app(GetDefaultPlan::class)())->toBeInstanceOf(SoloPlan::class);
+    expect(app(GetDefaultPlan::class)())->toBeInstanceOf(UnsubscribedPlan::class);
 });
 
 it('gets the default individual plan', function (): void {

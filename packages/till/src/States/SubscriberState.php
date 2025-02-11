@@ -12,6 +12,4 @@ class SubscriberState extends State
     public ?CarbonInterface $renews_at = null;
 
     public ?CarbonInterface $expires_at = null;
-
-    public array $limits = [];
 }
