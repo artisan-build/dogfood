@@ -19,7 +19,7 @@ class SubscriptionStarted extends Event
     #[StateId(SubscriberState::class)]
     public int $subscriber_id;
 
-    public int $plan_id;
+    public string $plan_id;
 
     public ?CarbonInterface $renews_at = null;
 

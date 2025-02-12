@@ -9,9 +9,9 @@ use App\Models\User;
 use ArtisanBuild\Till\Enums\TestPlans;
 use ArtisanBuild\Till\Events\SubscriptionStarted;
 use ArtisanBuild\Till\States\SubscriberState;
+use ArtisanBuild\Till\SubscriptionPlans\Abilities\AddSeats;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Event;
 use Thunk\Verbs\Facades\Verbs;
 
 beforeEach(function (): void {
@@ -30,12 +30,12 @@ test('subscription started → it creates a state for the subscription', functio
 
     SubscriptionStarted::fire(
         subscriber_id: Auth::user()->current_team_id,
-        plan_id: TestPlans::Solo->value
+        plan_id: TestPlans::Unsubscribed->value
     );
 
     // Verify state was updated
     $state = SubscriberState::load(Auth::user()->current_team_id);
-    expect($state->plan_id)->toBe(TestPlans::Solo->value);
+    expect($state->plan_id)->toBe(TestPlans::Unsubscribed->value);
 });
 
 test('subscription started → it caches the correct abilities', function (): void {
@@ -44,10 +44,10 @@ test('subscription started → it caches the correct abilities', function (): vo
     // Fire the subscription started event
     SubscriptionStarted::fire(
         subscriber_id: Auth::user()->current_team_id,
-        plan_id: TestPlans::Solo->value
+        plan_id: TestPlans::Unsubscribed->value
     );
 
     $abilities = Cache::get('subscription-'.Auth::user()->currentTeam->id);
     expect($abilities)->toBeArray()
-        ->and(array_key_exists(\ArtisanBuild\Till\Plans\Abilities\AddSeats::class, $abilities))->toBeTrue();
+        ->and(array_key_exists('AddSeats', $abilities))->toBeTrue();
 });

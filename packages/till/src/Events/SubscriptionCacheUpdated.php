@@ -24,4 +24,10 @@ class SubscriptionCacheUpdated extends Event
     {
         $state->plan_id ??= data_get(app(GetDefaultPlan::class)(), 'id');
     }
+
+    public function handle(): bool
+    {
+        // True if a change was made. False if not.
+        return true;
+    }
 }

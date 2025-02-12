@@ -7,7 +7,7 @@ use Thunk\Verbs\State;
 
 class SubscriberState extends State
 {
-    public ?int $plan_id = null;
+    public ?string $plan_id = null;
 
     public ?CarbonInterface $renews_at = null;
 

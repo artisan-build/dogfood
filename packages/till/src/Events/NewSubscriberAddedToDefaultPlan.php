@@ -3,6 +3,7 @@
 namespace ArtisanBuild\Till\Events;
 
 use ArtisanBuild\Adverbs\Traits\SimpleApply;
+use ArtisanBuild\Till\Actions\GetDefaultPlan;
 use ArtisanBuild\Till\Actions\GetPlanById;
 use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\States\SubscriberState;
@@ -19,11 +20,16 @@ class NewSubscriberAddedToDefaultPlan extends Event
     #[StateId(SubscriberState::class)]
     public int $subscriber_id;
 
-    public int $plan_id;
+    public string $plan_id;
 
     public ?CarbonInterface $renews_at = null;
 
     public ?CarbonInterface $expires_at = null;
+
+    public function __construct()
+    {
+        $this->plan_id = app(GetDefaultPlan::class)()->id;
+    }
 
     public function validate(SubscriberState $state): bool
     {
