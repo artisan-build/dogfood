@@ -9,7 +9,6 @@ use App\Models\User;
 use ArtisanBuild\Till\Enums\TestPlans;
 use ArtisanBuild\Till\Events\SubscriptionStarted;
 use ArtisanBuild\Till\States\SubscriberState;
-use ArtisanBuild\Till\SubscriptionPlans\Abilities\AddSeats;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Thunk\Verbs\Facades\Verbs;
