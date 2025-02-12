@@ -5,10 +5,12 @@ namespace ArtisanBuild\Till\SubscriptionPlans;
 use ArtisanBuild\Till\Attributes\TeamPlan;
 use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\PlanTerms;
+use ArtisanBuild\Till\SubscriptionPlans\BasePlan;
 
 #[TeamPlan]
-class HappyPlan extends BasePlan implements PlanInterface
+class AllInPlan extends BasePlan implements PlanInterface
 {
+
     /**
      * Prices
      * ------
@@ -26,7 +28,7 @@ class HappyPlan extends BasePlan implements PlanInterface
         PlanTerms::Week->value => null,
         PlanTerms::Month->value => null,
         PlanTerms::Year->value => null,
-        PlanTerms::Life->value => null,
+        PlanTerms::Life->value => 10000,
     ];
 
     /**
@@ -46,9 +48,9 @@ class HappyPlan extends BasePlan implements PlanInterface
         'inset' => '', // https://fluxui.dev/components/badge#inset
     ];
 
-    public string $heading = 'Happy';
+    public string $heading = 'All In';
 
-    public string $subheading = 'lasdkfj';
+    public string $subheading = 'Unlimited Everything Forever!';
 
     /**
      * Define Your Features
@@ -63,9 +65,9 @@ class HappyPlan extends BasePlan implements PlanInterface
      * leads to more maintainable apps.
      */
     public array $features = [
-        // ['text' => 'One User', 'icon' => null],
-        // ['text' => '50 Queries / Day', 'icon' => null],
-        // ['text' => 'Email Support', 'icon' => null],
+        ['text' => 'Unlimited Users', 'icon' => null],
+        ['text' => 'Unlimited Queries', 'icon' => null],
+        ['text' => 'Private Slack Support', 'icon' => null],
     ];
 
     /**

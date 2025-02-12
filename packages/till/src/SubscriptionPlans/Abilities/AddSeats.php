@@ -12,6 +12,14 @@ class AddSeats
             return true;
         }
 
+        if (!Auth::check()) {
+            return false;
+        }
+
+        if (Auth::user()->currentTeam === null) {
+            return false;
+        }
+
         return Auth::user()->currentTeam->allUsers()->count() < $limit;
     }
 }

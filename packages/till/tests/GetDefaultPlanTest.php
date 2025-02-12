@@ -1,8 +1,7 @@
 <?php
 
 use ArtisanBuild\Till\Actions\GetDefaultPlan;
-use ArtisanBuild\Till\Plans\HobbyistPlan;
-use ArtisanBuild\Till\Plans\UnsubscribedPlan;
+use ArtisanBuild\Till\SubscriptionPlans\UnsubscribedPlan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\MultipleItemsFoundException;
@@ -17,7 +16,7 @@ it('gets the default plan', function (): void {
 
 it('gets the default individual plan', function (): void {
     Config::set('till.team_mode', false);
-    expect(app(GetDefaultPlan::class)())->toBeInstanceOf(HobbyistPlan::class);
+    expect(app(GetDefaultPlan::class)())->toBeInstanceOf(UnsubscribedPlan::class);
 });
 
 it('throws if there is more than one plan marked as default', function (): void {
