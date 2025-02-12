@@ -14,6 +14,7 @@ return [
     'pricing_uri' => env('TILL_PRICING_URI', 'pricing'),
     'plans_uri' => env('TILL_PLANS_URI', 'plans'),
     'default_display' => env('TILL_DEFAULT_DISPLAY', 'year'),
+    'always_show_lifetime' => true,
     'plan_path' => base_path('packages/till/src/SubscriptionPlans'),
     'pricing_section_template' => 'till::livewire.pricing_section',
     'active_feature_icon' => null,
