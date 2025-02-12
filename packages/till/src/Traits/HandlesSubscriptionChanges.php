@@ -21,7 +21,7 @@ trait HandlesSubscriptionChanges
 
         $abilities = [];
         foreach (data_get(app(GetPlanById::class)($state->plan_id), 'can') as $ability) {
-            $abilities[$ability[0]] = app($ability[0])(...$ability[1]);
+            $abilities[last(explode('\\', (string) $ability[0]))] = app($ability[0])(...$ability[1]);
         }
         Cache::put('subscription-'.$this->subscriber_id, $abilities, $this->getCacheExpiration());
 

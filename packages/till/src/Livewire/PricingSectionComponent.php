@@ -22,9 +22,9 @@ class PricingSectionComponent extends Component
         $plans = app(GetVisiblePlans::class)();
 
         $displays = [
-            'month' => $plans->some(fn ($plan) => $plan->prices['month']['price'] !== null),
-            'year' => $plans->some(fn ($plan) => $plan->prices['year']['price'] !== null),
-            'life' => $plans->some(fn ($plan) => $plan->prices['life']['price'] !== null),
+            'month' => $plans->some(fn ($plan) => $plan->prices['month'] !== null),
+            'year' => $plans->some(fn ($plan) => $plan->prices['year'] !== null),
+            'life' => $plans->some(fn ($plan) => $plan->prices['life'] !== null),
         ];
 
         return view(config('till.pricing_section_template'))

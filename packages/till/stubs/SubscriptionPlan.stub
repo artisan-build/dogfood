@@ -1,23 +1,14 @@
 <?php
 
-namespace ArtisanBuild\Till\SubscriptionPlans;
+namespace {namespace};
 
-use ArtisanBuild\Till\Attributes\DefaultPlan;
-use ArtisanBuild\Till\Attributes\IndividualPlan;
-use ArtisanBuild\Till\Attributes\TeamPlan;
+{imports}
 use ArtisanBuild\Till\Contracts\PlanInterface;
-use ArtisanBuild\Till\Enums\Currencies;
-use ArtisanBuild\Till\Enums\PaymentProcessors;
 use ArtisanBuild\Till\Enums\PlanTerms;
-use ArtisanBuild\Till\Enums\TestPlans;
 use ArtisanBuild\Till\SubscriptionPlans\BasePlan;
-use ArtisanBuild\Till\Traits\IsPricingPlan;
-use ArtisanBuild\Till\Plans\Abilities\AddSeats;
 
-#[DefaultPlan]
-#[TeamPlan]
-#[IndividualPlan]
-class ExtraDefaultPlan extends BasePlan implements PlanInterface
+{attributes}
+class {name} extends BasePlan implements PlanInterface
 {
 
     /**
@@ -34,7 +25,10 @@ class ExtraDefaultPlan extends BasePlan implements PlanInterface
      * are simply left on this plan, their action on the site governed by the abilities defined below.
      */
     public array $prices = [
-        PlanTerms::Default->value => 0,
+        PlanTerms::Week->value => {week},
+        PlanTerms::Month->value => {month},
+        PlanTerms::Year->value => {year},
+        PlanTerms::Life->value => {life},
     ];
 
     /**
@@ -46,24 +40,29 @@ class ExtraDefaultPlan extends BasePlan implements PlanInterface
      * registered users.
      */
     public array $badge = [
-        'size' => '',
-        'variant' => '',
-        'color' => '',
-        'text' => '',
-        'icon' => '',
+        'size' => '', // https://fluxui.dev/components/badge#sizes
+        'variant' => '', // https://fluxui.dev/components/badge ('', 'pill', or 'solid')
+        'color' => '', // example: ArtisanBuild\FluxThemes\Enums\Colors::Blue->value
+        'text' => '', // Text of the badge. Keep it short.
+        'icon' => '', // Anything from heroicons (See Flux badge docs for icon use)
+        'inset' => '', // https://fluxui.dev/components/badge#inset
     ];
 
-    public string $heading = 'Unsubscribed';
+    public string $heading = '{heading}';
 
-    public string $subheading = '';
+    public string $subheading = '{subheading}';
 
     /**
-     * For Fremium Apps Only
+     * Define Your Features
      * ---------------------
-     * This "plan" provides the default abilities for anyone who is not subscribed to a paid plan. If your app has a
-     * free tier with actual features, rather than being a paid-only application, you will want the free tier to appear
-     * on your pricing page. All you have to do for that to happen is populate the features of the free tier in this
-     * array according to the documentation. Valid sample data is commented out below.
+     * This is an array of arrays. Each inner array is a feature that will be displayed on your pricing and plans pages.
+     * This is used for display only and does not actually enable the features. That part is taken care of in the next
+     * section, where you define your abilities. For the moment, there are only two valid keys: text and icon. The icon
+     * is nullable and may be omitted from the feature.
+     *
+     * You can also use a stirng instead of an array for a feature that doesn't have an icon, but if you're using
+     * icons on any of your features, we recommend that you use an array for all of your features because consistency
+     * leads to more maintainable apps.
      */
     public array $features = [
         //['text' => 'One User', 'icon' => null],
@@ -72,17 +71,20 @@ class ExtraDefaultPlan extends BasePlan implements PlanInterface
     ];
 
     /**
+     * Abilities
+     * ---------
      * What subscribers to this plan can do. All abilities should be defined as invokable classes. We keep them in a
      * folder called Abilities inside the folder where our subscription plans are kept and by default, we will create
-     * that folder for you when you install this package. You are welcome to move it anywhere because the array
-     * below expects a fully qualified classname as the first value of each tuple. However, if you use the command
-     * `php artisan till:create-ability` that is where we will create the new class.
+     * that folder for you when you install this package and your abilities must be kept in that file.
      *
-     * The values of this array are tuples where the first value is the FQCN of the invokable class and the second value
-     * is an array of arguments that are expected by the __invoke() method of the ability class.
+     * This tuple takes the class name of the ability as the first element and an array of arguments passed to the
+     * __invoke() method of the class as the second argument. You can use FQDNs in the first position, but the namespace
+     * will be ignored. All abilities must be in the Abilities folder inside of your plans folder. This was an
+     * intentional decision. It takes away a little bit of flexibility from the end user of this package, but in doing
+     * so it significantly simplifies the way we process and handle the data.
      */
     public array $can = [
-        [Abilities\AddSeats::class, ['limit' => 1]],
+        // ['AddSeats', ['limit' => 1]],
     ];
 
     /**
@@ -95,4 +97,3 @@ class ExtraDefaultPlan extends BasePlan implements PlanInterface
     public array $provider_keys = [
     ];
 }
-

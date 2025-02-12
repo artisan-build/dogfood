@@ -2,6 +2,8 @@
 
 namespace ArtisanBuild\Till\Providers;
 
+use ArtisanBuild\Till\Commands\CleanUpAfterTestingCommand;
+use ArtisanBuild\Till\Commands\CreatePlanCommand;
 use ArtisanBuild\Till\Commands\InstallCommand;
 use ArtisanBuild\Till\Livewire\PricingSectionComponent;
 use Illuminate\Support\ServiceProvider;
@@ -17,13 +19,17 @@ class TillServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'till');
         $this->loadRoutesFrom(__DIR__.'/../../routes/till.php');
 
-        $this->commands([
-            InstallCommand::class,
-        ]);
     }
 
     public function boot(): void
     {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallCommand::class,
+                CleanUpAfterTestingCommand::class,
+                CreatePlanCommand::class,
+            ]);
+        }
 
         $this->publishes([
             __DIR__.'/../../config/till.php' => config_path('till.php'),

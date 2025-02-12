@@ -2,11 +2,9 @@
 
 namespace ArtisanBuild\Till\Actions;
 
-use ArtisanBuild\Till\Attributes\DefaultPlan;
 use ArtisanBuild\Till\Attributes\IndividualPlan;
 use ArtisanBuild\Till\Attributes\TeamPlan;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -17,6 +15,7 @@ class GetPlans
     {
         return collect(File::files(config('till.plan_path')))
             ->filter(fn ($file) => Str::endsWith($file->getFilename(), '.php'))
+            ->reject(fn ($file): bool => Str::startsWith($file->getFilename(), 'BasePlan'))
             ->map(function ($file) {
                 $contents = File::get($file->getPathname());
 
@@ -42,32 +41,6 @@ class GetPlans
                 $reflection = new ReflectionClass($plan);
 
                 return ! empty($reflection->getAttributes($attribute));
-            })->map(function ($plan) {
-                $user = Auth::user();
-
-                if ($user === null) {
-                    return $plan;
-                }
-
-                $reflection = new ReflectionClass($user);
-
-                if (! $reflection->hasMethod('subscription')) {
-                    return $plan;
-                }
-
-                $reflection = new ReflectionClass($plan);
-
-                $id = $reflection->getProperty('id')->getDefaultValue();
-
-                if ($user->subscription()->plan_id === $id) {
-                    $plan->current = true;
-                }
-
-                if ($user->subscription()->plan_id === null && ! empty($reflection->getAttributes(DefaultPlan::class))) {
-                    $plan->current = true;
-                }
-
-                return $plan;
             })->sortBy(['prices.month.price', 'price.year.price', 'price.life.price']);
     }
 }

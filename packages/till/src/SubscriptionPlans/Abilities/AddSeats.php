@@ -1,6 +1,6 @@
 <?php
 
-namespace ArtisanBuild\Till\Plans\Abilities;
+namespace ArtisanBuild\Till\SubscriptionPlans\Abilities;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -10,6 +10,14 @@ class AddSeats
     {
         if ($limit === null) {
             return true;
+        }
+
+        if (! Auth::check()) {
+            return false;
+        }
+
+        if (Auth::user()->currentTeam === null) {
+            return false;
         }
 
         return Auth::user()->currentTeam->allUsers()->count() < $limit;

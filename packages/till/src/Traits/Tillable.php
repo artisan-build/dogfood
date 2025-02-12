@@ -24,7 +24,7 @@ trait Tillable
     {
         return Cache::get('subscription-'.$this->subscriberId(), SubscriptionCacheUpdated::commit(
             subscriber_id: $this->subscriberId()
-        ));
+        )) ?? [];
     }
 
     public function ableTo(string $item): bool

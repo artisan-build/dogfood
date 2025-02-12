@@ -6,20 +6,14 @@ use ArtisanBuild\Till\Attributes\DefaultPlan;
 use ArtisanBuild\Till\Attributes\IndividualPlan;
 use ArtisanBuild\Till\Attributes\TeamPlan;
 use ArtisanBuild\Till\Contracts\PlanInterface;
-use ArtisanBuild\Till\Enums\Currencies;
-use ArtisanBuild\Till\Enums\PaymentProcessors;
 use ArtisanBuild\Till\Enums\PlanTerms;
-use ArtisanBuild\Till\Enums\TestPlans;
-use ArtisanBuild\Till\SubscriptionPlans\BasePlan;
-use ArtisanBuild\Till\Traits\IsPricingPlan;
-use ArtisanBuild\Till\Plans\Abilities\AddSeats;
+use ArtisanBuild\Till\SubscriptionPlans\Abilities\AddSeats;
 
 #[DefaultPlan]
 #[TeamPlan]
 #[IndividualPlan]
-class ExtraDefaultPlan extends BasePlan implements PlanInterface
+class UnsubscribedPlan extends BasePlan implements PlanInterface
 {
-
     /**
      * Prices
      * ------
@@ -66,9 +60,9 @@ class ExtraDefaultPlan extends BasePlan implements PlanInterface
      * array according to the documentation. Valid sample data is commented out below.
      */
     public array $features = [
-        //['text' => 'One User', 'icon' => null],
-        //['text' => '50 Queries / Day', 'icon' => null],
-        //['text' => 'Email Support', 'icon' => null],
+        // ['text' => 'One User', 'icon' => null],
+        // ['text' => '50 Queries / Day', 'icon' => null],
+        // ['text' => 'Email Support', 'icon' => null],
     ];
 
     /**
@@ -82,7 +76,7 @@ class ExtraDefaultPlan extends BasePlan implements PlanInterface
      * is an array of arguments that are expected by the __invoke() method of the ability class.
      */
     public array $can = [
-        [Abilities\AddSeats::class, ['limit' => 1]],
+        [AddSeats::class, ['limit' => 1]],
     ];
 
     /**
@@ -95,4 +89,3 @@ class ExtraDefaultPlan extends BasePlan implements PlanInterface
     public array $provider_keys = [
     ];
 }
-

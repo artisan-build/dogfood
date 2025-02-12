@@ -5,6 +5,7 @@ namespace ArtisanBuild\Verbstream\Events;
 use App\Models\Team;
 use App\Models\User;
 use App\States\UserState;
+use ArtisanBuild\Adverbs\Actions\FireIfDefined;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
@@ -21,6 +22,11 @@ class UserCreated extends Event
 
     public string $password;
 
+    public function validate(): bool
+    {
+        return User::where('email', $this->email)->doesntExist();
+    }
+
     public function apply(UserState $state)
     {
         $state->email = $this->email;
@@ -29,6 +35,7 @@ class UserCreated extends Event
 
     public function handle()
     {
+
         return DB::transaction(function () {
             // Create the user
             $user = User::create([
@@ -48,10 +55,10 @@ class UserCreated extends Event
             $user->forceFill(['current_team_id' => $team->id])->save();
             $user->teams()->attach($team, ['role' => 'owner']);
 
-            // Send email verification if needed
-            if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail) {
-                EmailVerificationNotificationSent::fire(user_id: $user->id);
-            }
+            app(FireIfDefined::class)(
+                event: \ArtisanBuild\Till\Events\NewSubscriberAddedToDefaultPlan::class,
+                properties: ['subscriber_id' => $team->id],
+            );
 
             return $user->fresh();
         });
