@@ -45,7 +45,7 @@ enum PaymentProcessors: string
         : false;
 
         if ($changed) {
-            Log::alert('We head to fire an event to correct the subscription status of plan '.$plan->id.' for user '.Auth::id());
+            Log::alert('We head to fire an event to correct the subscription status of plan '.$plan->getId().' for user '.Auth::id());
         }
 
         return $changed;

@@ -12,7 +12,7 @@ class AddSeats
             return true;
         }
 
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return false;
         }
 

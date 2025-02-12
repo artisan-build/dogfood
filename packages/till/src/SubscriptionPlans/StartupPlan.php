@@ -5,12 +5,10 @@ namespace ArtisanBuild\Till\SubscriptionPlans;
 use ArtisanBuild\Till\Attributes\TeamPlan;
 use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\PlanTerms;
-use ArtisanBuild\Till\SubscriptionPlans\BasePlan;
 
 #[TeamPlan]
 class StartupPlan extends BasePlan implements PlanInterface
 {
-
     /**
      * Prices
      * ------

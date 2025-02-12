@@ -2,11 +2,9 @@
 
 namespace ArtisanBuild\Till\Actions;
 
-use ArtisanBuild\Till\Attributes\DefaultPlan;
 use ArtisanBuild\Till\Attributes\IndividualPlan;
 use ArtisanBuild\Till\Attributes\TeamPlan;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -17,7 +15,7 @@ class GetPlans
     {
         return collect(File::files(config('till.plan_path')))
             ->filter(fn ($file) => Str::endsWith($file->getFilename(), '.php'))
-            ->filter(fn ($file) => ! Str::startsWith($file->getFilename(), 'BasePlan'))
+            ->reject(fn ($file): bool => Str::startsWith($file->getFilename(), 'BasePlan'))
             ->map(function ($file) {
                 $contents = File::get($file->getPathname());
 

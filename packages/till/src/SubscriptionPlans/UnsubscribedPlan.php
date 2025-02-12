@@ -8,14 +8,12 @@ use ArtisanBuild\Till\Attributes\TeamPlan;
 use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\PlanTerms;
 use ArtisanBuild\Till\SubscriptionPlans\Abilities\AddSeats;
-use ArtisanBuild\Till\SubscriptionPlans\BasePlan;
 
 #[DefaultPlan]
 #[TeamPlan]
 #[IndividualPlan]
 class UnsubscribedPlan extends BasePlan implements PlanInterface
 {
-
     /**
      * Prices
      * ------
@@ -62,9 +60,9 @@ class UnsubscribedPlan extends BasePlan implements PlanInterface
      * array according to the documentation. Valid sample data is commented out below.
      */
     public array $features = [
-        //['text' => 'One User', 'icon' => null],
-        //['text' => '50 Queries / Day', 'icon' => null],
-        //['text' => 'Email Support', 'icon' => null],
+        // ['text' => 'One User', 'icon' => null],
+        // ['text' => '50 Queries / Day', 'icon' => null],
+        // ['text' => 'Email Support', 'icon' => null],
     ];
 
     /**
@@ -91,4 +89,3 @@ class UnsubscribedPlan extends BasePlan implements PlanInterface
     public array $provider_keys = [
     ];
 }
-
