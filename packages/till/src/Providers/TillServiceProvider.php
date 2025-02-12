@@ -6,7 +6,6 @@ use ArtisanBuild\Till\Commands\CleanUpAfterTestingCommand;
 use ArtisanBuild\Till\Commands\CreatePlanCommand;
 use ArtisanBuild\Till\Commands\InstallCommand;
 use ArtisanBuild\Till\Livewire\PricingSectionComponent;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Override;

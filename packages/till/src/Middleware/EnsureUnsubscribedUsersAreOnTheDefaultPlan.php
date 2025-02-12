@@ -11,7 +11,7 @@ class EnsureUnsubscribedUsersAreOnTheDefaultPlan
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return $next($request);
         }
 
@@ -22,7 +22,7 @@ class EnsureUnsubscribedUsersAreOnTheDefaultPlan
             return $next($request);
         }
 
-        if (!Auth::user()->abilities() === null) {
+        if (Auth::user()->abilities() === []) {
             NewSubscriberAddedToDefaultPlan::commit(
                 subscriber_id: config('till.team_mode')
                     ? Auth::user()->current_team_id
