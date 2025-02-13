@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use ArtisanBuild\Docsidian\DocsidianPage;
 
-// TODO: #[ForPackage('docsidian')]
+// @for-package docsidian
 expect()->extend('toProduce', function (string $expected_output, callable $using): void {
     $page = new DocsidianPage($this->value);
     $returningSelf = fn (DocsidianPage $page): DocsidianPage => $page;
@@ -12,3 +12,4 @@ expect()->extend('toProduce', function (string $expected_output, callable $using
 
     expect($actual_output)->toBe($expected_output);
 });
+// @end-for-package
