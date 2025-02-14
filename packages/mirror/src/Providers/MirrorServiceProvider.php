@@ -2,8 +2,8 @@
 
 namespace ArtisanBuild\Mirror\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use ArtisanBuild\Mirror\Services\ReflectionService;
+use Illuminate\Support\ServiceProvider;
 
 class MirrorServiceProvider extends ServiceProvider
 {

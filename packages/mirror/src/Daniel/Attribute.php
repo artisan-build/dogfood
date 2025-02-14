@@ -7,7 +7,7 @@ use ReflectionAttribute;
 
 class Attribute
 {
-    public function __construct(
+    final public function __construct(
         public string $type,
         public Collection $args,
     ) {}

@@ -16,6 +16,7 @@ enum PropertyVisibility: string
             $prop->isPublic() => self::PUBLIC,
             $prop->isProtected() => self::PROTECTED,
             $prop->isPrivate() => self::PRIVATE,
+            default => throw new \Exception('Unknown property visibility'),
         };
     }
 }

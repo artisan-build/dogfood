@@ -40,7 +40,7 @@ class PropertyCollection extends Collection
 
     public function uninitialized(): static
     {
-        return $this->filter(fn ($p) => ! $p->initialized);
+        return $this->reject(fn ($p): bool => (bool) $p->initialized);
     }
 
     public function public(): static
@@ -72,13 +72,11 @@ class PropertyCollection extends Collection
 
     public function getValuesFromAttributeArgument(string $attribute, string $argument): Collection
     {
-        return $this->map(function ($prop) use ($attribute, $argument) {
-            return $prop->attributes
-                ->ofType($attribute)
-                ->first()
-                ?->args
-                ?->get($argument);
-        })->toBase();
+        return $this->map(fn ($prop) => $prop->attributes
+            ->ofType($attribute)
+            ->first()
+            ?->args
+            ?->get($argument))->toBase();
     }
 
     public function setKeysFromAttributeArgument(string $attribute, string $argument): static

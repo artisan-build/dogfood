@@ -7,6 +7,7 @@ namespace ArtisanBuild\Mirror\Tests\Unit\Ed\Fixtures;
 class ExtendsAbstractClass extends AbstractClass
 {
     public string $public_string;
+
     protected string $protected_string;
 
     private string $private_string = '';
@@ -15,5 +16,4 @@ class ExtendsAbstractClass extends AbstractClass
     {
         return $this->private_string;
     }
-
 }

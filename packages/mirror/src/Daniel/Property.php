@@ -9,7 +9,7 @@ use ReflectionUnionType;
 
 class Property
 {
-    public function __construct(
+    final public function __construct(
         public string $name,
         public bool $initialized,
         public PropertyVisibility $visibility,

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use ArtisanBuild\Mirror\Tests\Unit\Ed\Fixtures\Attributes\ClassAttribute;
 use ArtisanBuild\Mirror\Facades\Mirror;
+use ArtisanBuild\Mirror\Tests\Unit\Ed\Fixtures\Attributes\ClassAttribute;
 use ArtisanBuild\Mirror\Tests\Unit\Ed\Fixtures\ExtendsAbstractClass;
 use ArtisanBuild\Mirror\Tests\Unit\Ed\Fixtures\HasClassAttribute;
 

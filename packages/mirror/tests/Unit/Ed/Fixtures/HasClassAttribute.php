@@ -16,5 +16,4 @@ class HasClassAttribute
         #[PropertyAttribute]
         public readonly string $has_attribute = '',
     ) {}
-
 }

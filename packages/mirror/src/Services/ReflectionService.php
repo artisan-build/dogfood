@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Mirror\Services;
 
-use Illuminate\Support\Manager;
-use ArtisanBuild\Mirror\Ed\MirrorService;
 use ArtisanBuild\Mirror\Daniel\Reflect;
+use ArtisanBuild\Mirror\Ed\MirrorService;
+use Illuminate\Support\Manager;
 
 class ReflectionService extends Manager
 {
     public function createEdDriver()
     {
-        return new MirrorService();
+        return new MirrorService;
     }
 
     public function createDanielDriver()
     {
-        return new Reflect();
+        return new Reflect;
     }
 
     public function getDefaultDriver()

@@ -260,7 +260,8 @@ class ExampleObject
     #[AttributeWithtArgs(carter: 2)]
     public bool $is_baz;
 
-    public ?string $bing;
+    public ?string $bing = null;
+
     protected string $bong;
 
     public function __construct(...$args)

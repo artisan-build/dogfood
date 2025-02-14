@@ -14,10 +14,15 @@ use ReflectionProperty;
 class MirrorService
 {
     public ReflectionClass|ReflectionProperty|ReflectionAttribute|ReflectionMethod $reflection;
+
     public ReflectionClass $reflection_class;
+
     public ReflectionProperty $reflection_property;
+
     public ReflectionAttribute $reflection_attribute;
+
     public ReflectionMethod $reflection_method;
+
     public ReflectionClassConstant $reflection_constant;
 
     public function __call($name, $arguments): mixed
@@ -59,6 +64,7 @@ class MirrorService
     public function constant(string $constant): static
     {
         $this->reflection = $this->reflection_constant = $this->reflection->getConstant($constant);
+
         return $this;
     }
 
