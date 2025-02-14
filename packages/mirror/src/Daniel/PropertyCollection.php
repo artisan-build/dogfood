@@ -6,6 +6,11 @@ use Illuminate\Support\Collection;
 
 class PropertyCollection extends Collection
 {
+    final public function __construct(array $properties)
+    {
+        parent::__construct($properties);
+    }
+
     public static function fromReflect(Reflect $reflect): static
     {
         $class = $reflect->reflector;

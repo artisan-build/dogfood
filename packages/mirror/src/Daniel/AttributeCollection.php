@@ -8,6 +8,11 @@ use ReflectionProperty;
 
 class AttributeCollection extends Collection
 {
+    final public function __construct(array $attributes)
+    {
+        parent::__construct($attributes);
+    }
+
     public static function fromReflectionProp(ReflectionProperty $prop): static
     {
         return (new static($prop->getAttributes()))->map(
@@ -40,6 +45,7 @@ class AttributeCollection extends Collection
             'or' => $this->filter(
                 fn ($a) => $args->diffAssoc($a->args)->count() < $args->count()
             ),
+            default => throw new \Exception('Invalid and_or value'),
         };
     }
 }
