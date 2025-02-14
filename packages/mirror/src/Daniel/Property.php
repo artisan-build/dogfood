@@ -38,7 +38,7 @@ class Property
 
         return match (get_debug_type($type)) {
             ReflectionNamedType::class => collect([$type->getName()]),
-            ReflectionUnionType::class => collect($type->getTypes())->map->getName(),
+            ReflectionUnionType::class => collect($type->getTypes())->map(fn ($t) => $t->getName()),
             default => collect(['mixed']),
         };
     }
