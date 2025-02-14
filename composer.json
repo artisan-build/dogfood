@@ -20,6 +20,7 @@
         "artisan-build/kibble": "*",
         "artisan-build/marketing": "*",
         "artisan-build/marketing-mailcoach": "*",
+        "artisan-build/mirror": "*",
         "artisan-build/packagist": "*",
         "artisan-build/till": "*",
         "artisan-build/till-stripe": "*",

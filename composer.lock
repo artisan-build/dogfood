@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86759eca381bbd4c231eca7dac66297e",
+    "content-hash": "049b1022b3c48817edff4ea191c095e6",
     "packages": [
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -86,7 +86,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -163,7 +163,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -278,7 +278,7 @@
         },
         {
             "name": "artisan-build/docsidian",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -357,7 +357,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -435,7 +435,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -514,7 +514,7 @@
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -590,7 +590,7 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
@@ -668,7 +668,7 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -745,7 +745,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -821,8 +821,85 @@
             }
         },
         {
+            "name": "artisan-build/mirror",
+            "version": "dev-package/mirror",
+            "dist": {
+                "type": "path",
+                "url": "packages/mirror",
+                "reference": "b05ced50913be78e040bedc81842b82a338d569d"
+            },
+            "require": {
+                "illuminate/support": "^11.36"
+            },
+            "require-dev": {
+                "larastan/larastan": "^v3.0.2",
+                "laravel/pint": "^1.19.0",
+                "orchestra/testbench": "^v9.9.0",
+                "pestphp/pest": "^v3.7.1",
+                "phpstan/phpstan": "^2.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArtisanBuild\\Mirror\\Providers\\MirrorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArtisanBuild\\Mirror\\": "src/",
+                    "ArtisanBuild\\Mirror\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@composer run prepare"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-bench --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@composer run prepare",
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "start": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@composer run build",
+                    "@php vendor/bin/testbench serve"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "lint": [
+                    "vendor/bin/pint"
+                ],
+                "stan": [
+                    "vendor/bin/phpstan analyse --memory-limit=-1"
+                ],
+                "ready": [
+                    "@composer lint",
+                    "@composer stan",
+                    "@composer test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A more elegant way to interact with PHPs Reflection API",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "artisan-build/packagist",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -900,7 +977,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -979,7 +1056,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -1117,7 +1194,7 @@
         },
         {
             "name": "artisan-build/verbstream",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-package/mirror",
             "dist": {
                 "type": "path",
                 "url": "packages/verbstream",
