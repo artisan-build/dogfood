@@ -19,6 +19,12 @@ class AuthorizesLedgerTransactionsListener
     {
         $reflection = new ReflectionClass($event);
 
+        $costs = $reflection->getAttributes(Costs::class);
+
+        if (empty($costs)) {
+            return;
+        }
+
         collect($reflection->getAttributes(Costs::class))->each(function (ReflectionAttribute $cost) use ($event): void {
             throw_if(! app(Spend::class)(
                 state: $event->state(SubscriberState::class),

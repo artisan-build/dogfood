@@ -11,8 +11,8 @@ use Thunk\Verbs\Lifecycle\Phase;
 
 class ResetsAbilities
 {
-    #[On(Phase::Handle)]
-    public function run(Event $event)
+    #[On(Phase::Fired)]
+    public function resetAbilities(Event $event)
     {
         $reflection = new ReflectionClass($event);
 
