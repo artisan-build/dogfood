@@ -7,7 +7,7 @@ use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\PlanTerms;
 
 #[TeamPlan]
-class ScalerPlan extends BasePlan implements PlanInterface
+class AllInPlan extends BasePlan
 {
     /**
      * Prices
@@ -24,9 +24,9 @@ class ScalerPlan extends BasePlan implements PlanInterface
      */
     public array $prices = [
         PlanTerms::Week->value => null,
-        PlanTerms::Month->value => 50,
-        PlanTerms::Year->value => 500,
-        PlanTerms::Life->value => null,
+        PlanTerms::Month->value => null,
+        PlanTerms::Year->value => null,
+        PlanTerms::Life->value => 10000,
     ];
 
     /**
@@ -46,9 +46,9 @@ class ScalerPlan extends BasePlan implements PlanInterface
         'inset' => '', // https://fluxui.dev/components/badge#inset
     ];
 
-    public string $heading = 'Scaler';
+    public string $heading = 'All In';
 
-    public string $subheading = 'Amazing efficiency across multiple growing teams';
+    public string $subheading = 'Unlimited Everything Forever!';
 
     /**
      * Define Your Features
@@ -63,9 +63,9 @@ class ScalerPlan extends BasePlan implements PlanInterface
      * leads to more maintainable apps.
      */
     public array $features = [
-        ['text' => 'Ten Users', 'icon' => null],
-        ['text' => '2,500 Queries / Day', 'icon' => null],
-        ['text' => 'Email Support', 'icon' => null],
+        ['text' => 'Unlimited Users', 'icon' => null],
+        ['text' => 'Unlimited Queries', 'icon' => null],
+        ['text' => 'Private Slack Support', 'icon' => null],
     ];
 
     /**

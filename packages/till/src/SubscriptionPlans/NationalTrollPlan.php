@@ -7,7 +7,7 @@ use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\PlanTerms;
 
 #[TeamPlan]
-class StartupPlan extends BasePlan implements PlanInterface
+class ScalerPlan extends BasePlan
 {
     /**
      * Prices
@@ -24,8 +24,8 @@ class StartupPlan extends BasePlan implements PlanInterface
      */
     public array $prices = [
         PlanTerms::Week->value => null,
-        PlanTerms::Month->value => 20,
-        PlanTerms::Year->value => 200,
+        PlanTerms::Month->value => 50,
+        PlanTerms::Year->value => 500,
         PlanTerms::Life->value => null,
     ];
 
@@ -46,9 +46,9 @@ class StartupPlan extends BasePlan implements PlanInterface
         'inset' => '', // https://fluxui.dev/components/badge#inset
     ];
 
-    public string $heading = 'Startup';
+    public string $heading = 'Scaler';
 
-    public string $subheading = 'Everything you need for your growing company';
+    public string $subheading = 'Amazing efficiency across multiple growing teams';
 
     /**
      * Define Your Features
@@ -63,8 +63,8 @@ class StartupPlan extends BasePlan implements PlanInterface
      * leads to more maintainable apps.
      */
     public array $features = [
-        ['text' => 'One User', 'icon' => null],
-        ['text' => '50 Queries / Day', 'icon' => null],
+        ['text' => 'Ten Users', 'icon' => null],
+        ['text' => '2,500 Queries / Day', 'icon' => null],
         ['text' => 'Email Support', 'icon' => null],
     ];
 
@@ -82,7 +82,7 @@ class StartupPlan extends BasePlan implements PlanInterface
      * so it significantly simplifies the way we process and handle the data.
      */
     public array $can = [
-        ['AddSeats', ['limit' => 1]],
+        // ['AddSeats', ['limit' => 1]],
     ];
 
     /**

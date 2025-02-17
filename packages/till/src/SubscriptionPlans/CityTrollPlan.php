@@ -7,7 +7,7 @@ use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\PlanTerms;
 
 #[TeamPlan]
-class AllInPlan extends BasePlan implements PlanInterface
+class StartupPlan extends BasePlan
 {
     /**
      * Prices
@@ -24,9 +24,9 @@ class AllInPlan extends BasePlan implements PlanInterface
      */
     public array $prices = [
         PlanTerms::Week->value => null,
-        PlanTerms::Month->value => null,
-        PlanTerms::Year->value => null,
-        PlanTerms::Life->value => 10000,
+        PlanTerms::Month->value => 20,
+        PlanTerms::Year->value => 200,
+        PlanTerms::Life->value => null,
     ];
 
     /**
@@ -46,9 +46,9 @@ class AllInPlan extends BasePlan implements PlanInterface
         'inset' => '', // https://fluxui.dev/components/badge#inset
     ];
 
-    public string $heading = 'All In';
+    public string $heading = 'Startup';
 
-    public string $subheading = 'Unlimited Everything Forever!';
+    public string $subheading = 'Everything you need for your growing company';
 
     /**
      * Define Your Features
@@ -63,9 +63,12 @@ class AllInPlan extends BasePlan implements PlanInterface
      * leads to more maintainable apps.
      */
     public array $features = [
-        ['text' => 'Unlimited Users', 'icon' => null],
-        ['text' => 'Unlimited Queries', 'icon' => null],
-        ['text' => 'Private Slack Support', 'icon' => null],
+        ['text' => 'One User', 'icon' => null],
+        ['text' => '5 Memes / Hour', 'icon' => null],
+        ['text' => '5 Subtweets /  Day', 'icon' => null],
+        ['text' => '10 Guy Replies / Week', 'icon' => null],
+        ['text' => '5 Rick Rolls / Month', 'icon' => null],
+
     ];
 
     /**
@@ -82,7 +85,7 @@ class AllInPlan extends BasePlan implements PlanInterface
      * so it significantly simplifies the way we process and handle the data.
      */
     public array $can = [
-        // ['AddSeats', ['limit' => 1]],
+        ['AddSeats', ['limit' => 1]],
     ];
 
     /**
