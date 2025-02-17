@@ -26,6 +26,11 @@ class BasePlan implements PlanInterface
         return $this->id;
     }
 
+    public function wallet(): array
+    {
+        return [];
+    }
+
     public function subscribeUrl()
     {
         return '#';

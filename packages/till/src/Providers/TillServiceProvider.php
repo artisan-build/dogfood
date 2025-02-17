@@ -5,10 +5,14 @@ namespace ArtisanBuild\Till\Providers;
 use ArtisanBuild\Till\Commands\CleanUpAfterTestingCommand;
 use ArtisanBuild\Till\Commands\CreatePlanCommand;
 use ArtisanBuild\Till\Commands\InstallCommand;
+use ArtisanBuild\Till\Listeners\AuthorizesLedgerTransactionsListener;
+use ArtisanBuild\Till\Listeners\ProcessesLedgerTransactionsListener;
+use ArtisanBuild\Till\Listeners\ResetsAbilities;
 use ArtisanBuild\Till\Livewire\PricingSectionComponent;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Override;
+use Thunk\Verbs\Lifecycle\Dispatcher;
 
 class TillServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,9 @@ class TillServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        app(Dispatcher::class)->register(new AuthorizesLedgerTransactionsListener);
+        app(Dispatcher::class)->register(new ProcessesLedgerTransactionsListener);
+        app(Dispatcher::class)->register(new ResetsAbilities);
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallCommand::class,

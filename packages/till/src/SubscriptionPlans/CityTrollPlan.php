@@ -3,11 +3,12 @@
 namespace ArtisanBuild\Till\SubscriptionPlans;
 
 use ArtisanBuild\Till\Attributes\TeamPlan;
-use ArtisanBuild\Till\Contracts\PlanInterface;
+use ArtisanBuild\Till\Enums\LedgerPeriods;
 use ArtisanBuild\Till\Enums\PlanTerms;
+use ArtisanBuild\Till\SubscriptionPlans\Abilities\AddSeats;
 
 #[TeamPlan]
-class StartupPlan extends BasePlan
+class CityTrollPlan extends BasePlan
 {
     /**
      * Prices
@@ -46,9 +47,9 @@ class StartupPlan extends BasePlan
         'inset' => '', // https://fluxui.dev/components/badge#inset
     ];
 
-    public string $heading = 'Startup';
+    public string $heading = 'City Troll';
 
-    public string $subheading = 'Everything you need for your growing company';
+    public string $subheading = 'Everything you need to annoy your neighbors';
 
     /**
      * Define Your Features
@@ -68,7 +69,13 @@ class StartupPlan extends BasePlan
         ['text' => '5 Subtweets /  Day', 'icon' => null],
         ['text' => '10 Guy Replies / Week', 'icon' => null],
         ['text' => '5 Rick Rolls / Month', 'icon' => null],
+    ];
 
+    public array $ledgers = [
+        ['ledger' => Ledgers::Memes, 'limit' => 5, 'period' => LedgerPeriods::Hour],
+        ['ledger' => Ledgers::SubTweets, 'limit' => 5, 'period' => LedgerPeriods::Day],
+        ['ledger' => Ledgers::GuyReplies, 'limit' => 5, 'period' => LedgerPeriods::Week],
+        ['ledger' => Ledgers::RickRolls, 'limit' => 5, 'period' => LedgerPeriods::Month],
     ];
 
     /**
@@ -85,7 +92,7 @@ class StartupPlan extends BasePlan
      * so it significantly simplifies the way we process and handle the data.
      */
     public array $can = [
-        ['AddSeats', ['limit' => 1]],
+        [AddSeats::class, ['limit' => 1]],
     ];
 
     /**

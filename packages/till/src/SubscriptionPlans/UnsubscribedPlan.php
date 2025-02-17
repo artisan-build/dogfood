@@ -5,14 +5,13 @@ namespace ArtisanBuild\Till\SubscriptionPlans;
 use ArtisanBuild\Till\Attributes\DefaultPlan;
 use ArtisanBuild\Till\Attributes\IndividualPlan;
 use ArtisanBuild\Till\Attributes\TeamPlan;
-use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\PlanTerms;
 use ArtisanBuild\Till\SubscriptionPlans\Abilities\AddSeats;
 
 #[DefaultPlan]
 #[TeamPlan]
 #[IndividualPlan]
-class UnsubscribedPlan extends BasePlan implements PlanInterface
+class UnsubscribedPlan extends BasePlan
 {
     /**
      * Prices
@@ -78,6 +77,8 @@ class UnsubscribedPlan extends BasePlan implements PlanInterface
     public array $can = [
         [AddSeats::class, ['limit' => 1]],
     ];
+
+    public array $wallet = [];
 
     /**
      * Provider Keys

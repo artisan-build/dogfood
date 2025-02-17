@@ -8,7 +8,7 @@
     "packages": [
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -86,7 +86,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -163,7 +163,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -278,7 +278,7 @@
         },
         {
             "name": "artisan-build/docsidian",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -357,7 +357,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -435,7 +435,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -514,7 +514,7 @@
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -590,7 +590,7 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
@@ -668,7 +668,7 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -745,7 +745,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -822,7 +822,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -900,7 +900,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -979,7 +979,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -1061,10 +1061,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/verbs-flux",
-                "reference": "77d3bb3ec7be930d2bc3e8edfc21f701aa57f3dd"
+                "reference": "c9e0b369db026e37490bb52e1bd9ba7f7cc92d2c"
             },
             "require": {
-                "hirethunk/verbs": "^0.6.4",
+                "hirethunk/verbs": "dev-main",
                 "illuminate/support": "^11.30",
                 "laravel/pennant": "*",
                 "livewire/flux": "^1.0",
@@ -1117,7 +1117,7 @@
         },
         {
             "name": "artisan-build/verbstream",
-            "version": "dev-really-fix-auth-problems",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/verbstream",
@@ -3198,16 +3198,16 @@
         },
         {
             "name": "hirethunk/verbs",
-            "version": "v0.6.4",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hirethunk/verbs.git",
-                "reference": "149272a3c9753c2c906f455c3417a5409f55946f"
+                "reference": "d5604b6279c6c08dbd88a84787538176e9946600"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hirethunk/verbs/zipball/149272a3c9753c2c906f455c3417a5409f55946f",
-                "reference": "149272a3c9753c2c906f455c3417a5409f55946f",
+                "url": "https://api.github.com/repos/hirethunk/verbs/zipball/d5604b6279c6c08dbd88a84787538176e9946600",
+                "reference": "d5604b6279c6c08dbd88a84787538176e9946600",
                 "shasum": ""
             },
             "require": {
@@ -3234,6 +3234,7 @@
                 "phpunit/phpunit": "^10.5",
                 "projektgopher/whisky": "^0.5.1"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -3272,9 +3273,9 @@
             ],
             "support": {
                 "issues": "https://github.com/hirethunk/verbs/issues",
-                "source": "https://github.com/hirethunk/verbs/tree/v0.6.4"
+                "source": "https://github.com/hirethunk/verbs/tree/main"
             },
-            "time": "2024-10-30T21:42:56+00:00"
+            "time": "2025-02-11T23:06:53+00:00"
         },
         {
             "name": "internachi/modular",
@@ -12766,12 +12767,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "b3b8e9af2f66bf476ec0c4bbaf5ca069488c643e"
+                "reference": "74a1f3e080759ad7d1e7f2d68c1f4d754b401acd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/b3b8e9af2f66bf476ec0c4bbaf5ca069488c643e",
-                "reference": "b3b8e9af2f66bf476ec0c4bbaf5ca069488c643e",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/74a1f3e080759ad7d1e7f2d68c1f4d754b401acd",
+                "reference": "74a1f3e080759ad7d1e7f2d68c1f4d754b401acd",
                 "shasum": ""
             },
             "conflict": {
@@ -13122,7 +13123,7 @@
                 "localizationteam/l10nmgr": "<7.4|>=8,<8.7|>=9,<9.2",
                 "luyadev/yii-helpers": "<1.2.1",
                 "maestroerror/php-heic-to-jpg": "<1.0.5",
-                "magento/community-edition": "<2.4.5|==2.4.5|>=2.4.5.0-patch1,<2.4.5.0-patch10|==2.4.6|>=2.4.6.0-patch1,<2.4.6.0-patch8|>=2.4.7.0-beta1,<2.4.7.0-patch3",
+                "magento/community-edition": "<2.4.5|==2.4.5|>=2.4.5.0-patch1,<2.4.5.0-patch11|==2.4.6|>=2.4.6.0-patch1,<2.4.6.0-patch9|>=2.4.7.0-beta1,<2.4.7.0-patch4|>=2.4.8.0-beta1,<2.4.8.0-beta2",
                 "magento/core": "<=1.9.4.5",
                 "magento/magento1ce": "<1.9.4.3-dev",
                 "magento/magento1ee": ">=1,<1.14.4.3-dev",
@@ -13633,7 +13634,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-10T21:04:44+00:00"
+            "time": "2025-02-12T18:06:17+00:00"
         },
         {
             "name": "sebastian/cli-parser",

@@ -5,7 +5,7 @@ namespace ArtisanBuild\Till\Attributes;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class UnavailablePlan
+class ArchivedPlan
 {
     public function __construct() {}
 }

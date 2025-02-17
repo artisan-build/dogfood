@@ -3,11 +3,10 @@
 namespace ArtisanBuild\Till\SubscriptionPlans;
 
 use ArtisanBuild\Till\Attributes\TeamPlan;
-use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\PlanTerms;
 
 #[TeamPlan]
-class AllInPlan extends BasePlan
+class GlobalTrollPlan extends BasePlan
 {
     /**
      * Prices
@@ -46,9 +45,9 @@ class AllInPlan extends BasePlan
         'inset' => '', // https://fluxui.dev/components/badge#inset
     ];
 
-    public string $heading = 'All In';
+    public string $heading = 'Global Troll';
 
-    public string $subheading = 'Unlimited Everything Forever!';
+    public string $subheading = 'Beat Elon at his own game';
 
     /**
      * Define Your Features
@@ -64,8 +63,10 @@ class AllInPlan extends BasePlan
      */
     public array $features = [
         ['text' => 'Unlimited Users', 'icon' => null],
-        ['text' => 'Unlimited Queries', 'icon' => null],
-        ['text' => 'Private Slack Support', 'icon' => null],
+        ['text' => 'Unlimited Memes', 'icon' => null],
+        ['text' => 'Unlimited Subtweets', 'icon' => null],
+        ['text' => 'Unlimited Guy Replies', 'icon' => null],
+        ['text' => 'Unlimited Rick Rolls', 'icon' => null],
     ];
 
     /**

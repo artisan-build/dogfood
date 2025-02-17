@@ -2,12 +2,14 @@
 
 namespace ArtisanBuild\Till\Events;
 
+use ArtisanBuild\Till\Attributes\ImpactsAbilities;
 use ArtisanBuild\Till\States\SubscriberState;
 use ArtisanBuild\Till\Traits\HandlesSubscriptionChanges;
 use Carbon\CarbonInterface;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
+#[ImpactsAbilities]
 class SubcsriberChangedPlan extends Event
 {
     use HandlesSubscriptionChanges;

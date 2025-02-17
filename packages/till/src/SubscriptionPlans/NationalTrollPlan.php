@@ -3,11 +3,10 @@
 namespace ArtisanBuild\Till\SubscriptionPlans;
 
 use ArtisanBuild\Till\Attributes\TeamPlan;
-use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\PlanTerms;
 
 #[TeamPlan]
-class ScalerPlan extends BasePlan
+class NationalTrollPlan extends BasePlan
 {
     /**
      * Prices
@@ -46,9 +45,9 @@ class ScalerPlan extends BasePlan
         'inset' => '', // https://fluxui.dev/components/badge#inset
     ];
 
-    public string $heading = 'Scaler';
+    public string $heading = 'National Troll';
 
-    public string $subheading = 'Amazing efficiency across multiple growing teams';
+    public string $subheading = 'Be the main character in your own country';
 
     /**
      * Define Your Features
@@ -63,9 +62,11 @@ class ScalerPlan extends BasePlan
      * leads to more maintainable apps.
      */
     public array $features = [
-        ['text' => 'Ten Users', 'icon' => null],
-        ['text' => '2,500 Queries / Day', 'icon' => null],
-        ['text' => 'Email Support', 'icon' => null],
+        ['text' => '10 Users', 'icon' => null],
+        ['text' => '50 Memes / Hour', 'icon' => null],
+        ['text' => '50 Subtweets /  Day', 'icon' => null],
+        ['text' => '100 Guy Replies / Week', 'icon' => null],
+        ['text' => '50 Rick Rolls / Month', 'icon' => null],
     ];
 
     /**

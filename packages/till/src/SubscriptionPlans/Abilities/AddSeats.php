@@ -2,6 +2,7 @@
 
 namespace ArtisanBuild\Till\SubscriptionPlans\Abilities;
 
+use ArtisanBuild\Till\Actions\CacheAbility;
 use Illuminate\Support\Facades\Auth;
 
 class AddSeats
@@ -20,6 +21,6 @@ class AddSeats
             return false;
         }
 
-        return Auth::user()->currentTeam->allUsers()->count() < $limit;
+        return app(CacheAbility::class)('till-add-seats', Auth::user()->currentTeam->allUsers()->count() < $limit);
     }
 }
