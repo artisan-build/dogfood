@@ -1,3 +1,5 @@
+<p align="center"><img src="https://github.com/artisan-build/skeleton/raw/HEAD/art/skeleton.png" width="75%" alt="Artisan Build Package Skeleton Logo"></p>
+
 # Skeleton
 
 SkeletonDescription

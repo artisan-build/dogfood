@@ -1,3 +1,5 @@
+<p align="center"><img src="https://github.com/artisan-build/dogfood/raw/HEAD/public/img/dogfood.webp" width="75%" alt="Artisan Build's Dog Food Project Logo"></p>
+
 # Artisan Build's Dog Food
 
 This is our package management application. It allows us to develop and update all of our packages in a single
@@ -12,7 +14,11 @@ fans of Livewire, Flux, and Caleb and we've gone all-in on using Flux wherever i
 packages here require it, you won't be able to run `composer install` without an auth.json containing credentials for
 it.
 
+## How to Contribute
 
+We recommend using [Cursor](https://www.cursor.com/) to contribute to this project. It's a modern fork of VSCode that is
+fully compatible with your existing extensions. We've spent a great deal of time customizing the AI instructions to make
+it easier to work with our codebase, and to make the suggestions more accurately in line with our own coding standards.
 
 ## Want to Use This to Manage Your Own Packages?
 
