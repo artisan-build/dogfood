@@ -35,8 +35,8 @@ class GatheringState extends State
 
     public function forMember(?MemberState $member = null): static
     {
-        $this->start = $this->start->setTimezone($member?->timezone ?? Session::get('timezone', 'UTC'));
-        $this->end = $this->end->setTimezone($member?->timezone ?? Session::get('timezone', 'UTC'));
+        $this->start = $this->start->setTimezone($member->timezone ?? Session::get('timezone', 'UTC'));
+        $this->end = $this->end->setTimezone($member->timezone ?? Session::get('timezone', 'UTC'));
 
         return $this;
     }
