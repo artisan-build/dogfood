@@ -1,0 +1,50 @@
+<?php
+
+namespace ArtisanBuild\Skeleton\Tests;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Orchestra\Testbench\TestCase as Orchestra;
+use VendorName\Skeleton\SkeletonServiceProvider;
+
+/**
+ * Remove the .forked from the end of this filename to enable stand-alone testing on this package when forked.
+ */
+class TestCase extends Orchestra
+{
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Factory::guessFactoryNamesUsing(
+            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
+        );
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            VerbstreamServiceProvider::class,
+            FortifyServiceProvider::class,
+        ];
+    }
+
+    public function getEnvironmentSetUp($app)
+    {
+        config()->set('database.default', 'testing');
+
+        $app['config']->set('database.default', 'testbench');
+                $app['config']->set('database.connections.testbench', [
+                    'driver' => 'sqlite',
+                    'database' => ':memory:',
+                    'prefix' => '',
+                ]);
+
+                // Enable two-factor authentication features
+                $app['config']->set('fortify.features', [
+                    \Laravel\Fortify\Features::twoFactorAuthentication([
+                        'confirm' => true,
+                        'confirmPassword' => true,
+                    ]),
+                ]);
+    }
+}

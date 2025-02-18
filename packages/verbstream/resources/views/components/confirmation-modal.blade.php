@@ -1,0 +1,3 @@
+<flux:modal>
+
+</flux:modal>

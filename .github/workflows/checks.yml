@@ -1,0 +1,26 @@
+name: Checks
+on:
+  push:
+jobs:
+  lint:
+    if: contains(github.event.head_commit.message, '#nodeploy') == false
+    uses: ./.github/workflows/lint.yml
+  test:
+    if: contains(github.event.head_commit.message, '#nodeploy') == false
+    uses: ./.github/workflows/test.yml
+    secrets: inherit
+  stan:
+    if: contains(github.event.head_commit.message, '#nodeploy') == false
+    uses: ./.github/workflows/stan.yml
+    secrets: inherit
+  deploy:
+    if: github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '#nodeploy')
+    runs-on: ubuntu-latest
+    needs: [ lint, test, stan ]
+    steps:
+      - name: Deploy
+        uses: fjogeleit/http-request-action@v1
+        if: success() && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '#nodeploy')
+        with:
+          url: "https://forge.laravel.com/servers/853446/sites/2616305/deploy/http?token=VTF1xvg69FItWhfVdpC876g2ssUtwxLIRzvQNt7k"
+          method: 'POST'
