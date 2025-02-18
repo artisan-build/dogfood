@@ -16,7 +16,7 @@ use ArtisanBuild\HallwayFlux\Livewire\ThreadComponent;
 use ArtisanBuild\HallwayFlux\Livewire\WelcomeComponent;
 
 if (config('hallway-flux.serves_welcome')) {
-    Route::middleware(['web', 'guest'])->get('/', WelcomeComponent::class)->name(config('hallway-flux.route-prefix') . 'welcome');
+    Route::middleware(['web', 'guest'])->get('/', WelcomeComponent::class)->name(config('hallway-flux.route-prefix').'welcome');
 }
 
 // These are routes that might be available to guests as well as members. Sometimes additional middleware is applied on

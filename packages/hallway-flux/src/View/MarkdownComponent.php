@@ -15,6 +15,7 @@ class MarkdownComponent extends Component
     public function render()
     {
         $this->content = Blade::render(app(ConvertsMarkdownToHtml::class)($this->content)->parsed);
+
         return view('hallway-flux::components.markdown-component');
     }
 }

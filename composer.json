@@ -17,6 +17,8 @@
         "artisan-build/fat-enums": "*",
         "artisan-build/flux-themes": "*",
         "artisan-build/gh": "*",
+        "artisan-build/hallway-core": "*",
+        "artisan-build/hallway-flux": "*",
         "artisan-build/kibble": "*",
         "artisan-build/marketing": "*",
         "artisan-build/marketing-mailcoach": "*",

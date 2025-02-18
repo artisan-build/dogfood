@@ -11,20 +11,23 @@ use Livewire\Component;
 class MyChannelsComponent extends Component
 {
     public $channels;
+
     public int $available;
+
     public int $in = 0;
+
     public bool $list_channels = false;
 
     public function mount(): void
     {
         $this->channels = ChannelsRequested::commit();
 
-        $this->available = $this->channels->filter(fn($channel) => $channel->availableToMember())->count();
+        $this->available = $this->channels->filter(fn ($channel) => $channel->availableToMember())->count();
 
         $member = Context::get('active_member');
         $this->in = count(array_diff($member->channel_ids, $member->muted_channel_ids));
 
-        if (0 === $this->in) {
+        if ($this->in === 0) {
             $this->list_channels = true;
         }
     }
@@ -33,5 +36,4 @@ class MyChannelsComponent extends Component
     {
         return view('hallway-flux::livewire.layout.my-channels');
     }
-
 }
