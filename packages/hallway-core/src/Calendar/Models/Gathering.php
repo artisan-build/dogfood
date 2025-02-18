@@ -24,14 +24,14 @@ class Gathering extends Model
 
     protected string $state_class = GatheringState::class;
 
-    public function day(): Attribute
+    protected function day(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->start->format('Y-m-d'),
         );
     }
 
-    public function month(): Attribute
+    protected function month(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->start->format('Y-m'),
