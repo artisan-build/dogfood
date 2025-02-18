@@ -14,10 +14,14 @@ use Illuminate\Support\Facades\Context;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
-#[EventForm(submit_text: 'Comment')]
+#[EventForm(
+    submit_text: 'Comment',
+    on_success: 'reset-form',
+)]
 class CommentCreated extends Event
 {
     use AuthorizesBasedOnMemberState;
+
     public ChannelPermissionTypes $needs_channel_permissions = ChannelPermissionTypes::Comment;
 
     #[StateId(MessageState::class)]

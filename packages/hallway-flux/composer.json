@@ -1,0 +1,83 @@
+{
+    "name": "artisan-build/hallway-flux",
+    "description": "A Livewire / Flux client for Hallway.fm",
+    "keywords": [
+
+    ],
+    "homepage": "https://hallway.fm",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Ed Grosvenor",
+            "email": "hello@artisan.build",
+            "role": "Partner"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "artisan-build/hallway-core": "*",
+        "livewire/livewire": "^v3.5.9",
+        "livewire/flux": "*",
+        "livewire/flux-pro": "*",
+        "illuminate/contracts": "^11.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "laravel/pint": "^1.14",
+        "nunomaduro/collision": "^8.1.1",
+        "larastan/larastan": "^2.9",
+        "orchestra/testbench": "^9.0.0",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-arch": "^2.7",
+        "pestphp/pest-plugin-laravel": "^2.3",
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "spatie/laravel-ray": "^1.35"
+    },
+    "autoload": {
+        "psr-4": {
+            "ArtisanBuild\\HallwayFlux\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ArtisanBuild\\HallwayFlux\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@composer run prepare",
+        "clear": "@php vendor/bin/testbench package:purge-docsidian --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": [
+            "@composer run prepare",
+            "@php vendor/bin/testbench workbench:build --ansi"
+        ],
+        "start": [
+            "Composer\\Config::disableProcessTimeout",
+            "@composer run build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "stan": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "coverage": "vendor/bin/pest --coverage",
+        "lint": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ArtisanBuild\\HallwayFlux\\Providers\\HallwayFluxServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

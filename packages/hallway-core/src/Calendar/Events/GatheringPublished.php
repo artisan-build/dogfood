@@ -13,5 +13,4 @@ class GatheringPublished extends Event
         MemberRoles::Owner,
         MemberRoles::Admin,
     ];
-
 }

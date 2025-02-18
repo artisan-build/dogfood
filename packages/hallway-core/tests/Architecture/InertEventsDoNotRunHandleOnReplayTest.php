@@ -10,6 +10,7 @@ it('checks if classes extending Event with #[Inert] have #[Once] on handle', fun
 
     collect(get_declared_classes())->filter(function ($class) {
         $reflectionClass = new ReflectionClass($class);
+
         return $reflectionClass->isSubclassOf(Event::class)
             && ! empty($reflectionClass->getAttributes(Inert::class));
     })->each(function ($class): void {
@@ -22,7 +23,6 @@ it('checks if classes extending Event with #[Inert] have #[Once] on handle', fun
         }
 
         expect(true)->toBeTrue();
-
 
     });
 });

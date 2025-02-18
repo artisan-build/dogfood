@@ -41,6 +41,13 @@ class CommunityChannelUpdated extends Event
     public ?string $name = null;
 
     #[EventInput(
+        type: InputTypes::Text,
+        params: ['maxlength' => '128'],
+        rules: ['string', 'required', 'max:128'],
+    )]
+    public string $description = '';
+
+    #[EventInput(
         type: InputTypes::Select,
         rules: ['required'],
         options: ChannelTypes::class,
@@ -59,16 +66,16 @@ class CommunityChannelUpdated extends Event
             }
         }*/
 
-
     #[Once]
     public function handle(): ?Channel
     {
-        if (Route::has(config('hallway-flux.route-name-prefix') . 'channel')) {
+        if (Route::has(config('hallway-flux.route-name-prefix').'channel')) {
             return new Channel([
                 'id' => $this->channel_id,
-                'flux_url' => route(config('hallway-flux.route-name-prefix') . 'channel', ['channel' => $this->channel_id]),
+                'flux_url' => route(config('hallway-flux.route-name-prefix').'channel', ['channel' => $this->channel_id]),
             ]);
         }
+
         return null;
     }
 }

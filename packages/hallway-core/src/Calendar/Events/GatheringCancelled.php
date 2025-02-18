@@ -13,5 +13,4 @@ class GatheringCancelled extends Event
         MemberRoles::Owner,
         MemberRoles::Admin,
     ];
-
 }

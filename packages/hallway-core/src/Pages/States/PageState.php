@@ -11,8 +11,8 @@ class PageState extends State
     public string $title;
 
     public bool $is_lobby = false;
+
     public ?string $free_content = null;
 
     public ?string $premium_content = null;
-
 }

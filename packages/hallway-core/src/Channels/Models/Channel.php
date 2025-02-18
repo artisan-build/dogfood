@@ -19,11 +19,10 @@ class Channel extends Model
 
     protected $guarded = [];
 
-
     public function flux_url(): Attribute
     {
         return Attribute::make(
-            get: fn() => route(config('hallway-flux.route-name-prefix') . 'channel', ['channel' => $this]),
+            get: fn () => route(config('hallway-flux.route-name-prefix').'channel', ['channel' => $this]),
         );
     }
 

@@ -43,5 +43,4 @@ class PageUpdated extends Event
         type: InputTypes::Textarea,
     )]
     public ?string $premium_content = null;
-
 }

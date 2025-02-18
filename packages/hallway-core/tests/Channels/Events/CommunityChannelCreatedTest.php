@@ -53,7 +53,6 @@ describe('Channel creation', function (): void {
         );
     })->throws(AuthorizationException::class);
 
-
     it('throws if any non-admin user tries to create a channel', function ($user): void {
         test()->asUser($user->get());
         $id = snowflake_id();
@@ -63,6 +62,6 @@ describe('Channel creation', function (): void {
             name: 'Test Channel',
             type: ChannelTypes::OpenFree,
         );
-    })->throws(AuthorizationException::class)->with(collect(UsersFixture::cases())->filter(fn($case) => UsersFixture::Admin !== $case && UsersFixture::Owner !== $case));
+    })->throws(AuthorizationException::class)->with(collect(UsersFixture::cases())->filter(fn ($case) => $case !== UsersFixture::Admin && $case !== UsersFixture::Owner));
 
 });

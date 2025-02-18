@@ -15,9 +15,6 @@ enum PaymentStates: int
     case Trial = 13; // User owes and is past due, but on grace period
     case Exempt = 20; // Exempt from any payment-related restrictions
 
-
-
-
     public function isCurrentlyPremium(): bool
     {
         return in_array($this, [

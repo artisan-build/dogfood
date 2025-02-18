@@ -27,23 +27,22 @@ class Gathering extends Model
     public function day(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->start->format('Y-m-d'),
+            get: fn () => $this->start->format('Y-m-d'),
         );
     }
 
     public function month(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->start->format('Y-m'),
+            get: fn () => $this->start->format('Y-m'),
         );
     }
 
     public function casts()
     {
         return [
-            'start' => 'immutable_datetime',
-            'end' => 'immutable_datetime',
+            'start' => 'datetime',
+            'end' => 'datetime',
         ];
     }
-
 }

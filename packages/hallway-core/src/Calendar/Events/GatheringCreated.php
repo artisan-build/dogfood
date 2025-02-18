@@ -6,6 +6,7 @@ namespace ArtisanBuild\Hallway\Calendar\Events;
 
 use ArtisanBuild\Adverbs\Traits\ReturnsModelInstanceOnHandle;
 use ArtisanBuild\Hallway\Calendar\Enums\InvitationLevels;
+use ArtisanBuild\Hallway\Calendar\States\CalendarRangeState;
 use ArtisanBuild\Hallway\Calendar\States\GatheringState;
 use ArtisanBuild\Hallway\Members\Actions\GetMemberTimeZone;
 use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
@@ -15,9 +16,11 @@ use ArtisanBuild\VerbsFlux\Attributes\EventForm;
 use ArtisanBuild\VerbsFlux\Attributes\EventInput;
 use ArtisanBuild\VerbsFlux\Enums\InputTypes;
 use Carbon\Carbon;
+use Thunk\Verbs\Attributes\Autodiscovery\AppliesToSingletonState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
+#[AppliesToSingletonState(CalendarRangeState::class)]
 #[EventForm(
     submit_text: 'Create New Gathering',
     has_time_machine: true,
@@ -34,7 +37,6 @@ class GatheringCreated extends Event
 
     #[StateId(GatheringState::class)]
     public ?int $gathering_id = null;
-
 
     #[EventInput(
         type: InputTypes::Text,
@@ -73,6 +75,7 @@ class GatheringCreated extends Event
         options: ['No', 'Yes'],
     )]
     public bool $published = false;
+
     public ?Carbon $cancelled_at = null;
 
     #[EventInput(
@@ -93,18 +96,24 @@ class GatheringCreated extends Event
     )]
     public ?string $url = null;
 
-    public function apply(GatheringState $state): void
+    public function applyToCalendarRangeState(CalendarRangeState $range): void
+    {
+        $end = $this->start->copy()->addMinutes($this->duration);
+        $range->first_gathering_start = $range->first_gathering_start?->isBefore($this->start) ? $range->first_gathering_start : $this->start;
+        $range->last_gathering_end = $range->last_gathering_end?->isAfter($end) ? $range->last_gathering_end : $end;
+    }
+
+    public function applyToGatheringState(GatheringState $gathering): void
     {
         $start = Carbon::parse($this->start->format('Y-m-d\TH:i'), $this->timezone)->setTimezone('UTC');
 
-
-        $state->title = $this->title;
-        $state->description = $this->description;
-        $state->start = $start;
-        $state->end = $start->copy()->addMinutes($this->duration);
-        $state->published_at = $this->published ? now() : null;
-        $state->cancelled_at = $this->cancelled_at;
-        $state->invitation_level = $this->invitation_level;
+        $gathering->title = $this->title;
+        $gathering->description = $this->description;
+        $gathering->start = $start;
+        $gathering->end = $start->copy()->addMinutes($this->duration);
+        $gathering->published_at = $this->published ? now() : null;
+        $gathering->cancelled_at = $this->cancelled_at;
+        $gathering->invitation_level = $this->invitation_level;
+        $gathering->capacity = $this->capacity;
     }
-
 }

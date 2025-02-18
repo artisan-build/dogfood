@@ -54,14 +54,14 @@ enum MemberRoles: int
          */
 
         return match ($this) {
-            self::Owner         => 'red',
-            self::Admin         => 'yellow',
-            self::Moderator     => 'lime',
-            self::Member        => 'sky',
+            self::Owner => 'red',
+            self::Admin => 'yellow',
+            self::Moderator => 'lime',
+            self::Member => 'sky',
             self::ReadOnlyMember => 'indigo',
-            self::ModeratorBot  => 'violet',
-            self::ReadWriteBot  => 'purple',
-            self::ReadBot       => 'rose',
+            self::ModeratorBot => 'violet',
+            self::ReadWriteBot => 'purple',
+            self::ReadBot => 'rose',
             default => 'gray',
         };
     }

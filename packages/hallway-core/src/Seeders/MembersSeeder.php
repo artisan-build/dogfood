@@ -21,5 +21,4 @@ class MembersSeeder extends Seeder
             );
         }
     }
-
 }

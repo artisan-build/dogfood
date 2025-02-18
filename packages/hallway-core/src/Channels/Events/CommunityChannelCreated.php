@@ -42,6 +42,13 @@ class CommunityChannelCreated extends Event
     public string $name;
 
     #[EventInput(
+        type: InputTypes::Text,
+        params: ['maxlength' => '128'],
+        rules: ['string', 'required', 'max:128'],
+    )]
+    public string $description = '';
+
+    #[EventInput(
         type: InputTypes::Select,
         options: ChannelTypes::class,
         options_filter: 'isCommunityChannel',
@@ -55,5 +62,4 @@ class CommunityChannelCreated extends Event
     {
         $this->assert($this->type->isCommunityChannel());
     }
-
 }
