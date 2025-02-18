@@ -20,7 +20,7 @@ trait HasVerbsState
         );
 
         $state = $this->state_class;
-        
+
         throw_if(
             condition: ! class_exists($state),
             exception: 'Unknown class '.$state,
