@@ -11,7 +11,7 @@ use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Moderation\Enums\ModerationMemberStates;
 use ArtisanBuild\Hallway\Payment\Enums\PaymentStates;
-use ArtisanBuild\Mirror\Mirror;
+use ArtisanBuild\Mirror\Facades\Mirror;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Context;
@@ -98,7 +98,7 @@ class MemberState extends State
             return true;
         }
 
-        if (Mirror::driver('Ed')->reflect($event)->reflection_class->hasProperty('needs_channel_permissions')) {
+        if (Mirror::driver('ed')->reflect($event)->reflection_class->hasProperty('needs_channel_permissions')) {
 
             $channel_permission = is_string($event)
                 ? Mirror::driver('Ed')->reflect($event)->property('needs_channel_permissions')->reflection_property->getDefaultValue()
