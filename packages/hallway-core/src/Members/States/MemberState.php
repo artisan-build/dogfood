@@ -25,7 +25,9 @@ class MemberState extends State
     public int|string $user_id;
 
     public string $name = '';
+
     public string $handle = '';
+
     public string $display_name = '';
 
     public MemberRoles $role;
@@ -37,6 +39,7 @@ class MemberState extends State
     public ?string $profile_picture_url = null;
 
     public array $channel_ids = [];
+
     public array $muted_channel_ids = [];
 
     public array $attachment_ids = [];
@@ -49,19 +52,18 @@ class MemberState extends State
     /** @deprecated */
     public bool $owns_channel = false;
 
-
-
-
     // Member notification preferences
     public array $notify_channel_ids = [];
+
     public array $notify_member_ids = [];
 
     public ?string $timezone = null;
+
     public ?Carbon $timezone_at = null;
 
     public function channels(): Collection
     {
-        return collect(array_diff($this->channel_ids, $this->muted_channel_ids))->map(fn(int $id) => ChannelState::load($id));
+        return collect(array_diff($this->channel_ids, $this->muted_channel_ids))->map(fn (int $id) => ChannelState::load($id));
     }
 
     public function inChannel(): bool
@@ -70,7 +72,7 @@ class MemberState extends State
     }
 
     /**
-     * @param Event|class-string<Event> $event
+     * @param  Event|class-string<Event>  $event
      */
     public function can(Event|string $event)
     {
@@ -78,24 +80,23 @@ class MemberState extends State
 
         if ($reflection->hasProperty('authorized_member_roles')) {
 
-            if ( ! in_array($this->role, $reflection->getProperty('authorized_member_roles')->getDefaultValue(), true)) {
+            if (! in_array($this->role, $reflection->getProperty('authorized_member_roles')->getDefaultValue(), true)) {
                 return false;
             }
         }
 
         if ($reflection->hasProperty('authorized_payment_states')) {
-            if ( ! in_array($this->payment_state, $reflection->getProperty('authorized_payment_states')->getDefaultValue(), true)) {
+            if (! in_array($this->payment_state, $reflection->getProperty('authorized_payment_states')->getDefaultValue(), true)) {
                 return false;
             }
         }
 
         $channel = Context::get('channel');
 
-        if ( ! $channel instanceof ChannelState) {
+        if (! $channel instanceof ChannelState) {
             // No channel level permissions required
             return true;
         }
-
 
         if (Mirror::reflect($event)->reflection_class->hasProperty('needs_channel_permissions')) {
 
@@ -103,7 +104,6 @@ class MemberState extends State
                 ? Mirror::reflect($event)->property('needs_channel_permissions')->reflection_property->getDefaultValue()
                 /** @phpstan-ignore-next-line  */
                 : $event->needs_channel_permissions;
-
 
             assert($channel_permission instanceof ChannelPermissionTypes);
 
@@ -113,7 +113,7 @@ class MemberState extends State
                 ->getAttributes(ChannelPermissions::class)[0]->newInstance()->{$key};
 
             foreach ($actions as $action) {
-                if ( ! app($action)()) {
+                if (! app($action)()) {
                     return false;
                 }
             }

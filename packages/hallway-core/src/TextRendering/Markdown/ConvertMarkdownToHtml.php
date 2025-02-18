@@ -21,7 +21,7 @@ class ConvertMarkdownToHtml
 
     public function __invoke(string $content): string
     {
-        $embedLibrary = new Embed();
+        $embedLibrary = new Embed;
         $embedLibrary->setSettings([
             'oembed:query_parameters' => [
                 'maxwidth' => 800,
@@ -36,17 +36,16 @@ class ConvertMarkdownToHtml
                 'fallback' => 'link',
             ],
         ]);
-        $environment->addExtension(new CommonMarkCoreExtension());
-        $environment->addExtension(new GithubFlavoredMarkdownExtension());
-        $environment->addExtension(new AttributesExtension());
-        $environment->addExtension(new EmbedExtension());
+        $environment->addExtension(new CommonMarkCoreExtension);
+        $environment->addExtension(new GithubFlavoredMarkdownExtension);
+        $environment->addExtension(new AttributesExtension);
+        $environment->addExtension(new EmbedExtension);
 
         $this->converter = new MarkdownConverter($environment);
 
         $content = app(HandlesEmbeddableLinks::class)($content);
 
-        return Cache::rememberForever(sha1($content), fn() => $this->converter->convert($content)->getContent());
+        return Cache::rememberForever(sha1((string) $content), fn () => $this->converter->convert($content)->getContent());
 
     }
-
 }

@@ -17,8 +17,4 @@ class ChannelMembership extends Model
     use HasVerbsState;
 
     protected string $stateClass = ChannelMembershipState::class;
-
-
-
-
 }

@@ -33,5 +33,4 @@ class MemberJoinedChannel extends Event
     {
         $channel->member_ids = Arr::addUniqueToList($channel->member_ids, $this->member_id);
     }
-
 }

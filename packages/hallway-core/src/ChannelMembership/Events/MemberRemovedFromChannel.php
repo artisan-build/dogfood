@@ -21,5 +21,4 @@ class MemberRemovedFromChannel extends Event
 
     #[StateId(ChannelState::class)]
     public int $channel_id;
-
 }

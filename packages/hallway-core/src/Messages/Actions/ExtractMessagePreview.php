@@ -14,15 +14,15 @@ class ExtractMessagePreview
     {
         $limit ??= 500;
 
-        $doc = new DOMDocument();
-        $doc->loadXML('<div>' . mb_encode_numericentity(
+        $doc = new DOMDocument;
+        $doc->loadXML('<div>'.mb_encode_numericentity(
             htmlspecialchars_decode(
                 htmlentities($content, ENT_NOQUOTES, 'UTF-8', false),
                 ENT_IGNORE,
             ),
             [0x80, 0x10FFFF, 0, ~0],
             'UTF-8',
-        ) . '</div>');
+        ).'</div>');
 
         $visibleTextCount = 0;
         $previewContent = '';
@@ -41,7 +41,7 @@ class ExtractMessagePreview
             $previewContent .= "</{$tag}>";
         }
 
-        return trim(html_entity_decode($previewContent));
+        return trim(html_entity_decode((string) $previewContent));
     }
 
     protected function processNode($node, $limit, &$previewContent, &$visibleTextCount, &$openTags, &$stop): void
@@ -50,22 +50,22 @@ class ExtractMessagePreview
             return;
         }
 
-        if (XML_TEXT_NODE === $node->nodeType) {
+        if ($node->nodeType === XML_TEXT_NODE) {
             $nodeText = $node->nodeValue;
             $remaining = $limit - $visibleTextCount;
 
-            if ($visibleTextCount + mb_strlen($nodeText) > $limit) {
-                $previewContent .= htmlspecialchars(mb_substr($nodeText, 0, $remaining));
+            if ($visibleTextCount + mb_strlen((string) $nodeText) > $limit) {
+                $previewContent .= htmlspecialchars(mb_substr((string) $nodeText, 0, $remaining));
                 $stop = true;
             } else {
-                $previewContent .= htmlspecialchars($nodeText);
-                $visibleTextCount += mb_strlen($nodeText);
+                $previewContent .= htmlspecialchars((string) $nodeText);
+                $visibleTextCount += mb_strlen((string) $nodeText);
             }
-        } elseif (XML_ELEMENT_NODE === $node->nodeType) {
+        } elseif ($node->nodeType === XML_ELEMENT_NODE) {
             // Add opening tag
-            $openTag = '<' . $node->nodeName;
+            $openTag = '<'.$node->nodeName;
             foreach ($node->attributes as $attr) {
-                $openTag .= ' ' . $attr->nodeName . '="' . htmlspecialchars($attr->nodeValue) . '"';
+                $openTag .= ' '.$attr->nodeName.'="'.htmlspecialchars((string) $attr->nodeValue).'"';
             }
             $openTag .= '>';
 
@@ -79,10 +79,10 @@ class ExtractMessagePreview
                 }
             }
 
-            if ( ! $stop) {
+            if (! $stop) {
                 // If not stopped, close the current tag
                 array_pop($openTags);
-                $previewContent .= "</" . $node->nodeName . ">";
+                $previewContent .= '</'.$node->nodeName.'>';
             }
         }
     }

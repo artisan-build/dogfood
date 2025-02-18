@@ -7,7 +7,9 @@ namespace ArtisanBuild\Hallway\TextRendering\Markdown;
 class MarkdownContent
 {
     public string $parsed = '';
+
     public string $preview = '';
+
     public string $original = '';
 
     public array $media = [];

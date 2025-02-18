@@ -13,11 +13,17 @@ use Thunk\Verbs\State;
 class GatheringState extends State
 {
     public string $title;
+
     public string $description;
+
     public Carbon $start;
+
     public Carbon $end;
+
     public ?Carbon $published_at = null;
+
     public ?Carbon $cancelled_at = null;
+
     public InvitationLevels $invitation_level;
 
     // Allow events to be added to channels
@@ -31,7 +37,7 @@ class GatheringState extends State
     {
         $this->start = $this->start->setTimezone($member?->timezone ?? Session::get('timezone', 'UTC'));
         $this->end = $this->end->setTimezone($member?->timezone ?? Session::get('timezone', 'UTC'));
+
         return $this;
     }
-
 }

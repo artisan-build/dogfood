@@ -12,11 +12,8 @@ class HasCommunityWritePrivileges
     {
         $member = Context::get('active_member');
 
-
         return $member->moderation_state->hasCommunityWritePrivileges()
             && $member->role->hasCommunityWritePrivileges();
 
-
     }
-
 }

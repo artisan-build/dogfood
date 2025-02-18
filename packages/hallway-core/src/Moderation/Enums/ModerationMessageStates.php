@@ -12,5 +12,4 @@ enum ModerationMessageStates: int
     case Warning = 3; // Moderator applied warning cover
     case Removed = 4; // Moderator removed the message
 
-
 }

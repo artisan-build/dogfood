@@ -34,7 +34,6 @@ class PageCreated extends Event
     )]
     public string $title;
 
-
     #[EventInput(
         type: InputTypes::Checkbox,
     )]
@@ -49,5 +48,4 @@ class PageCreated extends Event
         type: InputTypes::Textarea,
     )]
     public ?string $premium_content = null;
-
 }

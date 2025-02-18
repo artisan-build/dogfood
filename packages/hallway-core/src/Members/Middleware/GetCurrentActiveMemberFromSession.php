@@ -19,20 +19,22 @@ class GetCurrentActiveMemberFromSession
 {
     public function handle($request, Closure $next)
     {
-        if ( ! Auth::check()) {
+        if (! Auth::check()) {
             Context::add('active_member', $this->guest());
+
             return $next($request);
         }
 
         if (Auth::user()->hallway_members->isEmpty()) {
             Context::add('active_member', $this->guest());
+
             return $next($request);
         }
 
-        if ( ! Session::has('active_member_id')) {
+        if (! Session::has('active_member_id')) {
             $session_id = Auth::user()->hallway_members->first()->id;
 
-            if (is_integer($session_id)) {
+            if (is_int($session_id)) {
                 Session::put('active_member_id', $session_id);
             }
         }
@@ -64,5 +66,4 @@ class GetCurrentActiveMemberFromSession
         });
 
     }
-
 }

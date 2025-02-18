@@ -27,14 +27,14 @@ class Gathering extends Model
     public function day(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->start->format('Y-m-d'),
+            get: fn () => $this->start->format('Y-m-d'),
         );
     }
 
     public function month(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->start->format('Y-m'),
+            get: fn () => $this->start->format('Y-m'),
         );
     }
 
@@ -45,5 +45,4 @@ class Gathering extends Model
             'end' => 'datetime',
         ];
     }
-
 }

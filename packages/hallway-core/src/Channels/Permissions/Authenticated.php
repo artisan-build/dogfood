@@ -11,6 +11,6 @@ class Authenticated
 {
     public function __invoke(): bool
     {
-        return MemberRoles::Guest !== Context::get('active_member')->role;
+        return Context::get('active_member')->role !== MemberRoles::Guest;
     }
 }

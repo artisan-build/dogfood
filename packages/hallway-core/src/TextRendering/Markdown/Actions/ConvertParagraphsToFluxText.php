@@ -22,5 +22,4 @@ class ConvertParagraphsToFluxText
 
         return $next($content);
     }
-
 }

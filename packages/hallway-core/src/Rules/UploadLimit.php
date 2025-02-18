@@ -49,7 +49,6 @@ class UploadLimit implements ValidationRule
         return 0;
     }
 
-
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $filesize = filesize($value->path()) / 1024; // get filesize and convert to kb
@@ -59,5 +58,4 @@ class UploadLimit implements ValidationRule
             $fail('The :attribute exceeds the allowed file size.');
         }
     }
-
 }

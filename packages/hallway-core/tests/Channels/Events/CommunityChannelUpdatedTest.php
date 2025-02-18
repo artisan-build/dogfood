@@ -21,7 +21,6 @@ describe('change the channel name', function (): void {
 
         $id = ChannelsFixture::FreeOpen->value;
 
-
         expect(ChannelState::load($id)->name)->toBe('General');
 
         CommunityChannelUpdated::commit(
@@ -36,7 +35,6 @@ describe('change the channel name', function (): void {
         test()->asUser(UsersFixture::Admin->get());
 
         $id = ChannelsFixture::FreeOpen->value;
-
 
         expect(ChannelState::load($id)->name)->toBe('General');
 
@@ -66,7 +64,7 @@ describe('change the channel name', function (): void {
             name: 'Test Channel',
         );
     })->throws(AuthorizationException::class)
-        ->with(collect(UsersFixture::cases())->filter(fn($user) => UsersFixture::Admin !== $user && UsersFixture::Owner !== $user));
+        ->with(collect(UsersFixture::cases())->filter(fn ($user) => $user !== UsersFixture::Admin && $user !== UsersFixture::Owner));
 });
 
 describe('change the channel type', function (): void {
@@ -75,7 +73,6 @@ describe('change the channel type', function (): void {
         test()->asUser(UsersFixture::Owner->get());
 
         $id = ChannelsFixture::FreeOpen->value;
-
 
         expect(ChannelState::load($id)->type)->toBe(ChannelTypes::OpenFree);
 
@@ -91,7 +88,6 @@ describe('change the channel type', function (): void {
         test()->asUser(UsersFixture::Admin->get());
 
         $id = ChannelsFixture::FreeOpen->value;
-
 
         expect(ChannelState::load($id)->type)->toBe(ChannelTypes::OpenFree);
 
@@ -121,5 +117,5 @@ describe('change the channel type', function (): void {
             type: ChannelTypes::PrivateFree,
         );
     })->throws(AuthorizationException::class)
-        ->with(collect(UsersFixture::cases())->filter(fn($user) => UsersFixture::Admin !== $user && UsersFixture::Owner !== $user));
+        ->with(collect(UsersFixture::cases())->filter(fn ($user) => $user !== UsersFixture::Admin && $user !== UsersFixture::Owner));
 });

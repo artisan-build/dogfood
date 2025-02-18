@@ -15,5 +15,4 @@ class Page extends Model
     use HasVerbsState;
 
     protected string $stateClass = PageState::class;
-
 }

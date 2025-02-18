@@ -140,7 +140,7 @@ enum ChannelTypes: int
 
     public function authenticated(ChannelState $channel, MemberState $member): bool
     {
-        return MemberRoles::Guest !== $member->role;
+        return $member->role !== MemberRoles::Guest;
     }
 
     public function admin_team(ChannelState $channel, MemberState $member): bool

@@ -54,5 +54,4 @@ class ConvertHeadingsToFlux
 
         return $next($content);
     }
-
 }

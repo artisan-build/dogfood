@@ -38,7 +38,6 @@ class GatheringCreated extends Event
     #[StateId(GatheringState::class)]
     public ?int $gathering_id = null;
 
-
     #[EventInput(
         type: InputTypes::Text,
     )]
@@ -76,6 +75,7 @@ class GatheringCreated extends Event
         options: ['No', 'Yes'],
     )]
     public bool $published = false;
+
     public ?Carbon $cancelled_at = null;
 
     #[EventInput(
@@ -107,7 +107,6 @@ class GatheringCreated extends Event
     {
         $start = Carbon::parse($this->start->format('Y-m-d\TH:i'), $this->timezone)->setTimezone('UTC');
 
-
         $gathering->title = $this->title;
         $gathering->description = $this->description;
         $gathering->start = $start;
@@ -117,5 +116,4 @@ class GatheringCreated extends Event
         $gathering->invitation_level = $this->invitation_level;
         $gathering->capacity = $this->capacity;
     }
-
 }

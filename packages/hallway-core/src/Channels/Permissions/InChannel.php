@@ -18,5 +18,4 @@ class InChannel
 
         return $member->inChannel();
     }
-
 }

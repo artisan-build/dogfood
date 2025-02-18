@@ -14,13 +14,13 @@ class CopyEmbeddableTagsToNewLines
 
         // Find all embeddable links and add to array
         preg_match_all($embedPattern, $content, $matches);
-        if ( ! empty($matches[0])) {
+        if (! empty($matches[0])) {
             $embeds = array_unique($matches[0]);
         }
 
         // Append each link on a new line at the end of the content
-        if ( ! empty($embeds)) {
-            $content .= "\n\n" . implode("\n", $embeds) . "\n";
+        if (! empty($embeds)) {
+            $content .= "\n\n".implode("\n", $embeds)."\n";
         }
 
         return $content;

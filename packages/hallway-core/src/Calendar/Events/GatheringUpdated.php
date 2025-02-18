@@ -42,7 +42,6 @@ class GatheringUpdated extends Event
     )]
     public ?string $description = null;
 
-
     #[EventInput(
         type: InputTypes::DatetimeLocal,
     )]
@@ -80,5 +79,4 @@ class GatheringUpdated extends Event
         description: 'Link where participants should go at the start of the gathering (Zoom, Google Meet, etc)',
     )]
     public ?string $url = null;
-
 }

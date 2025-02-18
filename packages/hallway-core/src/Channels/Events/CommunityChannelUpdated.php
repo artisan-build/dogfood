@@ -66,16 +66,16 @@ class CommunityChannelUpdated extends Event
             }
         }*/
 
-
     #[Once]
     public function handle(): ?Channel
     {
-        if (Route::has(config('hallway-flux.route-name-prefix') . 'channel')) {
+        if (Route::has(config('hallway-flux.route-name-prefix').'channel')) {
             return new Channel([
                 'id' => $this->channel_id,
-                'flux_url' => route(config('hallway-flux.route-name-prefix') . 'channel', ['channel' => $this->channel_id]),
+                'flux_url' => route(config('hallway-flux.route-name-prefix').'channel', ['channel' => $this->channel_id]),
             ]);
         }
+
         return null;
     }
 }

@@ -24,12 +24,10 @@ class Member extends Model
 
     protected string $stateClass = MemberState::class;
 
-
     public function casts(): array
     {
         return [
             'role' => MemberRoles::class,
         ];
     }
-
 }

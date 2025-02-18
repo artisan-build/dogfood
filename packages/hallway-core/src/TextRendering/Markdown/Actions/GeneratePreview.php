@@ -15,15 +15,15 @@ class GeneratePreview
         // TODO: This is going to be a configuration variable, but we need it in the database
         $limit = 500;
         libxml_use_internal_errors(true);
-        $doc = new DOMDocument();
-        $doc->loadHTML('<div>' . mb_encode_numericentity(
+        $doc = new DOMDocument;
+        $doc->loadHTML('<div>'.mb_encode_numericentity(
             htmlspecialchars_decode(
                 htmlentities($content->parsed, ENT_NOQUOTES, 'UTF-8', false),
                 ENT_IGNORE,
             ),
             [0x80, 0x10FFFF, 0, ~0],
             'UTF-8',
-        ) . '</div>');
+        ).'</div>');
 
         $visibleTextCount = 0;
         $previewContent = '';
@@ -42,7 +42,7 @@ class GeneratePreview
             $previewContent .= "</{$tag}>";
         }
 
-        $content->preview = trim(html_entity_decode($previewContent));
+        $content->preview = trim(html_entity_decode((string) $previewContent));
 
         return $next($content);
     }
@@ -53,22 +53,22 @@ class GeneratePreview
             return;
         }
 
-        if (XML_TEXT_NODE === $node->nodeType) {
+        if ($node->nodeType === XML_TEXT_NODE) {
             $nodeText = $node->nodeValue;
             $remaining = $limit - $visibleTextCount;
 
-            if ($visibleTextCount + mb_strlen($nodeText) > $limit) {
-                $previewContent .= htmlspecialchars(mb_substr($nodeText, 0, $remaining));
+            if ($visibleTextCount + mb_strlen((string) $nodeText) > $limit) {
+                $previewContent .= htmlspecialchars(mb_substr((string) $nodeText, 0, $remaining));
                 $stop = true;
             } else {
-                $previewContent .= htmlspecialchars($nodeText);
-                $visibleTextCount += mb_strlen($nodeText);
+                $previewContent .= htmlspecialchars((string) $nodeText);
+                $visibleTextCount += mb_strlen((string) $nodeText);
             }
-        } elseif (XML_ELEMENT_NODE === $node->nodeType) {
+        } elseif ($node->nodeType === XML_ELEMENT_NODE) {
             // Add opening tag
-            $openTag = '<' . $node->nodeName;
+            $openTag = '<'.$node->nodeName;
             foreach ($node->attributes as $attr) {
-                $openTag .= ' ' . $attr->nodeName . '="' . htmlspecialchars($attr->nodeValue) . '"';
+                $openTag .= ' '.$attr->nodeName.'="'.htmlspecialchars((string) $attr->nodeValue).'"';
             }
             $openTag .= '>';
 
@@ -82,10 +82,10 @@ class GeneratePreview
                 }
             }
 
-            if ( ! $stop) {
+            if (! $stop) {
                 // If not stopped, close the current tag
                 array_pop($openTags);
-                $previewContent .= "</" . $node->nodeName . ">";
+                $previewContent .= '</'.$node->nodeName.'>';
             }
         }
     }

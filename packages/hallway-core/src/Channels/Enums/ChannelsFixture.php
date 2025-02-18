@@ -10,7 +10,7 @@ use ArtisanBuild\FatEnums\Traits\HasKeyValueAttributes;
 
 enum ChannelsFixture: int
 {
-    //use DatabaseRecordsEnum;
+    // use DatabaseRecordsEnum;
     use HasKeyValueAttributes;
 
     #[WithData([

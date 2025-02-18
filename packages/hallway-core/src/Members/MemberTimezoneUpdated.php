@@ -15,7 +15,6 @@ class MemberTimezoneUpdated extends Event
 
     #[StateId(MemberState::class)]
     public int $member_id;
+
     public string $timezone;
-
-
 }

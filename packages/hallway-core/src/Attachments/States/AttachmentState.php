@@ -12,7 +12,9 @@ use Thunk\Verbs\State;
 class AttachmentState extends State
 {
     public int $message_id;
+
     public string $url;
+
     public AttachmentDisplayTemplates $template = AttachmentDisplayTemplates::Image;
 
     public function message(): MessageState

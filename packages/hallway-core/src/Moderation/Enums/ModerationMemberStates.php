@@ -14,7 +14,6 @@ enum ModerationMemberStates: int
 
     public function hasCommunityWritePrivileges(): bool
     {
-        return self::Active === $this;
+        return $this === self::Active;
     }
-
 }

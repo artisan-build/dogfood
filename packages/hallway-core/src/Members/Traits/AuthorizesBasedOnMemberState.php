@@ -20,11 +20,9 @@ trait AuthorizesBasedOnMemberState
             return true;
         }
 
-
         $member = Context::get('active_member');
 
-
-        if ( ! $member instanceof MemberState) {
+        if (! $member instanceof MemberState) {
             return false;
         }
 

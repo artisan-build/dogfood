@@ -22,6 +22,6 @@ class IsChannelOwner
             return true;
         }
 
-        return null !== $channel->owner_id && $channel->owner_id === $member->id;
+        return $channel->owner_id !== null && $channel->owner_id === $member->id;
     }
 }

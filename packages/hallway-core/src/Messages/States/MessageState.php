@@ -15,20 +15,25 @@ use Thunk\Verbs\State;
 class MessageState extends State
 {
     public int $channel_id;
+
     public int $member_id;
 
     public ModerationMessageStates $moderation_state = ModerationMessageStates::None;
+
     public ?int $thread_id = null;
 
     public string $content;
 
     public ?Carbon $pinned_at = null;
+
     public ?int $pinned_by_id = null;
 
     public array $attachment_ids = [];
 
     public array $comments = [];
+
     public array $revisions = [];
+
     public array $mentions = [];
 
     public function member(): MemberState
@@ -38,12 +43,12 @@ class MessageState extends State
 
     public function attachments()
     {
-        return collect($this->attachment_ids)->map(fn($id) => AttachmentState::load($id));
+        return collect($this->attachment_ids)->map(fn ($id) => AttachmentState::load($id));
     }
 
     public function pinned_by(): ?MemberState
     {
-        return null === $this->pinned_by_id ? null : MemberState::load($this->pinned_by_id);
+        return $this->pinned_by_id === null ? null : MemberState::load($this->pinned_by_id);
     }
 
     public function rendered(): string
@@ -65,5 +70,4 @@ class MessageState extends State
     {
         return strip_tags(trim($this->preview())) !== strip_tags(trim($this->rendered()));
     }
-
 }

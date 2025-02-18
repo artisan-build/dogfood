@@ -15,8 +15,11 @@ use Thunk\Verbs\State;
 class ChannelState extends State
 {
     public string $name;
+
     public string $description = '';
+
     public ChannelTypes $type;
+
     public ?int $owner_id = null;
 
     public array $member_ids = [];
@@ -27,12 +30,12 @@ class ChannelState extends State
 
     public function members(): Collection
     {
-        return collect($this->member_ids)->map(fn(int $id) => MemberState::load($id));
+        return collect($this->member_ids)->map(fn (int $id) => MemberState::load($id));
     }
 
     public function messages(): Collection
     {
-        return collect($this->message_ids)->map(fn(int $id) => MessageState::load($id));
+        return collect($this->message_ids)->map(fn (int $id) => MessageState::load($id));
     }
 
     public function availableToMember(): bool

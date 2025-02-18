@@ -19,9 +19,9 @@ class ParseMarkdownToHtml
     public function __invoke(MarkdownContent $content, Closure $next)
     {
         $environment = new Environment([]);
-        $environment->addExtension(new CommonMarkCoreExtension());
-        $environment->addExtension(new GithubFlavoredMarkdownExtension());
-        $environment->addExtension(new AttributesExtension());
+        $environment->addExtension(new CommonMarkCoreExtension);
+        $environment->addExtension(new GithubFlavoredMarkdownExtension);
+        $environment->addExtension(new AttributesExtension);
 
         $this->converter = new MarkdownConverter($environment);
 

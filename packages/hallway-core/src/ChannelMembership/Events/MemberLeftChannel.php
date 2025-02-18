@@ -30,5 +30,4 @@ class MemberLeftChannel extends Event
     {
         $channel->member_ids = Arr::removeFromList($channel->member_ids, $this->member_id);
     }
-
 }

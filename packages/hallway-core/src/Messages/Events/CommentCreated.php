@@ -21,6 +21,7 @@ use Thunk\Verbs\Event;
 class CommentCreated extends Event
 {
     use AuthorizesBasedOnMemberState;
+
     public ChannelPermissionTypes $needs_channel_permissions = ChannelPermissionTypes::Comment;
 
     #[StateId(MessageState::class)]

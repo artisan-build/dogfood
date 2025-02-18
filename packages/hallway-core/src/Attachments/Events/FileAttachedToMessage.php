@@ -40,5 +40,4 @@ class FileAttachedToMessage extends Event
         $attachment->message_id = $this->message_id;
         $attachment->url = $this->url;
     }
-
 }

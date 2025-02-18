@@ -84,7 +84,6 @@ describe('event created', function (): void {
         );
     })->throws(AuthorizationException::class);
 
-
     it('throws if any non-admin user tries to create a gathering', function ($user): void {
         test()->asUser($user->get());
         $gathering_id = snowflake_id();
@@ -97,5 +96,5 @@ describe('event created', function (): void {
             duration: 60,
             invitation_level: InvitationLevels::Free,
         );
-    })->throws(AuthorizationException::class)->with(collect(UsersFixture::cases())->filter(fn($case) => UsersFixture::Admin !== $case && UsersFixture::Owner !== $case));
+    })->throws(AuthorizationException::class)->with(collect(UsersFixture::cases())->filter(fn ($case) => $case !== UsersFixture::Admin && $case !== UsersFixture::Owner));
 });

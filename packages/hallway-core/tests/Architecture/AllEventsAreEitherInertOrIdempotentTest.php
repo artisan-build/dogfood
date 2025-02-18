@@ -20,13 +20,11 @@ it('checks if classes extending Event with #[Inert] have #[Once] on handle', fun
 
         $method = $reflectionClass->getMethod('handle');
 
-
         if (empty($method->getAttributes(Once::class)) && empty($method->getAttributes(Idempotent::class))) {
             test()->fail("{$class} does not have #[Once] or #[Idempotent] on the handle method");
         }
 
         expect(true)->toBeTrue();
-
 
     });
     expect(true)->toBeTrue();

@@ -46,7 +46,7 @@ class ExtractEmbeddableLinks
 
     private function getEmbeddedContent(string $link): string
     {
-        $embedLibrary = new Embed();
+        $embedLibrary = new Embed;
         $embedLibrary->setSettings([
             'oembed:query_parameters' => [
                 'maxwidth' => 800,
@@ -62,14 +62,13 @@ class ExtractEmbeddableLinks
             ],
         ]);
 
-        $environment->addExtension(new CommonMarkCoreExtension());
-        $environment->addExtension(new GithubFlavoredMarkdownExtension());
-        $environment->addExtension(new AttributesExtension());
-        $environment->addExtension(new EmbedExtension());
+        $environment->addExtension(new CommonMarkCoreExtension);
+        $environment->addExtension(new GithubFlavoredMarkdownExtension);
+        $environment->addExtension(new AttributesExtension);
+        $environment->addExtension(new EmbedExtension);
 
         $this->converter = new MarkdownConverter($environment);
 
-
-        return Cache::rememberForever(sha1($link), fn() => $this->converter->convert($link)->getContent());
+        return Cache::rememberForever(sha1($link), fn () => $this->converter->convert($link)->getContent());
     }
 }
