@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use ArtisanBuild\Hallway\Members\Traits\HasHallwayMembership;
 use ArtisanBuild\Till\Traits\Tillable;
 use ArtisanBuild\Verbstream\Traits\HasProfilePhoto;
 use ArtisanBuild\Verbstream\Traits\HasTeams;
@@ -70,12 +71,16 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static Builder<static>|User whereTwoFactorSecret($value)
  * @method static Builder<static>|User whereUpdatedAt($value)
  *
+ * @property-read Collection<int, \ArtisanBuild\Hallway\Members\Models\Member> $hallway_members
+ * @property-read int|null $hallway_members_count
+ *
  * @mixin Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
+    use HasHallwayMembership;
     use HasProfilePhoto;
     use HasTeams;
     use Notifiable;

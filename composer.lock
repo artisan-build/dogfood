@@ -1498,7 +1498,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
-                "reference": "80d56731f58ee12e0060b62c6c8b50114d52b105"
+                "reference": "97db037fcb8b3d52193862927b6c276b5ff01290"
             },
             "require": {
                 "artisan-build/hallway-core": "*",
@@ -1507,6 +1507,7 @@
                 "livewire/flux-pro": "*",
                 "livewire/livewire": "^v3.5.9",
                 "php": "^8.3",
+                "spatie/livewire-filepond": "*",
                 "spatie/php-structure-discoverer": "*"
             },
             "require-dev": {
@@ -4659,16 +4660,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.42.1",
+            "version": "v11.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ff392f42f6c55cc774ce75553a11c6b031da67f8"
+                "reference": "70760d976486310b11d8e487e873077db069e77a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ff392f42f6c55cc774ce75553a11c6b031da67f8",
-                "reference": "ff392f42f6c55cc774ce75553a11c6b031da67f8",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/70760d976486310b11d8e487e873077db069e77a",
+                "reference": "70760d976486310b11d8e487e873077db069e77a",
                 "shasum": ""
             },
             "require": {
@@ -4870,7 +4871,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-02-12T20:58:18+00:00"
+            "time": "2025-02-18T15:37:56+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -8087,6 +8088,84 @@
                 }
             ],
             "time": "2025-02-06T14:58:20+00:00"
+        },
+        {
+            "name": "spatie/livewire-filepond",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/livewire-filepond.git",
+                "reference": "9f0c8b412b048c069bcdb6be913d51eb14a482af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/livewire-filepond/zipball/9f0c8b412b048c069bcdb6be913d51eb14a482af",
+                "reference": "9f0c8b412b048c069bcdb6be913d51eb14a482af",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.0||^11.0",
+                "livewire/livewire": "^3.5",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9",
+                "laravel/pint": "^1.14",
+                "nunomaduro/collision": "^8.1.1||^7.10.0",
+                "orchestra/testbench": "^9.0.0||^8.22.0",
+                "pestphp/pest": "^2.34",
+                "pestphp/pest-plugin-arch": "^2.7",
+                "pestphp/pest-plugin-laravel": "^2.3",
+                "phpstan/extension-installer": "^1.3",
+                "phpstan/phpstan-deprecation-rules": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\LivewireFilepond\\LivewireFilepondServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\LivewireFilepond\\": "src/",
+                    "Spatie\\LivewireFilepond\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rias Van der Veken",
+                    "email": "rias@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Upload files using Filepond in Livewire components",
+            "homepage": "https://github.com/spatie/livewire-filepond",
+            "keywords": [
+                "laravel",
+                "livewire",
+                "livewire-filepond",
+                "spatie",
+                "uploads"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/livewire-filepond/issues",
+                "source": "https://github.com/spatie/livewire-filepond/tree/1.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-11-22T18:16:57+00:00"
         },
         {
             "name": "spatie/php-structure-discoverer",

@@ -7,7 +7,10 @@ namespace ArtisanBuild\Adverbs\Models;
 use ArtisanBuild\Adverbs\States\DummyState;
 use ArtisanBuild\Adverbs\Traits\GetsRowsFromVerbsStates;
 use ArtisanBuild\Adverbs\Traits\HasVerbsState;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Thunk\Verbs\State;
 
 /**
  * @property string|null $name
@@ -16,26 +19,26 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $id
  * @property string|null $last_event_id
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Dummy newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Dummy newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Dummy query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Dummy whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Dummy whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Dummy whereLastEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Dummy whereMetadata($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Dummy whereName($value)
+ * @method static Builder<static>|Dummy newModelQuery()
+ * @method static Builder<static>|Dummy newQuery()
+ * @method static Builder<static>|Dummy query()
+ * @method static Builder<static>|Dummy whereDescription($value)
+ * @method static Builder<static>|Dummy whereId($value)
+ * @method static Builder<static>|Dummy whereLastEventId($value)
+ * @method static Builder<static>|Dummy whereMetadata($value)
+ * @method static Builder<static>|Dummy whereName($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Dummy extends Model
 {
     use GetsRowsFromVerbsStates;
     use HasVerbsState;
 
-    public string $stateClass = DummyState::class;
+    public string $state_class = DummyState::class;
 
     protected function getStateClass(): string
     {
-        return \Thunk\Verbs\State::class;
+        return State::class;
     }
 }

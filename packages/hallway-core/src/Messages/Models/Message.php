@@ -14,5 +14,5 @@ class Message extends Model
     use GetsRowsFromVerbsStates;
     use HasVerbsState;
 
-    protected $stateClass = MessageState::class;
+    protected string $state_class = MessageState::class;
 }
