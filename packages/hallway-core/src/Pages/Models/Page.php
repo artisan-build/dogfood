@@ -14,5 +14,5 @@ class Page extends Model
     use GetsRowsFromVerbsStates;
     use HasVerbsState;
 
-    protected string $stateClass = PageState::class;
+    protected string $state_class = PageState::class;
 }

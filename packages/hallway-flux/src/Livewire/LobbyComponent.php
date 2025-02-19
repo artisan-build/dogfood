@@ -13,15 +13,15 @@ use Livewire\Component;
 class LobbyComponent extends Component
 {
     public $lobby;
-    protected string $template = 'hallway-flux::livewire.lobby';
 
+    protected string $template = 'hallway-flux::livewire.lobby';
 
     public function mount(): void
     {
         $this->lobby = LobbyPageRequested::commit();
 
-        if (null === $this->lobby) {
-            if ( ! Functions::can(PageCreated::class, Context::get('active_member'))) {
+        if ($this->lobby === null) {
+            if (! Functions::can(PageCreated::class, Context::get('active_member'))) {
                 $this->template = 'hallway-flux::livewire.lobby_not_created';
             } else {
                 $this->lobby = $this->createLobbyPage();
@@ -41,7 +41,7 @@ class LobbyComponent extends Component
             title: 'Welcome to your new Hallway.fm Community!',
             slug: 'lobby',
             is_lobby: true,
-            free_content: file_get_contents(__DIR__ . '/../../resources/markdown/install_lobby.md'),
+            free_content: file_get_contents(__DIR__.'/../../resources/markdown/install_lobby.md'),
         );
     }
 

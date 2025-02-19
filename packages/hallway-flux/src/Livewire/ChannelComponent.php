@@ -29,8 +29,6 @@ class ChannelComponent extends Component
         $this->dispatch('reload');
     }
 
-
-
     public function render()
     {
         return view('hallway-flux::livewire.channel')->layout('hallway-flux::layouts.app');

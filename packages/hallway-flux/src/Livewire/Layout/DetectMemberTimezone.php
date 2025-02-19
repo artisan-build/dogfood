@@ -19,16 +19,17 @@ class DetectMemberTimezone extends Component
     {
         $this->timezone = Context::get('active_member')?->timezone;
     }
+
     public function setTimezone(string $timezone): void
     {
-        Session::remember('timezone', fn() => $timezone);
+        Session::remember('timezone', fn () => $timezone);
         Context::add('timezone', $timezone);
         if ($timezone !== $this->timezone) {
             MemberTimezoneUpdated::fire(
                 member_id: Context::get('active_member')->id,
                 timezone: $timezone,
             );
-            if (MemberRoles::Guest !== Context::get('active_member')->role) {
+            if (Context::get('active_member')->role !== MemberRoles::Guest) {
                 Flux::toast("We have updated your time zone to {$timezone}", 'Time Zone Updated');
             }
         }
@@ -38,5 +39,4 @@ class DetectMemberTimezone extends Component
     {
         return view('hallway-flux::livewire.layout.detect-member-timezone');
     }
-
 }

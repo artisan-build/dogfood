@@ -18,11 +18,11 @@ class GatheringsSeeder extends Seeder
         foreach (GatheringsFixture::cases() as $case) {
             GatheringCreated::commit(
                 gathering_id: $case->value,
-                title: $case->data($case, 'title'),
-                description: $case->data($case, 'description'),
-                start: now()->addDays((int) $case->data($case, 'start')),
-                end: now()->addDays((int) $case->data($case, 'end')),
-                invitation_level: $case->data($case, 'invitation_level'),
+                title: $case->data('title'),
+                description: $case->data('description'),
+                start: now()->addDays((int) $case->data('start')),
+                end: now()->addDays((int) $case->data('end')),
+                invitation_level: $case->data('invitation_level'),
             );
         }
     }

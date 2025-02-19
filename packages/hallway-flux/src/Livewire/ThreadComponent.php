@@ -21,8 +21,6 @@ class ThreadComponent extends Component
         $this->dispatch('reload');
     }
 
-
-
     public function render()
     {
         return view('hallway-flux::livewire.thread')->layout('hallway-flux::layouts.app');

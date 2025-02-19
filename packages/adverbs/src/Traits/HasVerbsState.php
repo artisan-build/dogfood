@@ -12,7 +12,22 @@ trait HasVerbsState
     /**
      * Get the state class for this model.
      */
-    abstract protected function getStateClass(): string;
+    protected function getStateClass(): string
+    {
+        throw_if(
+            condition: empty($this->state_class),
+            exception: 'State class is not set',
+        );
+
+        $state = $this->state_class;
+
+        throw_if(
+            condition: ! class_exists($state),
+            exception: 'Unknown class '.$state,
+        );
+
+        return $state;
+    }
 
     /**
      * @throws Throwable

@@ -21,7 +21,7 @@ class ChannelsComponent extends Component
     {
         $this->channels = ChannelsRequested::commit();
 
-        $this->membership = $this->channels->mapWithKeys(fn($channel) => [$channel->id => $channel->inChannel()])->toArray();
+        $this->membership = $this->channels->mapWithKeys(fn ($channel) => [$channel->id => $channel->inChannel()])->toArray();
     }
 
     public function updatingMembership($value, $key): void

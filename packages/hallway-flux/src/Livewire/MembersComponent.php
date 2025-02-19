@@ -13,7 +13,9 @@ use Livewire\Component;
 class MembersComponent extends Component
 {
     public ?ChannelState $channel = null;
+
     public int $skip = 0;
+
     public int $take = 25;
 
     #[Computed]

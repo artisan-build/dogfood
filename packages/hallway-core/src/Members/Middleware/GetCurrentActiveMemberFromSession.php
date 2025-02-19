@@ -47,7 +47,7 @@ class GetCurrentActiveMemberFromSession
     private function guest(): State
     {
         return Cache::rememberForever('guest_state', function () {
-            $id = MemberRoles::Guest->data(MemberRoles::Guest, 'id');
+            $id = MemberRoles::Guest->data('id');
             $guest = Member::find($id);
 
             if ($guest instanceof Member) {

@@ -22,16 +22,16 @@ class Gathering extends Model
 
     protected $appends = ['day', 'month'];
 
-    protected string $stateClass = GatheringState::class;
+    protected string $state_class = GatheringState::class;
 
-    public function day(): Attribute
+    protected function day(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->start->format('Y-m-d'),
         );
     }
 
-    public function month(): Attribute
+    protected function month(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->start->format('Y-m'),

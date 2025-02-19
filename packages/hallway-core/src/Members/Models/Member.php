@@ -22,7 +22,9 @@ class Member extends Model
 
     public $incrementing = false;
 
-    protected string $stateClass = MemberState::class;
+    protected string $state_class = MemberState::class;
+
+    protected $guarded = [];
 
     public function casts(): array
     {

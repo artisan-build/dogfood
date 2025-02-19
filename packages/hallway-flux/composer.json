@@ -19,7 +19,9 @@
         "livewire/livewire": "^v3.5.9",
         "livewire/flux": "*",
         "livewire/flux-pro": "*",
-        "illuminate/contracts": "^11.0"
+        "illuminate/contracts": "^11.0",
+        "spatie/livewire-filepond": "*",
+        "spatie/php-structure-discoverer": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",

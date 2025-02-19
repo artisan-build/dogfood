@@ -16,15 +16,15 @@ trait GetsRowsFromVerbsStates
 
     public function getRows(): array
     {
-        $stateClass = $this->stateClass;
+        $state_class = $this->state_class;
 
-        return VerbSnapshot::where('type', $stateClass)
+        return VerbSnapshot::where('type', $state_class)
             ->whereNotNull('last_event_id')
             ->get()->map(/**
              * @throws JsonException
              */ function ($row) {
                 $record = json_decode((string) $row->data, true);
-                // $record = (array) $stateClass::load($row->state_id);
+                // $record = (array) $state_class::load($row->state_id);
                 // These next two foreach blocks simply ensure that all records have the same
                 // number of columns regardless of any changes to the state since the record was created.
                 // If public properties have been added since a record was created, it gets added to the record with
@@ -49,7 +49,7 @@ trait GetsRowsFromVerbsStates
 
     public function getSchema(): array
     {
-        $reflection = new ReflectionClass($this->stateClass);
+        $reflection = new ReflectionClass($this->state_class);
 
         return collect($reflection->getProperties(ReflectionProperty::IS_PUBLIC))
             ->mapWithKeys(fn (ReflectionProperty $property) => [$property->getName() => 'string'])

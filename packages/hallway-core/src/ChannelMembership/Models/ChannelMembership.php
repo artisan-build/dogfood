@@ -16,5 +16,5 @@ class ChannelMembership extends Model
     use GetsRowsFromVerbsStates;
     use HasVerbsState;
 
-    protected string $stateClass = ChannelMembershipState::class;
+    protected string $state_class = ChannelMembershipState::class;
 }

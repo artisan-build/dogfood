@@ -15,7 +15,7 @@ class Channel extends Model
     use GetsRowsFromVerbsStates;
     use HasVerbsState;
 
-    protected string $stateClass = ChannelState::class;
+    protected string $state_class = ChannelState::class;
 
     protected $guarded = [];
 

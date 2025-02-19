@@ -21,12 +21,17 @@ use Spatie\LivewireFilepond\WithFilePond;
 class NewMessageComponent extends Component
 {
     use WithFilePond;
+
     public $file;
+
     public $attachments;
 
     public string $content = '';
+
     public ?int $channel_id = null;
+
     public ?int $thread_id = null;
+
     public string $disk = 'public';
 
     public function mount(): void
@@ -43,11 +48,12 @@ class NewMessageComponent extends Component
             'file' => [
                 'nullable',
                 'file',
-                'mimetypes:' . implode(',', UploadLimit::allowedMimeTypes()),
-                new UploadLimit(),
+                'mimetypes:'.implode(',', UploadLimit::allowedMimeTypes()),
+                new UploadLimit,
             ],
         ];
     }
+
     public function validateUploadedFile(): true
     {
         $this->validate();
@@ -62,13 +68,13 @@ class NewMessageComponent extends Component
     public function createMessage(): void
     {
         // We don't want to throw an exception here. Just ignore the button click and wait for some real content.
-        if ('' === $this->content) {
+        if ($this->content === '') {
             return;
         }
 
         $message_id = snowflake_id();
 
-        if (null === $this->thread_id) {
+        if ($this->thread_id === null) {
             MessageCreated::commit(
                 message_id: $message_id,
                 channel_id: $this->channel_id,
@@ -82,7 +88,6 @@ class NewMessageComponent extends Component
                 content: $this->content,
             );
         }
-
 
         $this->attachments->each(function (TemporaryUploadedFile $attachment) use ($message_id): void {
             $attachment_id = snowflake_id();

@@ -21,7 +21,7 @@ class CalendarComponent extends Component
 
     public function mount(): void
     {
-        if ('' === $this->range) {
+        if ($this->range === '') {
             $this->range = date('Y-m');
         }
         $this->upcoming = GatheringsRequested::commit();
@@ -49,13 +49,13 @@ class CalendarComponent extends Component
 
             while ($weekStart->lessThanOrEqualTo($startDate->copy()->endOfMonth())) {
                 $week = [
-                    'sunday' => ['date' => $date = $weekStart, 'number' => $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn($gathering) => $gathering->start->format('z') === $date->format('z'))],
-                    'monday' => ['date' => $date = $weekStart->copy()->addDays(1), 'number' => $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn($gathering) => $gathering->start->format('z') === $date->format('z'))],
-                    'tuesday' => ['date' => $date = $weekStart->copy()->addDays(2), 'number' =>  $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn($gathering) => $gathering->start->format('z') === $date->format('z'))],
-                    'wednesday' => ['date' => $date = $weekStart->copy()->addDays(3), 'number' =>  $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn($gathering) => $gathering->start->format('z') === $date->format('z'))],
-                    'thursday' => ['date' => $date = $weekStart->copy()->addDays(4), 'number' =>  $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn($gathering) => $gathering->start->format('z') === $date->format('z'))],
-                    'friday' => ['date' => $date = $weekStart->copy()->addDays(5), 'number' =>  $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn($gathering) => $gathering->start->format('z') === $date->format('z'))],
-                    'saturday' => ['date' => $date = $weekStart->copy()->addDays(6), 'number' =>  $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn($gathering) => $gathering->start->format('z') === $date->format('z'))],
+                    'sunday' => ['date' => $date = $weekStart, 'number' => $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn ($gathering) => $gathering->start->format('z') === $date->format('z'))],
+                    'monday' => ['date' => $date = $weekStart->copy()->addDays(1), 'number' => $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn ($gathering) => $gathering->start->format('z') === $date->format('z'))],
+                    'tuesday' => ['date' => $date = $weekStart->copy()->addDays(2), 'number' => $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn ($gathering) => $gathering->start->format('z') === $date->format('z'))],
+                    'wednesday' => ['date' => $date = $weekStart->copy()->addDays(3), 'number' => $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn ($gathering) => $gathering->start->format('z') === $date->format('z'))],
+                    'thursday' => ['date' => $date = $weekStart->copy()->addDays(4), 'number' => $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn ($gathering) => $gathering->start->format('z') === $date->format('z'))],
+                    'friday' => ['date' => $date = $weekStart->copy()->addDays(5), 'number' => $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn ($gathering) => $gathering->start->format('z') === $date->format('z'))],
+                    'saturday' => ['date' => $date = $weekStart->copy()->addDays(6), 'number' => $date->format('j'), 'today' => $date->isToday(), 'gatherings' => $this->upcoming->filter(fn ($gathering) => $gathering->start->format('z') === $date->format('z'))],
                 ];
 
                 $weeks[] = $week;

@@ -18,9 +18,9 @@ class ChannelsSeeder extends Seeder
         foreach (ChannelsFixture::cases() as $case) {
             CommunityChannelCreated::commit(
                 channel_id: $case->value,
-                name: $case->data($case, 'name'),
-                description: $case->data($case, 'description'),
-                type: $case->data($case, 'type'),
+                name: $case->data('name'),
+                description: $case->data('description'),
+                type: $case->data('type'),
             );
         }
     }

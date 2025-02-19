@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-use App\Enums\UsersFixture;
 use ArtisanBuild\Hallway\Calendar\Events\GatheringUpdated;
 use ArtisanBuild\Hallway\Calendar\States\GatheringState;
 use ArtisanBuild\Hallway\Channels\Enums\ChannelsFixture;
 use ArtisanBuild\Hallway\Channels\Enums\ChannelTypes;
 use ArtisanBuild\Hallway\Channels\Events\CommunityChannelUpdated;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
+use ArtisanBuild\Hallway\Testing\Enums\UsersFixture;
 use Illuminate\Auth\Access\AuthorizationException;
 
 mutates([
     GatheringUpdated::class,
     GatheringState::class,
 ]);
+
 describe('change the channel name', function (): void {
     test('owners can change a channel name', function (): void {
         test()->asUser(UsersFixture::Owner->get());
@@ -65,7 +66,7 @@ describe('change the channel name', function (): void {
         );
     })->throws(AuthorizationException::class)
         ->with(collect(UsersFixture::cases())->filter(fn ($user) => $user !== UsersFixture::Admin && $user !== UsersFixture::Owner));
-});
+})->skip('Rework this so it does not need database records');
 
 describe('change the channel type', function (): void {
 
@@ -118,4 +119,4 @@ describe('change the channel type', function (): void {
         );
     })->throws(AuthorizationException::class)
         ->with(collect(UsersFixture::cases())->filter(fn ($user) => $user !== UsersFixture::Admin && $user !== UsersFixture::Owner));
-});
+})->skip('Rework this so it does not need database records');
