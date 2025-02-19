@@ -2,8 +2,6 @@
 
 namespace ArtisanBuild\Hallway\Testing\Seeders;
 
-
-use ArtisanBuild\Hallway\Calendar\Models\Gathering;
 use ArtisanBuild\Hallway\Seeders\ChannelsSeeder;
 use ArtisanBuild\Hallway\Seeders\GatheringsSeeder;
 use ArtisanBuild\Hallway\Seeders\UsersSeeder;

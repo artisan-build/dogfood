@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersSeeder extends Seeder
 {
-
     public function run(): void
     {
         foreach (UsersFixture::cases() as $case) {
@@ -28,20 +27,20 @@ class UsersSeeder extends Seeder
             );
 
             $member_role = match (true) {
-                UserRoles::Owner === $case->data('role') => MemberRoles::Owner,
-                UserRoles::Admin === $case->data('role') => MemberRoles::Admin,
-                'moderator@hallway.fm' === $case->data('email') => MemberRoles::Moderator,
+                $case->data('role') === UserRoles::Owner => MemberRoles::Owner,
+                $case->data('role') === UserRoles::Admin => MemberRoles::Admin,
+                $case->data('email') === 'moderator@hallway.fm' => MemberRoles::Moderator,
                 default => MemberRoles::Member,
             };
 
             MemberCreated::commit(
                 user_id: $case->value,
-                handle: current(explode('@', $case->data('email'))),
+                handle: current(explode('@', (string) $case->data('email'))),
                 display_name: $case->data('name'),
                 role: $member_role,
                 payment_state: $case->data('payment_state', null),
                 moderation_state: $case->data('moderation_state', null),
-                profile_picture_url: "https://ui-avatars.com/api/?name=" . urlencode($case->data('name')),
+                profile_picture_url: 'https://ui-avatars.com/api/?name='.urlencode((string) $case->data('name')),
             );
         }
     }

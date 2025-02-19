@@ -20,7 +20,6 @@ use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Members\States\MemberState;
 use ArtisanBuild\Hallway\Moderation\Enums\ModerationMemberStates;
 use ArtisanBuild\Hallway\Payment\Enums\PaymentStates;
-use ArtisanBuild\Hallway\Testing\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\Context;
 use Tests\TestCase;
@@ -42,17 +41,22 @@ function channel_permissions(
     ChannelTestSwitches $switch,
     bool $expected,
 ): void {
-    $channel = new class () extends ChannelState {
+    $channel = new class extends ChannelState
+    {
         public ChannelTypes $type;
-        public int|null $owner_id = 123;
+
+        public ?int $owner_id = 123;
     };
 
     $channel->type = $channel_type;
     Context::add('channel', $channel);
 
-    $member = new class () extends MemberState {
+    $member = new class extends MemberState
+    {
         public MemberRoles $role;
+
         public PaymentStates $payment_state;
+
         public ModerationMemberStates $moderation_state;
     };
 
@@ -60,13 +64,13 @@ function channel_permissions(
     $member->payment_state = $payment_state;
     $member->moderation_state = $moderation_state;
     // in_channel is deprecated in order to ensure we don't use it in the app itself. Only used for testing.
-    $member->in_channel = ChannelTestSwitches::InChannel === $switch;
-    $member->owns_channel = ChannelTestSwitches::OwnsChannel === $switch;
+    $member->in_channel = $switch === ChannelTestSwitches::InChannel;
+    $member->owns_channel = $switch === ChannelTestSwitches::OwnsChannel;
 
     Illuminate\Support\Facades\Context::add('active_member', $member);
 
-
-    $event = new class () extends Thunk\Verbs\Event {
+    $event = new class extends Thunk\Verbs\Event
+    {
         public ChannelPermissionTypes $needs_channel_permissions;
     };
 

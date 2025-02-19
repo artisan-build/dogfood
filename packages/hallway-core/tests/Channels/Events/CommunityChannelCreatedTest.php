@@ -2,14 +2,11 @@
 
 declare(strict_types=1);
 
-
 use ArtisanBuild\Hallway\Channels\Enums\ChannelTypes;
 use ArtisanBuild\Hallway\Channels\Events\CommunityChannelCreated;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use ArtisanBuild\Hallway\Testing\Enums\UsersFixture;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Support\Facades\Config;
-
 
 describe('Channel creation', function (): void {
     test('owners can create a channel', function (): void {

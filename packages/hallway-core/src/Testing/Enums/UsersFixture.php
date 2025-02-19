@@ -96,5 +96,6 @@ enum UsersFixture: int
         'role' => UserRoles::User,
     ])]
     case SuspendedForNonPaymentUser = 229228023440744448;
+
     public const ModelName = User::class;
 }

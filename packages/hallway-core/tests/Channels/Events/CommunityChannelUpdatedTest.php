@@ -10,7 +10,6 @@ use ArtisanBuild\Hallway\Channels\Events\CommunityChannelUpdated;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use ArtisanBuild\Hallway\Testing\Enums\UsersFixture;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Support\Facades\Config;
 
 mutates([
     GatheringUpdated::class,

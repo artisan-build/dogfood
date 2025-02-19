@@ -6,7 +6,6 @@ use ArtisanBuild\Hallway\Calendar\Enums\InvitationLevels;
 use ArtisanBuild\Hallway\Calendar\Events\GatheringCreated;
 use ArtisanBuild\Hallway\Calendar\States\GatheringState;
 use ArtisanBuild\Hallway\Testing\Enums\UsersFixture;
-use ArtisanBuild\Hallway\Testing\Seeders\DatabaseSeeder;
 use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
 
