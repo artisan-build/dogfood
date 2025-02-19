@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace ArtisanBuild\Hallway\Calendar\States;
 
 use Carbon\Carbon;
-use Thunk\Verbs\State;
+use Thunk\Verbs\SingletonState;
 
-class CalendarRangeState extends State
+class CalendarRangeState extends SingletonState
 {
     public ?Carbon $first_gathering_start = null;
 

@@ -16,11 +16,9 @@ use ArtisanBuild\VerbsFlux\Attributes\EventForm;
 use ArtisanBuild\VerbsFlux\Attributes\EventInput;
 use ArtisanBuild\VerbsFlux\Enums\InputTypes;
 use Carbon\Carbon;
-use Thunk\Verbs\Attributes\Autodiscovery\AppliesToSingletonState;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
-#[AppliesToSingletonState(CalendarRangeState::class)]
 #[EventForm(
     submit_text: 'Create New Gathering',
     has_time_machine: true,
