@@ -30,6 +30,7 @@ class TillServiceProvider extends ServiceProvider
         app(Dispatcher::class)->register(new AuthorizesLedgerTransactionsListener);
         app(Dispatcher::class)->register(new ProcessesLedgerTransactionsListener);
         app(Dispatcher::class)->register(new ResetsAbilities);
+
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallCommand::class,

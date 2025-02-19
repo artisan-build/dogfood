@@ -67,6 +67,7 @@ class Spend
         $wallet_balance = data_get($state->wallet, $ledger->name, 0);
 
         // Don't have enough to do this even with the wallet balance
+
         if ($wallet_balance + $pre_run_balance < $attempted_spend) {
             return false;
         }

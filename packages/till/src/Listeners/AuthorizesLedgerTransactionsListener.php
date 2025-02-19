@@ -14,7 +14,7 @@ use Thunk\Verbs\Lifecycle\Phase;
 
 class AuthorizesLedgerTransactionsListener
 {
-    #[On(Phase::Authorize)]
+    #[On(Phase::Boot)]
     public function authorizeLedgerTransaction(Event $event): void
     {
         $reflection = new ReflectionClass($event);

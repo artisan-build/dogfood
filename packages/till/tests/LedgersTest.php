@@ -20,7 +20,6 @@ beforeEach(function (): void {
 });
 describe('usage ledger on the subscriber state', function (): void {
     it('adds a single transaction', function (): void {
-
         RickRollSent::commit(
             subscriber_id: 1,
         );
@@ -143,8 +142,7 @@ describe('usage ledger on the subscriber state', function (): void {
     });
 
     it('resets when expected', function (): void {
-
-        FiveRickRollsSent::commit(
+        FiveRickRollsSent::fire(
             subscriber_id: 1,
         );
 
@@ -155,7 +153,7 @@ describe('usage ledger on the subscriber state', function (): void {
 
         Carbon::setTestNow(now()->addMonth()->addMinute());
 
-        FiveRickRollsSent::commit(
+        FiveRickRollsSent::fire(
             subscriber_id: 1,
         );
 
