@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\States\UserState;
+use ArtisanBuild\Adverbs\Traits\HasVerbsState;
+use ArtisanBuild\Hallway\Members\Models\Member;
 use ArtisanBuild\Hallway\Members\Traits\HasHallwayMembership;
 use ArtisanBuild\Till\Traits\Tillable;
 use ArtisanBuild\Verbstream\Traits\HasProfilePhoto;
@@ -71,7 +74,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static Builder<static>|User whereTwoFactorSecret($value)
  * @method static Builder<static>|User whereUpdatedAt($value)
  *
- * @property-read Collection<int, \ArtisanBuild\Hallway\Members\Models\Member> $hallway_members
+ * @property-read Collection<int, Member> $hallway_members
  * @property-read int|null $hallway_members_count
  *
  * @mixin Eloquent
@@ -82,10 +85,13 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
     use HasHallwayMembership;
     use HasProfilePhoto;
+    use HasVerbsState;
     use HasTeams;
     use Notifiable;
     use Tillable;
     use TwoFactorAuthenticatable;
+
+    protected string $state_class = UserState::class;
 
     protected $fillable = [
         'name',

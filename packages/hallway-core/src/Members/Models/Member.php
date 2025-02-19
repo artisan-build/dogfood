@@ -24,6 +24,8 @@ class Member extends Model
 
     protected string $state_class = MemberState::class;
 
+    protected $guarded = [];
+
     public function casts(): array
     {
         return [

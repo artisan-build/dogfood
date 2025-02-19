@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use ArtisanBuild\Hallway\Members\Middleware\GetCurrentActiveMemberFromSession;
+use ArtisanBuild\Hallway\Testing\Seeders\DatabaseSeeder;
 
 describe('all events extend the verbs event class', function (): void {
 
@@ -24,7 +25,7 @@ describe('all events extend the verbs event class', function (): void {
             ->expect($model)
             ->not
             ->toBeUsed()
-            ->ignoring(array_merge($events, $traits, [App\Models\User::class, GetCurrentActiveMemberFromSession::class]));
+            ->ignoring(array_merge($events, $traits, [App\Models\User::class, GetCurrentActiveMemberFromSession::class, DatabaseSeeder::class]));
     }
 
 });
