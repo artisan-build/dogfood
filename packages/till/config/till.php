@@ -19,5 +19,12 @@ return [
     'pricing_section_template' => 'till::livewire.pricing_section',
     'active_feature_icon' => null,
     'inactive_feature_icon' => null,
+    'update_ledgers' => [
+        'hourly' => true,
+        'daily' => true,
+        'weekly' => true,
+        'monthly' => true,
+        'yearly' => true,
+    ],
 
 ];

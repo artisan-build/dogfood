@@ -816,7 +816,7 @@
         },
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -894,7 +894,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -971,7 +971,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -1086,7 +1086,7 @@
         },
         {
             "name": "artisan-build/docsidian",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -1165,7 +1165,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -1243,7 +1243,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -1322,7 +1322,7 @@
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -1398,13 +1398,15 @@
         },
         {
             "name": "artisan-build/hallway-core",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-core",
-                "reference": "7df93f1cafc08f4fed447e8278f104f3ef510408"
+                "reference": "f329e3df1355e90dfbd80ea366dd7a6cb42fd541"
             },
             "require": {
+                "artisan-build/adverbs": "*",
+                "artisan-build/verbs-flux": "*",
                 "ext-dom": "*",
                 "ext-fileinfo": "*",
                 "ext-libxml": "*",
@@ -1494,7 +1496,7 @@
         },
         {
             "name": "artisan-build/hallway-flux",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
@@ -1593,7 +1595,7 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
@@ -1671,7 +1673,7 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -1748,7 +1750,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -1825,7 +1827,7 @@
         },
         {
             "name": "artisan-build/mirror",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/mirror",
@@ -1902,7 +1904,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -1980,7 +1982,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -2059,7 +2061,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -2141,10 +2143,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/verbs-flux",
-                "reference": "77d3bb3ec7be930d2bc3e8edfc21f701aa57f3dd"
+                "reference": "c9e0b369db026e37490bb52e1bd9ba7f7cc92d2c"
             },
             "require": {
-                "hirethunk/verbs": "^0.6.4",
+                "hirethunk/verbs": "dev-main",
                 "illuminate/support": "^11.30",
                 "laravel/pennant": "*",
                 "livewire/flux": "^1.0",
@@ -2197,7 +2199,7 @@
         },
         {
             "name": "artisan-build/verbstream",
-            "version": "dev-get-hallway-stuff-working",
+            "version": "dev-till-default-driver",
             "dist": {
                 "type": "path",
                 "url": "packages/verbstream",
@@ -4322,16 +4324,16 @@
         },
         {
             "name": "hirethunk/verbs",
-            "version": "v0.6.4",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hirethunk/verbs.git",
-                "reference": "149272a3c9753c2c906f455c3417a5409f55946f"
+                "reference": "d5604b6279c6c08dbd88a84787538176e9946600"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hirethunk/verbs/zipball/149272a3c9753c2c906f455c3417a5409f55946f",
-                "reference": "149272a3c9753c2c906f455c3417a5409f55946f",
+                "url": "https://api.github.com/repos/hirethunk/verbs/zipball/d5604b6279c6c08dbd88a84787538176e9946600",
+                "reference": "d5604b6279c6c08dbd88a84787538176e9946600",
                 "shasum": ""
             },
             "require": {
@@ -4358,6 +4360,7 @@
                 "phpunit/phpunit": "^10.5",
                 "projektgopher/whisky": "^0.5.1"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -4396,9 +4399,9 @@
             ],
             "support": {
                 "issues": "https://github.com/hirethunk/verbs/issues",
-                "source": "https://github.com/hirethunk/verbs/tree/v0.6.4"
+                "source": "https://github.com/hirethunk/verbs/tree/main"
             },
-            "time": "2024-10-30T21:42:56+00:00"
+            "time": "2025-02-11T23:06:53+00:00"
         },
         {
             "name": "internachi/modular",

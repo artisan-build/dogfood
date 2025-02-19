@@ -2,7 +2,7 @@
 
 namespace ArtisanBuild\Till\Actions;
 
-use ArtisanBuild\Till\Attributes\UnavailablePlan;
+use ArtisanBuild\Till\Attributes\ArchivedPlan;
 use ReflectionClass;
 
 class GetActivePlans
@@ -14,7 +14,7 @@ class GetActivePlans
         return ($this->plans)()->filter(function ($plan) {
             $reflection = new ReflectionClass($plan);
 
-            return empty($reflection->getAttributes(UnavailablePlan::class));
+            return empty($reflection->getAttributes(ArchivedPlan::class));
         });
 
     }

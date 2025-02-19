@@ -5,6 +5,7 @@ namespace ArtisanBuild\Till\Events;
 use ArtisanBuild\Adverbs\Traits\SimpleApply;
 use ArtisanBuild\Till\Actions\GetDefaultPlan;
 use ArtisanBuild\Till\Actions\GetPlanById;
+use ArtisanBuild\Till\Attributes\ImpactsAbilities;
 use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\States\SubscriberState;
 use ArtisanBuild\Till\Traits\HandlesSubscriptionChanges;
@@ -12,6 +13,7 @@ use Carbon\CarbonInterface;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
 
+#[ImpactsAbilities]
 class NewSubscriberAddedToDefaultPlan extends Event
 {
     use HandlesSubscriptionChanges;
