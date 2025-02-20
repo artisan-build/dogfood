@@ -15,11 +15,25 @@ class UnlinkCommand extends Command
 
     public function handle(): int
     {
+        app(KibbleGitIgnore::class)();
+
+        if (! file_exists('kibble.json')) {
+            $this->error('kibble.json file not found');
+
+            return Command::FAILURE;
+        }
+
         $repository = $this->argument('repository');
+        $kibble = json_decode(file_get_contents('kibble.json'), true);
+
+        if (! isset($kibble[$repository])) {
+            $this->error("{$repository} repository not found in kibble.json");
+
+            return Command::FAILURE;
+        }
 
         $composer_json = file_get_contents('composer.json');
         $trailing_newline = str_ends_with($composer_json, "\n");
-
         $composer = json_decode($composer_json, true);
 
         if (! isset($composer['repositories'][$repository])) {
@@ -28,15 +42,11 @@ class UnlinkCommand extends Command
             return Command::FAILURE;
         }
 
-        app(KibbleGitIgnore::class)();
+        if ($composer['repositories'][$repository] !== $kibble[$repository]) {
+            $this->error("{$repository} repository in composer.json does not match {$repository} repository in kibble.json");
 
-        file_put_contents(
-            filename: 'kibble.json',
-            data: json_encode(
-                value: [$repository => $composer['repositories'][$repository]],
-                flags: JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
-            ).($trailing_newline ? "\n" : '')
-        );
+            return Command::FAILURE;
+        }
 
         unset($composer['repositories'][$repository]);
 
