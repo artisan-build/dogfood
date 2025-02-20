@@ -13,7 +13,7 @@ describe('it writes the correct content to a file that does not have any colors 
     it('writes_the_default_theme', function (): void {
         app(WriteToAppCss::class)(new Theme(__DIR__.'/files/app.css'));
 
-        expect(trim(File::get(__DIR__.'/files/app.css')))->toBe(trim(File::get(__DIR__.'/files/default_theme.css')));
+        expect(trim(File::get(__DIR__.'/files/app.css')))->toBe(trim(File::get(__DIR__ . '/files/default_theme.css')));
 
     });
 
@@ -24,7 +24,7 @@ describe('it writes the correct content to a file that does not have any colors 
 
         app(WriteToAppCss::class)($theme);
 
-        expect(trim(File::get(__DIR__.'/files/app.css')))->toBe(trim(File::get(__DIR__.'/files/red_theme.css')));
+        expect(trim(File::get(__DIR__.'/files/app.css')))->toBe(trim(File::get(__DIR__ . '/files/red_theme.css')));
 
     });
 
@@ -32,7 +32,7 @@ describe('it writes the correct content to a file that does not have any colors 
         it('goes from default to red', function (): void {
             app(WriteToAppCss::class)(new Theme(__DIR__.'/files/app.css'));
 
-            expect(trim(File::get(__DIR__.'/files/app.css')))->toBe(trim(File::get(__DIR__.'/files/default_theme.css')));
+            expect(trim(File::get(__DIR__.'/files/app.css')))->toBe(trim(File::get(__DIR__ . '/files/default_theme.css')));
 
             $theme = new Theme(__DIR__.'/files/app.css');
 
@@ -40,7 +40,7 @@ describe('it writes the correct content to a file that does not have any colors 
 
             app(WriteToAppCss::class)($theme);
 
-            expect(File::get(__DIR__.'/files/app.css'))->toBeIgnoringWhitespace(File::get(__DIR__.'/files/red_theme.css'));
+            expect(File::get(__DIR__.'/files/app.css'))->toBeIgnoringWhitespace(File::get(__DIR__ . '/files/red_theme.css'));
         });
     });
 });

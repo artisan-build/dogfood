@@ -82,6 +82,6 @@ class LoadHeaderRightNavbarItems implements LoadsHeaderRightNavbarItems
 
     protected function hasDarkMode(): bool
     {
-        return str_contains(File::get(base_path('tailwind.config.js')), "darkMode: 'selector',");
+        return true;
     }
 }

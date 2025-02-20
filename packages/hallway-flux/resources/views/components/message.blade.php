@@ -3,14 +3,14 @@
 @props(['message', 'preview' => true])
 
 <div class="flex space-x-4 my-4">
-    <div class="flex-shrink min-w-12">
+    <div class="shrink min-w-12">
         <img
             alt=""
             src="{{ $message->member()->profile_picture_url }}"
             class="rounded-xl w-10 h-10 shadow-md"
         />
     </div>
-    <div class="flex-grow">
+    <div class="grow">
         <div>
             <flux:heading size="lg">
                 {{ $message->member()->display_name }}

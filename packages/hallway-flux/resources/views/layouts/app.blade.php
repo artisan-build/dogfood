@@ -3,7 +3,7 @@
     use ArtisanBuild\Hallway\Channels\Models\Channel;
     use ArtisanBuild\Hallway\Members\Models\Member;
     use ArtisanBuild\HallwayFlux\Livewire\Layout\MyChannelsComponent;
-    use ArtisanBuild\HallwayFlux\Livewire\Layout\DetectMemberTimezone;use ArtisanBuild\HallwayFlux\Livewire\Layout\LogoutButton;
+    use ArtisanBuild\HallwayFlux\Livewire\Layout\DetectMemberTimezone;use ArtisanBuild\HallwayFlux\Livewire\Layout\LogoutButton;use Illuminate\Support\Facades\Auth;
 @endphp
     <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -29,7 +29,7 @@
 
     <!-- Styles -->
     @livewireStyles
-    @fluxStyles
+    @fluxAppearance
 </head>
 <body class="min-h-screen bg-white dark:bg-zinc-800">
 @auth
@@ -83,13 +83,13 @@
 
                 <flux:menu>
                     <flux:menu.radio.group>
-                        @foreach (\Illuminate\Support\Facades\Auth::user()?->hallway_members as $member)
+                        @foreach (Auth::user()?->hallway_members as $member)
                             <flux:menu.radio
                                 :checked="$member->id === Context::get('active_member')->id">{{ $member->handle }}</flux:menu.radio>
                         @endforeach
                     </flux:menu.radio.group>
 
-                    <flux:separator class="my-4" text="{{ \Illuminate\Support\Facades\Auth::user()?->name }}"/>
+                    <flux:separator class="my-4" text="{{ Auth::user()?->name }}"/>
 
                     <livewire:logout-button/>
                 </flux:menu>
@@ -104,7 +104,7 @@
     </flux:sidebar>
 @endauth
 
-<flux:header class="!block bg-white lg:bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-700">
+<flux:header class="block! bg-white lg:bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-700">
     <flux:navbar class="lg:hidden w-full">
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left"/>
 
@@ -118,13 +118,13 @@
 
                 <flux:menu>
                     <flux:menu.radio.group>
-                        @foreach (\Illuminate\Support\Facades\Auth::user()?->hallway_members as $member)
+                        @foreach (Auth::user()?->hallway_members as $member)
                             <flux:menu.radio
                                 :checked="$member->id === Context::get('active_member')->id">{{ $member->handle }}</flux:menu.radio>
                         @endforeach
                     </flux:menu.radio.group>
 
-                    <flux:menu.separator text="{{ \Illuminate\Support\Facades\Auth::user()?->name }}"/>
+                    <flux:menu.separator text="{{ Auth::user()?->name }}"/>
 
                     @livewire(LogoutButton::class)
                 </flux:menu>
@@ -148,7 +148,7 @@
 
         </flux:navbar>
     @else
-        <flux:navbar class="{{ \Illuminate\Support\Facades\Auth::guest() ? 'justify-end' : '' }}" scrollable>
+        <flux:navbar class="{{ Auth::guest() ? 'justify-end' : '' }}" scrollable>
             @auth
                 <flux:navbar.item wire:navigate href="{{ route(config('hallway-flux.route-name-prefix') .'lobby') }}">
                     Lobby
