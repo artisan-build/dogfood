@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Kibble\Actions;
 
-use ArtisanBuild\Bench\Attributes\ChatGPT;
+// TODO: Don't want to add this dependency just for this one attribute.
+// use ArtisanBuild\Bench\Attributes\ChatGPT;
 
 class KibbleGitIgnore
 {
-    #[ChatGPT]
+    // #[ChatGPT]
     public function __invoke(): void
     {
         if (! shell_exec('git check-ignore kibble.json')) {
