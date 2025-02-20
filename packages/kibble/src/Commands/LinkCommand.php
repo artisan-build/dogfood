@@ -70,7 +70,6 @@ class LinkCommand extends Command
         /**
          * Now start work on the composer.json file.
          */
-
         $composer_json = file_get_contents('composer.json');
         $trailing_newline = str_ends_with($composer_json, "\n");
 
