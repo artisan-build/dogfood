@@ -1,6 +1,6 @@
 # Flux Themes
 
-This package sets up a Laravel application to use [FluxUI](https://fluxui.dev). It has one command that you can run when setting up a new site that will let you set or choose a color scheme from Flux's themes and it will make all of the required edits to the `tailwind.config.js` package and `app.css` package to run Flux and use your chosen color scheme.
+This package sets up a Laravel application to use [FluxUI](https://fluxui.dev). It has one command that you can run when setting up a new site that will let you set or choose a color scheme from Flux's themes and it will make all of the required edits to `app.css` package to run Flux and use your chosen color scheme.
 
 Some of our applications are "white label" type SaaS applications that we want our users to be able to theme to match
 their brands. This package provides the functionality to make that happen.
@@ -29,8 +29,7 @@ There are currently no configuration options for this package.
 
 `php artisan flux-theme:set {color?}`
 
-Run this command to set the color scheme for your site. This will handle the entire FluxUI setup in both the `app.css`
-and `tailwind.config.js` file. If you don't pass a color, you'll be prompted to choose your color. 
+Run this command to set the color scheme for your site. This will handle the entire FluxUI setup in the `app.css` file. If you don't pass a color, you'll be prompted to choose your color. 
 
 One thing to note is that an additional entry is added to the `content` block of the `tailwind.config.css` file that
 adds a wildcard path to all of our packages. We do this for our own purposes. You can safely leave this line in place

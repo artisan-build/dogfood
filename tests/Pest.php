@@ -29,7 +29,7 @@ pest()->extends(TestCase::class, LazilyRefreshDatabase::class)
     ->beforeEach(fn () => $this->withoutVite());
 
 expect()->extend('toBeIgnoringWhitespace', function (string $expected): void {
-    expect(trim((string) preg_replace('/\s\s+/', ' ', (string) $this->value)))->toBe(trim((string) preg_replace('/\s\s+/', ' ', $expected)));
+    expect(preg_replace('/\s+/', ' ', (string) $this->value))->toBe(preg_replace('/\s+/', ' ', $expected));
 });
 
 function channel_permissions(

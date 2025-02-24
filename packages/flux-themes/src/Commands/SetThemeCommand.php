@@ -2,11 +2,13 @@
 
 namespace ArtisanBuild\FluxThemes\Commands;
 
-use ArtisanBuild\FluxThemes\Actions\WriteToAppCss;
-use ArtisanBuild\FluxThemes\Actions\WriteToTailwindConfig;
 use ArtisanBuild\FluxThemes\Enums\Colors;
+use ArtisanBuild\FluxThemes\Pipeline\EnsureRequiredImportsExist;
+use ArtisanBuild\FluxThemes\Pipeline\EnsureRequiredSourcePathsExist;
 use ArtisanBuild\FluxThemes\Theme;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Pipeline;
+use Stripe\File;
 
 use function Laravel\Prompts\search;
 
@@ -18,7 +20,6 @@ class SetThemeCommand extends Command
 
     public function handle(): int
     {
-        $config = $this->option('tailwind_config') ?? base_path('tailwind.config.js');
         $css = $this->option('css_file') ?? resource_path('css/app.css');
         $color = $this->argument('color');
 
@@ -39,15 +40,19 @@ class SetThemeCommand extends Command
 
         $theme = new Theme(
             css_file: $css,
-            tailwind_config: $config,
         );
 
         $theme = $theme_color->set($theme);
 
-        $this->info('Writing the app.css file');
-        app(WriteToAppCss::class)(theme: $theme);
-        $this->info('Writing to tailwind.config.php file');
-        app(WriteToTailwindConfig::class)(theme: $theme);
+        Pipeline::send($theme)->through([
+            EnsureRequiredImportsExist::class,
+            EnsureRequiredSourcePathsExist::class,
+            // Handle the gray override
+            // Set the highlight color variables
+            // Remove double line breaks
+            // Ensure one new line at the end of the contents
+            // Write the contents to the app.css file
+        ]);
 
         return self::SUCCESS;
     }

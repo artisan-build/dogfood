@@ -8,9 +8,11 @@ class DetectPackagesWithTemplates
 {
     public function __invoke()
     {
-        return collect(File::directories(base_path('vendor/artisan-build')))
-            ->filter(fn($directory) => File::isDirectory("{$directory}/resources/views"))
-            ->map(fn($directory) => str_replace(base_path(), '../..', $directory));
+        $vendor_directory = config('flux-themes.vendor_directory', base_path('vendor/artisan-build'));
+
+        return collect(File::directories($vendor_directory))
+            ->filter(fn ($directory) => File::isDirectory("{$directory}/resources/views"))
+            ->map(fn ($directory) => str_replace(base_path(), '../..', $directory));
 
     }
 }

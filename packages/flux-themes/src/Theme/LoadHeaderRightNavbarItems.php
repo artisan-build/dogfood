@@ -5,7 +5,6 @@ namespace ArtisanBuild\FluxThemes\Theme;
 use ArtisanBuild\FluxThemes\Contracts\LoadsHeaderRightNavbarItems;
 use ArtisanBuild\FluxThemes\Enums\NavbarItemTypes;
 use ArtisanBuild\Verbstream\Http\Livewire\UserHeaderMenuComponent;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 class LoadHeaderRightNavbarItems implements LoadsHeaderRightNavbarItems
