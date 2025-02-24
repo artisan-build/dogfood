@@ -19,7 +19,9 @@
                             @if ($display === 'life')
                     Forever
                 @else
+                     @if ($plan->prices[$display] !== 0)
                     / {{ str($display)->headline() }}
+                         @endif
                 @endif
                         </span>
         </flux:text>

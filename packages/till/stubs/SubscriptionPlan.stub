@@ -8,7 +8,7 @@ use ArtisanBuild\Till\Enums\PlanTerms;
 use ArtisanBuild\Till\SubscriptionPlans\BasePlan;
 
 {attributes}
-class {name} extends BasePlan implements PlanInterface
+class {name} extends BasePlan
 {
 
     /**

@@ -70,10 +70,7 @@ class InstallCommand extends Command
 
         File::put(config_path('till.php'), $config);
 
-        Config::set('till.plan_path', app_path($plans));
-
-        $this->call('till:create-plan', ['name' => 'Default Plan', 'heading' => 'Default Plan', 'subheading' => 'This is the default plan for non-paying users', 'week' => 0, 'month' => 0, 'year' => 0, 'life' => 0]);
-
+        File::put(app_path("{$plans}/UnsubscribedPlan.php"), str_replace('{namespace}', "App\\$plans", File::get(__DIR__.'/../../stubs/UnsubscribedPlan.php.stub')));
         return self::SUCCESS;
 
     }

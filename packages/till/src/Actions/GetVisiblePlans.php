@@ -14,7 +14,7 @@ class GetVisiblePlans
         return ($this->plans)()->filter(function ($plan) {
             $reflection = new ReflectionClass($plan);
 
-            return empty($reflection->getProperty('features')->getDefaultValue());
+            return ! empty($reflection->getProperty('features')->getDefaultValue());
         });
 
     }
