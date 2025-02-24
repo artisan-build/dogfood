@@ -824,7 +824,7 @@
             },
             "require": {
                 "calebporzio/sushi": "^2.0",
-                "illuminate/support": "^11.36"
+                "illuminate/support": "^11.36|^12.0"
             },
             "require-dev": {
                 "larastan/larastan": "^v3.0.2",
@@ -901,7 +901,7 @@
                 "reference": "0cb9d740e1130bb3d2aa8066736b1451a0001a94"
             },
             "require": {
-                "illuminate/support": "^11.36"
+                "illuminate/support": "^11.36|^12.0"
             },
             "require-dev": {
                 "larastan/larastan": "^v3.0.2",
@@ -1094,7 +1094,7 @@
             },
             "require": {
                 "embed/embed": "^4.4",
-                "illuminate/support": "^11.36",
+                "illuminate/support": "^11.36|^12.0",
                 "livewire/livewire": "^v3.5.18",
                 "tempest/highlight": "^2.0"
             },
@@ -1172,7 +1172,7 @@
                 "reference": "6e8cef12e9a6aba0c709aeb57b597cafaefbcfe5"
             },
             "require": {
-                "illuminate/support": "^11.36"
+                "illuminate/support": "^11.36|^12.0"
             },
             "require-dev": {
                 "calebporzio/sushi": "^2.5.2",
@@ -1250,7 +1250,7 @@
                 "reference": "7984d42050abc92cdbf75411cee5a91d28aba860"
             },
             "require": {
-                "illuminate/support": "^11.36",
+                "illuminate/support": "^11.36|^12.0",
                 "livewire/flux": "*",
                 "livewire/flux-pro": "*"
             },
@@ -1680,7 +1680,7 @@
                 "reference": "0167aa9260a687da1b7988d9b146e8030685e232"
             },
             "require": {
-                "illuminate/support": "^11.36"
+                "illuminate/support": "^11.36|^12.0"
             },
             "require-dev": {
                 "larastan/larastan": "^v3.0.2",
@@ -1757,7 +1757,7 @@
                 "reference": "2b089c7b712686d515bc3ec5e7ae1dfbf7b416be"
             },
             "require": {
-                "illuminate/support": "^11.36"
+                "illuminate/support": "^11.36|^12.0"
             },
             "require-dev": {
                 "larastan/larastan": "^v3.0.2",
@@ -1834,7 +1834,7 @@
                 "reference": "b05ced50913be78e040bedc81842b82a338d569d"
             },
             "require": {
-                "illuminate/support": "^11.36"
+                "illuminate/support": "^11.36|^12.0"
             },
             "require-dev": {
                 "larastan/larastan": "^v3.0.2",
@@ -1911,7 +1911,7 @@
                 "reference": "388b2a457dd7ede6b782a865e04bef7df415b033"
             },
             "require": {
-                "illuminate/support": "^11.36",
+                "illuminate/support": "^11.36|^12.0",
                 "saloonphp/saloon": "^3.0"
             },
             "require-dev": {
@@ -1991,7 +1991,7 @@
             "require": {
                 "artisan-build/flux-themes": "*",
                 "calebporzio/sushi": "^2.0",
-                "illuminate/support": "^11.36"
+                "illuminate/support": "^11.36|^12.0"
             },
             "require-dev": {
                 "larastan/larastan": "^v3.0",
@@ -2068,7 +2068,7 @@
                 "reference": "db92813713c234eab4ebd712cb2f17bdefc1e5bb"
             },
             "require": {
-                "illuminate/support": "^11.36",
+                "illuminate/support": "^11.36|^12.0",
                 "stripe/stripe-php": "^16.0"
             },
             "require-dev": {
