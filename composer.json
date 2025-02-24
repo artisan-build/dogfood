@@ -135,14 +135,14 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "repositories": [
-        {
+    "repositories": {
+        "dogfood": {
             "type": "path",
             "url": "packages/*"
         },
-        {
+        "flux-pro": {
             "type": "composer",
             "url": "https://composer.fluxui.dev"
         }
-    ]
+    }
 }

@@ -4,6 +4,7 @@
 	"type": "library",
 	"license": "MIT",
 	"require": {
+        "artisan-build/artisan-ui": "*",
         "illuminate/support": "^11.36|^12.0",
         "livewire/flux": "*",
         "livewire/flux-pro": "*"

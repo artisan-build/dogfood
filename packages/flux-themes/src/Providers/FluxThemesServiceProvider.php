@@ -2,6 +2,7 @@
 
 namespace ArtisanBuild\FluxThemes\Providers;
 
+use ArtisanBuild\FluxThemes\Commands\InstallCommand;
 use ArtisanBuild\FluxThemes\Commands\SetThemeCommand;
 use ArtisanBuild\FluxThemes\Contracts\LoadsHeaderLeftNavbarItems;
 use ArtisanBuild\FluxThemes\Contracts\LoadsHeaderRightNavbarItems;
@@ -24,6 +25,7 @@ class FluxThemesServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'flux-themes');
         $this->commands([
+            InstallCommand::class,
             SetThemeCommand::class,
         ]);
 

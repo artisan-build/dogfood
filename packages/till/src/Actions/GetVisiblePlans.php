@@ -11,14 +11,10 @@ class GetVisiblePlans
 
     public function __invoke()
     {
-        if (config('till.show_free_plan')) {
-            return ($this->plans)();
-        }
-
         return ($this->plans)()->filter(function ($plan) {
             $reflection = new ReflectionClass($plan);
 
-            return empty($reflection->getAttributes(DefaultPlan::class));
+            return empty($reflection->getProperty('features')->getDefaultValue());
         });
 
     }

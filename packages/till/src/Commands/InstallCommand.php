@@ -2,6 +2,8 @@
 
 namespace ArtisanBuild\Till\Commands;
 
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -32,7 +34,7 @@ class InstallCommand extends Command
             }
         }
 
-        if (! class_exists(\App\Models\User::class)) {
+        if (! class_exists(User::class)) {
             $this->error('Please install a compatible authentication scaffolding package first.');
 
             return self::INVALID;
@@ -52,7 +54,7 @@ class InstallCommand extends Command
         $config = str_replace("base_path('packages/till/src/SubscriptionPlans')", "app_path('{$plans}')", $config);
 
         // Set the team mode as well as team (if applicable) and user models
-        if (! class_exists(\App\Models\Team::class)) {
+        if (! class_exists(Team::class)) {
             $config = str_replace(["'team_mode' => true,", "use ArtisanBuild\Till\Models\TillTeam;\n"], ["'team_mode' => false,", ''], $config);
 
         } else {
@@ -63,6 +65,8 @@ class InstallCommand extends Command
         // Create the Plans directory
         File::ensureDirectoryExists(app_path($plans));
         File::ensureDirectoryExists(app_path($plans).'/Abilities');
+
+        $this->call('till:create-plan', ['name' => 'Default Plan', 'heading' => 'Default Plan', 'subheading' => 'This is the default plan for non-paying users', 'week' => 0, 'month' => 0, 'year' => 0, 'life' => 0]);
 
         File::put(config_path('till.php'), $config);
 
