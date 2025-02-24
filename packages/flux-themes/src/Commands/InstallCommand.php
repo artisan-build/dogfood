@@ -44,6 +44,7 @@ class InstallCommand extends Command
         File::ensureDirectoryExists(resource_path('views/components/layouts'));
         File::put(resource_path('views/components/layouts/app.blade.php'), File::get(__DIR__.'/../../stubs/app.blade.php.stub'));
         File::put(resource_path('views/welcome.blade.php'), File::get(__DIR__.'/../../stubs/welcome.blade.php.stub'));
+        File::ensureDirectoryExists(resource_path('views/components/svg'));
         File::put(resource_path('views/components/svg/logo.blade.php'), File::get(__DIR__.'/../../stubs/logo.blade.php.stub'));
         return self::SUCCESS;
     }

@@ -4,10 +4,14 @@ namespace ArtisanBuild\Till\Actions;
 
 use ArtisanBuild\Till\Attributes\IndividualPlan;
 use ArtisanBuild\Till\Attributes\TeamPlan;
+use ArtisanBuild\Till\Contracts\PlanInterface;
+use ArtisanBuild\Till\Enums\PlanTerms;
+use ArtisanBuild\Till\SubscriptionPlans\BasePlan;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use ReflectionClass;
+use Stripe\Plan;
 
 class GetPlans
 {
@@ -35,12 +39,18 @@ class GetPlans
                 return null;
             })
             ->filter() // Remove null values (files without classes)
-            ->map(fn ($class) => new $class)->filter(function ($plan) {
+            ->filter(fn ($class) => new $class)->filter(function ($plan) {
                 $attribute = config('till.team_mode') ? TeamPlan::class : IndividualPlan::class;
 
                 $reflection = new ReflectionClass($plan);
 
                 return ! empty($reflection->getAttributes($attribute));
-            })->sortBy(['prices.month.price', 'price.year.price', 'price.life.price']);
+            })
+            ->map(fn(string $plan): BasePlan => new $plan)
+            ->sort(function (BasePlan $plan_a, BasePlan $plan_b) {
+                $a = $plan_a->prices[PlanTerms::Life->value] ?? $plan_a->prices[PlanTerms::Year->value] ?? $plan_a->prices[PlanTerms::Month->value] ?? $plan_a->prices[PlanTerms::Week->value];
+                $b = $plan_b->prices[PlanTerms::Life->value] ?? $plan_b->prices[PlanTerms::Year->value] ?? $plan_b->prices[PlanTerms::Month->value] ?? $plan_b->prices[PlanTerms::Week->value];
+                return $a <=> $b;
+            });
     }
 }

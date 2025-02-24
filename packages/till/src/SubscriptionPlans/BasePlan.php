@@ -11,6 +11,8 @@ class BasePlan implements PlanInterface
 {
     public string $id;
 
+    public array $prices = [];
+
     public bool $current = false;
 
     public $currency = Currencies::USD;
