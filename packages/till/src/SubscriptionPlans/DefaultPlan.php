@@ -2,13 +2,16 @@
 
 namespace ArtisanBuild\Till\SubscriptionPlans;
 
+use ArtisanBuild\Till\Attributes\IndividualPlan;
 use ArtisanBuild\Till\Attributes\TeamPlan;
 use ArtisanBuild\Till\Contracts\PlanInterface;
 use ArtisanBuild\Till\Enums\PlanTerms;
 use ArtisanBuild\Till\SubscriptionPlans\BasePlan;
 
 #[TeamPlan]
-class DefaultPlan extends BasePlan implements PlanInterface
+#[IndividualPlan]
+#[DefaultPlan]
+class DefaultPlan extends BasePlan
 {
 
     /**

@@ -5,6 +5,7 @@ namespace ArtisanBuild\Till\Commands;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 
 use function Laravel\Prompts\text;
@@ -66,9 +67,12 @@ class InstallCommand extends Command
         File::ensureDirectoryExists(app_path($plans));
         File::ensureDirectoryExists(app_path($plans).'/Abilities');
 
-        $this->call('till:create-plan', ['name' => 'Default Plan', 'heading' => 'Default Plan', 'subheading' => 'This is the default plan for non-paying users', 'week' => 0, 'month' => 0, 'year' => 0, 'life' => 0]);
 
         File::put(config_path('till.php'), $config);
+
+        Config::set('till.plan_path', app_path($plans));
+
+        $this->call('till:create-plan', ['name' => 'Default Plan', 'heading' => 'Default Plan', 'subheading' => 'This is the default plan for non-paying users', 'week' => 0, 'month' => 0, 'year' => 0, 'life' => 0]);
 
         return self::SUCCESS;
 
