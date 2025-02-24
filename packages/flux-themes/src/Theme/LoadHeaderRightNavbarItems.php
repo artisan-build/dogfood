@@ -5,7 +5,6 @@ namespace ArtisanBuild\FluxThemes\Theme;
 use ArtisanBuild\FluxThemes\Contracts\LoadsHeaderRightNavbarItems;
 use ArtisanBuild\FluxThemes\Enums\NavbarItemTypes;
 use ArtisanBuild\Verbstream\Http\Livewire\UserHeaderMenuComponent;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 class LoadHeaderRightNavbarItems implements LoadsHeaderRightNavbarItems
@@ -82,6 +81,6 @@ class LoadHeaderRightNavbarItems implements LoadsHeaderRightNavbarItems
 
     protected function hasDarkMode(): bool
     {
-        return str_contains(File::get(base_path('tailwind.config.js')), "darkMode: 'selector',");
+        return true;
     }
 }

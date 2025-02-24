@@ -5,8 +5,8 @@
 	"license": "MIT",
 	"require": {
         "illuminate/support": "^11.36",
-        "livewire/flux": "^v1.0",
-        "livewire/flux-pro": "^1"
+        "livewire/flux": "*",
+        "livewire/flux-pro": "*"
     },
     "require-dev": {
         "larastan/larastan": "^v3.0.2",

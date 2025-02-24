@@ -13,9 +13,9 @@
             @endif
         </flux:heading>
         <flux:subheading>{{ $plan->subheading }}</flux:subheading>
-        <flux:text class="!text-5xl font-bold my-4">
+        <flux:text class="text-5xl! font-bold my-4">
             {{ $plan->currency->format($plan->prices[$display]) }}
-            <span class="!text-xl">
+            <span class="text-xl!">
                             @if ($display === 'life')
                     Forever
                 @else

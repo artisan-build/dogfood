@@ -1,7 +1,7 @@
 @php use ArtisanBuild\Hallway\Calendar\Events\GatheringCreated; @endphp
 <div>
     <div class="flex space-x-4">
-        <div class="flex-grow space-y-6">
+        <div class="grow space-y-6">
             @forelse ($upcoming->filter(fn($item) => $item->start->format('Y-m') === $range) as $gathering)
                 <x-hallway-flux::gathering :gathering="$gathering"/>
             @empty
@@ -19,12 +19,12 @@
                                              href="{{ $months->has(data_get($month, 'previous')) ? route(config('hallway-flux.route-name-prefix') . 'calendar', ['range' => data_get($month, 'previous')]) : url()->current()}}"
                                              size="xs" icon="chevron-double-left" square="true"
                                              variant="{{ $months->has(data_get($month, 'previous')) ? 'outline' : 'filled' }}"
-                                             class="{{ $months->has(data_get($month, 'previous')) ? '' : 'cursor-not-allowed !text-zinc-400' }}"></flux:button>
+                                             class="{{ $months->has(data_get($month, 'previous')) ? '' : 'cursor-not-allowed text-zinc-400!' }}"></flux:button>
                                 <flux:button wire:navigate
                                              href="{{ $months->has(data_get($month, 'next')) ? route(config('hallway-flux.route-name-prefix') . 'calendar', ['range' => data_get($month, 'next')]) : url()->current() }}"
                                              size="xs" icon="chevron-double-right" square="true"
                                              variant="{{ $months->has(data_get($month, 'next')) ? 'outline' : 'filled' }}"
-                                             class="{{ $months->has(data_get($month, 'next')) ? '' : 'cursor-not-allowed !text-zinc-400' }}">
+                                             class="{{ $months->has(data_get($month, 'next')) ? '' : 'cursor-not-allowed text-zinc-400!' }}">
                                 </flux:button>
                             </flux:button.group>
                         </flux:heading>
@@ -43,7 +43,7 @@
                             <flux:button.group>
                                 @foreach ($week as $day)
                                     <flux:button
-                                        class="rounded-none {{ blank(data_get($day, 'gatherings')) ? '!text-zinc-400' : '' }}"
+                                        class="rounded-none {{ blank(data_get($day, 'gatherings')) ? 'text-zinc-400!' : '' }}"
                                         square="true"
                                         variant="{{ data_get($day, 'today') ? 'filled' : 'outline' }}">{{ data_get($day, 'number') }}</flux:button>
                                 @endforeach

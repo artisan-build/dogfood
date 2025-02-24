@@ -32,6 +32,8 @@
         "laravel/framework": "11.42.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "livewire/flux": "^2.0",
+        "livewire/flux-pro": "^2.0",
         "livewire/livewire": "^3.0"
     },
     "require-dev": {

@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="text-center content-center mx-auto space-y-6">
-        <flux:heading level="1" class="!text-2xl text-center inline-flex" x-data="{ showUp: false, hideEr: false }"
+        <flux:heading level="1" class="text-2xl! text-center inline-flex" x-data="{ showUp: false, hideEr: false }"
                       x-init="setTimeout(() => hideEr = true, 2000)">
             Your SaaS Start
             <span class="inline-block w-[2.1ch] text-left">

@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../../resources/**/*.blade.php';
+@source '.../../resources/**/*.js';
+@source '../../resources/**/*.vue';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../packages/flux-themes/tests/Pipeline/../files/vendor/artisan-build/flux-themes/resources/views/*.blade.php';
+@source '../../packages/flux-themes/tests/Pipeline/../files/vendor/artisan-build/verbs-flux/resources/views/*.blade.php';
+@source '../../packages/flux-themes/tests/Pipeline/../files/vendor/artisan-build/verbstream/resources/views/*.blade.php';

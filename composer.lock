@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e4fcd2b51b9b8ff2bd0ca75298da217",
+    "content-hash": "ec841474f68b2292ab47624670da80b4",
     "packages": [
         {
             "name": "amphp/amp",
@@ -816,7 +816,7 @@
         },
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -894,7 +894,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -971,7 +971,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -1086,7 +1086,7 @@
         },
         {
             "name": "artisan-build/docsidian",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -1165,7 +1165,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -1243,16 +1243,16 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
-                "reference": "b7aac8347363371406314e61b1537be1cf7b03f4"
+                "reference": "7984d42050abc92cdbf75411cee5a91d28aba860"
             },
             "require": {
                 "illuminate/support": "^11.36",
-                "livewire/flux": "^v1.0",
-                "livewire/flux-pro": "^1"
+                "livewire/flux": "*",
+                "livewire/flux-pro": "*"
             },
             "require-dev": {
                 "larastan/larastan": "^v3.0.2",
@@ -1322,14 +1322,14 @@
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
-                "reference": "c7bcb5294d28eee9ce9186c429edc373d539cf35"
+                "reference": "350142ae862aee0cc569f40b5416101d1cd8e057"
             },
             "require": {
-                "illuminate/support": "^11.36"
+                "illuminate/support": "^11.9"
             },
             "require-dev": {
                 "larastan/larastan": "^v3.0.2",
@@ -1398,7 +1398,7 @@
         },
         {
             "name": "artisan-build/hallway-core",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-core",
@@ -1496,7 +1496,7 @@
         },
         {
             "name": "artisan-build/hallway-flux",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
@@ -1595,15 +1595,15 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
-                "reference": "2e0d6dcbd97fceea2bdbae60600d876755e3f51e"
+                "reference": "47f29bbe23c15c0eeef446c19b1508b89faa58d7"
             },
             "require": {
                 "artisan-build/gh": "*",
-                "illuminate/support": "^11.36"
+                "illuminate/support": "^11.9"
             },
             "require-dev": {
                 "larastan/larastan": "^v3.0.2",
@@ -1673,7 +1673,7 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -1750,7 +1750,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -1827,7 +1827,7 @@
         },
         {
             "name": "artisan-build/mirror",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/mirror",
@@ -1904,7 +1904,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -1982,7 +1982,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -2061,7 +2061,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -2143,14 +2143,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/verbs-flux",
-                "reference": "c9e0b369db026e37490bb52e1bd9ba7f7cc92d2c"
+                "reference": "991d943266a61876ad2a2b6086a5ef834402a151"
             },
             "require": {
                 "hirethunk/verbs": "dev-main",
                 "illuminate/support": "^11.30",
                 "laravel/pennant": "*",
-                "livewire/flux": "^1.0",
-                "livewire/flux-pro": "^1.0",
+                "livewire/flux": "*",
+                "livewire/flux-pro": "*",
                 "php": ">8.2"
             },
             "require-dev": {
@@ -2199,7 +2199,7 @@
         },
         {
             "name": "artisan-build/verbstream",
-            "version": "dev-till-default-driver",
+            "version": "dev-upgrade-flux-and-tailwind",
             "dist": {
                 "type": "path",
                 "url": "packages/verbstream",
@@ -5756,16 +5756,16 @@
         },
         {
             "name": "livewire/flux",
-            "version": "v1.1.5",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/flux.git",
-                "reference": "94b47e16f3c625fea2b7fe1ac5f6f4267570a643"
+                "reference": "27f6a21c68be15701e225f48729347ca43528fc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/flux/zipball/94b47e16f3c625fea2b7fe1ac5f6f4267570a643",
-                "reference": "94b47e16f3c625fea2b7fe1ac5f6f4267570a643",
+                "url": "https://api.github.com/repos/livewire/flux/zipball/27f6a21c68be15701e225f48729347ca43528fc9",
+                "reference": "27f6a21c68be15701e225f48729347ca43528fc9",
                 "shasum": ""
             },
             "require": {
@@ -5813,25 +5813,25 @@
             ],
             "support": {
                 "issues": "https://github.com/livewire/flux/issues",
-                "source": "https://github.com/livewire/flux/tree/v1.1.5"
+                "source": "https://github.com/livewire/flux/tree/v2.0.1"
             },
-            "time": "2025-02-19T04:15:02+00:00"
+            "time": "2025-02-20T02:33:33+00:00"
         },
         {
             "name": "livewire/flux-pro",
-            "version": "1.1.5",
+            "version": "2.0.1",
             "dist": {
                 "type": "zip",
-                "url": "https://composer.fluxui.dev/download/9e3f1a94-596f-4a50-a1c3-69f69e8de0fb/flux-pro-1.1.5.zip",
-                "reference": "d671670e9785c7118ee082762686869d58222565",
-                "shasum": "437ef25f9fb294aa87b98f0e315b6c499295802f"
+                "url": "https://composer.fluxui.dev/download/9e4100c6-41e1-440f-a4d9-0aec2b9cd0ef/flux-pro-2.0.1.zip",
+                "reference": "adb0d36d1abf2e454ad55d52d803a3c05d8501ec",
+                "shasum": "7c3c10c13b4e77d160eeabf18e7d0f0ac848dcc0"
             },
             "require": {
                 "illuminate/console": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
                 "illuminate/view": "^10.0|^11.0|^12.0",
                 "laravel/prompts": "^0.1.24|^0.2|^0.3",
-                "livewire/flux": "1.1.5",
+                "livewire/flux": "2.0.1|dev-main",
                 "livewire/livewire": "^3.5.19",
                 "php": "^8.1",
                 "symfony/console": "^6.0|^7.0"
@@ -5872,7 +5872,7 @@
                 "livewire",
                 "ui"
             ],
-            "time": "2025-02-19T04:17:43+00:00"
+            "time": "2025-02-20T02:57:11+00:00"
         },
         {
             "name": "livewire/livewire",
@@ -13588,16 +13588,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "2.0.2",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "51087f87dcce2663e1fed4dfd4e56eccd580297e"
+                "reference": "9b30d6fd026b2c132b3985ce6b23bec09ab3aa68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/51087f87dcce2663e1fed4dfd4e56eccd580297e",
-                "reference": "51087f87dcce2663e1fed4dfd4e56eccd580297e",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/9b30d6fd026b2c132b3985ce6b23bec09ab3aa68",
+                "reference": "9b30d6fd026b2c132b3985ce6b23bec09ab3aa68",
                 "shasum": ""
             },
             "require": {
@@ -13629,22 +13629,22 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.0.2"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.1.0"
             },
-            "time": "2025-02-17T20:25:51+00:00"
+            "time": "2025-02-19T13:28:12+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.5",
+            "version": "2.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "451b17f9665481ee502adc39be987cb71067ece2"
+                "reference": "6eaec7c6c9e90dcfe46ad1e1ffa5171e2dab641c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/451b17f9665481ee502adc39be987cb71067ece2",
-                "reference": "451b17f9665481ee502adc39be987cb71067ece2",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/6eaec7c6c9e90dcfe46ad1e1ffa5171e2dab641c",
+                "reference": "6eaec7c6c9e90dcfe46ad1e1ffa5171e2dab641c",
                 "shasum": ""
             },
             "require": {
@@ -13689,7 +13689,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-13T12:49:56+00:00"
+            "time": "2025-02-19T15:46:42+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

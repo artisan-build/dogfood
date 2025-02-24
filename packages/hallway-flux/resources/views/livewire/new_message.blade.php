@@ -25,11 +25,11 @@
             placeholder="Type your message... (Shift+Enter for newline)"
         ></flux:textarea>
         <div class="flex">
-            <div class="flex-grow">
+            <div class="grow">
                 <x-filepond::upload drop-on-page="true" drop-on-element="false" multiple="true" max-files="4"
                                     :accepted-file-types="UploadLimit::allowedMimeTypes()" wire:model="file"/>
             </div>
-            <div class="flex-shrink-0 pr-2">
+            <div class="shrink-0 pr-2">
                 <flux:button.group>
                     <flux:button icon="paper-clip" onclick="document.querySelector('[type=file]').click()"
                                  variant="ghost"></flux:button>

@@ -17,8 +17,8 @@
     </div>
     @if ($member->timezone)
     <div class="flex flex-row px-4 pb-2">
-        <span class="text-slate-400 dark:text-slate-400 text-sm flex-grow">{{ $member->timezone }}</span>
-        <span class="text-slate-400 dark:text-slate-400 text-sm flex-shrink">{{ now()->setTimezone($member->timezone)->format('H:i') }}</span>
+        <span class="text-slate-400 dark:text-slate-400 text-sm grow">{{ $member->timezone }}</span>
+        <span class="text-slate-400 dark:text-slate-400 text-sm shrink">{{ now()->setTimezone($member->timezone)->format('H:i') }}</span>
     </div>
         @endif
 </div>

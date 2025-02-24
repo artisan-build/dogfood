@@ -1,15 +1,79 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
 
-[x-cloak] {
-    display: none;
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../../resources/**/*.blade.php';
+@source '.../../resources/**/*.js';
+@source '../../resources/**/*.vue';
+@source '../../vendor/artisan-build/till/resources/**/*.blade.php';
+@source '../../vendor/artisan-build/artisan-ui/resources/**/*.blade.php';
+@source '../../vendor/artisan-build/flux-themes/resources/**/*.blade.php';
+
+
+
+@theme {
+    --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Colors */
+    --color-inherit: inherit;
+    --color-current: currentColor;
+    --color-transparent: transparent;
+    --color-black: #000;
+    --color-white: #fff;
+
+    /* Zinc Colors */
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f5f5f5;
+    --color-zinc-200: #e5e5e5;
+    --color-zinc-300: #d4d4d4;
+    --color-zinc-400: #a3a3a3;
+    --color-zinc-500: #737373;
+    --color-zinc-600: #525252;
+    --color-zinc-700: #404040;
+    --color-zinc-800: #262626;
+    --color-zinc-900: #171717;
+    --color-zinc-950: #0a0a0a;
+
+    /* Accent Colors */
+    --color-accent: var(--color-accent);
+    --color-accent-content: var(--color-accent-content);
+    --color-accent-foreground: var(--color-accent-foreground);
+
+    /* Font Family */
+
+
+    /* Breakpoints */
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
 
+/* Border color compatibility layer */
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
 
+/* Alpine.js compatibility */
+@layer utilities {
+    [x-cloak] {
+        display: none;
+    }
+}
 
-
+/* Theme configuration */
 @layer base {
     :root {
         --color-accent: var(--color-orange-500);
