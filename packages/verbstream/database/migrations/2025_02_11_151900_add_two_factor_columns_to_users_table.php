@@ -12,6 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('current_team_id')->nullable();
+            $table->string('profile_photo_path', 2048)->nullable();
+
             $table->text('two_factor_secret')
                 ->after('password')
                 ->nullable();

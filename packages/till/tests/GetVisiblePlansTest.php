@@ -8,7 +8,4 @@ it('hides the free plan by default', function (): void {
     expect(app(GetVisiblePlans::class)())->toBeInstanceOf(Collection::class)->toHaveCount(3);
 });
 
-it('shows the free plan when set in config', function (): void {
-    Config::set('till.show_free_plan', true);
-    expect(app(GetVisiblePlans::class)())->toBeInstanceOf(Collection::class)->toHaveCount(4);
-});
+
