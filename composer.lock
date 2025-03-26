@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68bb81a033f6d0518c6d6788948761b1",
+    "content-hash": "4746f95947dd89817dcdcffe652fbf9c",
     "packages": [
         {
             "name": "amphp/amp",
@@ -816,7 +816,7 @@
         },
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -894,7 +894,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -971,7 +971,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -1086,7 +1086,7 @@
         },
         {
             "name": "artisan-build/docsidian",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -1165,7 +1165,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -1243,7 +1243,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -1323,7 +1323,7 @@
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -1399,7 +1399,7 @@
         },
         {
             "name": "artisan-build/hallway-core",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-core",
@@ -1497,7 +1497,7 @@
         },
         {
             "name": "artisan-build/hallway-flux",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
@@ -1596,7 +1596,7 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
@@ -1673,8 +1673,86 @@
             }
         },
         {
+            "name": "artisan-build/livewire-starter-kit",
+            "version": "dev-working-on-community",
+            "dist": {
+                "type": "path",
+                "url": "packages/livewire-starter-kit",
+                "reference": "59bd87a9c00b0bc4d9eabe810932739af307e328"
+            },
+            "require": {
+                "illuminate/support": "^11.36|^12.0",
+                "livewire/volt": "^1.6.7"
+            },
+            "require-dev": {
+                "larastan/larastan": "^v3.0.2",
+                "laravel/pint": "^1.19.0",
+                "orchestra/testbench": "^v9.9.0",
+                "pestphp/pest": "^v3.7.1",
+                "phpstan/phpstan": "^2.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArtisanBuild\\LivewireStarterKit\\Providers\\LivewireStarterKitServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArtisanBuild\\LivewireStarterKit\\": "src/",
+                    "ArtisanBuild\\LivewireStarterKit\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@composer run prepare"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-bench --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@composer run prepare",
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "start": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@composer run build",
+                    "@php vendor/bin/testbench serve"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "lint": [
+                    "vendor/bin/pint"
+                ],
+                "stan": [
+                    "vendor/bin/phpstan analyse --memory-limit=-1"
+                ],
+                "ready": [
+                    "@composer lint",
+                    "@composer stan",
+                    "@composer test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Moves the Livewire starter kit from Laravel 12 into the vendor folder and refactors it to use Verbs events for all Eloquent operations",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "artisan-build/marketing",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -1751,7 +1829,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -1828,7 +1906,7 @@
         },
         {
             "name": "artisan-build/mirror",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/mirror",
@@ -1905,7 +1983,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -1983,7 +2061,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -2063,7 +2141,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -2201,18 +2279,18 @@
         },
         {
             "name": "artisan-build/verbstream",
-            "version": "dev-main",
+            "version": "dev-working-on-community",
             "dist": {
                 "type": "path",
                 "url": "packages/verbstream",
-                "reference": "82ce2cae36c8312f7cbb81c6639655443759c8a4"
+                "reference": "eeed4e5457af4e9c5b7785a735262f3459fe7e03"
             },
             "require": {
                 "artisan-build/adverbs": "*",
                 "ext-json": "*",
                 "hirethunk/verbs": "*",
-                "illuminate/console": "^11.0",
-                "illuminate/support": "^11.0",
+                "illuminate/console": "^11.0|^12.0",
+                "illuminate/support": "^11.0|^12.0",
                 "laravel/fortify": "^1.20",
                 "mobiledetect/mobiledetectlib": "^4.8.08",
                 "php": "^8.2.0",
@@ -2677,16 +2755,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.8.5",
+            "version": "2.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "ae208dc1e182bd45d99fcecb956501da212454a1"
+                "reference": "937c775a644bd7d2c3dfbb352747488463a6e673"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/ae208dc1e182bd45d99fcecb956501da212454a1",
-                "reference": "ae208dc1e182bd45d99fcecb956501da212454a1",
+                "url": "https://api.github.com/repos/composer/composer/zipball/937c775a644bd7d2c3dfbb352747488463a6e673",
+                "reference": "937c775a644bd7d2c3dfbb352747488463a6e673",
                 "shasum": ""
             },
             "require": {
@@ -2771,7 +2849,7 @@
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
                 "security": "https://github.com/composer/composer/security/policy",
-                "source": "https://github.com/composer/composer/tree/2.8.5"
+                "source": "https://github.com/composer/composer/tree/2.8.6"
             },
             "funding": [
                 {
@@ -2787,7 +2865,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-21T14:23:40+00:00"
+            "time": "2025-02-25T12:03:50+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -5953,6 +6031,78 @@
             "time": "2025-02-13T21:05:24+00:00"
         },
         {
+            "name": "livewire/volt",
+            "version": "v1.6.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/livewire/volt.git",
+                "reference": "cc162e749a33e14cd437234ed78b0e7ad47c252a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/livewire/volt/zipball/cc162e749a33e14cd437234ed78b0e7ad47c252a",
+                "reference": "cc162e749a33e14cd437234ed78b0e7ad47c252a",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^10.38.2|^11.0|^12.0",
+                "livewire/livewire": "^3.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "laravel/folio": "^1.1",
+                "mockery/mockery": "^1.6",
+                "orchestra/testbench": "^8.15.0|^9.0|^10.0",
+                "pestphp/pest": "^2.9.5|^3.0",
+                "phpstan/phpstan": "^1.10"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Livewire\\Volt\\VoltServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "functions.php"
+                ],
+                "psr-4": {
+                    "Livewire\\Volt\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                },
+                {
+                    "name": "Nuno Maduro",
+                    "email": "nuno@laravel.com"
+                }
+            ],
+            "description": "An elegantly crafted functional API for Laravel Livewire.",
+            "homepage": "https://github.com/livewire/volt",
+            "keywords": [
+                "laravel",
+                "livewire",
+                "volt"
+            ],
+            "support": {
+                "issues": "https://github.com/livewire/volt/issues",
+                "source": "https://github.com/livewire/volt"
+            },
+            "time": "2025-02-17T16:24:59+00:00"
+        },
+        {
             "name": "ml/iri",
             "version": "1.1.4",
             "target-dir": "ML/IRI",
@@ -8253,16 +8403,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v16.5.1",
+            "version": "v16.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "05c7c3a8a15b1bc396f09d17c88539c0db3d3255"
+                "reference": "d6de0a536f00b5c5c74f36b8f4d0d93b035499ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/05c7c3a8a15b1bc396f09d17c88539c0db3d3255",
-                "reference": "05c7c3a8a15b1bc396f09d17c88539c0db3d3255",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/d6de0a536f00b5c5c74f36b8f4d0d93b035499ff",
+                "reference": "d6de0a536f00b5c5c74f36b8f4d0d93b035499ff",
                 "shasum": ""
             },
             "require": {
@@ -8306,9 +8456,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v16.5.1"
+                "source": "https://github.com/stripe/stripe-php/tree/v16.6.0"
             },
-            "time": "2025-02-07T21:24:29+00:00"
+            "time": "2025-02-24T22:35:29+00:00"
         },
         {
             "name": "symfony/clock",
@@ -13703,23 +13853,23 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "11.0.8",
+            "version": "11.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "418c59fd080954f8c4aa5631d9502ecda2387118"
+                "reference": "14d63fbcca18457e49c6f8bebaa91a87e8e188d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/418c59fd080954f8c4aa5631d9502ecda2387118",
-                "reference": "418c59fd080954f8c4aa5631d9502ecda2387118",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/14d63fbcca18457e49c6f8bebaa91a87e8e188d7",
+                "reference": "14d63fbcca18457e49c6f8bebaa91a87e8e188d7",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
-                "nikic/php-parser": "^5.3.1",
+                "nikic/php-parser": "^5.4.0",
                 "php": ">=8.2",
                 "phpunit/php-file-iterator": "^5.1.0",
                 "phpunit/php-text-template": "^4.0.1",
@@ -13731,7 +13881,7 @@
                 "theseer/tokenizer": "^1.2.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^11.5.0"
+                "phpunit/phpunit": "^11.5.2"
             },
             "suggest": {
                 "ext-pcov": "PHP extension that provides line coverage",
@@ -13769,7 +13919,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/11.0.8"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/11.0.9"
             },
             "funding": [
                 {
@@ -13777,7 +13927,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-11T12:34:27+00:00"
+            "time": "2025-02-25T13:26:39+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -14190,12 +14340,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "23b2141a1db97b4e3278510ed9e74a16361619b1"
+                "reference": "cebd36660068b236b35789228f183f296bcccaee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/23b2141a1db97b4e3278510ed9e74a16361619b1",
-                "reference": "23b2141a1db97b4e3278510ed9e74a16361619b1",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/cebd36660068b236b35789228f183f296bcccaee",
+                "reference": "cebd36660068b236b35789228f183f296bcccaee",
                 "shasum": ""
             },
             "conflict": {
@@ -14586,7 +14736,7 @@
                 "mojo42/jirafeau": "<4.4",
                 "mongodb/mongodb": ">=1,<1.9.2",
                 "monolog/monolog": ">=1.8,<1.12",
-                "moodle/moodle": "<4.3.8|>=4.4,<4.4.4",
+                "moodle/moodle": "<4.3.10|>=4.4,<4.4.6|>=4.5.0.0-beta,<4.5.2",
                 "mos/cimage": "<0.7.19",
                 "movim/moxl": ">=0.8,<=0.10",
                 "movingbytes/social-network": "<=1.2.1",
@@ -15058,7 +15208,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-21T23:05:15+00:00"
+            "time": "2025-02-24T22:04:57+00:00"
         },
         {
             "name": "sebastian/cli-parser",

@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "artisan-build/kibble-app",
+    "name": "artisan-build/dogfood",
     "type": "project",
     "description": "Artisan Build's Package Management Application",
     "keywords": [
@@ -20,6 +20,7 @@
         "artisan-build/hallway-core": "*",
         "artisan-build/hallway-flux": "*",
         "artisan-build/kibble": "*",
+        "artisan-build/livewire-starter-kit": "*",
         "artisan-build/marketing": "*",
         "artisan-build/marketing-mailcoach": "*",
         "artisan-build/mirror": "*",

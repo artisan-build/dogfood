@@ -5,6 +5,7 @@ use ArtisanBuild\Verbstream\Verbstream;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Fortify\Features;
 use Thunk\Verbs\Facades\Verbs;
+use Thunk\Verbs\Testing\EventStoreFake;
 
 test('registration screen can be rendered', function (): void {
     $response = $this->get(route('register'));
@@ -20,7 +21,8 @@ test('registration screen cannot be rendered if support is disabled', function (
 
 test('new users can register', function (): void {
     $this->withoutExceptionHandling();
-    Verbs::fake();
+    $verbs = Verbs::fake();
+
     Verbs::assertNothingCommitted();
     Notification::fake();
     $response = $this->post(route('register'), [
@@ -30,6 +32,8 @@ test('new users can register', function (): void {
         'password_confirmation' => 'password',
         'terms' => Verbstream::hasTermsAndPrivacyPolicyFeature(),
     ]);
+
+
 
     Verbs::assertCommitted(UserCreated::class);
 

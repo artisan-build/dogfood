@@ -29,8 +29,8 @@ class FluxThemesServiceProvider extends ServiceProvider
             SetThemeCommand::class,
         ]);
 
-        $this->app->bindIf(LoadsHeaderRightNavbarItems::class, LoadHeaderRightNavbarItems::class);
-        $this->app->bindIf(LoadsHeaderLeftNavbarItems::class, LoadHeaderLeftNavbarItems::class);
+        $this->app->bind(LoadsHeaderRightNavbarItems::class, config('flux-themes.loads_header_items.right'));
+        $this->app->bind(LoadsHeaderLeftNavbarItems::class, config('flux-themes.loads_header_items.left'));
     }
 
     public function boot(): void
