@@ -5,7 +5,6 @@ namespace ArtisanBuild\Till\Commands;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 
 use function Laravel\Prompts\text;
@@ -67,10 +66,10 @@ class InstallCommand extends Command
         File::ensureDirectoryExists(app_path($plans));
         File::ensureDirectoryExists(app_path($plans).'/Abilities');
 
-
         File::put(config_path('till.php'), $config);
 
         File::put(app_path("{$plans}/UnsubscribedPlan.php"), str_replace('{namespace}', "App\\$plans", File::get(__DIR__.'/../../stubs/UnsubscribedPlan.php.stub')));
+
         return self::SUCCESS;
 
     }

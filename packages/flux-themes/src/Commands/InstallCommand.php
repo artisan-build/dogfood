@@ -15,25 +15,25 @@ class InstallCommand extends Command
     {
         if (! $this->option('force')) {
             if (File::exists(resource_path('views/components/layouts/app.php'))) {
-                if (!$this->confirm('The app layout already exists. Do you want to overwrite it?')) {
+                if (! $this->confirm('The app layout already exists. Do you want to overwrite it?')) {
                     return self::FAILURE;
                 }
             }
 
             if (File::exists(resource_path('css/app.css'))) {
-                if (!$this->confirm('The app.css file already exists. Do you want to overwrite it?')) {
+                if (! $this->confirm('The app.css file already exists. Do you want to overwrite it?')) {
                     return self::FAILURE;
                 }
             }
 
             if (File::exists(resource_path('views/welcome.blade.php'))) {
-                if (!$this->confirm('The welcome.blade.php file already exists. Do you want to overwrite it?')) {
+                if (! $this->confirm('The welcome.blade.php file already exists. Do you want to overwrite it?')) {
                     return self::FAILURE;
                 }
             }
 
             if (File::exists(resource_path('views/components/svg/logo.blade.php'))) {
-                if (!$this->confirm('The logo.blade.php file already exists. Do you want to overwrite it?')) {
+                if (! $this->confirm('The logo.blade.php file already exists. Do you want to overwrite it?')) {
                     return self::FAILURE;
                 }
             }
@@ -46,6 +46,7 @@ class InstallCommand extends Command
         File::put(resource_path('views/welcome.blade.php'), File::get(__DIR__.'/../../stubs/welcome.blade.php.stub'));
         File::ensureDirectoryExists(resource_path('views/components/svg'));
         File::put(resource_path('views/components/svg/logo.blade.php'), File::get(__DIR__.'/../../stubs/logo.blade.php.stub'));
+
         return self::SUCCESS;
     }
 }
