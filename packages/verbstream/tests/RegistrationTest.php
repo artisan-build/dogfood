@@ -5,7 +5,6 @@ use ArtisanBuild\Verbstream\Verbstream;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Fortify\Features;
 use Thunk\Verbs\Facades\Verbs;
-use Thunk\Verbs\Testing\EventStoreFake;
 
 test('registration screen can be rendered', function (): void {
     $response = $this->get(route('register'));
@@ -32,8 +31,6 @@ test('new users can register', function (): void {
         'password_confirmation' => 'password',
         'terms' => Verbstream::hasTermsAndPrivacyPolicyFeature(),
     ]);
-
-
 
     Verbs::assertCommitted(UserCreated::class);
 

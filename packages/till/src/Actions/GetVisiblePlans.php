@@ -2,7 +2,6 @@
 
 namespace ArtisanBuild\Till\Actions;
 
-use ArtisanBuild\Till\Attributes\DefaultPlan;
 use ReflectionClass;
 
 class GetVisiblePlans

@@ -10,8 +10,6 @@ use ArtisanBuild\FluxThemes\Livewire\FooterComponent;
 use ArtisanBuild\FluxThemes\Livewire\HeaderLeftNavbarComponent;
 use ArtisanBuild\FluxThemes\Livewire\HeaderRightNavbarComponent;
 use ArtisanBuild\FluxThemes\Livewire\SearchComponent;
-use ArtisanBuild\FluxThemes\Theme\LoadHeaderLeftNavbarItems;
-use ArtisanBuild\FluxThemes\Theme\LoadHeaderRightNavbarItems;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Override;

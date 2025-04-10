@@ -2,11 +2,10 @@
 
 namespace ArtisanBuild\LivewireStarterKit\Providers;
 
-use App\Providers\VoltServiceProvider;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Volt\Volt;
 use Override;
-use Illuminate\Support\Facades\Blade;
 
 class LivewireStarterKitServiceProvider extends ServiceProvider
 {
@@ -39,8 +38,8 @@ class LivewireStarterKitServiceProvider extends ServiceProvider
         ], 'livewire-starter-kit-views');
 
         // Register specific aliases for layouts
-        Blade::component('components.layouts.auth', 'layouts.auth');
-        Blade::component('livewire-starter-kit::components.layouts.auth', 'components.layouts.auth');
+        // Blade::aliasComponent('components.layouts.auth', 'layouts.auth');
+        // Blade::aliasComponent('livewire-starter-kit::components.layouts.auth', 'components.layouts.auth');
 
         // Set up default layout configurations for Livewire
         config(['livewire.layout' => 'components.layouts.app']);
@@ -50,7 +49,7 @@ class LivewireStarterKitServiceProvider extends ServiceProvider
         Volt::mount([
             config('livewire.view_path', resource_path('views/livewire')),
             resource_path('views/pages'),
-            __DIR__ . '/../../resources/views/livewire'
+            __DIR__.'/../../resources/views/livewire',
         ]);
     }
 }

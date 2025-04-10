@@ -10,10 +10,11 @@ class CoachMarkedNoShow extends Event
 {
     #[StateId(CampCoachState::class)]
     public int $camp_coach_id;
+
     public array $assignments = [];
 
-
-    public function apply(CampCoachState $state) {
+    public function apply(CampCoachState $state)
+    {
         $state->assignments = $this->assignments;
     }
 
