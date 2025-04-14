@@ -1,0 +1,6 @@
+<?php
+
+/**
+ * @internal
+ */
+class InternalClass {}
