@@ -37,7 +37,8 @@ class GetPlans
                 return null;
             })
             ->filter() // Remove null values (files without classes)
-            ->filter(fn ($class) => new $class)->filter(function ($plan) {
+            ->filter(fn ($class) => class_exists($class))
+            ->filter(function ($plan) {
                 $attribute = config('till.team_mode') ? TeamPlan::class : IndividualPlan::class;
 
                 $reflection = new ReflectionClass($plan);
