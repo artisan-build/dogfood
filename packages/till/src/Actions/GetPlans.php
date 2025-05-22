@@ -47,8 +47,8 @@ class GetPlans
             })
             ->map(fn (string $plan): BasePlan => new $plan)
             ->sort(function (BasePlan $plan_a, BasePlan $plan_b) {
-                $a = $plan_a->prices[PlanTerms::Life->value] ?? $plan_a->prices[PlanTerms::Year->value] ?? $plan_a->prices[PlanTerms::Month->value] ?? $plan_a->prices[PlanTerms::Week->value];
-                $b = $plan_b->prices[PlanTerms::Life->value] ?? $plan_b->prices[PlanTerms::Year->value] ?? $plan_b->prices[PlanTerms::Month->value] ?? $plan_b->prices[PlanTerms::Week->value];
+                $a = $plan_a->prices[PlanTerms::Life->value] ?? $plan_a->prices[PlanTerms::Year->value] ?? $plan_a->prices[PlanTerms::Month->value] ?? $plan_a->prices[PlanTerms::Week->value] ?? 0;
+                $b = $plan_b->prices[PlanTerms::Life->value] ?? $plan_b->prices[PlanTerms::Year->value] ?? $plan_b->prices[PlanTerms::Month->value] ?? $plan_b->prices[PlanTerms::Week->value] ?? 0;
 
                 return $a <=> $b;
             });

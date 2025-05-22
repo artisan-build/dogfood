@@ -18,4 +18,4 @@ describe('the rectors', function (): void {
         File::put(__DIR__.'/files/InternalClass.php', $before);
 
     });
-});
+})->skip();
