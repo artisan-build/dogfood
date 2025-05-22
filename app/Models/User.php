@@ -81,6 +81,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
+    use App\Traits\HasAccounts;
     use HasApiTokens;
     use HasFactory;
     use HasHallwayMembership;
