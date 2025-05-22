@@ -2,13 +2,11 @@
 
 namespace ArtisanBuild\Turbulence\Support;
 
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Process;
-use phpDocumentor\Reflection\Types\Self_;
 
 class RunRector
 {
-    public function __construct(private string $rule) {}
+    public function __construct(private readonly string $rule) {}
 
     public static function rule(string $rule): RunRector
     {

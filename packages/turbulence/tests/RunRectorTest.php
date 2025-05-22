@@ -4,8 +4,8 @@ use ArtisanBuild\Turbulence\Rectors\RemoveInternalDocblockRector;
 use ArtisanBuild\Turbulence\Support\RunRector;
 use Illuminate\Support\Facades\File;
 
-describe('the rectors', function () {
-    it('removes internal from the docblock', function () {
+describe('the rectors', function (): void {
+    it('removes internal from the docblock', function (): void {
         $before = File::get(__DIR__.'/files/InternalClass.php');
         expect($before)->toContain('@internal');
 

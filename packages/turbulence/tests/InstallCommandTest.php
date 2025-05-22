@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 
-afterEach(function () {
-    InstallManifest::files()->each(function ($group) {
+afterEach(function (): void {
+    InstallManifest::files()->each(function ($group): void {
         foreach ($group as $file) {
             $file['undo']();
         }
@@ -16,36 +16,35 @@ afterEach(function () {
     Config::set('turbulence.installed', false);
 });
 
-
-describe('Installation command', function () {
-    it('runs if not yet installed', function () {
+describe('Installation command', function (): void {
+    it('runs if not yet installed', function (): void {
         RunRector::fake();
         expect(Artisan::call('turbulence:install'))->toBe(Command::SUCCESS);
     });
 
-    it('returns invalid if already installed and no force', function () {
+    it('returns invalid if already installed and no force', function (): void {
         RunRector::fake();
         Config::set('turbulence.installed', true);
         expect(Artisan::call('turbulence:install'))->toBe(Command::INVALID);
     });
 
-    it('runs if already installed and force is passed', function () {
+    it('runs if already installed and force is passed', function (): void {
         RunRector::fake();
         Config::set('turbulence.installed', true);
         expect(Artisan::call('turbulence:install', ['--force' => true]))->toBe(Command::SUCCESS);
     });
 
-    it('sets the correct configuration values', function () {
+    it('sets the correct configuration values', function (): void {
         RunRector::fake();
         Artisan::call('turbulence:install');
         $config = require config_path('turbulence.php');
 
         expect($config['installed'])->toBeTrue()
-            ->and($config['user_model'])->toBe("\App\Models\User")
+            ->and($config['user_model'])->toBe(\App\Models\User::class)
             ->and($config['account_model'])->toBe("\App\Models\Account");
     });
 
-    it('creates the models correctly', function () {
+    it('creates the models correctly', function (): void {
         RunRector::fake();
         Artisan::call('turbulence:install');
         expect(File::exists(app_path('Models/Account.php')))->toBeTrue()

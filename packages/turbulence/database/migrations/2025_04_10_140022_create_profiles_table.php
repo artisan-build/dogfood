@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('profiles', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(config('turbulence.user_model'));
             $table->timestamps();
@@ -21,7 +21,7 @@ return new class extends Migration
         $user_model = config('turbulence.user_model');
         $user_table = (new $user_model)->getTable();
 
-        Schema::table($user_table, function (Blueprint $table) {
+        Schema::table($user_table, function (Blueprint $table): void {
             $table->unsignedInteger('current_account_id');
             $table->string('role')->default(UserRoles::User->value);
         });
@@ -37,7 +37,7 @@ return new class extends Migration
         $user_model = config('turbulence.user_model');
         $user_table = (new $user_model)->getTable();
 
-        Schema::table($user_table, function (Blueprint $table) {
+        Schema::table($user_table, function (Blueprint $table): void {
             $table->dropColumn('current_account_id');
         });
     }

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('organizational_units', function (Blueprint $table) {
+        Schema::create('organizational_units', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(config('turbulence.account_model'));
             $table->string('type');

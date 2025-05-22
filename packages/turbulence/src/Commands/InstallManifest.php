@@ -15,8 +15,8 @@ class InstallManifest
                     'destination' => config_path('turbulence.php'),
                     'rector' => [],
                     'replace' => [
-                        '\ArtisanBuild\Turbulence\Models\UserModel' => '\App\Models\User',
-                        '\ArtisanBuild\Turbulence\Models\Account' => '\App\Models\Account',
+                        \ArtisanBuild\Turbulence\Models\UserModel::class => \App\Models\User::class,
+                        \ArtisanBuild\Turbulence\Models\Account::class => '\App\Models\Account',
                         "'installed' => false" => "'installed' => true",
                     ],
                     'undo' => fn () => File::delete(config_path('turbulence.php')),

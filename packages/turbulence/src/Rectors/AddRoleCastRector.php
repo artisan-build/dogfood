@@ -6,9 +6,9 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Return_;
 use Rector\Rector\AbstractRector;
@@ -22,12 +22,12 @@ final class AddRoleCastRector extends AbstractRector
 
     public function refactor(Node $node): ?Node
     {
-        if (!$node instanceof Class_) {
+        if (! $node instanceof Class_) {
             return null;
         }
 
         $roleCast = new ArrayItem(
-            new ClassConstFetch(new Name('\ArtisanBuild\Turbulence\Enums\UserRoles'), new Identifier('class')),
+            new ClassConstFetch(new Name(\ArtisanBuild\Turbulence\Enums\UserRoles::class), new Identifier('class')),
             new String_('role')
         );
 
@@ -43,6 +43,7 @@ final class AddRoleCastRector extends AbstractRector
                     }
 
                     $prop->default->items[] = $roleCast;
+
                     return $node;
                 }
             }
@@ -60,6 +61,7 @@ final class AddRoleCastRector extends AbstractRector
                         }
 
                         $stmt->expr->items[] = $roleCast;
+
                         return $node;
                     }
                 }
@@ -68,5 +70,4 @@ final class AddRoleCastRector extends AbstractRector
 
         return null;
     }
-
 }

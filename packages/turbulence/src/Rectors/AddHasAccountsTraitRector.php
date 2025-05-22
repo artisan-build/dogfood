@@ -4,15 +4,13 @@ namespace ArtisanBuild\Turbulence\Rectors;
 
 use Illuminate\Support\Str;
 use PhpParser\Node;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\TraitUse;
-use PhpParser\Node\Name;
 use Rector\Rector\AbstractRector;
-
 
 final class AddHasAccountsTraitRector extends AbstractRector
 {
-
     public function getNodeTypes(): array
     {
         return [Class_::class];
@@ -20,7 +18,7 @@ final class AddHasAccountsTraitRector extends AbstractRector
 
     public function refactor(Node $node): ?Node
     {
-        if (!$node instanceof Class_) {
+        if (! $node instanceof Class_) {
             return null;
         }
 

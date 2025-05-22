@@ -2,7 +2,6 @@
 
 namespace ArtisanBuild\Turbulence\Commands;
 
-use App\Models\User;
 use ArtisanBuild\Turbulence\Rectors\AddHasAccountsTraitRector;
 use ArtisanBuild\Turbulence\Rectors\AddRoleCastRector;
 use ArtisanBuild\Turbulence\Support\RunRector;
@@ -30,7 +29,7 @@ class InstallCommand extends Command
 
         Artisan::call('vendor:publish', ['--tag' => 'turbulence']);
 
-        InstallManifest::files()->each(function ($files, $key) {
+        InstallManifest::files()->each(function ($files, $key): void {
             $this->info("Installing {$key}...");
 
             foreach ($files as $source => $file) {
@@ -60,15 +59,13 @@ class InstallCommand extends Command
         $this->info('Adding role to the casts property on your User model');
         if (! RunRector::rule(AddRoleCastRector::class)->on(app_path('Models/User.php'))) {
             $this->error('We failed to do this for you. Please cast `role` to `ArtisanBuild\\Turbulence\\Enums\\UserRoles::class` in your User model');
-        }
-        else {
+        } else {
             $this->line('* Done');
         }
         $this->info('Adding the HasAccount trait to your User model');
         if (! RunRector::rule(AddHasAccountsTraitRector::class)->on(app_path('Models/User.php'))) {
             $this->error('We failed to do this for you. Please add `use App\\Traits\\HasAccounts;` to your User model');
-        }
-        else {
+        } else {
             $this->line('* Done');
         }
 
