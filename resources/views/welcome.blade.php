@@ -41,9 +41,7 @@
         </div>
     </section>
 
-    <section name="pricing">
-        <livewire:till:pricing-section/>
-    </section>
+
 
     <section name="email-signup" class="my-24">
         <livewire:marketing:email-subscription-form
