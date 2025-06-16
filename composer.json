@@ -28,7 +28,6 @@
         "artisan-build/till-stripe": "*",
         "artisan-build/turbulence": "*",
         "artisan-build/verbs-flux": "^0.1.0",
-        "artisan-build/verbstream": "*",
         "internachi/modular": "^2.2",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",

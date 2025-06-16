@@ -7,8 +7,6 @@ use ArtisanBuild\Adverbs\Traits\HasVerbsState;
 use ArtisanBuild\Hallway\Members\Models\Member;
 use ArtisanBuild\Hallway\Members\Traits\HasHallwayMembership;
 use ArtisanBuild\Till\Traits\Tillable;
-use ArtisanBuild\Verbstream\Traits\HasProfilePhoto;
-use ArtisanBuild\Verbstream\Traits\HasTeams;
 use Database\Factories\UserFactory;
 use Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -16,6 +14,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -84,8 +85,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens;
     use HasFactory;
     use HasHallwayMembership;
-    use HasProfilePhoto;
-    use HasTeams;
     use HasVerbsState;
     use Notifiable;
     use Tillable;
@@ -116,5 +115,68 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the URL to the user's profile photo.
+     */
+    public function getProfilePhotoUrlAttribute(): string
+    {
+        return $this->profile_photo_path
+            ? asset('storage/' . $this->profile_photo_path)
+            : $this->defaultProfilePhotoUrl();
+    }
+
+    /**
+     * Get the default profile photo URL if no profile photo has been uploaded.
+     */
+    protected function defaultProfilePhotoUrl(): string
+    {
+        $name = trim(collect(explode(' ', $this->name))->map(fn ($segment) => mb_substr((string) $segment, 0, 1))->join(' '));
+
+        return 'https://ui-avatars.com/api/?name='.urlencode($name).'&color=7F9CF5&background=EBF4FF';
+    }
+
+    /**
+     * Get the current team of the user's context.
+     */
+    public function currentTeam(): BelongsTo
+    {
+        return $this->belongsTo(Team::class, 'current_team_id');
+    }
+
+    /**
+     * Get all of the teams the user owns.
+     */
+    public function ownedTeams(): HasMany
+    {
+        return $this->hasMany(Team::class);
+    }
+
+    /**
+     * Get all of the teams the user belongs to.
+     */
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class, 'team_user')
+            ->withPivot('role')
+            ->withTimestamps()
+            ->as('membership');
+    }
+
+    /**
+     * Determine if the user owns the given team.
+     */
+    public function ownsTeam(Team $team): bool
+    {
+        return $this->id === $team->user_id;
+    }
+
+    /**
+     * Determine if the user belongs to the given team.
+     */
+    public function belongsToTeam(Team $team): bool
+    {
+        return $this->teams->contains($team) || $this->ownsTeam($team);
     }
 }

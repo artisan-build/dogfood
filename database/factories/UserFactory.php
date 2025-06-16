@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Team;
 use App\Models\User;
-use ArtisanBuild\Verbstream\Features;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -54,10 +53,6 @@ class UserFactory extends Factory
      */
     public function withPersonalTeam(?callable $callback = null): static
     {
-        if (! Features::hasTeamFeatures()) {
-            return $this->state([]);
-        }
-
         return $this->has(
             Team::factory()
                 ->state(fn (array $attributes, User $user) => [
