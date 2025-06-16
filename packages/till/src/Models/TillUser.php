@@ -2,11 +2,16 @@
 
 namespace ArtisanBuild\Till\Models;
 
+use App\Models\Membership;
+use App\Models\Team;
 use ArtisanBuild\Till\Traits\HasTokens;
 use ArtisanBuild\Till\Traits\Tillable;
-use ArtisanBuild\Verbstream\Traits\HasTeams;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 use Sushi\Sushi;
 
 /**
@@ -15,29 +20,28 @@ use Sushi\Sushi;
  * @property string|null $email
  * @property string|null $password
  * @property int|null $current_team_id
- * @property-read \App\Models\Team|null $currentTeam
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $ownedTeams
+ * @property-read Team|null $currentTeam
+ * @property-read Collection<int, Team> $ownedTeams
  * @property-read int|null $owned_teams_count
- * @property-read \App\Models\Membership|null $membership
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $teams
+ * @property-read Membership|null $membership
+ * @property-read Collection<int, Team> $teams
  * @property-read int|null $teams_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser whereCurrentTeamId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TillUser wherePassword($value)
+ * @method static Builder<static>|TillUser newModelQuery()
+ * @method static Builder<static>|TillUser newQuery()
+ * @method static Builder<static>|TillUser query()
+ * @method static Builder<static>|TillUser whereCurrentTeamId($value)
+ * @method static Builder<static>|TillUser whereEmail($value)
+ * @method static Builder<static>|TillUser whereId($value)
+ * @method static Builder<static>|TillUser whereName($value)
+ * @method static Builder<static>|TillUser wherePassword($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class TillUser extends User
 {
-    use HasTeams;
     use HasTokens;
     use Sushi;
     use Tillable;

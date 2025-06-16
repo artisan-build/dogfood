@@ -22,7 +22,6 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -88,7 +87,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasVerbsState;
     use Notifiable;
     use Tillable;
-    use TwoFactorAuthenticatable;
 
     protected string $state_class = UserState::class;
 
@@ -120,11 +118,11 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get the URL to the user's profile photo.
      */
-    public function getProfilePhotoUrlAttribute(): string
+    protected function profilePhotoUrl(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->profile_photo_path
-            ? asset('storage/' . $this->profile_photo_path)
-            : $this->defaultProfilePhotoUrl();
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn () => $this->profile_photo_path
+            ? asset('storage/'.$this->profile_photo_path)
+            : $this->defaultProfilePhotoUrl());
     }
 
     /**
