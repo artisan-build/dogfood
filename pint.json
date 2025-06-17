@@ -1,0 +1,6 @@
+{
+    "preset": "laravel",
+    "notPath": [
+        "packages/turbulence/config/turbulence.php'"
+    ]
+}

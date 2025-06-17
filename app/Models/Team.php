@@ -4,13 +4,15 @@ namespace App\Models;
 
 use App\States\TeamState;
 use ArtisanBuild\Adverbs\Traits\HasVerbsState;
-use ArtisanBuild\Verbstream\Team as JetstreamTeam;
 use Database\Factories\TeamFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -45,7 +47,7 @@ use Illuminate\Support\Carbon;
  *
  * @mixin Eloquent
  */
-class Team extends JetstreamTeam
+class Team extends Model
 {
     /** @use HasFactory<TeamFactory> */
     use HasFactory;
@@ -77,5 +79,32 @@ class Team extends JetstreamTeam
         return [
             'personal_team' => 'boolean',
         ];
+    }
+
+    /**
+     * Get the owner of the team.
+     */
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Get all of the team's users including its owner.
+     */
+    public function allUsers(): Collection
+    {
+        return $this->users->merge([$this->owner]);
+    }
+
+    /**
+     * Get all of the users that belong to the team.
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'team_user')
+            ->withPivot('role')
+            ->withTimestamps()
+            ->as('membership');
     }
 }

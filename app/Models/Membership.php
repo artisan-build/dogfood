@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use ArtisanBuild\Verbstream\Membership as JetstreamMembership;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Membership newModelQuery()
@@ -25,8 +25,15 @@ use ArtisanBuild\Verbstream\Membership as JetstreamMembership;
  *
  * @mixin \Eloquent
  */
-class Membership extends JetstreamMembership
+class Membership extends Pivot
 {
+    /**
+     * The table associated with the pivot model.
+     *
+     * @var string
+     */
+    protected $table = 'team_user';
+
     /**
      * Indicates if the IDs are auto-incrementing.
      *

@@ -2,8 +2,7 @@
 
 # Skeleton
 
-SkeletonDescription
-
+A starting point for new Artisan Build packages.
 > [!WARNING]  
 > This package is currently under active development, and we have not yet released a major version. Once a 0.* version
 > has been tagged, we strongly recommend locking your application to a specific working version because we might make

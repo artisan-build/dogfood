@@ -4,9 +4,9 @@ namespace ArtisanBuild\Hallway\Seeders;
 
 use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Members\Events\MemberCreated;
+use ArtisanBuild\Hallway\Members\Events\UserCreated;
 use ArtisanBuild\Hallway\Testing\Enums\UserRoles;
 use ArtisanBuild\Hallway\Testing\Enums\UsersFixture;
-use ArtisanBuild\Verbstream\Events\UserCreated;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 

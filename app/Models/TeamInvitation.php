@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use ArtisanBuild\Verbstream\TeamInvitation as JetstreamTeamInvitation;
-use ArtisanBuild\Verbstream\Verbstream;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Override;
 
 /**
  * @property-read Team|null $team
@@ -32,7 +30,7 @@ use Override;
  *
  * @mixin Eloquent
  */
-class TeamInvitation extends JetstreamTeamInvitation
+class TeamInvitation extends Model
 {
     protected $fillable = [
         'email',
@@ -42,9 +40,8 @@ class TeamInvitation extends JetstreamTeamInvitation
     /**
      * Get the team that the invitation belongs to.
      */
-    #[Override]
     public function team(): BelongsTo
     {
-        return $this->belongsTo(Verbstream::teamModel());
+        return $this->belongsTo(Team::class);
     }
 }

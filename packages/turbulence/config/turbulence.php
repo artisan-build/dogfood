@@ -2,8 +2,8 @@
 
 return [
     'installed' => false,
-    'user_model' => \ArtisanBuild\Turbulence\Models\UserModel::class,
-    'account_model' => \ArtisanBuild\Turbulence\Models\Account::class,
+    'user_model' => "ArtisanBuild\Turbulence\Models\UserModel",
+    'account_model' => "ArtisanBuild\Turbulence\Models\Account",
     'account_session_urls' => [
         'enabled' => false,
         'index_key' => 'u', // https://example.com/u/0/dashboard - loads first account from session('accounts')
