@@ -6,7 +6,13 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Pipeline;
 
-beforeEach(fn () => Config::set('flux-themes.vendor_directory', __DIR__.'/../files/vendor/artisan-build'));
+beforeEach(function (): void {
+    $vendor = __DIR__.'/../files/vendor/artisan-build';
+    File::ensureDirectoryExists("{$vendor}/flux-themes/resources/views");
+    File::ensureDirectoryExists("{$vendor}/verbs-flux/resources/views");
+    File::ensureDirectoryExists("{$vendor}/verbstream/resources/views");
+    Config::set('flux-themes.vendor_directory', $vendor);
+});
 
 describe('ensure that all source paths required for Tailwind tree shaking exist', function (): void {
     it('adds them all if the file does not include any', function (): void {
