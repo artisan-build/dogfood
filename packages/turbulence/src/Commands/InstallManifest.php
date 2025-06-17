@@ -32,7 +32,7 @@ class InstallManifest
                     'undo' => fn () => File::delete(app_path('Models/Account.php')),
                 ],
                 __DIR__.'/../Models/AccountProfile.php' => [
-                    'destination' => app_path('models/AccountProfile.php'),
+                    'destination' => app_path('Models/AccountProfile.php'),
                     'rector' => [],
                     'replace' => [
                         'ArtisanBuild\Turbulence\Models' => 'App\Models',
