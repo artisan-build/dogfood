@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -107,43 +106,5 @@ class Team extends Model
             ->withPivot('role')
             ->withTimestamps()
             ->as('membership');
-    }
-
-    /**
-     * Determine if the given user belongs to the team.
-     */
-    public function hasUser(User $user): bool
-    {
-        return $this->users->contains($user) || $user->ownsTeam($this);
-    }
-
-    /**
-     * Determine if the given email address belongs to a user on the team.
-     */
-    public function hasUserWithEmail(string $email): bool
-    {
-        return $this->allUsers()->contains(fn ($user) => $user->email === $email);
-    }
-
-    /**
-     * Get all of the pending user invitations for the team.
-     */
-    public function teamInvitations(): HasMany
-    {
-        return $this->hasMany(TeamInvitation::class);
-    }
-
-    /**
-     * Remove the given user from the team.
-     */
-    public function removeUser(User $user): void
-    {
-        if ($user->current_team_id === $this->id) {
-            $user->forceFill([
-                'current_team_id' => null,
-            ])->save();
-        }
-
-        $this->users()->detach($user);
     }
 }
