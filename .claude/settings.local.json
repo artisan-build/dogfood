@@ -3,7 +3,12 @@
     "allow": [
       "WebFetch(domain:github.com)",
       "WebFetch(domain:docs.anthropic.com)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(composer stan:*)",
+      "Bash(composer install:*)",
+      "Bash(composer lint:*)",
+      "Bash(composer test:*)",
+      "Bash(composer:*)"
     ],
     "deny": []
   }
