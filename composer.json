@@ -13,6 +13,7 @@
         "artisan-build/adverbs": "*",
         "artisan-build/artisan-ui": "*",
         "artisan-build/bench": "*",
+        "artisan-build/claudecode": "*",
         "artisan-build/docsidian": "*",
         "artisan-build/fat-enums": "*",
         "artisan-build/flux-themes": "*",

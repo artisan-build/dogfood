@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4351c626cad92691a8eb20bca17dab84",
+    "content-hash": "bec2ae8023d6defa9930202fa5cf9eea",
     "packages": [
         {
             "name": "amphp/amp",
@@ -816,14 +816,15 @@
         },
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
-                "reference": "81bdaf6b1b26a69428871052cb6c83cc4d6b9fc1"
+                "reference": "ccdbcd3ba7bde33b3647ce0ad7355535c2c81c35"
             },
             "require": {
                 "calebporzio/sushi": "^2.0",
+                "hirethunk/verbs": "*",
                 "illuminate/support": "^11.36|^12.0"
             },
             "require-dev": {
@@ -894,7 +895,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -971,15 +972,18 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
-                "reference": "bc7b352be56160599cf118b02904cd8134a5549f"
+                "reference": "2908bdbc1d8669dd0d2d3fbfa9fe65b3a8b46c17"
             },
             "require": {
                 "glhd/bits": "*",
                 "illuminate/contracts": "^10.0||^11.0",
+                "illuminate/filesystem": "^10.0||^11.0",
+                "illuminate/process": "^10.0||^11.0",
+                "illuminate/support": "^10.0||^11.0",
                 "laravel/prompts": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
@@ -1085,16 +1089,96 @@
             }
         },
         {
+            "name": "artisan-build/claudecode",
+            "version": "dev-claude-sdk",
+            "dist": {
+                "type": "path",
+                "url": "packages/claudecode",
+                "reference": "01a3738c17af8379eeddd436953d3bae340ab377"
+            },
+            "require": {
+                "illuminate/support": "^11.36|^12.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^v3.0.2",
+                "laravel/pint": "^1.19.0",
+                "orchestra/testbench": "^v9.9.0",
+                "pestphp/pest": "^v3.7.1",
+                "phpstan/phpstan": "^2.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArtisanBuild\\ClaudeCode\\Providers\\ClaudeCodeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArtisanBuild\\ClaudeCode\\": "src/",
+                    "ArtisanBuild\\ClaudeCode\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@composer run prepare"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-bench --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@composer run prepare",
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "start": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@composer run build",
+                    "@php vendor/bin/testbench serve"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "lint": [
+                    "vendor/bin/pint"
+                ],
+                "stan": [
+                    "vendor/bin/phpstan analyse --memory-limit=-1"
+                ],
+                "ready": [
+                    "@composer lint",
+                    "@composer stan",
+                    "@composer test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Claude Code SDK for Laravel",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "artisan-build/docsidian",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
-                "reference": "d43eef7d7bed6ba1adb4840621e4576507e559aa"
+                "reference": "275f5a86bc18c4abd128e83cbb066630865615ce"
             },
             "require": {
                 "embed/embed": "^4.4",
+                "illuminate/filesystem": "^11.36|^12.0",
                 "illuminate/support": "^11.36|^12.0",
+                "illuminate/view": "^11.36|^12.0",
+                "league/commonmark": "^2.4",
                 "livewire/livewire": "^v3.5.18",
                 "tempest/highlight": "^2.0"
             },
@@ -1165,7 +1249,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -1243,7 +1327,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -1323,7 +1407,7 @@
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -1399,7 +1483,7 @@
         },
         {
             "name": "artisan-build/hallway-core",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-core",
@@ -1497,7 +1581,7 @@
         },
         {
             "name": "artisan-build/hallway-flux",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
@@ -1596,15 +1680,19 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
-                "reference": "7237ed01979c388c55e8006bc4a6b4747c783a78"
+                "reference": "50ef08117994b941363cc2c7ba02f0325cb3df75"
             },
             "require": {
                 "artisan-build/gh": "*",
-                "illuminate/support": "^11.9|^12.0"
+                "artisan-build/packagist": "*",
+                "illuminate/filesystem": "^11.9|^12.0",
+                "illuminate/process": "^11.9|^12.0",
+                "illuminate/support": "^11.9|^12.0",
+                "laravel/prompts": "*"
             },
             "require-dev": {
                 "larastan/larastan": "^v3.0.2",
@@ -1674,14 +1762,16 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
-                "reference": "8bbbe67c63df63a63e14f6b74f2e7d48626c2ef1"
+                "reference": "703c3279efc03a5b92dcb8db8d27b46764f229c9"
             },
             "require": {
-                "illuminate/support": "^11.36|^12.0"
+                "hirethunk/verbs": "*",
+                "illuminate/support": "^11.36|^12.0",
+                "livewire/livewire": "^v3.0"
             },
             "require-dev": {
                 "larastan/larastan": "^v3.0.2",
@@ -1751,7 +1841,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -1828,7 +1918,7 @@
         },
         {
             "name": "artisan-build/mirror",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/mirror",
@@ -1905,7 +1995,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -1983,7 +2073,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -2063,7 +2153,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -2141,7 +2231,7 @@
         },
         {
             "name": "artisan-build/turbulence",
-            "version": "dev-cleanup",
+            "version": "dev-claude-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/turbulence",
