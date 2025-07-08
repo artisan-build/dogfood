@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f347b535e9a19e521d5fdbeda6812054",
+    "content-hash": "da718f4d857ee54143a9158da4bf71fd",
     "packages": [
         {
             "name": "amphp/amp",
@@ -816,7 +816,7 @@
         },
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -895,7 +895,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -972,7 +972,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -1090,7 +1090,7 @@
         },
         {
             "name": "artisan-build/claudecode",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/claudecode",
@@ -1169,8 +1169,85 @@
             }
         },
         {
+            "name": "artisan-build/code-chat-client",
+            "version": "dev-code-chat-client",
+            "dist": {
+                "type": "path",
+                "url": "packages/code-chat-client",
+                "reference": "ad499d441fbfe868dc3a94bd09ad3bcc9a583090"
+            },
+            "require": {
+                "illuminate/support": "^11.36|^12.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^v3.0.2",
+                "laravel/pint": "^1.19.0",
+                "orchestra/testbench": "^v9.9.0",
+                "pestphp/pest": "^v3.7.1",
+                "phpstan/phpstan": "^2.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArtisanBuild\\CodeChatClient\\Providers\\CodeChatClientServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArtisanBuild\\CodeChatClient\\": "src/",
+                    "ArtisanBuild\\CodeChatClient\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@composer run prepare"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-bench --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@composer run prepare",
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "start": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@composer run build",
+                    "@php vendor/bin/testbench serve"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "lint": [
+                    "vendor/bin/pint"
+                ],
+                "stan": [
+                    "vendor/bin/phpstan analyse --memory-limit=-1"
+                ],
+                "ready": [
+                    "@composer lint",
+                    "@composer stan",
+                    "@composer test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A chat component for use with CLI AI tools like Claude Code",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "artisan-build/docsidian",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -1252,7 +1329,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -1330,7 +1407,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -1410,7 +1487,7 @@
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -1486,7 +1563,7 @@
         },
         {
             "name": "artisan-build/hallway-core",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-core",
@@ -1584,7 +1661,7 @@
         },
         {
             "name": "artisan-build/hallway-flux",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
@@ -1683,7 +1760,7 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
@@ -1765,7 +1842,7 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -1844,7 +1921,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -1921,7 +1998,7 @@
         },
         {
             "name": "artisan-build/mirror",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/mirror",
@@ -1998,7 +2075,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -2076,7 +2153,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -2156,7 +2233,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -2234,7 +2311,7 @@
         },
         {
             "name": "artisan-build/turbulence",
-            "version": "dev-claude-sdk",
+            "version": "dev-code-chat-client",
             "dist": {
                 "type": "path",
                 "url": "packages/turbulence",

@@ -10,7 +10,13 @@
       "Bash(composer test:*)",
       "Bash(composer:*)",
       "Bash(touch:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(ls:*)",
+      "WebFetch(domain:fluxui.dev)",
+      "Bash(./vendor/bin/pest)",
+      "Bash(vendor/bin/pest:*)",
+      "Bash(rm:*)",
+      "Bash(find:*)"
     ],
     "deny": []
   }
