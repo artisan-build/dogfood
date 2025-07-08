@@ -2,4 +2,4 @@
 
 use ArtisanBuild\CodeChatClient\Tests\TestCase;
 
-uses(TestCase::class)->in('Feature', 'Unit');
+uses(TestCase::class)->in(__DIR__);

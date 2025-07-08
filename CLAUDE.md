@@ -64,6 +64,12 @@ php artisan optimize:clear
 # Generate IDE helpers
 php artisan ide-helper:generate
 php artisan ide-helper:models -W
+
+# Split packages to individual repositories
+php artisan kibble:split
+
+# Set up CI for all packages (run from project root)
+./setup-package-ci-v2.sh
 ```
 
 ## Architecture & Key Patterns
@@ -169,3 +175,37 @@ If a local package isn't recognized:
 1. Check test database exists: `database/testing.sqlite`
 2. Run migrations: `php artisan migrate --env=testing`
 3. Clear test cache: `php artisan optimize:clear --env=testing`
+
+## Package Testing
+
+### Dual Testing Approach
+Packages support testing in two contexts:
+
+1. **Monorepo Testing** (preferred for development):
+   ```bash
+   # From project root - tests all packages
+   composer test
+   composer test-parallel
+   
+   # Test specific package
+   composer test -- --filter="ClaudeCodeTest"
+   ```
+
+2. **Individual Package Testing** (for CI/CD after split):
+   - Each package has its own `phpunit.xml.dist` for isolated testing
+   - GitHub Actions run tests when packages are pushed to individual repos
+   - Required for packages to show passing tests on GitHub/Packagist
+
+### Package CI Setup
+When adding a new package or updating test configuration:
+1. Ensure `tests/Pest.php.forked` and `tests/TestCase.php.forked` exist
+2. Run `./setup-package-ci-v2.sh` from project root
+3. This creates:
+   - `.github/workflows/tests.yml` for GitHub Actions
+   - `phpunit.xml.dist` for isolated testing
+   - Properly configured test files
+
+### GitHub Secrets for Packages
+Packages requiring Flux UI need these secrets in their GitHub repos:
+- `FLUX_USERNAME`
+- `FLUX_LICENSE_KEY`

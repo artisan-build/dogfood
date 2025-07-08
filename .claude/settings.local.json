@@ -16,7 +16,14 @@
       "Bash(./vendor/bin/pest)",
       "Bash(vendor/bin/pest:*)",
       "Bash(rm:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(chmod:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(./setup-package-ci-v2.sh:*)",
+      "Bash(git checkout:*)",
+      "Bash(cat:*)"
     ],
     "deny": []
   }
