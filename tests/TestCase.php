@@ -2,9 +2,6 @@
 
 namespace Tests;
 
-use ArtisanBuild\ClaudeCode\ClaudeCode;
-use ArtisanBuild\ClaudeCode\Contracts\ClaudeCodeClient;
-use ArtisanBuild\ClaudeCode\Tests\Mocks\MockClaudeCode;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Override;
