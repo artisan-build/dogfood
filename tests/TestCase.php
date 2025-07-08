@@ -2,20 +2,37 @@
 
 namespace Tests;
 
+use ArtisanBuild\ClaudeCode\ClaudeCode;
+use ArtisanBuild\ClaudeCode\Contracts\ClaudeCodeClient;
+use ArtisanBuild\ClaudeCode\Tests\Mocks\MockClaudeCode;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Override;
 
 abstract class TestCase extends BaseTestCase
 {
     /**
      * Creates the application.
      */
-    #[\Override]
+    #[Override]
     public function createApplication()
     {
         $app = require __DIR__.'/../bootstrap/app.php';
 
-        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app->make(Kernel::class)->bootstrap();
 
         return $app;
+    }
+
+    public function getEnvironmentSetUp($app)
+    {
+        config()->set('database.default', 'testing');
+
+        // Override the service provider's binding to use mock implementation
+        $this->afterApplicationCreated(function (): void {
+            $this->app->singleton(ClaudeCodeClient::class, MockClaudeCode::class);
+            $this->app->singleton(ClaudeCode::class, MockClaudeCode::class);
+            $this->app->singleton('claude-code', MockClaudeCode::class);
+        });
     }
 }
