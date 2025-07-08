@@ -10,7 +10,11 @@ parameters:
         - packages/verbs-flux
         - **/*Test.php
         - packages/**/config/*.php
+        - **/build/phpstan/cache/**
+        - **/build/phpstan/resultCache.php
 
     level: 5
 
     treatPhpDocTypesAsCertain: false
+
+    ignoreErrors: []
