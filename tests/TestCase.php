@@ -23,16 +23,4 @@ abstract class TestCase extends BaseTestCase
 
         return $app;
     }
-
-    public function getEnvironmentSetUp($app)
-    {
-        config()->set('database.default', 'testing');
-
-        // Override the service provider's binding to use mock implementation
-        $this->afterApplicationCreated(function (): void {
-            $this->app->singleton(ClaudeCodeClient::class, MockClaudeCode::class);
-            $this->app->singleton(ClaudeCode::class, MockClaudeCode::class);
-            $this->app->singleton('claude-code', MockClaudeCode::class);
-        });
-    }
 }
