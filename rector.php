@@ -11,7 +11,10 @@ return RectorConfig::configure()
         __DIR__.'/app',
         __DIR__.'/bootstrap',
         __DIR__.'/config',
-        __DIR__.'/packages',
+        __DIR__.'/packages/*/src',
+        __DIR__.'/packages/*/config',
+        __DIR__.'/packages/*/resources',
+        __DIR__.'/packages/*/tests',
         __DIR__.'/public',
         __DIR__.'/resources',
         __DIR__.'/routes',
@@ -19,6 +22,10 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         __DIR__.'/packages/turbulence/config/turbulence.php',
+        __DIR__.'/packages/*/vendor',
+        __DIR__.'/packages/*/vendor/**',
+        '*/vendor/*',
+        '**/vendor/**',
     ])
     // uncomment to reach your current PHP version
     ->withPhpSets()

@@ -12,6 +12,8 @@ parameters:
         - packages/**/config/*.php
         - **/build/phpstan/cache/**
         - **/build/phpstan/resultCache.php
+        - packages/*/vendor
+        - packages/*/vendor/**
 
     level: 5
 
