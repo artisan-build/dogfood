@@ -7,7 +7,6 @@ namespace ArtisanBuild\AgentOsInstaller\Actions;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Facades\Request;
 
 /**
  * Ensure Agent OS is installed in the user's home directory with Laravel profile
@@ -19,7 +18,7 @@ class EnsureAgentOsIsInstalled
      */
     public function __invoke(Command $command): bool
     {
-        $homeDir = Request::server('HOME') ?? Request::server('USERPROFILE') ?? '~';
+        $homeDir = $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? getenv('HOME') ?: getenv('USERPROFILE') ?: '~';
         $agentOsPath = $homeDir.'/agent-os';
         $laravelProfilePath = $agentOsPath.'/profiles/laravel';
 
