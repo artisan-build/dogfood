@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\CodeChatClient;
 
 use ArtisanBuild\CodeChatClient\Contracts\ChatDriverContract;
@@ -14,14 +16,6 @@ class ChatManager extends Manager
     public function getDefaultDriver(): string
     {
         return $this->config->get('code-chat-client.default', 'claude-code');
-    }
-
-    /**
-     * Create the Claude Code driver instance.
-     */
-    protected function createClaudeCodeDriver(): ChatDriverContract
-    {
-        return new ClaudeCodeDriver;
     }
 
     /**
@@ -72,5 +66,13 @@ class ChatManager extends Manager
         }
 
         return $drivers;
+    }
+
+    /**
+     * Create the Claude Code driver instance.
+     */
+    protected function createClaudeCodeDriver(): ChatDriverContract
+    {
+        return new ClaudeCodeDriver;
     }
 }

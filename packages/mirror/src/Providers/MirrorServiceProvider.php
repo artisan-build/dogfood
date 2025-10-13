@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Mirror\Providers;
 
 use ArtisanBuild\Mirror\Services\ReflectionService;

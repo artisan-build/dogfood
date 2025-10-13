@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Mirror\Daniel;
 
 use ReflectionClass;
@@ -10,6 +12,11 @@ class Reflect
     public ReflectionClass $reflector;
 
     public object $object;
+
+    public static function propInitialized(string $property, object $object): bool
+    {
+        return (new ReflectionProperty($object, $property))->isInitialized($object);
+    }
 
     public function reflect(object $object): static
     {
@@ -32,10 +39,5 @@ class Reflect
     public function attribute(string $name): Attribute
     {
         return $this->attributes()->ofType($name)->first();
-    }
-
-    public static function propInitialized(string $property, object $object): bool
-    {
-        return (new ReflectionProperty($object, $property))->isInitialized($object);
     }
 }

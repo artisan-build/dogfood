@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Till\Traits;
 
 use Laravel\Sanctum\HasApiTokens;

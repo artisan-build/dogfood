@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\Till\Controllers\SubscribeController;
 use ArtisanBuild\Till\Livewire\PricingSectionComponent;
 use ArtisanBuild\Till\Middleware\RegisterIfNotAuthenticated;

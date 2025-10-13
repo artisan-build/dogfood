@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
-it('detects when Duster is already installed', function () {
+it('detects when Duster is already installed', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -26,7 +26,7 @@ it('detects when Duster is already installed', function () {
     expect($exitCode)->toBe(0);
 });
 
-it('installs Duster when not present', function () {
+it('installs Duster when not present', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(

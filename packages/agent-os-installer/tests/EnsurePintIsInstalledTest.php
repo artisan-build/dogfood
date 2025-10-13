@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
-it('detects when Pint is already installed', function () {
+it('detects when Pint is already installed', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -38,7 +38,7 @@ it('detects when Pint is already installed', function () {
     expect($exitCode)->toBe(0);
 });
 
-it('installs Pint when not present', function () {
+it('installs Pint when not present', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -69,7 +69,7 @@ it('installs Pint when not present', function () {
     Process::assertRan('composer require --dev laravel/pint --with-all-dependencies');
 });
 
-it('creates pint.json when it does not exist', function () {
+it('creates pint.json when it does not exist', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -104,7 +104,7 @@ it('creates pint.json when it does not exist', function () {
     expect($exitCode)->toBe(0);
 });
 
-it('merges rules without overriding existing ones', function () {
+it('merges rules without overriding existing ones', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([

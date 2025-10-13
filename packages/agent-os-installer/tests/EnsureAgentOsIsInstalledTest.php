@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
-it('detects when Agent OS with Laravel profile is already installed', function () {
-    $homeDir = $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? '~';
+it('detects when Agent OS with Laravel profile is already installed', function (): void {
+    $homeDir = Illuminate\Support\Facades\Request::server('HOME') ?? Illuminate\Support\Facades\Request::server('USERPROFILE') ?? '~';
 
     // Mock Agent OS with Laravel profile exists
     File::shouldReceive('isDirectory')
@@ -45,8 +45,8 @@ it('detects when Agent OS with Laravel profile is already installed', function (
     expect($exitCode)->toBe(0);
 });
 
-it('installs Agent OS when not present', function () {
-    $homeDir = $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? '~';
+it('installs Agent OS when not present', function (): void {
+    $homeDir = Illuminate\Support\Facades\Request::server('HOME') ?? Illuminate\Support\Facades\Request::server('USERPROFILE') ?? '~';
 
     // Mock Agent OS not installed
     File::shouldReceive('isDirectory')
@@ -68,8 +68,8 @@ it('installs Agent OS when not present', function () {
         ->assertExitCode(1); // Will fail on subsequent checks, but that's okay for this test
 });
 
-it('installs Laravel profile when Agent OS exists but profile is missing', function () {
-    $homeDir = $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? '~';
+it('installs Laravel profile when Agent OS exists but profile is missing', function (): void {
+    $homeDir = Illuminate\Support\Facades\Request::server('HOME') ?? Illuminate\Support\Facades\Request::server('USERPROFILE') ?? '~';
 
     // Mock Agent OS installed but Laravel profile missing
     File::shouldReceive('isDirectory')

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Turbulence\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @internal
  *
- * @property-read \ArtisanBuild\Turbulence\Models\UserModel|null $user
+ * @property-read UserModel|null $user
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Account newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Account newQuery()

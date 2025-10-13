@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Turbulence\Commands;
 
 use ArtisanBuild\Turbulence\Rectors\AddHasAccountsTraitRector;

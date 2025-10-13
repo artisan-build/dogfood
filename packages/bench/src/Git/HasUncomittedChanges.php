@@ -10,6 +10,6 @@ class HasUncomittedChanges
 {
     public function __invoke($path): bool
     {
-        return ! blank(Process::path($path)->run('git status --porcelain')->output());
+        return filled(Process::path($path)->run('git status --porcelain')->output());
     }
 }

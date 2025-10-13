@@ -19,7 +19,7 @@ class InstallAgentOsInProject
     {
         $command->info('Installing Agent OS in project...');
 
-        $homeDir = $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? '~';
+        $homeDir = \Illuminate\Support\Facades\Request::server('HOME') ?? \Illuminate\Support\Facades\Request::server('USERPROFILE') ?? '~';
         $installScript = $homeDir.'/agent-os/scripts/project-install.sh';
 
         $process = new Process(
@@ -38,7 +38,7 @@ class InstallAgentOsInProject
             300
         );
 
-        $process->run(function ($type, $buffer) use ($command) {
+        $process->run(function ($type, $buffer) use ($command): void {
             $command->getOutput()->write($buffer);
         });
 

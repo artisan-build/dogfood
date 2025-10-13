@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Turbulence\Models;
 
 use ArtisanBuild\Turbulence\Traits\HasAccounts;

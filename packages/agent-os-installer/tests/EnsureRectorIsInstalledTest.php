@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
-it('detects when Rector is already installed', function () {
+it('detects when Rector is already installed', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -26,7 +26,7 @@ it('detects when Rector is already installed', function () {
     expect($exitCode)->toBe(0);
 });
 
-it('installs Rector when not present', function () {
+it('installs Rector when not present', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -60,7 +60,7 @@ it('installs Rector when not present', function () {
     Process::assertRan('composer require --dev rector/rector driftingly/rector-laravel --with-all-dependencies');
 });
 
-it('creates rector.php when it does not exist', function () {
+it('creates rector.php when it does not exist', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -86,11 +86,9 @@ it('creates rector.php when it does not exist', function () {
 
     File::shouldReceive('put')
         ->once()
-        ->withArgs(function ($path, $content) {
-            return $path === base_path('rector.php')
-                && str_contains($content, 'RectorConfig::configure()')
-                && str_contains($content, 'LaravelLevelSetList::UP_TO_LARAVEL_120');
-        });
+        ->withArgs(fn ($path, $content) => $path === base_path('rector.php')
+            && str_contains((string) $content, 'RectorConfig::configure()')
+            && str_contains((string) $content, 'LaravelLevelSetList::UP_TO_LARAVEL_120'));
 
     Process::fake();
 
@@ -99,7 +97,7 @@ it('creates rector.php when it does not exist', function () {
     expect($exitCode)->toBe(0);
 });
 
-it('preserves existing rector.php configuration', function () {
+it('preserves existing rector.php configuration', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([

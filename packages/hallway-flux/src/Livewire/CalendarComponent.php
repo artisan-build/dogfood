@@ -35,8 +35,8 @@ class CalendarComponent extends Component
     #[ChatGPT]
     public function generateCalendar(string $startMonth, string $endMonth): Collection
     {
-        $startDate = Carbon::createFromFormat('Y-m', $startMonth)?->startOfMonth();
-        $endDate = Carbon::createFromFormat('Y-m', $endMonth)?->endOfMonth();
+        $startDate = \Illuminate\Support\Facades\Date::createFromFormat('Y-m', $startMonth)?->startOfMonth();
+        $endDate = \Illuminate\Support\Facades\Date::createFromFormat('Y-m', $endMonth)?->endOfMonth();
 
         $months = collect();
 
@@ -64,8 +64,8 @@ class CalendarComponent extends Component
             $months->put($monthKey, [
                 'weeks' => $weeks,
                 'title' => $startDate->format('F Y'),
-                'previous' => Carbon::createFromFormat('Y-m', $monthKey)?->subMonth()->format('Y-m'),
-                'next' => Carbon::createFromFormat('Y-m', $monthKey)?->addMonth()->format('Y-m'),
+                'previous' => \Illuminate\Support\Facades\Date::createFromFormat('Y-m', $monthKey)?->subMonth()->format('Y-m'),
+                'next' => \Illuminate\Support\Facades\Date::createFromFormat('Y-m', $monthKey)?->addMonth()->format('Y-m'),
             ]);
             $startDate->addMonth();
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\GH;
 
 use ArtisanBuild\GH\Commands\Auth;

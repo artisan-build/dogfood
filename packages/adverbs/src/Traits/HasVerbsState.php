@@ -10,6 +10,16 @@ use Thunk\Verbs\State;
 trait HasVerbsState
 {
     /**
+     * @throws Throwable
+     */
+    public function verbs_state(): State
+    {
+        $state = $this->getStateClass();
+
+        return $state::loadOrFail($this->id);
+    }
+
+    /**
      * Get the state class for this model.
      */
     protected function getStateClass(): string
@@ -27,15 +37,5 @@ trait HasVerbsState
         );
 
         return $state;
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function verbs_state(): State
-    {
-        $state = $this->getStateClass();
-
-        return $state::loadOrFail($this->id);
     }
 }

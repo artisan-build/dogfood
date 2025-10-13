@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Mock all the tool checks to pass
     Process::fake();
 });
 
-it('detects when all scripts are properly defined', function () {
+it('detects when all scripts are properly defined', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -80,7 +80,7 @@ it('detects when all scripts are properly defined', function () {
     expect($exitCode)->toBe(0);
 });
 
-it('adds missing scripts', function () {
+it('adds missing scripts', function (): void {
     $composerJson = [
         'require-dev' => [
             'pestphp/pest' => '^3.0',
@@ -124,7 +124,7 @@ it('adds missing scripts', function () {
     expect($exitCode)->toBe(0);
 });
 
-it('prompts for confirmation when scripts conflict', function () {
+it('prompts for confirmation when scripts conflict', function (): void {
     $composerJson = [
         'require-dev' => [
             'pestphp/pest' => '^3.0',
@@ -159,7 +159,7 @@ it('prompts for confirmation when scripts conflict', function () {
         ->assertFailed();
 });
 
-it('overwrites scripts when user confirms', function () {
+it('overwrites scripts when user confirms', function (): void {
     $composerJson = [
         'require-dev' => [
             'pestphp/pest' => '^3.0',

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Packagist\Requests;
 
 use Carbon\Carbon;
@@ -15,10 +17,10 @@ class PackageChangesRequest extends Request
         protected int|string|Carbon|null $since = null
     ) {
         $this->since = match (true) {
-            $this->since === null => Carbon::now()->subMinutes(10)->timestamp,
+            $this->since === null => \Illuminate\Support\Facades\Date::now()->subMinutes(10)->timestamp,
             is_int($this->since) => $this->since,
             $this->since instanceof Carbon => $this->since->timestamp,
-            default => Carbon::parse($this->since)->timestamp,
+            default => \Illuminate\Support\Facades\Date::parse($this->since)->timestamp,
         };
     }
 

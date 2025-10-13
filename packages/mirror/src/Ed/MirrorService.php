@@ -25,11 +25,6 @@ class MirrorService
 
     public ReflectionClassConstant $reflection_constant;
 
-    public function __call($name, $arguments): mixed
-    {
-        return $this->reflection->{$name}(...$arguments);
-    }
-
     public function assert(): true
     {
         return true;
@@ -72,12 +67,14 @@ class MirrorService
     {
         throw_unless(
             condition: $this->reflection instanceof ReflectionClass,
-            exception: new Exception('Only classes can have methods'),
+            exception: Exception::class,
+            parameters: 'Only classes can have methods',
         );
 
         throw_unless(
             condition: $this->reflection->hasMethod($method),
-            exception: new Exception("Method {$method} does not exist."),
+            exception: Exception::class,
+            parameters: "Method {$method} does not exist.",
         );
 
         $this->reflection = $this->reflection_method = $this->reflection->getMethod($method);
@@ -89,14 +86,21 @@ class MirrorService
     {
         throw_unless(
             condition: $this->reflection instanceof ReflectionClass,
-            exception: new Exception('Only classes can extend things'),
+            exception: Exception::class,
+            parameters: 'Only classes can extend things',
         );
 
         throw_unless(
             condition: $this->reflection->isSubclassOf($abstract),
-            exception: new Exception("{$this->reflection_class->getName()} does not extend {$abstract}"),
+            exception: Exception::class,
+            parameters: "{$this->reflection_class->getName()} does not extend {$abstract}",
         );
 
         return $this;
+    }
+
+    public function __call($name, $arguments): mixed
+    {
+        return $this->reflection->{$name}(...$arguments);
     }
 }

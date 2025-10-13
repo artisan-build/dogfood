@@ -103,7 +103,7 @@ class GatheringCreated extends Event
 
     public function applyToGatheringState(GatheringState $gathering): void
     {
-        $start = Carbon::parse($this->start->format('Y-m-d\TH:i'), $this->timezone)->setTimezone('UTC');
+        $start = \Illuminate\Support\Facades\Date::parse($this->start->format('Y-m-d\TH:i'), $this->timezone)->setTimezone('UTC');
 
         $gathering->title = $this->title;
         $gathering->description = $this->description;

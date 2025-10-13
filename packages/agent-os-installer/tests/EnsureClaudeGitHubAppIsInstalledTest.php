@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\File;
 
-it('detects when Claude GitHub App is installed', function () {
+it('detects when Claude GitHub App is installed', function (): void {
     File::shouldReceive('exists')
         ->with(base_path('.github/claude.yml'))
         ->andReturn(true);
@@ -18,7 +18,7 @@ it('detects when Claude GitHub App is installed', function () {
         ->assertExitCode(0);
 });
 
-it('fails when Claude GitHub App is not installed', function () {
+it('fails when Claude GitHub App is not installed', function (): void {
     File::shouldReceive('exists')
         ->with(base_path('.github/claude.yml'))
         ->andReturn(false);
@@ -32,7 +32,7 @@ it('fails when Claude GitHub App is not installed', function () {
         ->assertExitCode(1);
 });
 
-it('fails when only claude.yml exists', function () {
+it('fails when only claude.yml exists', function (): void {
     File::shouldReceive('exists')
         ->with(base_path('.github/claude.yml'))
         ->andReturn(true);
@@ -46,7 +46,7 @@ it('fails when only claude.yml exists', function () {
         ->assertExitCode(1);
 });
 
-it('fails when only claude-code-review.yml exists', function () {
+it('fails when only claude-code-review.yml exists', function (): void {
     File::shouldReceive('exists')
         ->with(base_path('.github/claude.yml'))
         ->andReturn(false);

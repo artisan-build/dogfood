@@ -1,6 +1,6 @@
 <div class="chat-container">
     {{-- Messages --}}
-    @forelse($messages as $message)
+    @forelse ($messages as $message)
         <div class="message message-{{ $message['role'] }}">
             <strong>{{ ucfirst($message['role']) }}:</strong>
             {{ $message['content'] }}
@@ -13,13 +13,13 @@
 
     {{-- Input --}}
     <form wire:submit="sendMessage">
-        <input 
+        <input
             type="text"
-            wire:model="message" 
+            wire:model="message"
             placeholder="{{ $placeholder }}"
-            @if($streaming) disabled @endif
+            @if ($streaming) disabled @endif
         />
-        <button type="submit" @if($streaming || empty($message)) disabled @endif>
+        <button type="submit" @if ($streaming || empty($message)) disabled @endif>
             {{ $sendButtonText }}
         </button>
     </form>

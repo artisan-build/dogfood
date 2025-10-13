@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\DashboardComponent;
 use Illuminate\Support\Facades\Route;
 
@@ -10,5 +12,5 @@ Route::middleware([
     'web',
     'verified',
 ])->group(function (): void {
-    Route::get('/dashboard', DashboardComponent::class)->name('dashboard');
+    Route::get('dashboard', DashboardComponent::class)->name('dashboard');
 });

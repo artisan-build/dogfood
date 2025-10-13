@@ -11,7 +11,7 @@ class TimeTravel
 {
     public static function to(Carbon|string $time): TimeTravel
     {
-        Carbon::setTestNow($time);
+        \Illuminate\Support\Facades\Date::setTestNow($time);
 
         return new self;
     }
@@ -19,7 +19,7 @@ class TimeTravel
     public function then(Closure $closure): mixed
     {
         $return = $closure();
-        Carbon::setTestNow();
+        \Illuminate\Support\Facades\Date::setTestNow();
 
         return $return;
     }

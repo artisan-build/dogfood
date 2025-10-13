@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
-it('detects when PHPStan is already installed', function () {
+it('detects when PHPStan is already installed', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -30,7 +30,7 @@ it('detects when PHPStan is already installed', function () {
     expect($exitCode)->toBe(0);
 });
 
-it('installs PHPStan when not present', function () {
+it('installs PHPStan when not present', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -62,7 +62,7 @@ it('installs PHPStan when not present', function () {
     Process::assertRan('composer require --dev larastan/larastan --with-all-dependencies');
 });
 
-it('creates phpstan.neon when it does not exist', function () {
+it('creates phpstan.neon when it does not exist', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -84,10 +84,8 @@ it('creates phpstan.neon when it does not exist', function () {
 
     File::shouldReceive('put')
         ->once()
-        ->withArgs(function ($path, $content) {
-            return $path === base_path('phpstan.neon')
-                && str_contains($content, 'level: 6');
-        });
+        ->withArgs(fn ($path, $content) => $path === base_path('phpstan.neon')
+            && str_contains((string) $content, 'level: 6'));
 
     Process::fake();
 
@@ -96,7 +94,7 @@ it('creates phpstan.neon when it does not exist', function () {
     expect($exitCode)->toBe(0);
 });
 
-it('warns when PHPStan level is below recommended', function () {
+it('warns when PHPStan level is below recommended', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -130,7 +128,7 @@ it('warns when PHPStan level is below recommended', function () {
         ->and($output)->toContain('recommend level 5 or higher');
 });
 
-it('does not warn when PHPStan level is at or above recommended', function () {
+it('does not warn when PHPStan level is at or above recommended', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([

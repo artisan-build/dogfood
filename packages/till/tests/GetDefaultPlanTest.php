@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\Till\Actions\GetDefaultPlan;
 use ArtisanBuild\Till\SubscriptionPlans\UnsubscribedPlan;
 use Illuminate\Support\Facades\Config;

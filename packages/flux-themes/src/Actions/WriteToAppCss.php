@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\FluxThemes\Actions;
 
 use ArtisanBuild\FluxThemes\Theme;

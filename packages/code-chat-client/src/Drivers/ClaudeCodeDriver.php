@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\CodeChatClient\Drivers;
 
 use ArtisanBuild\ClaudeCode\Facades\ClaudeCode;

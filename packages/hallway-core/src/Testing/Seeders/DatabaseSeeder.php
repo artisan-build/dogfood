@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Hallway\Testing\Seeders;
 
 use ArtisanBuild\Hallway\Seeders\ChannelsSeeder;

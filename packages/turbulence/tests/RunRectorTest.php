@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\Turbulence\Rectors\RemoveInternalDocblockRector;
 use ArtisanBuild\Turbulence\Support\RunRector;
 use Illuminate\Support\Facades\File;

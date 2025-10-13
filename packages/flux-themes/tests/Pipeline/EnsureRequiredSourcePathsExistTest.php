@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\FluxThemes\Pipeline\EnsureRequiredImportsExist;
 use ArtisanBuild\FluxThemes\Pipeline\EnsureRequiredSourcePathsExist;
 use Illuminate\Support\Facades\Config;

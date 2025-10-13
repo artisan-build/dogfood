@@ -18,7 +18,7 @@ class EnsureAgentOsIsInstalled
      */
     public function __invoke(Command $command): bool
     {
-        $homeDir = $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? '~';
+        $homeDir = \Illuminate\Support\Facades\Request::server('HOME') ?? \Illuminate\Support\Facades\Request::server('USERPROFILE') ?? '~';
         $agentOsPath = $homeDir.'/agent-os';
         $laravelProfilePath = $agentOsPath.'/profiles/laravel';
 
@@ -63,7 +63,7 @@ class EnsureAgentOsIsInstalled
             300
         );
 
-        $process->run(function ($type, $buffer) use ($command) {
+        $process->run(function ($type, $buffer) use ($command): void {
             $command->getOutput()->write($buffer);
         });
 

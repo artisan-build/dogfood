@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\GH\Commands;
 
 use Illuminate\Support\Facades\Process;

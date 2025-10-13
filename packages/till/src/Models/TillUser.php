@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Till\Models;
 
 use App\Models\Membership;
 use App\Models\Team;
 use ArtisanBuild\Till\Traits\HasTokens;
 use ArtisanBuild\Till\Traits\Tillable;
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User;
@@ -39,6 +40,7 @@ use Sushi\Sushi;
  * @method static Builder<static>|TillUser wherePassword($value)
  *
  * @mixin Eloquent
+ * @mixin \Eloquent
  */
 class TillUser extends User
 {

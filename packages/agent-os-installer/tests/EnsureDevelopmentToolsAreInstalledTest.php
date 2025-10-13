@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
-it('detects when development tools are already installed', function () {
+it('detects when development tools are already installed', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
@@ -28,7 +28,7 @@ it('detects when development tools are already installed', function () {
     expect($exitCode)->toBe(0);
 });
 
-it('installs missing development tools', function () {
+it('installs missing development tools', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(
@@ -57,7 +57,7 @@ it('installs missing development tools', function () {
     Process::assertRan('composer require --dev barryvdh/laravel-debugbar barryvdh/laravel-ide-helper --with-all-dependencies');
 });
 
-it('installs only missing development tools', function () {
+it('installs only missing development tools', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(

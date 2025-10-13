@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Packagist\Requests;
 
 use InvalidArgumentException;
@@ -9,12 +11,6 @@ use Saloon\Http\Request;
 
 class ListPackagesRequest extends Request
 {
-    protected Method $method = Method::GET;
-
-    protected ?string $type;
-
-    protected array $fields;
-
     protected const array SUPPORTED_TYPES = [
         'library',
         'composer-plugin',
@@ -30,6 +26,12 @@ class ListPackagesRequest extends Request
         'type',
         'abandoned',
     ];
+
+    protected Method $method = Method::GET;
+
+    protected ?string $type;
+
+    protected array $fields;
 
     /** @throws InvalidArgumentException */
     public function __construct(protected ?string $vendor = null, ?string $type = null, array $fields = [])

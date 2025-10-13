@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Till\Middleware;
 
 use Closure;
@@ -14,7 +16,7 @@ class RegisterIfNotAuthenticated
             session(['url.intended' => url()->full()]);
 
             // Redirect to the registration page
-            return redirect()->route('register');
+            return to_route('register');
         }
 
         return $next($request);

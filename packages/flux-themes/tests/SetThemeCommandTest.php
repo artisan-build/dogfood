@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\FluxThemes\Enums\Colors;
 use Illuminate\Foundation\Testing\WithConsoleEvents;
 use Illuminate\Support\Facades\File;
@@ -27,7 +29,7 @@ it('sets up a theme when a color is selected', function (): void {
     ]);
     // expect(File::get(__DIR__.'/files/app.css'))->toBeIgnoringWhitespace(File::get(__DIR__.'/files/red_theme.css'));
     $command->expectsSearch('What color scheme do you want to use for this project?',
-        search: 'red', answers: collect(Colors::cases())->map(fn ($color) => $color->value)->toArray(), answer: 'red')
+        search: 'red', answers: collect(Colors::cases())->map(fn ($color) => $color->value)->all(), answer: 'red')
         ->expectsOutput('Writing the app.css file')
         ->expectsOutput('Writing to tailwind.config.php file')
         ->assertExitCode(0);

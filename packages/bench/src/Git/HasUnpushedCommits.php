@@ -10,6 +10,6 @@ class HasUnpushedCommits
 {
     public function __invoke($path): bool
     {
-        return ! blank(Process::path($path)->run('git log @{u}..')->output());
+        return filled(Process::path($path)->run('git log @{u}..')->output());
     }
 }

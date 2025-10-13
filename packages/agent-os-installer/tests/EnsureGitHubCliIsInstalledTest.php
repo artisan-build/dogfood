@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
-it('detects when GitHub CLI is installed', function () {
+it('detects when GitHub CLI is installed', function (): void {
     // Mock GitHub CLI check
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
@@ -41,7 +41,7 @@ it('detects when GitHub CLI is installed', function () {
     Process::assertRan('which gh');
 });
 
-it('fails when GitHub CLI is not installed', function () {
+it('fails when GitHub CLI is not installed', function (): void {
     Process::fake([
         'which gh' => Process::result(exitCode: 1),
     ]);

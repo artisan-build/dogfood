@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\Till\Actions\GetVisiblePlans;
 use Illuminate\Support\Collection;
 

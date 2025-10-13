@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Till\SubscriptionPlans\Abilities;
 
 use ArtisanBuild\Till\Actions\CacheAbility;

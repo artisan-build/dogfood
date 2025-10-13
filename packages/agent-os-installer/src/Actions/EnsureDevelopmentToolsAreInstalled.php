@@ -87,7 +87,7 @@ class EnsureDevelopmentToolsAreInstalled
             300
         );
 
-        $process->run(function ($type, $buffer) use ($command) {
+        $process->run(function ($type, $buffer) use ($command): void {
             $command->getOutput()->write($buffer);
         });
 

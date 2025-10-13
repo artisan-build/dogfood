@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\FluxThemes\Commands;
 
 use ArtisanBuild\FluxThemes\Enums\Colors;
@@ -26,7 +28,7 @@ class SetThemeCommand extends Command
         if ($color === null) {
             $color = search(
                 label: 'What color scheme do you want to use for this project?',
-                options: fn () => collect(Colors::cases())->map(fn ($color) => $color->value)->toArray(),
+                options: fn () => collect(Colors::cases())->map(fn ($color) => $color->value)->all(),
             );
         }
 

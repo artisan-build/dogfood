@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\CodeChatClient\Livewire;
 
 use ArtisanBuild\CodeChatClient\ChatManager;
@@ -123,16 +125,6 @@ class CodeChatComponent extends Component
         $this->options = array_merge($driver->getDefaultOptions(), $this->options);
     }
 
-    protected function getChatDriver(): ChatDriverContract
-    {
-        return app(ChatManager::class)->driver($this->driver);
-    }
-
-    protected function getAvailableDrivers(): array
-    {
-        return app(ChatManager::class)->getAvailableDrivers();
-    }
-
     public function render()
     {
         // Use simple view in testing to avoid complex Flux setup issues
@@ -141,5 +133,15 @@ class CodeChatComponent extends Component
         }
 
         return view('code-chat-client::livewire.code-chat');
+    }
+
+    protected function getChatDriver(): ChatDriverContract
+    {
+        return app(ChatManager::class)->driver($this->driver);
+    }
+
+    protected function getAvailableDrivers(): array
+    {
+        return app(ChatManager::class)->getAvailableDrivers();
     }
 }
