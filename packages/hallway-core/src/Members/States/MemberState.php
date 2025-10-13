@@ -109,7 +109,7 @@ class MemberState extends State
 
             $key = $channel_permission->value;
 
-            $actions = (new ReflectionClassConstant(ChannelTypes::class, $channel->type->name))
+            $actions = new ReflectionClassConstant(ChannelTypes::class, $channel->type->name)
                 ->getAttributes(ChannelPermissions::class)[0]->newInstance()->{$key};
 
             foreach ($actions as $action) {

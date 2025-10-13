@@ -15,7 +15,7 @@ class Reflect
 
     public static function propInitialized(string $property, object $object): bool
     {
-        return (new ReflectionProperty($object, $property))->isInitialized($object);
+        return new ReflectionProperty($object, $property)->isInitialized($object);
     }
 
     public function reflect(object $object): static

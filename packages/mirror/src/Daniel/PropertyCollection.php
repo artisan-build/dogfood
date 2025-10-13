@@ -17,7 +17,7 @@ class PropertyCollection extends Collection
     {
         $class = $reflect->reflector;
 
-        return (new static($class->getProperties()))
+        return new static($class->getProperties())
             ->mapWithKeys(
                 fn ($p) => [
                     $p->getName() => Property::fromReflectionProperty($p, $reflect->object),
