@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6246df12fbd825123bd535097fea513",
+    "content-hash": "1c6cc01dfefb16ee1b3c80a92a1dc588",
     "packages": [
         {
             "name": "artisan-build/adverbs",
@@ -15987,7 +15987,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.3"
+        "php": "^8.4"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"

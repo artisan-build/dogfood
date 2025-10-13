@@ -9,7 +9,7 @@
     ],
     "license": "proprietary",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "artisan-build/adverbs": "*",
         "artisan-build/agent-os-installer": "*",
         "artisan-build/artisan-ui": "*",
