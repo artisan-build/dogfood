@@ -43,6 +43,11 @@ class EnsureGitHubCliIsInstalled
     {
         $result = Process::run('which gh');
 
+        // CI Debug: throw exception if this fails
+        if (! $result->successful() && app()->environment('testing')) {
+            throw new \RuntimeException('GitHub CLI check failed in tests. Output: ' . $result->output() . ' Error: ' . $result->errorOutput());
+        }
+
         return $result->successful();
     }
 }

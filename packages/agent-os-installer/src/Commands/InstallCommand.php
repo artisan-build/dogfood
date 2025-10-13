@@ -41,10 +41,7 @@ class InstallCommand extends Command
 
         // Step 1: Ensure GitHub CLI is installed
         $ensureGitHubCli = new EnsureGitHubCliIsInstalled;
-        $ghResult = $ensureGitHubCli($this);
-        $this->line("DEBUG: GitHub CLI check returned: ".($ghResult ? 'true' : 'false'));
-        if (! $ghResult) {
-            $this->line("DEBUG: Returning FAILURE from GitHub CLI check");
+        if (! $ensureGitHubCli($this)) {
             return self::FAILURE;
         }
 
@@ -52,10 +49,7 @@ class InstallCommand extends Command
 
         // Step 2: Ensure Agent OS is installed
         $ensureAgentOs = new EnsureAgentOsIsInstalled;
-        $agentOsResult = $ensureAgentOs($this);
-        $this->line("DEBUG: Agent OS check returned: ".($agentOsResult ? 'true' : 'false'));
-        if (! $agentOsResult) {
-            $this->line("DEBUG: Returning FAILURE from Agent OS check");
+        if (! $ensureAgentOs($this)) {
             return self::FAILURE;
         }
 

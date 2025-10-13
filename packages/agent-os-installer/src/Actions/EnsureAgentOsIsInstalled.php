@@ -22,11 +22,6 @@ class EnsureAgentOsIsInstalled
         $agentOsPath = $homeDir.'/agent-os';
         $laravelProfilePath = $agentOsPath.'/profiles/laravel';
 
-        // Debug logging for CI
-        $command->line("DEBUG: homeDir = {$homeDir}");
-        $command->line("DEBUG: agentOsPath = {$agentOsPath}");
-        $command->line("DEBUG: laravelProfilePath = {$laravelProfilePath}");
-
         // State 3: Laravel profile exists - all good
         if (File::isDirectory($laravelProfilePath)) {
             $command->info('✓ Agent OS with Laravel profile is installed');
