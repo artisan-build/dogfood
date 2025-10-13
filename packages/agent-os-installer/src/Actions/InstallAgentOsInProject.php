@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace ArtisanBuild\AgentOsInstaller\Actions;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Request;
 
 /**
  * Install Agent OS in the current project using the project-install.sh script
@@ -19,30 +20,16 @@ class InstallAgentOsInProject
     {
         $command->info('Installing Agent OS in project...');
 
-        $homeDir = \Illuminate\Support\Facades\Request::server('HOME') ?? \Illuminate\Support\Facades\Request::server('USERPROFILE') ?? '~';
+        $homeDir = Request::server('HOME') ?? Request::server('USERPROFILE') ?? '~';
         $installScript = $homeDir.'/agent-os/scripts/project-install.sh';
 
-        $process = new Process(
-            [
-                $installScript,
-                '--multi-agent-mode',
-                'true',
-                '--single-agent-mode',
-                'true',
-                '--profile',
-                'laravel',
-            ],
-            base_path(),
-            null,
-            null,
-            300
-        );
+        $result = Process::path(base_path())
+            ->timeout(300)
+            ->run($installScript.' --multi-agent-mode true --single-agent-mode true --profile laravel', function ($type, $buffer) use ($command): void {
+                $command->getOutput()->write($buffer);
+            });
 
-        $process->run(function ($type, $buffer) use ($command): void {
-            $command->getOutput()->write($buffer);
-        });
-
-        if (! $process->isSuccessful()) {
+        if (! $result->successful()) {
             $command->error('Failed to install Agent OS in project');
 
             return false;

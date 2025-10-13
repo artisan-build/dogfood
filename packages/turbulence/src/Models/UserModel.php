@@ -21,6 +21,7 @@ use Illuminate\Support\Collection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserModel query()
  *
  * @mixin \Eloquent
+ * @mixin IdeHelperUserModel
  */
 class UserModel extends User
 {

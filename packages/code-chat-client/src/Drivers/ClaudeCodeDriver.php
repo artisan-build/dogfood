@@ -11,6 +11,7 @@ use ArtisanBuild\ClaudeCode\Messages\ResultMessage;
 use ArtisanBuild\CodeChatClient\ChatResponse;
 use ArtisanBuild\CodeChatClient\Contracts\ChatDriverContract;
 use ArtisanBuild\CodeChatClient\Contracts\ChatResponseContract;
+use Exception;
 
 class ClaudeCodeDriver implements ChatDriverContract
 {
@@ -61,7 +62,7 @@ class ClaudeCodeDriver implements ChatDriverContract
 
             return ChatResponse::success(trim($content), $metadata, $toolUsage);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return ChatResponse::failure($e->getMessage());
         }
     }
@@ -97,7 +98,7 @@ class ClaudeCodeDriver implements ChatDriverContract
                 }
             });
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $callback('[ERROR] '.$e->getMessage());
         }
     }
@@ -112,7 +113,7 @@ class ClaudeCodeDriver implements ChatDriverContract
         try {
             // Check if Claude Code is bound in the container
             return app()->bound('claude-code');
-        } catch (\Exception) {
+        } catch (Exception) {
             return false;
         }
     }

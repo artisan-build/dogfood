@@ -27,8 +27,8 @@ use Thunk\Verbs\State;
  * @method static Builder<static>|Dummy whereMetadata($value)
  * @method static Builder<static>|Dummy whereName($value)
  *
- * @mixin Eloquent
- * @mixin \Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin IdeHelperDummy
  */
 class Dummy extends Model
 {

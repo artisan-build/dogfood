@@ -6,7 +6,7 @@ namespace ArtisanBuild\AgentOsInstaller\Actions;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Process;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -81,19 +81,13 @@ class EnsurePhpStanIsInstalled
      */
     protected function installPhpStan(Command $command): bool
     {
-        $process = new Process(
-            ['composer', 'require', '--dev', 'larastan/larastan', '--with-all-dependencies'],
-            base_path(),
-            null,
-            null,
-            300
-        );
+        $result = Process::path(base_path())
+            ->timeout(300)
+            ->run('composer require --dev larastan/larastan --with-all-dependencies', function ($type, $buffer) use ($command): void {
+                $command->getOutput()->write($buffer);
+            });
 
-        $process->run(function ($type, $buffer) use ($command): void {
-            $command->getOutput()->write($buffer);
-        });
-
-        return $process->isSuccessful();
+        return $result->successful();
     }
 
     /**

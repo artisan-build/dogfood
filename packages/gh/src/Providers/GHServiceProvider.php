@@ -6,10 +6,11 @@ namespace ArtisanBuild\GH\Providers;
 
 use ArtisanBuild\GH\Commands\Sandbox;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class GHServiceProvider extends ServiceProvider
 {
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/gh.php', 'gh');

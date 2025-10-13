@@ -7,8 +7,22 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
 beforeEach(function (): void {
-    // Mock all the tool checks to pass
-    Process::fake();
+    // Mock GitHub CLI check
+    Process::fake([
+        'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
+    ]);
+
+    // Mock File::isDirectory calls (from EnsureAgentOsIsInstalled)
+    File::shouldReceive('isDirectory')
+        ->andReturn(true)
+        ->zeroOrMoreTimes();
+
+    // Allow File::put for config files (pint.json, phpstan.neon, rector.php)
+    File::shouldReceive('put')
+        ->withArgs(fn ($path) => str_contains((string) $path, 'pint.json') ||
+               str_contains((string) $path, 'phpstan.neon') ||
+               str_contains((string) $path, 'rector.php'))
+        ->zeroOrMoreTimes();
 });
 
 it('detects when all scripts are properly defined', function (): void {
@@ -74,6 +88,10 @@ it('detects when all scripts are properly defined', function (): void {
     File::shouldReceive('exists')->andReturn(true);
     File::shouldReceive('get')->with(base_path('pint.json'))->andReturn('{}');
     File::shouldReceive('get')->with(base_path('phpstan.neon'))->andReturn('level: 6');
+    File::shouldReceive('get')->with(base_path('rector.php'))->andReturn('<?php');
+
+    File::shouldReceive('makeDirectory')->zeroOrMoreTimes();
+    File::shouldReceive('copyDirectory')->zeroOrMoreTimes();
 
     $exitCode = Artisan::call('agent-os:install');
 
@@ -106,6 +124,10 @@ it('adds missing scripts', function (): void {
     File::shouldReceive('exists')->andReturn(true);
     File::shouldReceive('get')->with(base_path('pint.json'))->andReturn('{}');
     File::shouldReceive('get')->with(base_path('phpstan.neon'))->andReturn('level: 6');
+    File::shouldReceive('get')->with(base_path('rector.php'))->andReturn('<?php');
+
+    File::shouldReceive('makeDirectory')->zeroOrMoreTimes();
+    File::shouldReceive('copyDirectory')->zeroOrMoreTimes();
 
     File::shouldReceive('put')
         ->once()
@@ -152,6 +174,10 @@ it('prompts for confirmation when scripts conflict', function (): void {
     File::shouldReceive('exists')->andReturn(true);
     File::shouldReceive('get')->with(base_path('pint.json'))->andReturn('{}');
     File::shouldReceive('get')->with(base_path('phpstan.neon'))->andReturn('level: 6');
+    File::shouldReceive('get')->with(base_path('rector.php'))->andReturn('<?php');
+
+    File::shouldReceive('makeDirectory')->zeroOrMoreTimes();
+    File::shouldReceive('copyDirectory')->zeroOrMoreTimes();
 
     // Simulate user declining to overwrite
     $this->artisan('agent-os:install')
@@ -184,6 +210,10 @@ it('overwrites scripts when user confirms', function (): void {
     File::shouldReceive('exists')->andReturn(true);
     File::shouldReceive('get')->with(base_path('pint.json'))->andReturn('{}');
     File::shouldReceive('get')->with(base_path('phpstan.neon'))->andReturn('level: 6');
+    File::shouldReceive('get')->with(base_path('rector.php'))->andReturn('<?php');
+
+    File::shouldReceive('makeDirectory')->zeroOrMoreTimes();
+    File::shouldReceive('copyDirectory')->zeroOrMoreTimes();
 
     File::shouldReceive('put')
         ->once()

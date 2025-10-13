@@ -30,8 +30,8 @@ use Sushi\Sushi;
  * @method static Builder<static>|TillTeam whereName($value)
  * @method static Builder<static>|TillTeam whereUserId($value)
  *
- * @mixin Eloquent
- * @mixin \Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin IdeHelperTillTeam
  */
 class TillTeam extends Model
 {

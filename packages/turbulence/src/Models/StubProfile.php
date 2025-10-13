@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StubProfile query()
  *
  * @mixin \Eloquent
+ * @mixin IdeHelperStubProfile
  */
 class StubProfile extends Model
 {

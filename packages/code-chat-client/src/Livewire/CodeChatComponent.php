@@ -7,6 +7,7 @@ namespace ArtisanBuild\CodeChatClient\Livewire;
 use ArtisanBuild\CodeChatClient\ChatManager;
 use ArtisanBuild\CodeChatClient\ChatMessage;
 use ArtisanBuild\CodeChatClient\Contracts\ChatDriverContract;
+use Exception;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -106,7 +107,7 @@ class CodeChatComponent extends Component
                     $this->messages[] = ChatMessage::error($response->getError() ?? 'An error occurred')->toArray();
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->messages[] = ChatMessage::error('Error: '.$e->getMessage())->toArray();
         }
     }

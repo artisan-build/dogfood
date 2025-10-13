@@ -39,8 +39,8 @@ use Sushi\Sushi;
  * @method static Builder<static>|TillUser whereName($value)
  * @method static Builder<static>|TillUser wherePassword($value)
  *
- * @mixin Eloquent
- * @mixin \Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin IdeHelperTillUser
  */
 class TillUser extends User
 {

@@ -46,8 +46,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Team whereUpdatedAt($value)
  * @method static Builder<static>|Team whereUserId($value)
  *
- * @mixin Eloquent
- * @mixin \Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin IdeHelperTeam
  */
 class Team extends Model
 {

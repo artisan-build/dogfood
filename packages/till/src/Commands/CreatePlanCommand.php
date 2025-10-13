@@ -56,7 +56,7 @@ class CreatePlanCommand extends Command
 
         $replace['heading'] = $this->argument('heading') ?? text(
             label: 'Heading',
-            default: Str::of($replace['name'])->replaceLast('Plan', '')->headline(),
+            default: Str::of((string) $replace['name'])->replaceLast('Plan', '')->headline()->toString(),
             required: true,
             validate: [
                 'string',

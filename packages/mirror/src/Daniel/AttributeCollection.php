@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Mirror\Daniel;
 
+use Exception;
 use Illuminate\Support\Collection;
 use ReflectionClass;
 use ReflectionProperty;
@@ -47,7 +48,7 @@ class AttributeCollection extends Collection
             'or' => $this->filter(
                 fn ($a) => $args->diffAssoc($a->args)->count() < $args->count()
             ),
-            default => throw new \Exception('Invalid and_or value'),
+            default => throw new Exception('Invalid and_or value'),
         };
     }
 }

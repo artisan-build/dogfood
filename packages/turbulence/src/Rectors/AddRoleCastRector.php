@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Turbulence\Rectors;
 
+use ArtisanBuild\Turbulence\Enums\UserRoles;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
@@ -29,7 +30,7 @@ final class AddRoleCastRector extends AbstractRector
         }
 
         $roleCast = new ArrayItem(
-            new ClassConstFetch(new Name(\ArtisanBuild\Turbulence\Enums\UserRoles::class), new Identifier('class')),
+            new ClassConstFetch(new Name(UserRoles::class), new Identifier('class')),
             new String_('role')
         );
 

@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace ArtisanBuild\MarketingMailcoach\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class MarketingMailcoachServiceProvider extends ServiceProvider
 {
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/marketing-mailcoach.php', 'marketing-mailcoach');

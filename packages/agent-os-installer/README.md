@@ -55,7 +55,11 @@ The installer adds standardized Composer scripts to your `composer.json`:
 
 ### Agent OS Framework
 
-- **Agent OS** - AI-assisted development framework (coming soon)
+- **Agent OS** - AI-assisted development framework from [Builder Methods](https://buildermethods.com/)
+
+We install our own opinionated fork of Agent OS, which includes a Laravel profile. This fork is available on [GitHub](https://github.com/artisan-build/agent-os). If you already have Agent OS installed, we will simply copy our Laravel profile into your existing Agent OS installation. If you already have a profile called Laravel, we will assume you have things set up the way you want them and completely skip the Agent OS installation portion of this.
+
+The reason that we install all of those code quality tools is that in our Laravel profile, the instructions mention things like `composer report` and `composer ready`, which are scripts that run all this tooling to ensure that everything is truly up to our specifications. 
 
 ## License
 

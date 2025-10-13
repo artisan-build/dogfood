@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ArtisanBuild\CodeChatClient\Contracts;
 
 use ArtisanBuild\CodeChatClient\Enums\MessageRole;
+use DateTimeInterface;
 
 interface ChatMessageContract
 {
@@ -21,7 +22,7 @@ interface ChatMessageContract
     /**
      * Get the timestamp of the message.
      */
-    public function getTimestamp(): \DateTimeInterface;
+    public function getTimestamp(): DateTimeInterface;
 
     /**
      * Get any metadata associated with the message.

@@ -6,7 +6,7 @@ namespace ArtisanBuild\AgentOsInstaller\Actions;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Process;
 
 /**
  * Ensure Laravel Pint is installed and configured
@@ -71,19 +71,13 @@ class EnsurePintIsInstalled
      */
     protected function installPint(Command $command): bool
     {
-        $process = new Process(
-            ['composer', 'require', '--dev', 'laravel/pint', '--with-all-dependencies'],
-            base_path(),
-            null,
-            null,
-            300
-        );
+        $result = Process::path(base_path())
+            ->timeout(300)
+            ->run('composer require --dev laravel/pint --with-all-dependencies', function ($type, $buffer) use ($command): void {
+                $command->getOutput()->write($buffer);
+            });
 
-        $process->run(function ($type, $buffer) use ($command): void {
-            $command->getOutput()->write($buffer);
-        });
-
-        return $process->isSuccessful();
+        return $result->successful();
     }
 
     /**

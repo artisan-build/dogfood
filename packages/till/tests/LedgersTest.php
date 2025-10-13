@@ -10,6 +10,7 @@ use ArtisanBuild\Till\Events\SubscriptionStarted;
 use ArtisanBuild\Till\Exceptions\LedgerBalanceTooLowException;
 use ArtisanBuild\Till\States\SubscriberState;
 use ArtisanBuild\Till\SubscriptionPlans\Ledgers;
+use Illuminate\Support\Facades\Date;
 use Thunk\Verbs\Facades\Verbs;
 
 beforeEach(function (): void {
@@ -152,7 +153,7 @@ describe('usage ledger on the subscriber state', function (): void {
         expect($state->transactions)->toHaveCount(5)
             ->and($state->transactions[0]['ledger'])->toBe(Ledgers::RickRolls->name);
 
-        Illuminate\Support\Facades\Date::setTestNow(now()->addMonth()->addMinute());
+        Date::setTestNow(now()->addMonth()->addMinute());
 
         FiveRickRollsSent::fire(
             subscriber_id: 1,

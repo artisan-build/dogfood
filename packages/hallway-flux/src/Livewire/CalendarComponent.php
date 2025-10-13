@@ -9,6 +9,7 @@ use ArtisanBuild\Hallway\Calendar\Events\GatheringsRequested;
 use ArtisanBuild\Hallway\Calendar\States\CalendarRangeState;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Livewire\Component;
 
 class CalendarComponent extends Component
@@ -35,8 +36,8 @@ class CalendarComponent extends Component
     #[ChatGPT]
     public function generateCalendar(string $startMonth, string $endMonth): Collection
     {
-        $startDate = \Illuminate\Support\Facades\Date::createFromFormat('Y-m', $startMonth)?->startOfMonth();
-        $endDate = \Illuminate\Support\Facades\Date::createFromFormat('Y-m', $endMonth)?->endOfMonth();
+        $startDate = Date::createFromFormat('Y-m', $startMonth)->startOfMonth();
+        $endDate = Date::createFromFormat('Y-m', $endMonth)->endOfMonth();
 
         $months = collect();
 
@@ -64,8 +65,8 @@ class CalendarComponent extends Component
             $months->put($monthKey, [
                 'weeks' => $weeks,
                 'title' => $startDate->format('F Y'),
-                'previous' => \Illuminate\Support\Facades\Date::createFromFormat('Y-m', $monthKey)?->subMonth()->format('Y-m'),
-                'next' => \Illuminate\Support\Facades\Date::createFromFormat('Y-m', $monthKey)?->addMonth()->format('Y-m'),
+                'previous' => Date::createFromFormat('Y-m', $monthKey)->subMonth()->format('Y-m'),
+                'next' => Date::createFromFormat('Y-m', $monthKey)->addMonth()->format('Y-m'),
             ]);
             $startDate->addMonth();
         }

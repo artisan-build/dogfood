@@ -6,7 +6,7 @@ namespace ArtisanBuild\AgentOsInstaller\Actions;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Process;
 
 /**
  * Ensure development helper tools are installed
@@ -75,22 +75,12 @@ class EnsureDevelopmentToolsAreInstalled
      */
     protected function installPackages(array $packages, Command $command): bool
     {
-        $process = new Process(
-            array_merge(
-                ['composer', 'require', '--dev'],
-                $packages,
-                ['--with-all-dependencies']
-            ),
-            base_path(),
-            null,
-            null,
-            300
-        );
+        $result = Process::path(base_path())
+            ->timeout(300)
+            ->run('composer require --dev '.implode(' ', $packages).' --with-all-dependencies', function ($type, $buffer) use ($command): void {
+                $command->getOutput()->write($buffer);
+            });
 
-        $process->run(function ($type, $buffer) use ($command): void {
-            $command->getOutput()->write($buffer);
-        });
-
-        return $process->isSuccessful();
+        return $result->successful();
     }
 }

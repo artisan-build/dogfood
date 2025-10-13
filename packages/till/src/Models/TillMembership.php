@@ -20,6 +20,7 @@ use Sushi\Sushi;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TillMembership whereUserId($value)
  *
  * @mixin \Eloquent
+ * @mixin IdeHelperTillMembership
  */
 class TillMembership extends Pivot
 {

@@ -29,8 +29,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder<static>|TeamInvitation whereTeamId($value)
  * @method static Builder<static>|TeamInvitation whereUpdatedAt($value)
  *
- * @mixin Eloquent
- * @mixin \Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin IdeHelperTeamInvitation
  */
 class TeamInvitation extends Model
 {

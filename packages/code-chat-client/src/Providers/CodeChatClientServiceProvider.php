@@ -8,10 +8,11 @@ use ArtisanBuild\CodeChatClient\ChatManager;
 use ArtisanBuild\CodeChatClient\Livewire\CodeChatComponent;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use Override;
 
 class CodeChatClientServiceProvider extends ServiceProvider
 {
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->mergeConfigFrom(

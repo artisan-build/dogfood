@@ -8,12 +8,13 @@ use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use ArtisanBuild\Hallway\Messages\States\MessageState;
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate;
+use Override;
 
 // TODO: This duplicates some work because it runs before SubstituteBindings (because it extends Authenticate?)
 // Is there a better approach we can take here?
 class AuthenticateForMemberOnlyContent extends Authenticate
 {
-    #[\Override]
+    #[Override]
     public function handle($request, Closure $next, ...$guards)
     {
         // Allow public channels to be viewed without authentication

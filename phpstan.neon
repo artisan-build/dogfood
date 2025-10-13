@@ -14,8 +14,12 @@ parameters:
         - **/build/phpstan/resultCache.php
         - packages/*/vendor
         - packages/*/vendor/**
+        - app/SetCashierModelCommand.php
 
     level: 5
+
+    scanFiles:
+        - _ide_helper_models.php
 
     treatPhpDocTypesAsCertain: false
 

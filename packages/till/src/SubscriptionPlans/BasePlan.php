@@ -21,7 +21,7 @@ class BasePlan implements PlanInterface
 
     public function __construct()
     {
-        $this->id = Str::of(last(explode('\\', static::class)))->headline()->slug();
+        $this->id = Str::of(last(explode('\\', static::class)))->headline()->slug()->toString();
         $this->current = Auth::user()?->subscription()->plan_id === $this->id;
     }
 

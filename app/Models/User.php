@@ -12,6 +12,7 @@ use ArtisanBuild\Till\Traits\Tillable;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -78,8 +79,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read Collection<int, Member> $hallway_members
  * @property-read int|null $hallway_members_count
  *
- * @mixin Eloquent
- * @mixin \Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin IdeHelperUser
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -163,9 +164,9 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get the URL to the user's profile photo.
      */
-    protected function profilePhotoUrl(): \Illuminate\Database\Eloquent\Casts\Attribute
+    protected function profilePhotoUrl(): Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn () => $this->profile_photo_path
+        return Attribute::make(get: fn () => $this->profile_photo_path
             ? asset('storage/'.$this->profile_photo_path)
             : $this->defaultProfilePhotoUrl());
     }

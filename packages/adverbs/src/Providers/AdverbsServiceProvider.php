@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace ArtisanBuild\Adverbs\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class AdverbsServiceProvider extends ServiceProvider
 {
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/adverbs.php', 'adverbs');

@@ -3,12 +3,13 @@
 declare(strict_types=1);
 
 use ArtisanBuild\FluxThemes\Pipeline\EnsureRequiredImportsExist;
+use ArtisanBuild\FluxThemes\Theme;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Pipeline;
 
 describe('ensuring the required imports exist in app.css', function (): void {
     it('adds the required imports in the correct order if the existing file is blank', function (): void {
-        $theme = new ArtisanBuild\FluxThemes\Theme(css_file: __DIR__.'/../files/blank_app.css');
+        $theme = new Theme(css_file: __DIR__.'/../files/blank_app.css');
 
         $theme = Pipeline::send($theme)->through([
             EnsureRequiredImportsExist::class,
@@ -18,7 +19,7 @@ describe('ensuring the required imports exist in app.css', function (): void {
     })->skip();
 
     it('adds the flux import in the correct location in the Laravel 12 default file', function (): void {
-        $theme = new ArtisanBuild\FluxThemes\Theme(css_file: __DIR__.'/../files/laravel_12_default_app.css');
+        $theme = new Theme(css_file: __DIR__.'/../files/laravel_12_default_app.css');
 
         $theme = Pipeline::send($theme)->through([
             EnsureRequiredImportsExist::class,

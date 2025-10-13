@@ -10,7 +10,6 @@ use ArtisanBuild\FluxThemes\Pipeline\EnsureRequiredSourcePathsExist;
 use ArtisanBuild\FluxThemes\Theme;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Pipeline;
-use Stripe\File;
 
 use function Laravel\Prompts\search;
 

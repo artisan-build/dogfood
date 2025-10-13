@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StubModel query()
  *
  * @mixin \Eloquent
+ * @mixin IdeHelperStubModel
  */
 class StubModel extends Model
 {

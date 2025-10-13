@@ -7,6 +7,7 @@ namespace ArtisanBuild\AgentOsInstaller;
 use ArtisanBuild\AgentOsInstaller\Commands\InstallCommand;
 use ArtisanBuild\AgentOsInstaller\Commands\OptimizeClaudeReviewsCommand;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 /**
  * Service provider for the Agent OS Installer package
@@ -16,7 +17,7 @@ class AgentOsInstallerServiceProvider extends ServiceProvider
     /**
      * Register any application services
      */
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->mergeConfigFrom(

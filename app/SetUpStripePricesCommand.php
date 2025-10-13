@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Stripe\Exception\ApiErrorException;
@@ -109,7 +110,7 @@ class SetUpStripePricesCommand extends Command
             error('Stripe API Error: '.$e->getMessage());
 
             return 1;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             error('Error: '.$e->getMessage());
 
             return 1;

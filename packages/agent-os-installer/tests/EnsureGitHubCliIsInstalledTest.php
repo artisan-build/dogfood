@@ -7,32 +7,69 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
 it('detects when GitHub CLI is installed', function (): void {
-    // Mock GitHub CLI check
-    Process::fake([
-        'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
-    ]);
-
-    // Mock composer.json reads for all subsequent checks
+    // Mock composer.json - will be called multiple times by different actions
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
         ->andReturn(json_encode([
             'require-dev' => [
                 'pestphp/pest' => '^3.0',
                 'laravel/pint' => '^1.0',
-                'larastan/larastan' => '^2.0',
-                'rector/rector' => '^1.0',
+                'larastan/larastan' => '^3.0',
+                'rector/rector' => '^2.0',
                 'tightenco/duster' => '^3.0',
-            ],
-            'scripts' => [
-                'lint' => 'duster lint',
-                'stan' => 'phpstan analyse',
-                'test' => 'pest',
-                'ready' => ['@lint', '@stan', '@test'],
+                'barryvdh/laravel-debugbar' => '^3.0',
+                'barryvdh/laravel-ide-helper' => '^2.0',
             ],
         ]));
 
+    // Mock File::isDirectory calls (from EnsureAgentOsIsInstalled)
+    File::shouldReceive('isDirectory')
+        ->andReturn(true)
+        ->zeroOrMoreTimes();
+
+    // Mock File::exists - all config files exist
     File::shouldReceive('exists')
-        ->andReturn(true);
+        ->andReturn(true)
+        ->zeroOrMoreTimes();
+
+    // Mock pint.json content
+    File::shouldReceive('get')
+        ->with(base_path('pint.json'))
+        ->andReturn(json_encode([
+            'preset' => 'laravel',
+            'rules' => [
+                'declare_strict_types' => true,
+                'fully_qualified_strict_types' => true,
+                'single_trait_insert_per_statement' => true,
+                'array_syntax' => true,
+            ],
+        ]));
+
+    // Mock phpstan.neon content
+    File::shouldReceive('get')
+        ->with(base_path('phpstan.neon'))
+        ->andReturn('level: 5');
+
+    // Mock rector.php content
+    File::shouldReceive('get')
+        ->with(base_path('rector.php'))
+        ->andReturn('<?php');
+
+    // Allow composer.json to be updated with scripts
+    File::shouldReceive('put')
+        ->with(base_path('composer.json'), Mockery::type('string'))
+        ->zeroOrMoreTimes();
+
+    File::shouldReceive('makeDirectory')
+        ->zeroOrMoreTimes();
+
+    File::shouldReceive('copyDirectory')
+        ->zeroOrMoreTimes();
+
+    // Mock GitHub CLI check
+    Process::fake([
+        'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
+    ]);
 
     $exitCode = Artisan::call('agent-os:install');
 

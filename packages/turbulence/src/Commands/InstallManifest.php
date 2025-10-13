@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Turbulence\Commands;
 
+use App\Models\User;
+use ArtisanBuild\Turbulence\Models\Account;
+use ArtisanBuild\Turbulence\Models\UserModel;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 
@@ -17,8 +20,8 @@ class InstallManifest
                     'destination' => config_path('turbulence.php'),
                     'rector' => [],
                     'replace' => [
-                        \ArtisanBuild\Turbulence\Models\UserModel::class => \App\Models\User::class,
-                        \ArtisanBuild\Turbulence\Models\Account::class => '\App\Models\Account',
+                        UserModel::class => User::class,
+                        Account::class => '\App\Models\Account',
                         "'installed' => false" => "'installed' => true",
                     ],
                     'undo' => fn () => File::delete(config_path('turbulence.php')),

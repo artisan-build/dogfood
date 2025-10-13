@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Account query()
  *
  * @mixin \Eloquent
+ * @mixin IdeHelperAccount
  */
 class Account extends Model
 {

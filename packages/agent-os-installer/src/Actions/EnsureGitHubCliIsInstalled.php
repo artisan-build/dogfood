@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ArtisanBuild\AgentOsInstaller\Actions;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Process;
 
 /**
  * Ensure the GitHub CLI (gh) is installed on the system
@@ -41,9 +41,8 @@ class EnsureGitHubCliIsInstalled
      */
     protected function isGitHubCliInstalled(): bool
     {
-        $process = new Process(['which', 'gh']);
-        $process->run();
+        $result = Process::run('which gh');
 
-        return $process->isSuccessful();
+        return $result->successful();
     }
 }

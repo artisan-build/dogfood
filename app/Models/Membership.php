@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Membership whereUserId($value)
  *
  * @mixin \Eloquent
+ * @mixin IdeHelperMembership
  */
 class Membership extends Pivot
 {

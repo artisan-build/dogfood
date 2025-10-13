@@ -6,7 +6,8 @@ namespace ArtisanBuild\AgentOsInstaller\Actions;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Request;
 
 /**
  * Ensure Agent OS is installed in the user's home directory with Laravel profile
@@ -18,7 +19,7 @@ class EnsureAgentOsIsInstalled
      */
     public function __invoke(Command $command): bool
     {
-        $homeDir = \Illuminate\Support\Facades\Request::server('HOME') ?? \Illuminate\Support\Facades\Request::server('USERPROFILE') ?? '~';
+        $homeDir = Request::server('HOME') ?? Request::server('USERPROFILE') ?? '~';
         $agentOsPath = $homeDir.'/agent-os';
         $laravelProfilePath = $agentOsPath.'/profiles/laravel';
 
@@ -55,19 +56,13 @@ class EnsureAgentOsIsInstalled
 
         $command->info('Cloning Agent OS repository...');
 
-        $process = new Process(
-            ['gh', 'repo', 'clone', 'artisan-build/agent-os', 'agent-os'],
-            $homeDir,
-            null,
-            null,
-            300
-        );
+        $result = Process::path($homeDir)
+            ->timeout(300)
+            ->run('gh repo clone artisan-build/agent-os agent-os', function ($type, $buffer) use ($command): void {
+                $command->getOutput()->write($buffer);
+            });
 
-        $process->run(function ($type, $buffer) use ($command): void {
-            $command->getOutput()->write($buffer);
-        });
-
-        if (! $process->isSuccessful()) {
+        if (! $result->successful()) {
             $command->error('Failed to clone Agent OS repository');
 
             return false;
@@ -104,17 +99,10 @@ class EnsureAgentOsIsInstalled
         // Clone the repo to a temp directory
         $tempDir = sys_get_temp_dir().'/agent-os-temp-'.uniqid();
 
-        $cloneProcess = new Process(
-            ['gh', 'repo', 'clone', 'artisan-build/agent-os', $tempDir, '--', '--depth', '1'],
-            null,
-            null,
-            null,
-            300
-        );
+        $result = Process::timeout(300)
+            ->run('gh repo clone artisan-build/agent-os '.$tempDir.' -- --depth 1');
 
-        $cloneProcess->run();
-
-        if (! $cloneProcess->isSuccessful()) {
+        if (! $result->successful()) {
             $command->error('Failed to clone Agent OS repository');
 
             return false;

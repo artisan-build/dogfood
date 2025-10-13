@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
 use ArtisanBuild\Turbulence\Commands\InstallManifest;
 use ArtisanBuild\Turbulence\Support\RunRector;
 use Illuminate\Console\Command;
@@ -42,7 +43,7 @@ describe('Installation command', function (): void {
         $config = require config_path('turbulence.php');
 
         expect($config['installed'])->toBeTrue()
-            ->and($config['user_model'])->toBe(App\Models\User::class)
+            ->and($config['user_model'])->toBe(User::class)
             ->and($config['account_model'])->toBe("\App\Models\Account");
     });
 

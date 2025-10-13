@@ -6,6 +6,7 @@ namespace ArtisanBuild\Turbulence\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Override;
 
 /**
  * @internal
@@ -17,10 +18,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static Builder<static>|Stub query()
  *
  * @mixin \Eloquent
+ * @mixin IdeHelperStub
  */
 class Stub extends OrganizationalUnit
 {
-    #[\Override]
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope('stub', function (Builder $builder): void {
