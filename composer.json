@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.3",
         "artisan-build/adverbs": "*",
+        "artisan-build/agent-os-installer": "*",
         "artisan-build/artisan-ui": "*",
         "artisan-build/bench": "*",
         "artisan-build/claudecode": "*",
@@ -55,7 +56,8 @@
         "pestphp/pest-plugin-type-coverage": "^3.2",
         "phpstan/phpstan": "^2.1",
         "rector/rector": "^2.0",
-        "roave/security-advisories": "dev-latest"
+        "roave/security-advisories": "dev-latest",
+        "tightenco/duster": "^3.2"
     },
     "autoload": {
         "psr-4": {
@@ -78,13 +80,15 @@
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "test": [
+            "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
         "test-parallel": [
+            "@php artisan config:clear --ansi",
             "@php artisan test --parallel --recreate-databases"
         ],
         "lint": [
-            "vendor/bin/pint"
+            "vendor/bin/duster fix"
         ],
         "rector": [
             "vendor/bin/rector"
@@ -93,6 +97,7 @@
             "vendor/bin/phpstan analyse --memory-limit=512M"
         ],
         "ready": [
+            "@php artisan config:clear --ansi",
             "@php artisan ide-helper:models --write",
             "composer rector",
             "composer lint",
@@ -120,6 +125,14 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        ],
+        "report": [
+            "@php artisan config:clear --ansi || true",
+            "@php artisan ide-helper:models --write || true",
+            "composer rector || true",
+            "composer lint || true",
+            "composer stan || true",
+            "composer test || true"
         ]
     },
     "extra": {

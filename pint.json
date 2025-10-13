@@ -2,5 +2,11 @@
     "preset": "laravel",
     "notPath": [
         "packages/turbulence/config/turbulence.php'"
-    ]
+    ],
+    "rules": {
+        "declare_strict_types": true,
+        "fully_qualified_strict_types": true,
+        "single_trait_insert_per_statement": true,
+        "array_syntax": true
+    }
 }
