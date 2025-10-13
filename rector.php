@@ -26,6 +26,11 @@ return RectorConfig::configure()
         __DIR__.'/packages/*/vendor/**',
         '*/vendor/*',
         '**/vendor/**',
+        // Skip converting $_SERVER to Request::server() in console context
+        // Request::server() doesn't work in console/Artisan commands
+        \RectorLaravel\Rector\ArrayDimFetch\ServerVariableToRequestFacadeRector::class => [
+            __DIR__.'/packages/agent-os-installer/src/Actions/EnsureAgentOsIsInstalled.php',
+        ],
     ])
     // uncomment to reach your current PHP version
     ->withPhpSets()

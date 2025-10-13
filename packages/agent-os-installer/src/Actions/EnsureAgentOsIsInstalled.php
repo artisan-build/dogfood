@@ -18,7 +18,7 @@ class EnsureAgentOsIsInstalled
      */
     public function __invoke(Command $command): bool
     {
-        $homeDir = $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? getenv('HOME') ?: getenv('USERPROFILE') ?: '~';
+        $homeDir = ($_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? getenv('HOME') ?: getenv('USERPROFILE')) ?: '~';
         $agentOsPath = $homeDir.'/agent-os';
         $laravelProfilePath = $agentOsPath.'/profiles/laravel';
 
