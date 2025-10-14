@@ -220,6 +220,19 @@ class EnsurePhpCodeSnifferIsInstalled
      */
     protected function installPhpCodeSniffer(Command $command): bool
     {
+        // First, allow the phpcodesniffer-composer-installer plugin
+        $allowPluginResult = Process::path(base_path())
+            ->timeout(30)
+            ->run('composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true', function ($type, $buffer) use ($command): void {
+                $command->getOutput()->write($buffer);
+            });
+
+        if (! $allowPluginResult->successful()) {
+            $command->error('Failed to allow phpcodesniffer-composer-installer plugin');
+
+            return false;
+        }
+
         $packages = [
             'slevomat/coding-standard',
             'dealerdirect/phpcodesniffer-composer-installer',

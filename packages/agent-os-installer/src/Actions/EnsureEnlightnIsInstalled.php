@@ -246,7 +246,8 @@ class EnsureEnlightnIsInstalled
     {
         $composerJson = json_decode(File::get(base_path('composer.json')), true);
 
-        return isset($composerJson['require-dev']['enlightn/enlightn']);
+        return isset($composerJson['require-dev']['ivqonsanada/enlightn'])
+            || isset($composerJson['require-dev']['enlightn/enlightn']);
     }
 
     /**
@@ -256,7 +257,7 @@ class EnsureEnlightnIsInstalled
     {
         $result = Process::path(base_path())
             ->timeout(300)
-            ->run('composer require --dev enlightn/enlightn --with-all-dependencies', function ($type, $buffer) use ($command): void {
+            ->run('composer require --dev ivqonsanada/enlightn --with-all-dependencies', function ($type, $buffer) use ($command): void {
                 $command->getOutput()->write($buffer);
             });
 
