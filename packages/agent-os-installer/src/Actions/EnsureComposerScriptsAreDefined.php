@@ -40,6 +40,12 @@ class EnsureComposerScriptsAreDefined
         'stan' => [
             'vendor/bin/phpstan analyse --memory-limit=512M',
         ],
+        'sniff' => [
+            'vendor/bin/phpcs',
+        ],
+        'sniff-fix' => [
+            'vendor/bin/phpcbf',
+        ],
         'ready' => [
             '@php artisan config:clear --ansi',
             '@php artisan ide-helper:models --write',

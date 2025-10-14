@@ -5,9 +5,10 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Request;
 
 it('installs Agent OS in the project', function (): void {
-    $homeDir = $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? getenv('HOME') ?: getenv('USERPROFILE') ?: '~';
+    $homeDir = (Request::server('HOME') ?? Request::server('USERPROFILE') ?? getenv('HOME') ?: getenv('USERPROFILE')) ?: '~';
 
     // Mock GitHub CLI check
     Process::fake([

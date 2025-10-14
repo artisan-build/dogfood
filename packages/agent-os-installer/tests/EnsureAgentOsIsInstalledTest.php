@@ -5,9 +5,10 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Request;
 
 it('detects when Agent OS with Laravel profile is already installed', function (): void {
-    $homeDir = $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? getenv('HOME') ?: getenv('USERPROFILE') ?: '~';
+    $homeDir = (Request::server('HOME') ?? Request::server('USERPROFILE') ?? getenv('HOME') ?: getenv('USERPROFILE')) ?: '~';
 
     // Mock Agent OS with Laravel profile exists
     File::shouldReceive('isDirectory')
@@ -80,7 +81,7 @@ it('detects when Agent OS with Laravel profile is already installed', function (
 });
 
 it('installs Agent OS when not present', function (): void {
-    $homeDir = $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? getenv('HOME') ?: getenv('USERPROFILE') ?: '~';
+    $homeDir = (Request::server('HOME') ?? Request::server('USERPROFILE') ?? getenv('HOME') ?: getenv('USERPROFILE')) ?: '~';
 
     // Mock Agent OS not installed
     File::shouldReceive('isDirectory')
@@ -161,7 +162,7 @@ it('installs Agent OS when not present', function (): void {
 });
 
 it('installs Laravel profile when Agent OS exists but profile is missing', function (): void {
-    $homeDir = $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] ?? getenv('HOME') ?: getenv('USERPROFILE') ?: '~';
+    $homeDir = (Request::server('HOME') ?? Request::server('USERPROFILE') ?? getenv('HOME') ?: getenv('USERPROFILE')) ?: '~';
 
     // Mock Agent OS installed but Laravel profile missing
     File::shouldReceive('isDirectory')

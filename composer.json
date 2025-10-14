@@ -42,6 +42,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",
         "barryvdh/laravel-ide-helper": "^3.6",
+        "dealerdirect/phpcodesniffer-composer-installer": "*",
         "driftingly/rector-laravel": "^2.1",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "*",
@@ -57,6 +58,7 @@
         "phpstan/phpstan": "^2.1",
         "rector/rector": "^2.2",
         "roave/security-advisories": "dev-latest",
+        "slevomat/coding-standard": "*",
         "tightenco/duster": "^3.2"
     },
     "autoload": {
