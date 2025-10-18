@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\FluxThemes\Pipeline\EnsureRequiredImportsExist;
 use ArtisanBuild\FluxThemes\Pipeline\EnsureRequiredSourcePathsExist;
+use ArtisanBuild\FluxThemes\Theme;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Pipeline;
@@ -16,7 +19,7 @@ beforeEach(function (): void {
 
 describe('ensure that all source paths required for Tailwind tree shaking exist', function (): void {
     it('adds them all if the file does not include any', function (): void {
-        $theme = new ArtisanBuild\FluxThemes\Theme(css_file: __DIR__.'/../files/blank_app.css');
+        $theme = new Theme(css_file: __DIR__.'/../files/blank_app.css');
 
         $theme = Pipeline::send($theme)
             ->through([
@@ -30,7 +33,7 @@ describe('ensure that all source paths required for Tailwind tree shaking exist'
     });
 
     it('adds the missing paths if the file already has some', function (): void {
-        $theme = new ArtisanBuild\FluxThemes\Theme(css_file: __DIR__.'/../files/laravel_12_default_app.css');
+        $theme = new Theme(css_file: __DIR__.'/../files/laravel_12_default_app.css');
 
         $theme = Pipeline::send($theme)
             ->through([

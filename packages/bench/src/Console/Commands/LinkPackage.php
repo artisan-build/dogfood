@@ -41,12 +41,12 @@ class LinkPackage extends Command
 
         if (File::isDirectory($folder)) {
             throw_if(
-                ! blank(Process::path($folder)->run('git status --porcelain')->output()),
+                filled(Process::path($folder)->run('git status --porcelain')->output()),
                 'You have uncommitted changes in the package you are trying to re-link',
             );
 
             throw_if(
-                ! blank(Process::path($folder)->run('git log @{u}..')->output()),
+                filled(Process::path($folder)->run('git log @{u}..')->output()),
                 'You have un-pushed changes in the package you are trying to re-link',
             );
         }

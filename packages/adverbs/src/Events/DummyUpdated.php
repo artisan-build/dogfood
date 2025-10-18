@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Adverbs\Events;
 
 use ArtisanBuild\Adverbs\Traits\HandleDefinedInConfiguration;

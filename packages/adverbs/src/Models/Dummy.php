@@ -7,7 +7,6 @@ namespace ArtisanBuild\Adverbs\Models;
 use ArtisanBuild\Adverbs\States\DummyState;
 use ArtisanBuild\Adverbs\Traits\GetsRowsFromVerbsStates;
 use ArtisanBuild\Adverbs\Traits\HasVerbsState;
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Thunk\Verbs\State;
@@ -28,7 +27,8 @@ use Thunk\Verbs\State;
  * @method static Builder<static>|Dummy whereMetadata($value)
  * @method static Builder<static>|Dummy whereName($value)
  *
- * @mixin Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin IdeHelperDummy
  */
 class Dummy extends Model
 {

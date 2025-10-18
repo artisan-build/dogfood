@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\CodeChatClient\Facades;
 
 use ArtisanBuild\CodeChatClient\ChatManager;
@@ -10,7 +12,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array getAvailableDrivers()
  * @method static \ArtisanBuild\CodeChatClient\ChatManager extend(string $driver, \Closure $callback)
  *
- * @see \ArtisanBuild\CodeChatClient\ChatManager
+ * @see ChatManager
  */
 class CodeChat extends Facade
 {

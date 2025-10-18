@@ -9,8 +9,9 @@
     ],
     "license": "proprietary",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "artisan-build/adverbs": "*",
+        "artisan-build/agent-os-installer": "*",
         "artisan-build/artisan-ui": "*",
         "artisan-build/bench": "*",
         "artisan-build/claudecode": "*",
@@ -39,23 +40,26 @@
         "livewire/livewire": "^3.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.14",
-        "barryvdh/laravel-ide-helper": "^3.5",
-        "driftingly/rector-laravel": "^2.0",
+        "barryvdh/laravel-debugbar": "^3.16",
+        "barryvdh/laravel-ide-helper": "^3.6",
+        "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "driftingly/rector-laravel": "^2.1",
         "fakerphp/faker": "^1.23",
-        "larastan/larastan": "^3.0",
+        "larastan/larastan": "*",
         "laravel/pail": "^1.1",
-        "laravel/pint": "^1.13",
+        "laravel/pint": "^1.25",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
         "orchestra/testbench": "^9.14",
-        "pestphp/pest": "^3.7",
-        "pestphp/pest-plugin-laravel": "^3.0",
+        "pestphp/pest": "^3.8",
+        "pestphp/pest-plugin-laravel": "^3.2",
         "pestphp/pest-plugin-type-coverage": "^3.2",
         "phpstan/phpstan": "^2.1",
-        "rector/rector": "^2.0",
-        "roave/security-advisories": "dev-latest"
+        "rector/rector": "^2.2",
+        "roave/security-advisories": "dev-latest",
+        "slevomat/coding-standard": "^8.24",
+        "tightenco/duster": "^3.2"
     },
     "autoload": {
         "psr-4": {
@@ -78,13 +82,15 @@
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "test": [
+            "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
         "test-parallel": [
+            "@php artisan config:clear --ansi",
             "@php artisan test --parallel --recreate-databases"
         ],
         "lint": [
-            "vendor/bin/pint"
+            "vendor/bin/duster fix"
         ],
         "rector": [
             "vendor/bin/rector"
@@ -93,7 +99,8 @@
             "vendor/bin/phpstan analyse --memory-limit=512M"
         ],
         "ready": [
-            "@php artisan ide-helper:models --write",
+            "@php artisan config:clear --ansi",
+            "@php artisan ide-helper:models -M",
             "composer rector",
             "composer lint",
             "composer stan",
@@ -120,6 +127,14 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        ],
+        "report": [
+            "@php artisan config:clear --ansi || true",
+            "@php artisan ide-helper:models --write || true",
+            "composer rector || true",
+            "composer lint || true",
+            "composer stan || true",
+            "composer test || true"
         ]
     },
     "extra": {
@@ -133,7 +148,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "minimum-stability": "dev",

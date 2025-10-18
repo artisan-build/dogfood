@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Mirror\Tests\Unit\Daniel;
 
 use ArtisanBuild\Mirror\Daniel\Property;

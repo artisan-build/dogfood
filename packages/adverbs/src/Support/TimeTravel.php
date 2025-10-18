@@ -6,12 +6,13 @@ namespace ArtisanBuild\Adverbs\Support;
 
 use Carbon\Carbon;
 use Closure;
+use Illuminate\Support\Facades\Date;
 
 class TimeTravel
 {
     public static function to(Carbon|string $time): TimeTravel
     {
-        Carbon::setTestNow($time);
+        Date::setTestNow($time);
 
         return new self;
     }
@@ -19,7 +20,7 @@ class TimeTravel
     public function then(Closure $closure): mixed
     {
         $return = $closure();
-        Carbon::setTestNow();
+        Date::setTestNow();
 
         return $return;
     }

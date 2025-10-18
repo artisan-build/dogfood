@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\CodeChatClient\ChatMessage;
 use ArtisanBuild\CodeChatClient\Enums\MessageRole;
 

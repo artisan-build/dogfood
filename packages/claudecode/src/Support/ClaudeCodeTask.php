@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\ClaudeCode\Support;
 
 use ArtisanBuild\ClaudeCode\Facades\ClaudeCode;
 use ArtisanBuild\ClaudeCode\Messages\Message;
+use Exception;
 use Illuminate\Support\Collection;
 
 class ClaudeCodeTask
@@ -74,7 +77,7 @@ class ClaudeCodeTask
 
             $this->messages = $query->execute();
             $this->analyzeResult();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->success = false;
             $this->error = $e->getMessage();
         }
@@ -100,7 +103,7 @@ class ClaudeCodeTask
             });
 
             $this->analyzeResult();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->success = false;
             $this->error = $e->getMessage();
         }

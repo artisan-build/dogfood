@@ -1,7 +1,7 @@
 @use('ArtisanBuild\Hallway\Members\Models\Member')
 <div>
     @if ($channel)
-        <h3 class="text-xl font-semibold dark:text-gray-100">Members in {{$channel->name}}</h3>
+        <h3 class="text-xl font-semibold dark:text-gray-100">Members in {{ $channel->name }}</h3>
 
     @else
         <h3 class="text-xl font-semibold dark:text-gray-100">Community Members</h3>

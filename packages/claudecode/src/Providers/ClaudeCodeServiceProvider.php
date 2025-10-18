@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\ClaudeCode\Providers;
 
 use ArtisanBuild\ClaudeCode\ClaudeCode;
 use ArtisanBuild\ClaudeCode\Contracts\ClaudeCodeClient;
 use ArtisanBuild\ClaudeCode\Support\ClaudeCodeOptions;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class ClaudeCodeServiceProvider extends ServiceProvider
 {
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/claudecode.php', 'claude-code');

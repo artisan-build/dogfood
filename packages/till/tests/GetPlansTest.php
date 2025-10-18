@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\Till\Actions\GetPlans;
 use Illuminate\Support\Collection;
 

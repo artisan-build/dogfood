@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\CodeChatClient\ChatManager;
 use ArtisanBuild\CodeChatClient\ChatResponse;
 use ArtisanBuild\CodeChatClient\Contracts\ChatDriverContract;

@@ -10,7 +10,7 @@
 | need to change it using the "pest()" function to bind a different classes or traits.
 |
 */
-
+use Thunk\Verbs\Event;
 use App\Models\User;
 use ArtisanBuild\Hallway\Channels\Enums\ChannelPermissionTypes;
 use ArtisanBuild\Hallway\Channels\Enums\ChannelTestSwitches;
@@ -67,9 +67,9 @@ function channel_permissions(
     $member->in_channel = $switch === ChannelTestSwitches::InChannel;
     $member->owns_channel = $switch === ChannelTestSwitches::OwnsChannel;
 
-    Illuminate\Support\Facades\Context::add('active_member', $member);
+    Context::add('active_member', $member);
 
-    $event = new class extends Thunk\Verbs\Event
+    $event = new class extends Event
     {
         public ChannelPermissionTypes $needs_channel_permissions;
     };

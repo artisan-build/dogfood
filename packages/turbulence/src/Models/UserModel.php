@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Turbulence\Models;
 
 use ArtisanBuild\Turbulence\Traits\HasAccounts;
@@ -19,6 +21,7 @@ use Illuminate\Support\Collection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserModel query()
  *
  * @mixin \Eloquent
+ * @mixin IdeHelperUserModel
  */
 class UserModel extends User
 {

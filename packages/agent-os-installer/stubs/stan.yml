@@ -1,0 +1,40 @@
+name: Stan
+on: [workflow_call]
+
+jobs:
+  stan:
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-version: ['8.4', '8.5']
+        include:
+          - operating-system: ubuntu-latest
+            php-version: '8.5'
+            allow-failure: true
+    name: php ${{ matrix.php-version }} on ${{ matrix.operating-system }}
+    runs-on: ${{ matrix.operating-system }}
+    continue-on-error: ${{ matrix.allow-failure || false }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: bcmath, ctype, fileinfo, json, mbstring, openssl, pdo, tokenizer, xml, zlib, :php-psr
+          coverage: none
+      - name: Prepare the environment
+        run: cp .env.example .env
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Set up Flux
+        env:
+          FLUX_USERNAME: ${{ secrets.FLUX_USERNAME }}
+          FLUX_LICENSE_KEY: ${{ secrets.FLUX_LICENSE_KEY }}
+        run: composer config http-basic.composer.fluxui.dev "$FLUX_USERNAME" "$FLUX_LICENSE_KEY"
+      - name: Install composer dependencies
+        run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --ignore-platform-reqs
+      - name: Run stan
+        run: vendor/bin/phpstan analyse

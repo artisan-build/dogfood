@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Adverbs\Support;
 
 use Exception;
 use Livewire\Mechanisms\HandleComponents\Synthesizers\Synth;
+use Override;
 use Thunk\Verbs\State;
 
 class StateSynth extends Synth
@@ -28,7 +31,7 @@ class StateSynth extends Synth
         return $meta['type']::load($meta['id']);
     }
 
-    #[\Override]
+    #[Override]
     public function get(&$target, $key): void
     {
         throw new Exception('Cannot get state properties directly.');

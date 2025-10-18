@@ -6,8 +6,8 @@ use ArtisanBuild\Hallway\Calendar\Enums\InvitationLevels;
 use ArtisanBuild\Hallway\Calendar\Events\GatheringCreated;
 use ArtisanBuild\Hallway\Calendar\States\GatheringState;
 use ArtisanBuild\Hallway\Testing\Enums\UsersFixture;
-use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Date;
 
 mutates([GatheringCreated::class, GatheringState::class]);
 
@@ -17,7 +17,7 @@ describe('event created', function (): void {
         test()->asUser(UsersFixture::Owner->get());
 
         // It seems unlikely that the test would start before midnight and end after midnight, but  why take the chance?
-        Carbon::setTestNow(now()->startOfDay());
+        Date::setTestNow(today());
 
         $gathering_id = snowflake_id();
         GatheringCreated::commit(
@@ -46,7 +46,7 @@ describe('event created', function (): void {
         test()->asUser(UsersFixture::Admin->get());
 
         // It seems unlikely that the test would start before midnight and end after midnight, but  why take the chance?
-        Carbon::setTestNow(now()->startOfDay());
+        Date::setTestNow(today());
 
         $gathering_id = snowflake_id();
         GatheringCreated::commit(

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Till\Commands;
 
 use ArtisanBuild\Till\Actions\GetPlanNamespace;
@@ -54,7 +56,7 @@ class CreatePlanCommand extends Command
 
         $replace['heading'] = $this->argument('heading') ?? text(
             label: 'Heading',
-            default: Str::of($replace['name'])->replaceLast('Plan', '')->headline(),
+            default: Str::of((string) $replace['name'])->replaceLast('Plan', '')->headline()->toString(),
             required: true,
             validate: [
                 'string',

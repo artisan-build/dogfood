@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Thunk\Verbs\Event;
+
 describe('all events extend the verbs event class', function (): void {
 
     $directory = __DIR__.'/../../src/';
@@ -13,7 +15,7 @@ describe('all events extend the verbs event class', function (): void {
     foreach ($directoryNames as $name) {
         arch()
             ->expect("ArtisanBuild\Hallway\\{$name}\Events")
-            ->toExtend(Thunk\Verbs\Event::class);
+            ->toExtend(Event::class);
     }
 
 });

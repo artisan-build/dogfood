@@ -11,10 +11,11 @@ use ArtisanBuild\Hallway\TextRendering\Markdown\CopyEmbeddableTagsToNewLines;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class HallwayServiceProvider extends ServiceProvider
 {
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->app->bindIf(ConvertsMarkdownToHtml::class, ConvertMarkdownToFluxUI::class);

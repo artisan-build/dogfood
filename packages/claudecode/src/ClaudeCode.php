@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\ClaudeCode;
 
 use ArtisanBuild\ClaudeCode\Contracts\ClaudeCodeClient;
@@ -12,6 +14,7 @@ use ArtisanBuild\ClaudeCode\Support\ClaudeCodeQuery;
 use Exception;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Sleep;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class ClaudeCode implements ClaudeCodeClient
@@ -101,7 +104,7 @@ class ClaudeCode implements ClaudeCodeClient
                         }
                     }
                 }
-                usleep(100000); // Sleep for 100ms to avoid busy waiting
+                Sleep::usleep(100000); // Sleep for 100ms to avoid busy waiting
             }
 
             // Wait for process to finish and get final result
@@ -132,6 +135,20 @@ class ClaudeCode implements ClaudeCodeClient
         } catch (ProcessFailedException $e) {
             throw new ProcessException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    public function setDefaultOptions(ClaudeCodeOptions $options): self
+    {
+        $this->defaultOptions = $options;
+
+        return $this;
+    }
+
+    public function setTimeout(int $seconds): self
+    {
+        $this->timeout = $seconds;
+
+        return $this;
     }
 
     protected function buildCommand(ClaudeCodeQuery $query): array
@@ -214,19 +231,5 @@ class ClaudeCode implements ClaudeCodeClient
                 $e
             );
         }
-    }
-
-    public function setDefaultOptions(ClaudeCodeOptions $options): self
-    {
-        $this->defaultOptions = $options;
-
-        return $this;
-    }
-
-    public function setTimeout(int $seconds): self
-    {
-        $this->timeout = $seconds;
-
-        return $this;
     }
 }

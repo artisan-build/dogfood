@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\FluxThemes;
 
 use ArtisanBuild\FluxThemes\Enums\Grays;
@@ -59,7 +61,7 @@ class Theme
                 $css['sources'][] = Str::of($line)->trim()->toString();
             }
             if (Str::of($line)->trim()->startsWith('--color-zinc')) {
-                $css['grays'][current(explode(':', Str::of($line)->trim()))] = Str::of($line)->trim()->toString();
+                $css['grays'][current(explode(':', Str::of($line)->trim()->toString()))] = Str::of($line)->trim()->toString();
             }
             if ($block !== null && Str::of($line)->trim()->startsWith('--color-accent')) {
                 $css['colors'][$block][current(explode(':', Str::of($line)->trim()->toString()))] = Str::of($line)->trim()->toString();

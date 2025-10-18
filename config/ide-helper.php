@@ -1,5 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Session\Store;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -59,7 +64,7 @@ return [
     */
 
     'ignored_models' => [
-
+        'ArtisanBuild\Turbulence\Models\*',
     ],
 
     /*
@@ -72,8 +77,8 @@ return [
     */
 
     'extra' => [
-        'Eloquent' => [\Illuminate\Database\Eloquent\Builder::class, \Illuminate\Database\Query\Builder::class],
-        'Session' => [\Illuminate\Session\Store::class],
+        'Eloquent' => [Builder::class, Illuminate\Database\Query\Builder::class],
+        'Session' => [Store::class],
     ],
 
     'magic' => [],

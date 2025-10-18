@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Turbulence\Providers;
 
 use ArtisanBuild\Turbulence\Commands\GenerateCommand;

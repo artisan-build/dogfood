@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\Till\Enums\PaymentProcessors;
 use ArtisanBuild\Till\Models\TillTeam;
 use ArtisanBuild\Till\Models\TillUser;

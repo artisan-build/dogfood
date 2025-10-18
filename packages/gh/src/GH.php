@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\GH;
 
 use ArtisanBuild\GH\Commands\Auth;
@@ -23,22 +25,23 @@ use ArtisanBuild\GH\Commands\Secret;
 use ArtisanBuild\GH\Commands\Status;
 use ArtisanBuild\GH\Commands\Variable;
 use ArtisanBuild\GH\Commands\Workflow;
+use RuntimeException;
 
 class GH
 {
     public static function alias(): void
     {
-        throw new \RuntimeException('We have not implemented this command because we do not currently have a use for it.');
+        throw new RuntimeException('We have not implemented this command because we do not currently have a use for it.');
     }
 
     public static function api(): void
     {
-        throw new \RuntimeException('We have not implemented this command because we do not currently have a use for it.');
+        throw new RuntimeException('We have not implemented this command because we do not currently have a use for it.');
     }
 
     public static function attestation(): void
     {
-        throw new \RuntimeException('We have not implemented this command because we do not currently have a use for it.');
+        throw new RuntimeException('We have not implemented this command because we do not currently have a use for it.');
     }
 
     public static function auth(): Auth
@@ -63,7 +66,7 @@ class GH
 
     public static function completion(): void
     {
-        throw new \RuntimeException('We have not implemented this command because we do not currently have a use for it.');
+        throw new RuntimeException('We have not implemented this command because we do not currently have a use for it.');
     }
 
     public static function config(): Config
@@ -73,7 +76,7 @@ class GH
 
     public static function extension(): void
     {
-        throw new \RuntimeException('We have not implemented this command because we do not currently have a use for it.');
+        throw new RuntimeException('We have not implemented this command because we do not currently have a use for it.');
     }
 
     public static function gist(): Gist
@@ -88,7 +91,7 @@ class GH
 
     public static function help(): void
     {
-        throw new \RuntimeException('We have not implemented this command because we do not currently have a use for it.');
+        throw new RuntimeException('We have not implemented this command because we do not currently have a use for it.');
     }
 
     public static function issue(?string $repository = null): Issue
@@ -148,7 +151,7 @@ class GH
 
     public static function sshKey(): void
     {
-        throw new \RuntimeException('We have not implemented this command because we do not currently have a use for it.');
+        throw new RuntimeException('We have not implemented this command because we do not currently have a use for it.');
     }
 
     public static function status(): Status

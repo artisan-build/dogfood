@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\CodeChatClient;
 
 use ArtisanBuild\CodeChatClient\Contracts\ChatResponseContract;
@@ -13,6 +15,16 @@ class ChatResponse implements ChatResponseContract
         protected array $metadata = [],
         protected array $toolUsage = []
     ) {}
+
+    public static function success(string $content, array $metadata = [], array $toolUsage = []): self
+    {
+        return new self($content, true, null, $metadata, $toolUsage);
+    }
+
+    public static function failure(string $error, string $content = ''): self
+    {
+        return new self($content, false, $error);
+    }
 
     public function getContent(): string
     {
@@ -37,15 +49,5 @@ class ChatResponse implements ChatResponseContract
     public function getToolUsage(): array
     {
         return $this->toolUsage;
-    }
-
-    public static function success(string $content, array $metadata = [], array $toolUsage = []): self
-    {
-        return new self($content, true, null, $metadata, $toolUsage);
-    }
-
-    public static function failure(string $error, string $content = ''): self
-    {
-        return new self($content, false, $error);
     }
 }

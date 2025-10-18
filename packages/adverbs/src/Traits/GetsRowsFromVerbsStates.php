@@ -53,6 +53,6 @@ trait GetsRowsFromVerbsStates
 
         return collect($reflection->getProperties(ReflectionProperty::IS_PUBLIC))
             ->mapWithKeys(fn (ReflectionProperty $property) => [$property->getName() => 'string'])
-            ->toArray();
+            ->all();
     }
 }

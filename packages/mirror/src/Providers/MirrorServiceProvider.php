@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Mirror\Providers;
 
 use ArtisanBuild\Mirror\Services\ReflectionService;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class MirrorServiceProvider extends ServiceProvider
 {
-    #[\Override]
+    #[Override]
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/mirror.php', 'mirror');

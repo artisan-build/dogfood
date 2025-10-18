@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Bench\Git;
 
 use Illuminate\Support\Facades\Process;

@@ -26,12 +26,80 @@ trait HasStateMachine
         }
     }
 
+    public static function getDefaultState(string $property): BackedEnum
+    {
+        self::validateStateMachine($property);
+
+        $type = self::getNonUnionNonIntersectionType($property);
+
+        return $type::DEFAULT;
+    }
+
+    public static function serializeStateMachine(string $property): array
+    {
+        self::validateStateMachine($property);
+
+        /** @var class-string<BackedEnum> $enum */
+        $enum = self::getNonUnionNonIntersectionType($property);
+
+        /** @var Collection<int, BackedEnum> $cases */
+        $cases = collect($enum::cases());
+
+        $caseValueSorter = function (string $first, string $second) use ($cases, $enum): int {
+            /** @var class-string<BackedEnum> $enum */
+            $first = $cases->search($enum::tryFrom($first));
+            $second = $cases->search($enum::tryFrom($second));
+
+            return $first <=> $second;
+        };
+
+        $config = [
+            'Default State' => $enum::DEFAULT->value,
+            'Final States' => $cases
+                ->mapWithKeys(fn (BackedEnum $case) => [$case->value => $case])
+                ->map(fn (BackedEnum $case) => new ReflectionClassConstant($enum, $case->name)
+                    ->getAttributes(FinalState::class)
+                )
+                ->reject(fn ($attributes) => empty($attributes))
+                ->keys()
+                ->sort($caseValueSorter)
+                ->values()
+                ->all(),
+            'Allowed Transitions' => $cases
+                ->mapWithKeys(fn (BackedEnum $case) => [$case->value => $case])
+                ->map(fn (BackedEnum $case) => new ReflectionClassConstant($enum, $case->name)
+                    ->getAttributes(CanTransitionTo::class)
+                )
+                ->reject(fn ($attributes) => empty($attributes))
+                ->map(fn ($attributes) => $attributes[0]->newInstance()->destinations)
+                ->map(fn ($destinations) => collect($destinations)
+                    ->map(fn (BackedEnum $destination) => $destination->value)
+                    ->sort($caseValueSorter)
+                    ->values()
+                    ->all()
+                )
+                ->all(),
+            'Self Transitions' => $cases
+                ->mapWithKeys(fn (BackedEnum $case) => [$case->value => $case])
+                ->map(fn (BackedEnum $case) => new ReflectionClassConstant($enum, $case->name)
+                    ->getAttributes(CanTransitionToSelf::class)
+                )
+                ->reject(fn ($attributes) => empty($attributes))
+                ->keys()
+                ->sort($caseValueSorter)
+                ->values()
+                ->all(),
+        ];
+
+        return [$property => $config];
+    }
+
     /**
      * @return enum-string|null
      */
     private static function getNonUnionNonIntersectionType(string $property, $allow_null = false): ?string
     {
-        $type = (new ReflectionClass(static::class))
+        $type = new ReflectionClass(static::class)
             ->getProperty($property)
             ->getType();
 
@@ -52,7 +120,7 @@ trait HasStateMachine
 
     private static function validateStateMachine(string $property): void
     {
-        if (! (new ReflectionClass(static::class))->hasProperty($property)) {
+        if (! new ReflectionClass(static::class)->hasProperty($property)) {
             throw new InvalidArgumentException("Property {$property} does not exist on ".static::class);
         }
 
@@ -71,15 +139,6 @@ trait HasStateMachine
         }
     }
 
-    public static function getDefaultState(string $property): BackedEnum
-    {
-        self::validateStateMachine($property);
-
-        $type = self::getNonUnionNonIntersectionType($property);
-
-        return $type::DEFAULT;
-    }
-
     /**
      * @param  BackedEnum|array<BackedEnum>  $destination
      */
@@ -92,13 +151,8 @@ trait HasStateMachine
         }
 
         $destinations = is_array($destination) ? $destination : [$destination];
-        foreach ($destinations as $destination) {
-            if (! $this->canTransitionBetween($property, $this->{$property}, $destination)) {
-                return false;
-            }
-        }
 
-        return true;
+        return array_all($destinations, fn ($destination) => $this->canTransitionBetween($property, $this->{$property}, $destination));
     }
 
     public function canTransitionBetween(
@@ -148,64 +202,5 @@ trait HasStateMachine
         $this->{$property} = $destination;
 
         return $this;
-    }
-
-    public static function serializeStateMachine(string $property): array
-    {
-        self::validateStateMachine($property);
-
-        /** @var class-string<BackedEnum> $enum */
-        $enum = self::getNonUnionNonIntersectionType($property);
-
-        /** @var Collection<int, BackedEnum> $cases */
-        $cases = collect($enum::cases());
-
-        $caseValueSorter = function (string $first, string $second) use ($cases, $enum): int {
-            /** @var class-string<BackedEnum> $enum */
-            $first = $cases->search($enum::tryFrom($first));
-            $second = $cases->search($enum::tryFrom($second));
-
-            return $first <=> $second;
-        };
-
-        $config = [
-            'Default State' => $enum::DEFAULT->value,
-            'Final States' => $cases
-                ->mapWithKeys(fn (BackedEnum $case) => [$case->value => $case])
-                ->map(fn (BackedEnum $case) => (new ReflectionClassConstant($enum, $case->name))
-                    ->getAttributes(FinalState::class)
-                )
-                ->reject(fn ($attributes) => empty($attributes))
-                ->keys()
-                ->sort($caseValueSorter)
-                ->values()
-                ->toArray(),
-            'Allowed Transitions' => $cases
-                ->mapWithKeys(fn (BackedEnum $case) => [$case->value => $case])
-                ->map(fn (BackedEnum $case) => (new ReflectionClassConstant($enum, $case->name))
-                    ->getAttributes(CanTransitionTo::class)
-                )
-                ->reject(fn ($attributes) => empty($attributes))
-                ->map(fn ($attributes) => $attributes[0]->newInstance()->destinations)
-                ->map(fn ($destinations) => collect($destinations)
-                    ->map(fn (BackedEnum $destination) => $destination->value)
-                    ->sort($caseValueSorter)
-                    ->values()
-                    ->toArray()
-                )
-                ->toArray(),
-            'Self Transitions' => $cases
-                ->mapWithKeys(fn (BackedEnum $case) => [$case->value => $case])
-                ->map(fn (BackedEnum $case) => (new ReflectionClassConstant($enum, $case->name))
-                    ->getAttributes(CanTransitionToSelf::class)
-                )
-                ->reject(fn ($attributes) => empty($attributes))
-                ->keys()
-                ->sort($caseValueSorter)
-                ->values()
-                ->toArray(),
-        ];
-
-        return [$property => $config];
     }
 }

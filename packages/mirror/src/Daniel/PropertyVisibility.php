@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Mirror\Daniel;
 
+use Exception;
 use ReflectionProperty;
 
 enum PropertyVisibility: string
@@ -16,7 +19,7 @@ enum PropertyVisibility: string
             $prop->isPublic() => self::PUBLIC,
             $prop->isProtected() => self::PROTECTED,
             $prop->isPrivate() => self::PRIVATE,
-            default => throw new \Exception('Unknown property visibility'),
+            default => throw new Exception('Unknown property visibility'),
         };
     }
 }

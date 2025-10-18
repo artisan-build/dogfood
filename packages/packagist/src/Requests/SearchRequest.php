@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Packagist\Requests;
 
 use InvalidArgumentException;
@@ -10,8 +12,6 @@ use Throwable;
 
 class SearchRequest extends Request
 {
-    protected Method $method = Method::GET;
-
     protected const array SUPPORTED_TYPES = [
         'library',
         'composer-plugin',
@@ -21,6 +21,8 @@ class SearchRequest extends Request
         'symfony-bundle',
         // Add more supported types as needed
     ];
+
+    protected Method $method = Method::GET;
 
     /**
      * @throws Throwable
@@ -33,7 +35,8 @@ class SearchRequest extends Request
         protected ?string $type = null,
     ) {
         throw_if($type !== null && ! in_array($type, self::SUPPORTED_TYPES, true),
-            new InvalidArgumentException("Unsupported package type: {$type}. Supported types are: ".implode(', ', self::SUPPORTED_TYPES)));
+            InvalidArgumentException::class,
+            "Unsupported package type: {$type}. Supported types are: ".implode(', ', self::SUPPORTED_TYPES));
     }
 
     #[Override]
