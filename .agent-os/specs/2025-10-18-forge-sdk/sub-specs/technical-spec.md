@@ -59,11 +59,13 @@ Based on the new Laravel Forge API, the SDK must cover:
 
 ### Testing Strategy
 
+- **Monorepo Testing**: Tests run within Kibble's monorepo Pest setup, not as an independent package
 - **HTTP Mocking**: Use Saloon's MockClient for all test requests
 - **Fixture Responses**: Create JSON fixtures for all API responses based on Forge API documentation
 - **Unit Tests**: Test each request class validates parameters correctly
 - **Integration Tests**: Test resource classes compose requests properly
 - **Manual Testing Commands**: Artisan commands for real API testing during development
+- **No Orchestra Testbench**: Package testing happens in monorepo context, isolated testing handled by monorepo tooling
 
 ### Documentation Requirements
 
@@ -145,11 +147,7 @@ Build only with Saloon, no Laravel-specific features at all.
 - **pestphp/pest** (^3.0) - Testing framework
   - **Justification**: Already used in monorepo, provides excellent testing DX
 
-- **orchestra/testbench** (^9.0) - Laravel package testing
-  - **Justification**: Required for testing Laravel-specific features (service provider, commands, config)
-
-- **saloonphp/saloon-test-support** (^3.0) - Saloon testing utilities
-  - **Justification**: Provides MockClient and fixture support for testing HTTP requests
+- **Note**: Orchestra Testbench is in composer.json for potential future isolated testing, but monorepo tests run in Kibble's Pest context. The monorepo handles package splitting and independent package testing setup.
 
 ## Package Structure
 

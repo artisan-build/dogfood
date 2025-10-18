@@ -57,3 +57,10 @@ The developer includes the forge-sdk in their Laravel Zero project, configures i
 2. **Testing Commands** - Artisan command for each major endpoint group that accepts parameters and makes real API calls for manual verification.
 
 3. **Exceptional Documentation** - Comprehensive README.md with table of contents, installation steps, configuration guide, usage examples for all resources, command reference, and troubleshooting section.
+
+## Spec Documentation
+
+- Tasks: @.agent-os/specs/2025-10-18-forge-sdk/tasks.md
+- Technical Specification: @.agent-os/specs/2025-10-18-forge-sdk/sub-specs/technical-spec.md
+- API Specification: @.agent-os/specs/2025-10-18-forge-sdk/sub-specs/api-spec.md
+- Tests Specification: @.agent-os/specs/2025-10-18-forge-sdk/sub-specs/tests.md
