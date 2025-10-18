@@ -58,7 +58,7 @@
         "phpstan/phpstan": "^2.1",
         "rector/rector": "^2.2",
         "roave/security-advisories": "dev-latest",
-        "slevomat/coding-standard": "*",
+        "slevomat/coding-standard": "^8.24",
         "tightenco/duster": "^3.2"
     },
     "autoload": {

@@ -32,7 +32,7 @@ class EnsureComposerScriptsAreDefined
             '@php artisan test --parallel --recreate-databases',
         ],
         'lint' => [
-            'vendor/bin/duster fix',
+            'vendor/bin/duster fix --using=tlint,php-cs-fixer,pint',
         ],
         'rector' => [
             'vendor/bin/rector',
@@ -52,6 +52,7 @@ class EnsureComposerScriptsAreDefined
             'composer rector',
             'composer lint',
             'composer stan',
+            'composer sniff',
             'composer test',
         ],
         'report' => [
@@ -60,6 +61,7 @@ class EnsureComposerScriptsAreDefined
             'composer rector || true',
             'composer lint || true',
             'composer stan || true',
+            'composer sniff || true',
             'composer test || true',
         ],
         'coverage-html' => [
