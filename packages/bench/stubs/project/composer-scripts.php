@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'post-autoload-dump' => [
         'Illuminate\\Foundation\\ComposerScripts::postAutoloadDump',

@@ -17,7 +17,7 @@
                 </flux:cell>
                 <flux:cell>{{ count($channel->member_ids) }}</flux:cell>
                 <flux:cell>
-                    <flux:switch wire:model.live="membership.{{$channel->id}}"/>
+                    <flux:switch wire:model.live="membership.{{ $channel->id }}"/>
                 </flux:cell>
                 <flux:cell class="space-x-6">
                     Coming Soon

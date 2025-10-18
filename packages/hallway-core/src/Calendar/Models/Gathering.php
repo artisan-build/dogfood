@@ -24,6 +24,14 @@ class Gathering extends Model
 
     protected string $state_class = GatheringState::class;
 
+    public function casts()
+    {
+        return [
+            'start' => 'datetime',
+            'end' => 'datetime',
+        ];
+    }
+
     protected function day(): Attribute
     {
         return Attribute::make(
@@ -36,13 +44,5 @@ class Gathering extends Model
         return Attribute::make(
             get: fn () => $this->start->format('Y-m'),
         );
-    }
-
-    public function casts()
-    {
-        return [
-            'start' => 'datetime',
-            'end' => 'datetime',
-        ];
     }
 }

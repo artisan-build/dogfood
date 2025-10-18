@@ -16,7 +16,7 @@
                             {{ data_get($month, 'title') }}
                             <flux:button.group class="float-right">
                                 <flux:button wire:navigate
-                                             href="{{ $months->has(data_get($month, 'previous')) ? route(config('hallway-flux.route-name-prefix') . 'calendar', ['range' => data_get($month, 'previous')]) : url()->current()}}"
+                                             href="{{ $months->has(data_get($month, 'previous')) ? route(config('hallway-flux.route-name-prefix') . 'calendar', ['range' => data_get($month, 'previous')]) : url()->current() }}"
                                              size="xs" icon="chevron-double-left" square="true"
                                              variant="{{ $months->has(data_get($month, 'previous')) ? 'outline' : 'filled' }}"
                                              class="{{ $months->has(data_get($month, 'previous')) ? '' : 'cursor-not-allowed text-zinc-400!' }}"></flux:button>

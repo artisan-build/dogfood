@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Till\Listeners;
 
 use ArtisanBuild\Till\Attributes\Costs;
@@ -30,7 +32,7 @@ class AuthorizesLedgerTransactionsListener
                 state: $event->state(SubscriberState::class),
                 ledger: $cost->getArguments()[0],
                 attempted_spend: $cost->getArguments()[1],
-            ), new LedgerBalanceTooLowException("Insufficient Balance: {$cost->getArguments()[0]->name}"));
+            ), LedgerBalanceTooLowException::class, "Insufficient Balance: {$cost->getArguments()[0]->name}");
         });
     }
 }

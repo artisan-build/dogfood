@@ -33,7 +33,7 @@ it('sets the correct time in UTC', function (): void {
         ->and($gathering->end->format('Y-m-d\TH:i'))
         ->toBe(now()->addDay()->hour(13)->minute(0)->second(0)->millisecond(0)->subHours(8)->format('Y-m-d\TH:i'));
 
-    $localized = $gathering->verbs_state()->forMember(Illuminate\Support\Facades\Context::get('active_member'));
+    $localized = $gathering->verbs_state()->forMember(Context::get('active_member'));
 
     expect($localized->start->format('Y-m-d\TH:i'))->toBe(now()->addDay()->hour(13)->minute(0)->second(0)->millisecond(0)->format('Y-m-d\TH:i'))
         ->and($localized->end->format('Y-m-d\TH:i'))->toBe(now()->addDay()->hour(13)->minute(0)->second(0)->millisecond(0)->addHours(1)->format('Y-m-d\TH:i'));

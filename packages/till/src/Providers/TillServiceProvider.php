@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Till\Providers;
 
 use ArtisanBuild\Till\Commands\CleanUpAfterTestingCommand;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\FluxThemes\Pipeline;
 
 use ArtisanBuild\FluxThemes\Actions\DetectPackagesWithTemplates;

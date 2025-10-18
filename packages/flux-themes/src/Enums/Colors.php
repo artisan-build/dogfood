@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\FluxThemes\Enums;
 
 use ArtisanBuild\FluxThemes\Theme;
-use Faker\Provider\Base;
 
 enum Colors: string
 {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Mirror\Daniel;
 
 use Illuminate\Support\Collection;
@@ -15,7 +17,7 @@ class PropertyCollection extends Collection
     {
         $class = $reflect->reflector;
 
-        return (new static($class->getProperties()))
+        return new static($class->getProperties())
             ->mapWithKeys(
                 fn ($p) => [
                     $p->getName() => Property::fromReflectionProperty($p, $reflect->object),

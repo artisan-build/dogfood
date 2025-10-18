@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Bench\Console\Commands\Project;
 
 use Illuminate\Console\Command;

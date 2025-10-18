@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\GH\Commands;
 
 class Cache extends BaseCommand

@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Till\Models;
 
 use App\Models\Membership;
 use App\Models\TeamInvitation;
 use App\Models\User;
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,7 +30,8 @@ use Sushi\Sushi;
  * @method static Builder<static>|TillTeam whereName($value)
  * @method static Builder<static>|TillTeam whereUserId($value)
  *
- * @mixin Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin IdeHelperTillTeam
  */
 class TillTeam extends Model
 {

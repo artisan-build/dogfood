@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\FluxThemes\Providers;
 
 use ArtisanBuild\FluxThemes\Commands\InstallCommand;

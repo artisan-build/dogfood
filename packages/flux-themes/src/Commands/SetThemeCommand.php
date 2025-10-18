@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\FluxThemes\Commands;
 
 use ArtisanBuild\FluxThemes\Enums\Colors;
@@ -8,7 +10,6 @@ use ArtisanBuild\FluxThemes\Pipeline\EnsureRequiredSourcePathsExist;
 use ArtisanBuild\FluxThemes\Theme;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Pipeline;
-use Stripe\File;
 
 use function Laravel\Prompts\search;
 
@@ -26,7 +27,7 @@ class SetThemeCommand extends Command
         if ($color === null) {
             $color = search(
                 label: 'What color scheme do you want to use for this project?',
-                options: fn () => collect(Colors::cases())->map(fn ($color) => $color->value)->toArray(),
+                options: fn () => collect(Colors::cases())->map(fn ($color) => $color->value)->all(),
             );
         }
 

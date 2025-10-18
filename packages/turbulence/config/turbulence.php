@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'installed' => false,
     'user_model' => "ArtisanBuild\Turbulence\Models\UserModel",

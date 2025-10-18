@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\GH\GH;
 use Illuminate\Support\Facades\Process;
 

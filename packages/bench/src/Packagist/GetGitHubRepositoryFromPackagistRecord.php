@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Bench\Packagist;
 
 use Illuminate\Support\Facades\Http;

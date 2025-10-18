@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Turbulence\Models;
 
 use ArtisanBuild\Turbulence\Traits\HasStubs;
@@ -8,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @internal
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \ArtisanBuild\Turbulence\Models\Stub> $stubs
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Stub> $stubs
  * @property-read int|null $stubs_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StubModel newModelQuery()
@@ -16,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StubModel query()
  *
  * @mixin \Eloquent
+ * @mixin IdeHelperStubModel
  */
 class StubModel extends Model
 {

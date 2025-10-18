@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\CodeChatClient;
 
 use ArtisanBuild\CodeChatClient\Contracts\ChatDriverContract;
 use ArtisanBuild\CodeChatClient\Drivers\ClaudeCodeDriver;
+use Closure;
+use Exception;
 use Illuminate\Support\Manager;
+use Override;
 
 class ChatManager extends Manager
 {
@@ -17,21 +22,13 @@ class ChatManager extends Manager
     }
 
     /**
-     * Create the Claude Code driver instance.
-     */
-    protected function createClaudeCodeDriver(): ChatDriverContract
-    {
-        return new ClaudeCodeDriver;
-    }
-
-    /**
      * Register a custom driver creator.
      *
      * @param  mixed  $driver
      * @return $this
      */
-    #[\Override]
-    public function extend($driver, \Closure $callback)
+    #[Override]
+    public function extend($driver, Closure $callback)
     {
         $this->customCreators[$driver] = $callback;
 
@@ -54,7 +51,7 @@ class ChatManager extends Manager
                 if ($instance->isAvailable()) {
                     $drivers[$driver] = $instance->getName();
                 }
-            } catch (\Exception) {
+            } catch (Exception) {
                 // Driver not available
             }
         }
@@ -66,11 +63,19 @@ class ChatManager extends Manager
                 if ($instance->isAvailable()) {
                     $drivers[$driver] = $instance->getName();
                 }
-            } catch (\Exception) {
+            } catch (Exception) {
                 // Driver not available
             }
         }
 
         return $drivers;
+    }
+
+    /**
+     * Create the Claude Code driver instance.
+     */
+    protected function createClaudeCodeDriver(): ChatDriverContract
+    {
+        return new ClaudeCodeDriver;
     }
 }

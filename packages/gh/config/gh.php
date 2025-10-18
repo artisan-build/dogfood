@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This configuration file contains all the possible options for every command offered by the CLI.
  * We've optimized these defaults for our own use. Please carefully read the GitHub API documentation

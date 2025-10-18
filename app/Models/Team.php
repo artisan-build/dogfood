@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\States\TeamState;
 use ArtisanBuild\Adverbs\Traits\HasVerbsState;
 use Database\Factories\TeamFactory;
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -45,7 +46,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Team whereUpdatedAt($value)
  * @method static Builder<static>|Team whereUserId($value)
  *
- * @mixin Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin IdeHelperTeam
  */
 class Team extends Model
 {
@@ -53,11 +55,6 @@ class Team extends Model
     use HasFactory;
 
     use HasVerbsState;
-
-    protected function getStateClass(): string
-    {
-        return TeamState::class;
-    }
 
     protected $fillable = [
         'name',
@@ -68,18 +65,6 @@ class Team extends Model
     protected $casts = [
         'personal_team' => 'boolean',
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'personal_team' => 'boolean',
-        ];
-    }
 
     /**
      * Get the owner of the team.
@@ -106,5 +91,22 @@ class Team extends Model
             ->withPivot('role')
             ->withTimestamps()
             ->as('membership');
+    }
+
+    protected function getStateClass(): string
+    {
+        return TeamState::class;
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'personal_team' => 'boolean',
+        ];
     }
 }

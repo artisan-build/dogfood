@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Hallway\Seeders;
 
 use ArtisanBuild\Hallway\Members\Enums\MemberRoles;

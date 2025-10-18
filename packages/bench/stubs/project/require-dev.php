@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'phpstan/phpstan',
     'larastan/larastan',

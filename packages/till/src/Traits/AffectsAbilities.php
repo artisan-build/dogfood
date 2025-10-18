@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ArtisanBuild\Till\Traits;
 
 use ArtisanBuild\Till\Events\SubscriptionCacheUpdated;

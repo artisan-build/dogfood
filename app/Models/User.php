@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\States\UserState;
@@ -8,9 +10,9 @@ use ArtisanBuild\Hallway\Members\Models\Member;
 use ArtisanBuild\Hallway\Members\Traits\HasHallwayMembership;
 use ArtisanBuild\Till\Traits\Tillable;
 use Database\Factories\UserFactory;
-use Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -77,7 +79,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read Collection<int, Member> $hallway_members
  * @property-read int|null $hallway_members_count
  *
- * @mixin Eloquent
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin IdeHelperUser
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -106,34 +109,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
-
-    /**
-     * Get the URL to the user's profile photo.
-     */
-    protected function profilePhotoUrl(): \Illuminate\Database\Eloquent\Casts\Attribute
-    {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn () => $this->profile_photo_path
-            ? asset('storage/'.$this->profile_photo_path)
-            : $this->defaultProfilePhotoUrl());
-    }
-
-    /**
-     * Get the default profile photo URL if no profile photo has been uploaded.
-     */
-    protected function defaultProfilePhotoUrl(): string
-    {
-        $name = trim(collect(explode(' ', $this->name))->map(fn ($segment) => mb_substr((string) $segment, 0, 1))->join(' '));
-
-        return 'https://ui-avatars.com/api/?name='.urlencode($name).'&color=7F9CF5&background=EBF4FF';
-    }
 
     /**
      * Get the current team of the user's context.
@@ -176,5 +151,33 @@ class User extends Authenticatable implements MustVerifyEmail
     public function belongsToTeam(Team $team): bool
     {
         return $this->teams->contains($team) || $this->ownsTeam($team);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    /**
+     * Get the URL to the user's profile photo.
+     */
+    protected function profilePhotoUrl(): Attribute
+    {
+        return Attribute::make(get: fn () => $this->profile_photo_path
+            ? asset('storage/'.$this->profile_photo_path)
+            : $this->defaultProfilePhotoUrl());
+    }
+
+    /**
+     * Get the default profile photo URL if no profile photo has been uploaded.
+     */
+    protected function defaultProfilePhotoUrl(): string
+    {
+        $name = trim(collect(explode(' ', $this->name))->map(fn ($segment) => mb_substr((string) $segment, 0, 1))->join(' '));
+
+        return 'https://ui-avatars.com/api/?name='.urlencode($name).'&color=7F9CF5&background=EBF4FF';
     }
 }

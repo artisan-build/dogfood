@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ArtisanBuild\Hallway\Channels\Enums;
 
 use ArtisanBuild\FatEnums\Attributes\WithData;
-use ArtisanBuild\FatEnums\Traits\DatabaseRecordsEnum;
 use ArtisanBuild\FatEnums\Traits\HasKeyValueAttributes;
 
 enum ChannelsFixture: int
