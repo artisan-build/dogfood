@@ -12,6 +12,7 @@ use ArtisanBuild\ForgeSdk\ForgeSdk;
 use ArtisanBuild\ForgeSdk\Requests\Servers\OrganizationsServersStore;
 use Exception;
 use Illuminate\Console\Command;
+use InvalidArgumentException;
 
 class CreateServerCommand extends Command
 {
@@ -46,7 +47,7 @@ class CreateServerCommand extends Command
 
         try {
             $organization = $this->resolveOrganizationSlug($organizationInput, $forge);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->error($e->getMessage());
 
             return self::FAILURE;

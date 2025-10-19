@@ -37,3 +37,45 @@ test('database type tryFrom returns null for invalid value', function (): void {
 
     expect($result)->toBeNull();
 });
+
+test('database type label returns human-readable names', function (): void {
+    expect(DatabaseType::MYSQL->label())->toBe('MySQL 5.7')
+        ->and(DatabaseType::MYSQL8->label())->toBe('MySQL 8.0')
+        ->and(DatabaseType::POSTGRES->label())->toBe('PostgreSQL')
+        ->and(DatabaseType::MARIADB->label())->toBe('MariaDB');
+});
+
+test('database type description returns detailed information', function (): void {
+    expect(DatabaseType::MYSQL->description())->toContain('MySQL 5.7')
+        ->and(DatabaseType::POSTGRES->description())->toContain('PostgreSQL')
+        ->and(DatabaseType::MARIADB->description())->toContain('MariaDB');
+});
+
+test('database type isMySql returns correct values', function (): void {
+    expect(DatabaseType::MYSQL->isMySql())->toBeTrue()
+        ->and(DatabaseType::MYSQL8->isMySql())->toBeTrue()
+        ->and(DatabaseType::MARIADB->isMySql())->toBeTrue()
+        ->and(DatabaseType::POSTGRES->isMySql())->toBeFalse();
+});
+
+test('database type isPostgres returns correct values', function (): void {
+    expect(DatabaseType::POSTGRES->isPostgres())->toBeTrue()
+        ->and(DatabaseType::MYSQL->isPostgres())->toBeFalse()
+        ->and(DatabaseType::MYSQL8->isPostgres())->toBeFalse()
+        ->and(DatabaseType::MARIADB->isPostgres())->toBeFalse();
+});
+
+test('database type defaultPort returns correct values', function (): void {
+    expect(DatabaseType::MYSQL->defaultPort())->toBe(3306)
+        ->and(DatabaseType::MYSQL8->defaultPort())->toBe(3306)
+        ->and(DatabaseType::MARIADB->defaultPort())->toBe(3306)
+        ->and(DatabaseType::POSTGRES->defaultPort())->toBe(5432);
+});
+
+test('database type values returns array of all database type values', function (): void {
+    $values = DatabaseType::values();
+
+    expect($values)->toBeArray()
+        ->toHaveCount(4)
+        ->toContain('mysql', 'mysql8', 'postgres', 'mariadb');
+});

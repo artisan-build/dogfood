@@ -12,6 +12,7 @@ use ArtisanBuild\ForgeSdk\ForgeSdk;
 use ArtisanBuild\ForgeSdk\Requests\Sites\OrganizationsServersSitesUpdate;
 use Exception;
 use Illuminate\Console\Command;
+use InvalidArgumentException;
 
 class UpdateSiteCommand extends Command
 {
@@ -53,7 +54,7 @@ class UpdateSiteCommand extends Command
             $organization = $this->resolveOrganizationSlug($organizationInput, $forge);
             $server = $this->resolveServerIdentifier($serverInput, $organization, $forge);
             $site = $this->resolveSiteIdentifier($siteInput, $organization, $server, $forge);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->error($e->getMessage());
 
             return self::FAILURE;

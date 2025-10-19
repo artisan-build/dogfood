@@ -49,3 +49,43 @@ test('cloud provider tryFrom returns enum for valid value', function (): void {
 
     expect($result)->toBe(CloudProvider::OCEAN);
 });
+
+test('cloud provider label returns human-readable names', function (): void {
+    expect(CloudProvider::OCEAN->label())->toBe('DigitalOcean')
+        ->and(CloudProvider::LINODE->label())->toBe('Linode (Akamai)')
+        ->and(CloudProvider::AWS->label())->toBe('Amazon Web Services')
+        ->and(CloudProvider::VULTR->label())->toBe('Vultr')
+        ->and(CloudProvider::HETZNER->label())->toBe('Hetzner Cloud')
+        ->and(CloudProvider::LARAVEL->label())->toBe('Laravel Cloud')
+        ->and(CloudProvider::CUSTOM->label())->toBe('Custom VPS');
+});
+
+test('cloud provider description returns detailed information', function (): void {
+    expect(CloudProvider::OCEAN->description())->toContain('DigitalOcean')
+        ->and(CloudProvider::AWS->description())->toContain('Amazon Web Services')
+        ->and(CloudProvider::CUSTOM->description())->toContain('custom VPS');
+});
+
+test('cloud provider requiresCredentials returns correct values', function (): void {
+    expect(CloudProvider::OCEAN->requiresCredentials())->toBeTrue()
+        ->and(CloudProvider::AWS->requiresCredentials())->toBeTrue()
+        ->and(CloudProvider::CUSTOM->requiresCredentials())->toBeFalse();
+});
+
+test('cloud provider supportsVpc returns correct values', function (): void {
+    expect(CloudProvider::OCEAN->supportsVpc())->toBeTrue()
+        ->and(CloudProvider::AWS->supportsVpc())->toBeTrue()
+        ->and(CloudProvider::HETZNER->supportsVpc())->toBeTrue()
+        ->and(CloudProvider::VULTR->supportsVpc())->toBeTrue()
+        ->and(CloudProvider::LARAVEL->supportsVpc())->toBeTrue()
+        ->and(CloudProvider::LINODE->supportsVpc())->toBeFalse()
+        ->and(CloudProvider::CUSTOM->supportsVpc())->toBeFalse();
+});
+
+test('cloud provider values returns array of all provider values', function (): void {
+    $values = CloudProvider::values();
+
+    expect($values)->toBeArray()
+        ->toHaveCount(7)
+        ->toContain('ocean', 'linode', 'aws', 'vultr', 'hetzner', 'laravel', 'custom');
+});

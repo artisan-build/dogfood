@@ -301,21 +301,20 @@ test('reboot server command can skip confirmation', function (): void {
     $mockClient->assertSentCount(2);
 });
 
-
-test("list servers command uses default organization from config", function (): void {
-    config()->set("forge-sdk.default_organization", "default-org");
+test('list servers command uses default organization from config', function (): void {
+    config()->set('forge-sdk.default_organization', 'default-org');
 
     $mockClient = new MockClient([
         MockResponse::make([
-            "data" => [
+            'data' => [
                 [
-                    "id" => 1,
-                    "name" => "production-web-1",
-                    "provider" => "digitalocean",
-                    "region" => "nyc3",
-                    "php_version" => "8.3",
-                    "ip_address" => "192.168.1.1",
-                    "status" => "active",
+                    'id' => 1,
+                    'name' => 'production-web-1',
+                    'provider' => 'digitalocean',
+                    'region' => 'nyc3',
+                    'php_version' => '8.3',
+                    'ip_address' => '192.168.1.1',
+                    'status' => 'active',
                 ],
             ],
         ], 200),
@@ -326,34 +325,34 @@ test("list servers command uses default organization from config", function (): 
 
     $this->artisan(ListServersCommand::class)
         ->assertExitCode(0)
-        ->expectsOutputToContain("production-web-1");
+        ->expectsOutputToContain('production-web-1');
 });
 
-test("list servers command requires organization when not in config", function (): void {
-    config()->set("forge-sdk.default_organization", null);
+test('list servers command requires organization when not in config', function (): void {
+    config()->set('forge-sdk.default_organization', null);
 
     $this->artisan(ListServersCommand::class)
         ->assertExitCode(1)
-        ->expectsOutputToContain("Organization is required");
+        ->expectsOutputToContain('Organization is required');
 });
 
-test("get server command uses default organization and server from config", function (): void {
-    config()->set("forge-sdk.default_organization", "default-org");
-    config()->set("forge-sdk.default_server", "123");
+test('get server command uses default organization and server from config', function (): void {
+    config()->set('forge-sdk.default_organization', 'default-org');
+    config()->set('forge-sdk.default_server', '123');
 
     $mockClient = new MockClient([
         MockResponse::make([
-            "data" => [
-                "id" => 123,
-                "name" => "production-web-1",
-                "provider" => "digitalocean",
-                "region" => "nyc3",
-                "size" => "s-1vcpu-1gb",
-                "ip_address" => "192.168.1.1",
-                "php_version" => "8.3",
-                "ubuntu_version" => "22.04",
-                "status" => "active",
-                "created_at" => "2024-01-01T00:00:00Z",
+            'data' => [
+                'id' => 123,
+                'name' => 'production-web-1',
+                'provider' => 'digitalocean',
+                'region' => 'nyc3',
+                'size' => 's-1vcpu-1gb',
+                'ip_address' => '192.168.1.1',
+                'php_version' => '8.3',
+                'ubuntu_version' => '22.04',
+                'status' => 'active',
+                'created_at' => '2024-01-01T00:00:00Z',
             ],
         ], 200),
     ]);
@@ -363,26 +362,26 @@ test("get server command uses default organization and server from config", func
 
     $this->artisan(GetServerCommand::class)
         ->assertExitCode(0)
-        ->expectsOutputToContain("production-web-1");
+        ->expectsOutputToContain('production-web-1');
 });
 
-test("get server command argument overrides config default", function (): void {
-    config()->set("forge-sdk.default_organization", "default-org");
-    config()->set("forge-sdk.default_server", "999");
+test('get server command argument overrides config default', function (): void {
+    config()->set('forge-sdk.default_organization', 'default-org');
+    config()->set('forge-sdk.default_server', '999');
 
     $mockClient = new MockClient([
         MockResponse::make([
-            "data" => [
-                "id" => 123,
-                "name" => "specific-server",
-                "provider" => "digitalocean",
-                "region" => "nyc3",
-                "size" => "s-1vcpu-1gb",
-                "ip_address" => "192.168.1.1",
-                "php_version" => "8.3",
-                "ubuntu_version" => "22.04",
-                "status" => "active",
-                "created_at" => "2024-01-01T00:00:00Z",
+            'data' => [
+                'id' => 123,
+                'name' => 'specific-server',
+                'provider' => 'digitalocean',
+                'region' => 'nyc3',
+                'size' => 's-1vcpu-1gb',
+                'ip_address' => '192.168.1.1',
+                'php_version' => '8.3',
+                'ubuntu_version' => '22.04',
+                'status' => 'active',
+                'created_at' => '2024-01-01T00:00:00Z',
             ],
         ], 200),
     ]);
@@ -391,9 +390,8 @@ test("get server command argument overrides config default", function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
-        "server" => 123,
+        'server' => 123,
     ])
         ->assertExitCode(0)
-        ->expectsOutputToContain("specific-server");
+        ->expectsOutputToContain('specific-server');
 });
-

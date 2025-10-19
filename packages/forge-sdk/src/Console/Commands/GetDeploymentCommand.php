@@ -10,6 +10,7 @@ use ArtisanBuild\ForgeSdk\Console\Concerns\ResolvesResourceIdentifiers;
 use ArtisanBuild\ForgeSdk\ForgeSdk;
 use Exception;
 use Illuminate\Console\Command;
+use InvalidArgumentException;
 
 class GetDeploymentCommand extends Command
 {
@@ -51,7 +52,7 @@ class GetDeploymentCommand extends Command
             $server = $this->resolveServerIdentifier($serverInput, $organization, $forge);
             $site = $this->resolveSiteIdentifier($siteInput, $organization, $server, $forge);
             $deployment = is_numeric($deploymentInput) ? (int) $deploymentInput : $deploymentInput;
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->error($e->getMessage());
 
             return self::FAILURE;

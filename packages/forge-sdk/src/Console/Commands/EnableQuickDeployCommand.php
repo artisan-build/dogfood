@@ -12,6 +12,7 @@ use ArtisanBuild\ForgeSdk\ForgeSdk;
 use ArtisanBuild\ForgeSdk\Requests\Deployments\OrganizationsServersSitesDeploymentsPushToDeployStore;
 use Exception;
 use Illuminate\Console\Command;
+use InvalidArgumentException;
 
 class EnableQuickDeployCommand extends Command
 {
@@ -52,7 +53,7 @@ class EnableQuickDeployCommand extends Command
             $organization = $this->resolveOrganizationSlug($organizationInput, $forge);
             $server = $this->resolveServerIdentifier($serverInput, $organization, $forge);
             $site = $this->resolveSiteIdentifier($siteInput, $organization, $server, $forge);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->error($e->getMessage());
 
             return self::FAILURE;

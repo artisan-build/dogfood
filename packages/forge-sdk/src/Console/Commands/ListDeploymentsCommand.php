@@ -10,6 +10,7 @@ use ArtisanBuild\ForgeSdk\Console\Concerns\ResolvesResourceIdentifiers;
 use ArtisanBuild\ForgeSdk\ForgeSdk;
 use Exception;
 use Illuminate\Console\Command;
+use InvalidArgumentException;
 
 class ListDeploymentsCommand extends Command
 {
@@ -51,7 +52,7 @@ class ListDeploymentsCommand extends Command
             $organization = $this->resolveOrganizationSlug($organizationInput, $forge);
             $server = $this->resolveServerIdentifier($serverInput, $organization, $forge);
             $site = $this->resolveSiteIdentifier($siteInput, $organization, $server, $forge);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->error($e->getMessage());
 
             return self::FAILURE;
@@ -105,7 +106,7 @@ class ListDeploymentsCommand extends Command
                     substr($deployment['commit_hash'] ?? 'N/A', 0, 8),
                     $deployment['commit_author'] ?? 'N/A',
                     strlen($deployment['commit_message'] ?? '') > 30
-                        ? substr($deployment['commit_message'], 0, 27).'...'
+                        ? substr((string) $deployment['commit_message'], 0, 27).'...'
                         : ($deployment['commit_message'] ?? 'N/A'),
                     $deployment['started_at'] ?? 'N/A',
                     $deployment['duration'] ?? 'N/A',

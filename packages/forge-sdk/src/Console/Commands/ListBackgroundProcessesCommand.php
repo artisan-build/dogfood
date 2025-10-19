@@ -10,6 +10,7 @@ use ArtisanBuild\ForgeSdk\Console\Concerns\ResolvesResourceIdentifiers;
 use ArtisanBuild\ForgeSdk\ForgeSdk;
 use Exception;
 use Illuminate\Console\Command;
+use InvalidArgumentException;
 
 class ListBackgroundProcessesCommand extends Command
 {
@@ -51,7 +52,7 @@ class ListBackgroundProcessesCommand extends Command
         try {
             $organization = $this->resolveOrganizationSlug($organizationInput, $forge);
             $serverId = $this->resolveServerId($serverInput, $organization, $forge);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->error($e->getMessage());
 
             return self::FAILURE;

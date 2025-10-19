@@ -7,12 +7,12 @@ use ArtisanBuild\ForgeSdk\ForgeSdk;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     config(['forge-sdk.api_token' => 'test-token']);
     config(['forge-sdk.base_url' => 'https://forge.laravel.com/api/v1']);
 });
 
-test('get server command resolves server by name', function () {
+test('get server command resolves server by name', function (): void {
     $mockClient = new MockClient([
         // First request: list servers with name filter to resolve server name to ID
         MockResponse::make([
@@ -58,7 +58,7 @@ test('get server command resolves server by name', function () {
         ->assertExitCode(0);
 });
 
-test('get server command resolves server by ID', function () {
+test('get server command resolves server by ID', function (): void {
     $mockClient = new MockClient([
         // First request: get the server details directly (no name resolution needed)
         MockResponse::make([
@@ -87,7 +87,7 @@ test('get server command resolves server by ID', function () {
         ->assertExitCode(0);
 });
 
-test('get server command fails when server name not found', function () {
+test('get server command fails when server name not found', function (): void {
     $mockClient = new MockClient([
         // First request: list servers with name filter returns empty
         MockResponse::make([
@@ -105,7 +105,7 @@ test('get server command fails when server name not found', function () {
         ->assertExitCode(1);
 });
 
-test('get server command fails when multiple servers have same name', function () {
+test('get server command fails when multiple servers have same name', function (): void {
     $mockClient = new MockClient([
         // First request: list servers with name filter returns multiple
         MockResponse::make([
@@ -146,7 +146,7 @@ test('get server command fails when multiple servers have same name', function (
         ->assertExitCode(1);
 });
 
-test('get server command resolves organization by ID', function () {
+test('get server command resolves organization by ID', function (): void {
     $mockClient = new MockClient([
         // First request: resolve organization ID to slug
         MockResponse::make([
