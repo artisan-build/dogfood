@@ -1,0 +1,17 @@
+{
+  "data": {
+    "id": "600",
+    "type": "background-processes",
+    "attributes": {
+      "id": 600,
+      "command": "php artisan queue:work --tries=3",
+      "user": "forge",
+      "status": "installed",
+      "created_at": "2025-01-10T11:00:00Z",
+      "updated_at": "2025-01-10T11:00:00Z"
+    },
+    "links": {
+      "self": "https://forge.laravel.com/api/orgs/1/servers/100/background-processes/600"
+    }
+  }
+}

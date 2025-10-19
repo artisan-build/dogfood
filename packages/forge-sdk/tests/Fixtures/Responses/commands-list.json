@@ -1,0 +1,48 @@
+{
+  "data": [
+    {
+      "id": "700",
+      "type": "commands",
+      "attributes": {
+        "id": 700,
+        "command": "php artisan migrate --force",
+        "user": "forge",
+        "status": "finished",
+        "exit_code": 0,
+        "created_at": "2025-01-15T16:00:00Z",
+        "updated_at": "2025-01-15T16:00:30Z"
+      },
+      "links": {
+        "self": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/commands/700"
+      }
+    },
+    {
+      "id": "699",
+      "type": "commands",
+      "attributes": {
+        "id": 699,
+        "command": "php artisan config:cache",
+        "user": "forge",
+        "status": "finished",
+        "exit_code": 0,
+        "created_at": "2025-01-15T15:00:00Z",
+        "updated_at": "2025-01-15T15:00:05Z"
+      },
+      "links": {
+        "self": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/commands/699"
+      }
+    }
+  ],
+  "links": {
+    "first": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/commands?cursor=",
+    "last": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/commands?cursor=eyJpZCI6Njk5LCJwb2ludHNUb05leHRJdGVtcyI6ZmFsc2V9",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "path": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/commands",
+    "per_page": 15,
+    "next_cursor": null,
+    "prev_cursor": null
+  }
+}
