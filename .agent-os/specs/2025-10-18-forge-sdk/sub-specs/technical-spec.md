@@ -5,15 +5,51 @@ This is the technical specification for the spec detailed in @.agent-os/specs/20
 > Created: 2025-10-18
 > Version: 1.0.0
 
-## Technical Requirements
+## OpenAPI Specification
 
-### Saloon SDK Architecture
+**SOURCE OF TRUTH**: The Laravel Forge API provides an official OpenAPI 3.1.0 specification at `https://forge.laravel.com/api/docs.openapi`.
 
-- **Connector Class**: `ForgeConnector` extending `Saloon\Http\Connector` with base URL, authentication, and default headers
-- **Resource Classes**: Organize requests into logical groups (Servers, Sites, Databases, SSL, Daemons, Workers, ScheduledJobs, Deployments, Recipes, Credentials, Circles, Webhooks, Backups)
-- **Request Classes**: Individual request class for each API endpoint extending `Saloon\Http\Request`
-- **Response DTOs**: Data transfer objects for complex responses (optional but recommended for better type safety)
-- **Enum Classes**: PHP 8.1+ string-backed enums for all enumerated API values
+This specification file has been downloaded and saved to `@.agent-os/specs/2025-10-18-forge-sdk/openapi-spec.json` and contains:
+- **132 API endpoints** (paths)
+- **195 schemas** (data models)
+- Complete request/response definitions
+- Authentication details
+- Validation rules
+
+**This OpenAPI spec is the authoritative source for all API implementation details.**
+
+## SDK Generation Strategy
+
+Instead of manually writing all connectors, requests, and resources, we will use the **Saloon SDK Generator** to automatically generate the bulk of the SDK from the OpenAPI specification.
+
+### Saloon SDK Generator
+
+The `saloonphp/saloon-sdk-generator` package can:
+- Generate connector classes from OpenAPI specs
+- Generate request classes for each endpoint
+- Generate resource classes to organize requests
+- Generate DTOs (Data Transfer Objects) for requests and responses
+- Handle authentication automatically
+- Preserve type safety throughout
+
+### Generated vs Manual Code
+
+**What will be generated:**
+- Base connector (`ForgeConnector`)
+- All request classes (132 endpoints)
+- Resource classes for logical grouping
+- Request/Response DTOs from OpenAPI schemas
+- Basic authentication setup
+
+**What requires manual work:**
+- Laravel service provider integration
+- Configuration file (`config/forge-sdk.php`)
+- Artisan testing commands
+- Custom enum classes for better developer experience
+- Enhanced validation logic
+- README and documentation
+- Test fixtures and mocks
+- Any customizations to generated code
 
 ### API Coverage
 
@@ -51,10 +87,11 @@ Based on the new Laravel Forge API, the SDK must cover:
 
 ### Laravel Integration
 
-- **Service Provider**: `ForgeServiceProvider` for package registration
-- **Configuration File**: `config/forge.php` with API token and default settings
-- **Facade**: `Forge` facade for convenient access (optional)
-- **Artisan Commands**: Command for each major resource group to test endpoints manually
+- **Service Provider**: `ForgeSdkServiceProvider` for package registration
+- **Configuration File**: `config/forge-sdk.php` with API token, base URL, timeout, retry, and logging settings
+- **Facade**: `Forge` facade for convenient access
+- **Atomic Artisan Commands**: Individual command for each API operation (forge:create-server, forge:list-sites, etc.) with confirmation prompts and comprehensive logging
+- **Logging**: Package-specific logging channel (configurable, defaults to app's default channel) for all API operations and command executions
 - **Minimal Dependencies**: Keep Laravel-specific dependencies minimal for Laravel Zero compatibility
 
 ### Testing Strategy
@@ -83,51 +120,34 @@ Based on the new Laravel Forge API, the SDK must cover:
 - **Inline Documentation**: PHPDoc blocks on all public methods with `@param`, `@return`, `@throws` tags
 - **Code Examples**: Working code examples in README for common use cases
 
-## Approach Options
+## Implementation Approach (Revised)
 
-### Option A: Framework-Agnostic Core with Laravel Wrapper
+### Selected: Generate from OpenAPI + Laravel Packaging
 
-Build the SDK as a pure PHP library with Saloon, then create a separate Laravel-specific wrapper package.
+Use Saloon SDK Generator to create the core SDK from the OpenAPI spec, then add Laravel-specific features on top.
 
-**Pros:**
-- Reusable in non-Laravel contexts
-- Clear separation of concerns
-- Could distribute as two packages
-
-**Cons:**
-- More complex project structure
-- Overkill given unlikely non-Laravel usage
-- More maintenance burden
-
-### Option B: Laravel Package with Minimal Dependencies (Selected)
-
-Build as a Laravel package from the start, but keep Laravel-specific features minimal and optional.
+**Implementation steps:**
+1. Install `saloonphp/saloon-sdk-generator` as a dev dependency
+2. Generate SDK from `openapi-spec.json` using the generator's artisan command
+3. Review and customize generated code as needed
+4. Add Laravel service provider, config, and facade
+5. Create artisan testing commands for manual API verification
+6. Build comprehensive test suite with mocked responses
+7. Write exceptional README documentation
 
 **Pros:**
-- Simpler architecture and maintenance
-- Works perfectly with Laravel Zero (minimal Laravel)
-- Matches actual use case (Forge is Laravel-specific)
-- Can still be used in any Composer project with minimal Laravel features
+- Massive time savings - 132 endpoints generated automatically
+- Guaranteed API compliance with official OpenAPI spec
+- Type-safe DTOs generated from schemas
+- Consistent code patterns across all requests
+- Easy to regenerate if API changes
 
 **Cons:**
-- Requires Laravel framework (even if minimal)
-- Not truly framework-agnostic
+- Generated code may need customization
+- Learning curve for generator configuration
+- Less control over initial file structure
 
-**Rationale:** Given that Forge is a Laravel product and the primary use case is Laravel/Laravel Zero applications, building a Laravel package makes the most sense. We can keep dependencies minimal to maintain Laravel Zero compatibility.
-
-### Option C: Pure Saloon SDK (No Laravel Integration)
-
-Build only with Saloon, no Laravel-specific features at all.
-
-**Pros:**
-- Maximum portability
-- Fewest dependencies
-- Truly framework-agnostic
-
-**Cons:**
-- Users lose Laravel conveniences (config, service provider, commands)
-- Doesn't match requirement for Laravel package
-- Would need separate package for Laravel integration anyway
+**Rationale:** With an official OpenAPI spec available, manually writing 132 request classes would be wasteful and error-prone. The generator provides a solid foundation that we can enhance with Laravel-specific features and better developer experience.
 
 ## External Dependencies
 
@@ -135,6 +155,11 @@ Build only with Saloon, no Laravel-specific features at all.
 
 - **saloonphp/saloon** (^3.0) - Core HTTP client and SDK builder
   - **Justification**: Purpose-built for creating SDKs with excellent architecture patterns, testing support, and developer experience
+
+### Development Dependencies
+
+- **saloonphp/saloon-sdk-generator** (^0.4) - OpenAPI to Saloon SDK generator
+  - **Justification**: Automatically generates connector, requests, resources, and DTOs from OpenAPI specification, saving significant development time and ensuring API compliance
 
 - **illuminate/support** (^11.0) - Laravel support package
   - **Justification**: Required for service provider, configuration, and collection helpers. Minimal footprint and compatible with Laravel Zero.
@@ -268,14 +293,18 @@ packages/forge-sdk/
 ## Configuration Structure
 
 ```php
-// config/forge.php
+// config/forge-sdk.php
 return [
     'api_token' => env('FORGE_API_TOKEN'),
-    'base_url' => env('FORGE_API_URL', 'https://forge.laravel.com/api'),
+    'base_url' => env('FORGE_API_URL', 'https://forge.laravel.com/api/v1'),
     'timeout' => env('FORGE_TIMEOUT', 30),
     'retry' => [
         'times' => env('FORGE_RETRY_TIMES', 3),
         'sleep' => env('FORGE_RETRY_SLEEP', 1000),
+    ],
+    'logging' => [
+        'channel' => env('FORGE_LOG_CHANNEL', config('logging.default')),
+        'level' => env('FORGE_LOG_LEVEL', 'info'),
     ],
 ];
 ```
@@ -313,18 +342,172 @@ enum ServerType: string
 
 ## Command Design Pattern
 
-Each test command should:
-- Accept all required parameters as arguments
-- Accept optional parameters as options
-- Display formatted output with response data
-- Handle errors gracefully with helpful messages
-- Include examples in help text
+### Atomic Command Structure
 
-Example:
+Each command should be atomic (single operation) and follow these patterns:
+
+**Read Operations** (list, get, show):
+- No confirmation required
+- Log the operation at 'info' level
+- Display formatted output
+
+**Create Operations**:
+- Require confirmation prompt (bypassed with --dangerously-skip-confirmation)
+- Log the operation at 'warning' level
+- Display created resource details
+
+**Update Operations**:
+- Require confirmation prompt (bypassed with --dangerously-skip-confirmation)
+- Log the operation at 'warning' level
+- Display updated resource details
+
+**Destroy Operations**:
+- Require confirmation prompt (bypassed with --dangerously-skip-confirmation)
+- Log the operation at 'error' level (for audit trail)
+- Display success message
+
+**Action Operations** (reboot, deploy, etc.):
+- Require confirmation prompt (bypassed with --dangerously-skip-confirmation)
+- Log the operation at 'warning' level
+- Display action result
+
+### Command Naming Convention
+
+- `forge:list-{resource}` - List all resources (e.g., forge:list-organizations)
+- `forge:get-{resource}` - Get a specific resource (e.g., forge:get-server)
+- `forge:create-{resource}` - Create a resource (e.g., forge:create-server)
+- `forge:update-{resource}` - Update a resource (e.g., forge:update-site)
+- `forge:destroy-{resource}` - Delete a resource (e.g., forge:destroy-database)
+- `forge:{action}-{resource}` - Perform action (e.g., forge:reboot-server, forge:deploy-site)
+
+### Resource Identifier Resolution
+
+Commands that operate on specific resources (servers, sites, databases, etc.) should accept **either a name or an ID** for the resource identifier:
+
+**ID-based (programmatic, precise):**
 ```bash
-php artisan forge:test-server create \
+php artisan forge:reboot-server 1234543343
+php artisan forge:deploy-site 987654321
+```
+
+**Name-based (human-friendly, CLI-focused):**
+```bash
+php artisan forge:reboot-server my-staging-server
+php artisan forge:deploy-site my-production-app
+```
+
+**Resolution logic:**
+1. If the identifier is numeric, treat it as an ID and use directly
+2. If the identifier is non-numeric, treat it as a name and resolve to ID:
+   - Fetch the list of resources (with appropriate parent context if needed)
+   - Find the resource matching the name
+   - Throw descriptive error if not found or multiple matches exist
+   - Use the resolved ID for the API request
+
+**Error handling:**
+- Name not found: "Server 'my-staging-server' not found"
+- Ambiguous name: "Multiple servers found with name 'staging'. Please use ID instead: 123, 456, 789"
+- Invalid ID: "Server with ID '1234543343' not found"
+
+**Applicable to these resource types:**
+- Servers (by name)
+- Sites (by name, within server context)
+- Databases (by name, within server context)
+- Organizations (by name)
+- Teams (by name, within organization context)
+- Background Processes (by command/name, within server context)
+- Scheduled Jobs (by command, within server context)
+- Firewall Rules (by name/description, within server context)
+- SSH Keys (by name, within server context)
+- Monitors (by name, within server context)
+- Recipes (by name)
+
+**Example implementation pattern:**
+```php
+protected function resolveServerId(string $identifier): int
+{
+    // If numeric, assume it's an ID
+    if (is_numeric($identifier)) {
+        return (int) $identifier;
+    }
+
+    // Otherwise, resolve by name
+    $servers = $this->forge->servers()->list();
+    $matches = $servers->filter(fn($server) => $server->name === $identifier);
+
+    if ($matches->isEmpty()) {
+        throw new \InvalidArgumentException("Server '{$identifier}' not found");
+    }
+
+    if ($matches->count() > 1) {
+        $ids = $matches->pluck('id')->implode(', ');
+        throw new \InvalidArgumentException(
+            "Multiple servers found with name '{$identifier}'. Please use ID instead: {$ids}"
+        );
+    }
+
+    return $matches->first()->id;
+}
+```
+
+### Logging Requirements
+
+All commands must log:
+- Command name and parameters (sanitizing sensitive data)
+- API request details (endpoint, method)
+- API response status
+- Success or failure outcome
+- Execution time
+
+### Confirmation Prompt Pattern
+
+```php
+if ($this->option('dangerously-skip-confirmation')) {
+    // Proceed without confirmation
+} else {
+    if (!$this->confirm('Are you sure you want to destroy server {id}?')) {
+        $this->info('Operation cancelled.');
+        return 0;
+    }
+}
+```
+
+Example commands:
+```bash
+# List operations (no confirmation)
+php artisan forge:list-organizations
+php artisan forge:list-servers --organization=123
+php artisan forge:list-servers --organization="my-org"  # Name resolution
+
+# Get operations (no confirmation)
+php artisan forge:get-server 456
+php artisan forge:get-server my-staging-server  # Name resolution
+php artisan forge:get-organization 123
+php artisan forge:get-organization "my-org"  # Name resolution
+
+# Create operations (with confirmation)
+php artisan forge:create-server \
+  --organization=123 \
   --name="my-server" \
   --provider="digitalocean" \
   --size="1gb" \
   --region="nyc3"
+
+# Update operations (with confirmation, accepts name or ID)
+php artisan forge:update-server my-staging-server --php-version=php84
+php artisan forge:update-server 456 --php-version=php84
+
+# Action operations (with confirmation, accepts name or ID)
+php artisan forge:reboot-server my-staging-server
+php artisan forge:reboot-server 456
+php artisan forge:deploy-site my-production-app
+php artisan forge:deploy-site 987654321
+
+# Destroy operations (with confirmation, accepts name or ID)
+php artisan forge:destroy-server my-staging-server
+php artisan forge:destroy-server 456
+
+# Automated usage (skip confirmation)
+php artisan forge:destroy-server 456 --dangerously-skip-confirmation
+php artisan forge:destroy-server my-staging-server --dangerously-skip-confirmation
 ```

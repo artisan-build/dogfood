@@ -16,11 +16,11 @@ Build a comprehensive Saloon-based SDK for the Laravel Forge API that covers all
 
 ## User Stories
 
-### Package Developer Testing Forge Integration
+### Production Infrastructure Automation
 
-As a package developer, I want to test my application's integration with Laravel Forge API endpoints, so that I can verify my deployment automation works correctly before pushing to production.
+As a SaaS platform developer, I want to programmatically manage Forge infrastructure from my Laravel application, so that I can automate server provisioning, deployments, and management as part of my product's core functionality.
 
-The developer installs the forge-sdk package, configures their Forge API token, and uses the provided artisan commands to test individual endpoints (creating servers, deploying sites, managing SSL certificates, etc.) with real API calls while developing their automation scripts.
+The developer installs the forge-sdk package, configures their Forge API token, and uses atomic artisan commands (forge:create-server, forge:deploy-site, etc.) in production workflows. All destructive operations require confirmation unless bypassed with --dangerously-skip-confirmation. All operations are logged to a configurable channel for auditing and troubleshooting.
 
 ### Laravel Application Automating Forge Operations
 
@@ -44,7 +44,7 @@ The developer includes the forge-sdk in their Laravel Zero project, configures i
 
 4. **Laravel Package Integration** - Provide service provider, configuration file, and artisan commands while keeping dependencies minimal for Laravel Zero compatibility.
 
-5. **Manual Testing Commands** - Build artisan commands for each endpoint to enable manual API testing during development and troubleshooting.
+5. **Production-Ready Atomic Commands** - Build atomic artisan commands for each API operation (forge:create-server, forge:destroy-site, etc.) with proper logging, confirmation prompts, and production-safe defaults for use in automated workflows and manual operations.
 
 6. **Comprehensive Documentation** - Create extensive README.md with table of contents, installation instructions, usage examples for every endpoint, and command documentation.
 
@@ -60,7 +60,7 @@ The developer includes the forge-sdk in their Laravel Zero project, configures i
 
 1. **Functional SDK Package** - Complete Saloon-based SDK in `packages/forge-sdk` covering all Forge API endpoints with passing test suite.
 
-2. **Testing Commands** - Artisan command for each major endpoint group that accepts parameters and makes real API calls for manual verification.
+2. **Atomic Production Commands** - Individual artisan commands for each API operation (e.g., forge:list-organizations, forge:create-server, forge:destroy-server) with confirmation prompts, comprehensive logging, and --dangerously-skip-confirmation flag for automation. Commands designed for production use in SaaS applications.
 
 3. **Exceptional Documentation** - Comprehensive README.md with table of contents, installation steps, configuration guide, usage examples for all resources, command reference, and troubleshooting section.
 

@@ -13,7 +13,16 @@ This is the API specification for the spec detailed in @.agent-os/specs/2025-10-
 **Response Format**: JSON
 **API Spec**: JSON:API compliant (new Forge API)
 
-**Important Note**: During implementation, all endpoint paths, parameters, request/response structures, and behaviors must be verified against the official Forge API documentation at https://forge.laravel.com/docs/api-reference. This specification provides the structure and organization but implementation must follow the official API exactly.
+## Local API Documentation
+
+**CRITICAL**: All endpoint paths, parameters, request/response structures, and behaviors MUST be verified against the **local API documentation** at `@.agent-os/specs/2025-10-18-forge-sdk/api-docs/`.
+
+**DO NOT** use:
+- Memory or existing knowledge of the Forge API
+- Web searches or online documentation (may be outdated)
+- Any other source besides the local api-docs folder
+
+The local documentation is the authoritative source. See `api-docs/README.md` for a complete index of all endpoint documentation organized by category.
 
 ## Resource Groups & Endpoints
 

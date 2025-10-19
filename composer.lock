@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df9d960287ee9e9609a6d38754630bd6",
+    "content-hash": "4b10b98b24c9ba853bbcdbcabd66d752",
     "packages": [
         {
             "name": "artisan-build/adverbs",
@@ -747,7 +747,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/forge-sdk",
-                "reference": "cd938717282156f7b1f60f85245665b2196332b6"
+                "reference": "a7323d71661d22ced2dbb4b7e6dbc2d3f45d9142"
             },
             "require": {
                 "illuminate/support": "^11.36|^12.0",
@@ -759,14 +759,18 @@
                 "laravel/pint": "^1.19.0",
                 "orchestra/testbench": "^v9.9.0",
                 "pestphp/pest": "^v3.7.1",
-                "phpstan/phpstan": "^2.1.0"
+                "phpstan/phpstan": "^2.1.0",
+                "saloonphp/saloon-sdk-generator": "^0.4"
             },
             "type": "library",
             "extra": {
                 "laravel": {
                     "providers": [
                         "ArtisanBuild\\ForgeSdk\\Providers\\ForgeSdkServiceProvider"
-                    ]
+                    ],
+                    "aliases": {
+                        "Forge": "ArtisanBuild\\ForgeSdk\\Facades\\Forge"
+                    }
                 }
             },
             "autoload": {

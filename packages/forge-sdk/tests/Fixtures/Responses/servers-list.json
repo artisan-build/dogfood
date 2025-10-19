@@ -1,0 +1,50 @@
+{
+  "data": [
+    {
+      "id": "100",
+      "type": "servers",
+      "attributes": {
+        "id": 100,
+        "identifier": "web-1",
+        "name": "production-web-1",
+        "connection_status": "connected",
+        "created_at": "2025-01-10T12:00:00Z",
+        "updated_at": "2025-01-15T08:30:00Z",
+        "credential_id": 10,
+        "database_type": "mysql8",
+        "db_status": "installed",
+        "ip_address": "192.0.2.1",
+        "is_ready": true,
+        "local_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD...",
+        "opcache_status": "installed",
+        "php_cli_version": "php83",
+        "php_version": "php83",
+        "private_ip_address": "10.0.1.10",
+        "provider": "ocean",
+        "redis_status": "installed",
+        "region": "nyc3",
+        "revoked": false,
+        "size": "512MB",
+        "ssh_port": 22,
+        "timezone": "UTC",
+        "type": "app",
+        "ubuntu_version": "22.04"
+      },
+      "links": {
+        "self": "https://forge.laravel.com/api/orgs/1/servers/100"
+      }
+    }
+  ],
+  "links": {
+    "first": "https://forge.laravel.com/api/orgs/1/servers?cursor=",
+    "last": "https://forge.laravel.com/api/orgs/1/servers?cursor=eyJpZCI6MTAwLCJwb2ludHNUb05leHRJdGVtcyI6ZmFsc2V9",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "path": "https://forge.laravel.com/api/orgs/1/servers",
+    "per_page": 15,
+    "next_cursor": null,
+    "prev_cursor": null
+  }
+}

@@ -5,6 +5,15 @@ This is the tests coverage details for the spec detailed in @.agent-os/specs/202
 > Created: 2025-10-18
 > Version: 1.0.0
 
+## IMPORTANT: Test Location
+
+**All tests for the forge-sdk package MUST be written in the package's own tests directory at `packages/forge-sdk/tests/`**
+
+- Do NOT write tests in the monorepo root `tests/` directory
+- The monorepo's Pest configuration automatically discovers and runs tests from `packages/*/tests/`
+- Tests requiring Laravel features (config, facades, etc.) should be in `packages/forge-sdk/tests/Feature/`
+- Pure unit tests can go in `packages/forge-sdk/tests/Unit/`
+
 ## Test Coverage
 
 ### Unit Tests

@@ -14,7 +14,8 @@
         "orchestra/testbench": "^v9.9.0",
         "pestphp/pest": "^v3.7.1",
         "laravel/pint": "^1.19.0",
-        "phpstan/phpstan": "^2.1.0"
+        "phpstan/phpstan": "^2.1.0",
+        "saloonphp/saloon-sdk-generator": "^0.4"
     },
 	"autoload": {
 		"psr-4": {
@@ -27,7 +28,10 @@
 		"laravel": {
 			"providers": [
 				"ArtisanBuild\\ForgeSdk\\Providers\\ForgeSdkServiceProvider"
-			]
+			],
+			"aliases": {
+				"Forge": "ArtisanBuild\\ForgeSdk\\Facades\\Forge"
+			}
 		}
 	},
 	"config": {
