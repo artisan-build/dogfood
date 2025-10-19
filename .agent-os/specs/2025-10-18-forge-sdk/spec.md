@@ -8,6 +8,12 @@
 
 Build a comprehensive Saloon-based SDK for the Laravel Forge API that covers all available endpoints, provides strong typing with PHP enums for API values, and includes thorough validation to prevent invalid API requests. This package will be Laravel-compatible (including Laravel Zero) with manual testing commands for each endpoint and exceptional documentation.
 
+### API Documentation
+
+**OpenAPI Specification:** The official OpenAPI 3.1.0 specification is located at `@.agent-os/specs/2025-10-18-forge-sdk/openapi-spec.json`. This file contains the complete, authoritative specification for all Laravel Forge API endpoints including request parameters, response schemas, and data types.
+
+**All implementation work must reference this OpenAPI specification** rather than relying on existing knowledge, web searches, or cached information about the Forge API.
+
 ## User Stories
 
 ### Package Developer Testing Forge Integration
