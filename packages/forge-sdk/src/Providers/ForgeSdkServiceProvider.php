@@ -26,6 +26,7 @@ use ArtisanBuild\ForgeSdk\Console\Commands\GetBackgroundProcessCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\GetDatabaseCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\GetDatabaseUserCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\GetDeploymentCommand;
+use ArtisanBuild\ForgeSdk\Console\Commands\GetEnvironmentCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\GetFirewallRuleCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\GetOrganizationCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\GetServerCommand;
@@ -37,6 +38,10 @@ use ArtisanBuild\ForgeSdk\Console\Commands\ListDatabaseUsersCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\ListDeploymentsCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\ListFirewallRulesCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\ListOrganizationsCommand;
+use ArtisanBuild\ForgeSdk\Console\Commands\ListProvidersCommand;
+use ArtisanBuild\ForgeSdk\Console\Commands\ListProviderRegionsCommand;
+use ArtisanBuild\ForgeSdk\Console\Commands\ListProviderSizesCommand;
+use ArtisanBuild\ForgeSdk\Console\Commands\ListServerCredentialsCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\ListServersCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\ListSitesCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\ListSslCertificatesCommand;
@@ -46,6 +51,7 @@ use ArtisanBuild\ForgeSdk\Console\Commands\TriggerDeploymentCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\UpdateBackgroundProcessCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\UpdateDatabaseUserCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\UpdateDeploymentScriptCommand;
+use ArtisanBuild\ForgeSdk\Console\Commands\UpdateEnvironmentCommand;
 use ArtisanBuild\ForgeSdk\Console\Commands\UpdateSiteCommand;
 use ArtisanBuild\ForgeSdk\ForgeSdk;
 use Illuminate\Support\ServiceProvider;
@@ -84,6 +90,14 @@ class ForgeSdkServiceProvider extends ServiceProvider
                 ListOrganizationsCommand::class,
                 GetOrganizationCommand::class,
 
+                // Server Credential Commands
+                ListServerCredentialsCommand::class,
+
+                // Provider Commands
+                ListProvidersCommand::class,
+                ListProviderRegionsCommand::class,
+                ListProviderSizesCommand::class,
+
                 // Server Commands
                 ListServersCommand::class,
                 GetServerCommand::class,
@@ -106,6 +120,10 @@ class ForgeSdkServiceProvider extends ServiceProvider
                 GetDeploymentCommand::class,
                 TriggerDeploymentCommand::class,
                 UpdateDeploymentScriptCommand::class,
+
+                // Environment Commands
+                GetEnvironmentCommand::class,
+                UpdateEnvironmentCommand::class,
 
                 // Database Commands
                 ListDatabasesCommand::class,

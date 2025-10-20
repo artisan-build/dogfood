@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\ForgeSdk\Requests\Sites;
 
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Traits\Body\HasJsonBody;
 
 /**
  * organizations.servers.sites.environment.update
  *
- *
+ * Update the environment file (.env) for a site.
  *
  * Processing mode: <small><code>async</code></small>
  */
-class OrganizationsServersSitesEnvironmentUpdate extends Request
+class OrganizationsServersSitesEnvironmentUpdate extends Request implements HasBody
 {
+    use HasJsonBody;
+
     protected Method $method = Method::PUT;
 
     /**

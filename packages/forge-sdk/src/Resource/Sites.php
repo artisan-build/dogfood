@@ -322,10 +322,14 @@ class Sites extends Resource
      * @param  string  $organization  The organization slug
      * @param  int  $server  The server ID
      * @param  int  $site  The site ID
+     * @param  array  $body  The request body
      */
-    public function organizationsServersSitesEnvironmentUpdate(string $organization, int $server, int $site): Response
+    public function organizationsServersSitesEnvironmentUpdate(string $organization, int $server, int $site, array $body): Response
     {
-        return $this->connector->send(new OrganizationsServersSitesEnvironmentUpdate($organization, $server, $site));
+        $request = new OrganizationsServersSitesEnvironmentUpdate($organization, $server, $site);
+        $request->body()->set($body);
+
+        return $this->connector->send($request);
     }
 
     /**
