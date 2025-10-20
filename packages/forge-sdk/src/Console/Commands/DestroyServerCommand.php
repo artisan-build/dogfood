@@ -21,8 +21,8 @@ class DestroyServerCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:destroy-server
-                            {organization? : The organization slug or ID}
                             {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--dangerously-skip-confirmation : Skip confirmation prompt}';
 
     protected $description = 'Destroy (delete) a server';
@@ -67,7 +67,7 @@ class DestroyServerCommand extends Command
 
             $serverData = $serverResponse->json();
             $server = $serverData['data'] ?? $serverData;
-            $serverName = $server['name'] ?? "Server {$serverId}";
+            $serverName = $server['attributes']['name'] ?? "Server {$serverId}";
 
             $this->warn('You are about to DESTROY the following server:');
             $this->line("  ID: {$serverId}");

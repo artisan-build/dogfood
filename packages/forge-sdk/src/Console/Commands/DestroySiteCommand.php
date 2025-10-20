@@ -21,9 +21,9 @@ class DestroySiteCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:destroy-site
-                            {organization? : The organization slug or ID}
-                            {server? : The server name or ID}
                             {site? : The site name or ID}
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--dangerously-skip-confirmation : Skip confirmation prompt}';
 
     protected $description = 'Destroy a site';

@@ -19,8 +19,8 @@ class ListDatabaseUsersCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:list-database-users
-                            {organization? : The organization slug or ID}
                             {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--sort= : Sort by (name, created_at, updated_at)}
                             {--pagesize= : Number of results per page}
                             {--pagecursor= : Cursor for pagination}
@@ -99,9 +99,9 @@ class ListDatabaseUsersCommand extends Command
                 ['ID', 'Name', 'Status', 'Created At'],
                 collect($users)->map(fn ($user) => [
                     $user['id'] ?? 'N/A',
-                    $user['name'] ?? 'N/A',
-                    $user['status'] ?? 'N/A',
-                    $user['created_at'] ?? 'N/A',
+                    $user['attributes']['name'] ?? $user['name'] ?? 'N/A',
+                    $user['attributes']['status'] ?? $user['status'] ?? 'N/A',
+                    $user['attributes']['created_at'] ?? $user['created_at'] ?? 'N/A',
                 ])->all()
             );
 

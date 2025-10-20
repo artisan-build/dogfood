@@ -21,9 +21,9 @@ class DestroyBackgroundProcessCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:destroy-background-process
-                            {organization? : The organization slug or ID}
-                            {server? : The server name or ID}
                             {background-process? : The background process ID}
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--dangerously-skip-confirmation : Skip confirmation prompt}';
 
     protected $description = 'Destroy (delete) a background process';

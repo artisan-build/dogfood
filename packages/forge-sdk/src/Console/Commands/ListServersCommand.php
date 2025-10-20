@@ -94,12 +94,12 @@ class ListServersCommand extends Command
                 ['ID', 'Name', 'Provider', 'Region', 'PHP', 'IP Address', 'Status'],
                 collect($servers)->map(fn ($server) => [
                     $server['id'] ?? 'N/A',
-                    $server['name'] ?? 'N/A',
-                    $server['provider'] ?? 'N/A',
-                    $server['region'] ?? 'N/A',
-                    $server['php_version'] ?? 'N/A',
-                    $server['ip_address'] ?? 'N/A',
-                    $server['status'] ?? 'N/A',
+                    $server['attributes']['name'] ?? 'N/A',
+                    $server['attributes']['provider'] ?? 'N/A',
+                    $server['attributes']['region'] ?? 'N/A',
+                    $server['attributes']['php_version'] ?? 'N/A',
+                    $server['attributes']['ip_address'] ?? 'N/A',
+                    $server['attributes']['connection_status'] ?? 'N/A',
                 ])->all()
             );
 

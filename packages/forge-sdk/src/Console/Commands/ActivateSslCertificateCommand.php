@@ -12,9 +12,9 @@ class ActivateSslCertificateCommand extends Command
     use HandlesDefaultArguments;
 
     protected $signature = 'forge:activate-ssl-certificate
-                            {organization? : The organization slug or ID}
-                            {server? : The server name or ID}
                             {site? : The site ID}
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {domain-record? : The domain record ID}';
 
     protected $description = 'Activate an SSL certificate (Note: SSL certificates are automatically activated upon installation)';

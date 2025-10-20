@@ -21,8 +21,8 @@ class CreateDatabaseUserCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:create-database-user
-                            {organization? : The organization slug or ID}
                             {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--dangerously-skip-confirmation : Skip confirmation prompt}';
 
     protected $description = 'Create a new database user on a server';

@@ -9,15 +9,15 @@ use ArtisanBuild\ForgeSdk\ForgeSdk;
 use Exception;
 use Illuminate\Console\Command;
 
-class ListOrganizationsCommand extends Command
+class ListProvidersCommand extends Command
 {
     use LogsForgeOperations;
 
-    protected $signature = 'forge:list-organizations
+    protected $signature = 'forge:list-providers
                             {--pagesize= : Number of results per page}
                             {--pagecursor= : Cursor for pagination}';
 
-    protected $description = 'List all Laravel Forge organizations';
+    protected $description = 'List all available cloud providers in Laravel Forge';
 
     public function handle(ForgeSdk $forge): int
     {
@@ -26,50 +26,49 @@ class ListOrganizationsCommand extends Command
         $pagesize = $this->option('pagesize') ? (int) $this->option('pagesize') : null;
         $pagecursor = $this->option('pagecursor');
 
-        $this->logOperation('List organizations', [
+        $this->logOperation('List providers', [
             'pagesize' => $pagesize,
             'pagecursor' => $pagecursor,
         ]);
 
         try {
-            $response = $forge->organizations()->organizationsIndex($pagesize, $pagecursor);
+            $response = $forge->providers()->providersIndex($pagesize, $pagecursor);
 
             if (! $response->successful()) {
-                $this->logError('List organizations', $response->body(), [
+                $this->logError('List providers', $response->body(), [
                     'status' => $response->status(),
                 ]);
-                $this->error("Failed to list organizations: {$response->body()}");
+                $this->error("Failed to list providers: {$response->body()}");
 
                 return self::FAILURE;
             }
 
             $data = $response->json();
-            $organizations = $data['data'] ?? [];
+            $providers = $data['data'] ?? [];
 
             $this->table(
-                ['ID', 'Name', 'Slug', 'Created At'],
-                collect($organizations)->map(fn ($org) => [
-                    $org['id'] ?? 'N/A',
-                    $org['attributes']['name'] ?? $org['name'] ?? 'N/A',
-                    $org['attributes']['slug'] ?? $org['slug'] ?? 'N/A',
-                    $org['attributes']['created_at'] ?? $org['created_at'] ?? 'N/A',
+                ['ID', 'Name', 'Type'],
+                collect($providers)->map(fn ($provider) => [
+                    $provider['id'] ?? 'N/A',
+                    $provider['attributes']['name'] ?? $provider['name'] ?? 'N/A',
+                    $provider['attributes']['type'] ?? $provider['type'] ?? 'N/A',
                 ])->all()
             );
 
             $executionTime = round((microtime(true) - $startTime) * 1000, 2);
 
-            $this->logSuccess('List organizations', [
-                'count' => count($organizations),
+            $this->logSuccess('List providers', [
+                'count' => count($providers),
                 'execution_time_ms' => $executionTime,
             ]);
 
-            $this->info('Listed '.count($organizations)." organization(s) in {$executionTime}ms");
+            $this->info('Listed '.count($providers)." provider(s) in {$executionTime}ms");
 
             return self::SUCCESS;
         } catch (Exception $e) {
             $executionTime = round((microtime(true) - $startTime) * 1000, 2);
 
-            $this->logError('List organizations', $e->getMessage(), [
+            $this->logError('List providers', $e->getMessage(), [
                 'execution_time_ms' => $executionTime,
             ]);
 

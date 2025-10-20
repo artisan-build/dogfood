@@ -22,9 +22,9 @@ class UpdateDeploymentScriptCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:update-deployment-script
-                            {organization? : The organization slug or ID}
-                            {server? : The server name or ID}
                             {site? : The site name or ID}
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--script= : The deployment script content}
                             {--dangerously-skip-confirmation : Skip confirmation prompt}';
 

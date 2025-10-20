@@ -19,10 +19,10 @@ class GetDeploymentCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:get-deployment
-                            {organization? : The organization slug or ID}
-                            {server? : The server name or ID}
+                            {deployment? : The deployment ID}
                             {site? : The site name or ID}
-                            {deployment? : The deployment ID}';
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}';
 
     protected $description = 'Get details for a specific deployment';
 

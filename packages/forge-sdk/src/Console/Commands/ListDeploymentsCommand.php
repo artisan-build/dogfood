@@ -19,9 +19,9 @@ class ListDeploymentsCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:list-deployments
-                            {organization? : The organization slug or ID}
-                            {server? : The server name or ID}
                             {site? : The site name or ID}
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--sort= : Sort by (created_at, etc.)}
                             {--pagesize= : Number of results per page}
                             {--pagecursor= : Cursor for pagination}';
@@ -102,14 +102,14 @@ class ListDeploymentsCommand extends Command
                 ['ID', 'Status', 'Commit Hash', 'Author', 'Message', 'Started', 'Duration (s)'],
                 collect($deployments)->map(fn ($deployment) => [
                     $deployment['id'] ?? 'N/A',
-                    $deployment['status'] ?? 'N/A',
-                    substr($deployment['commit_hash'] ?? 'N/A', 0, 8),
-                    $deployment['commit_author'] ?? 'N/A',
-                    strlen($deployment['commit_message'] ?? '') > 30
-                        ? substr((string) $deployment['commit_message'], 0, 27).'...'
-                        : ($deployment['commit_message'] ?? 'N/A'),
-                    $deployment['started_at'] ?? 'N/A',
-                    $deployment['duration'] ?? 'N/A',
+                    $deployment['attributes']['status'] ?? $deployment['status'] ?? 'N/A',
+                    substr((string) ($deployment['attributes']['commit_hash'] ?? $deployment['commit_hash'] ?? 'N/A'), 0, 8),
+                    $deployment['attributes']['commit_author'] ?? $deployment['commit_author'] ?? 'N/A',
+                    strlen((string) ($deployment['attributes']['commit_message'] ?? $deployment['commit_message'] ?? '')) > 30
+                        ? substr((string) ($deployment['attributes']['commit_message'] ?? $deployment['commit_message']), 0, 27).'...'
+                        : ($deployment['attributes']['commit_message'] ?? $deployment['commit_message'] ?? 'N/A'),
+                    $deployment['attributes']['started_at'] ?? $deployment['started_at'] ?? 'N/A',
+                    $deployment['attributes']['duration'] ?? $deployment['duration'] ?? 'N/A',
                 ])->all()
             );
 

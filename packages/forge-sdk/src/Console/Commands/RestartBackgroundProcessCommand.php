@@ -21,9 +21,9 @@ class RestartBackgroundProcessCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:restart-background-process
-                            {organization? : The organization slug or ID}
-                            {server? : The server name or ID}
                             {background-process? : The background process ID}
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--dangerously-skip-confirmation : Skip confirmation prompt}';
 
     protected $description = 'Restart a background process';

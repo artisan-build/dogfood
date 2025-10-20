@@ -22,9 +22,9 @@ class TriggerDeploymentCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:trigger-deployment
-                            {organization? : The organization slug or ID}
-                            {server? : The server name or ID}
                             {site? : The site name or ID}
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--dangerously-skip-confirmation : Skip confirmation prompt}';
 
     protected $description = 'Trigger a deployment for a site';

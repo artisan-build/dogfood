@@ -19,8 +19,8 @@ class GetServerCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:get-server
-                            {organization? : The organization slug or ID}
-                            {server? : The server name or ID}';
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}';
 
     protected $description = 'Get details for a specific server';
 
@@ -72,24 +72,28 @@ class GetServerCommand extends Command
             }
 
             $data = $response->json();
-            $server = $data['data'] ?? $data;
+            $server = $data['data'];
+            $attributes = $server['attributes'];
 
-            $this->info("Server: {$server['name']}");
+            $this->info("Server: {$attributes['name']}");
             $this->line("ID: {$server['id']}");
-            $this->line("Provider: {$server['provider']}");
-            $this->line("Region: {$server['region']}");
-            $this->line("Size: {$server['size']}");
-            $this->line("IP Address: {$server['ip_address']}");
-            $this->line("PHP Version: {$server['php_version']}");
-            $this->line("Ubuntu Version: {$server['ubuntu_version']}");
-            $this->line("Status: {$server['status']}");
+            $this->line("Provider: {$attributes['provider']}");
+            $this->line("Region: {$attributes['region']}");
+            $this->line("Size: {$attributes['size']}");
+            $this->line("IP Address: {$attributes['ip_address']}");
+            $this->line("PHP Version: {$attributes['php_version']}");
+            $this->line("Ubuntu Version: {$attributes['ubuntu_version']}");
 
-            if (isset($server['database_type'])) {
-                $this->line("Database: {$server['database_type']}");
+            if (isset($attributes['status'])) {
+                $this->line("Status: {$attributes['status']}");
             }
 
-            if (isset($server['created_at'])) {
-                $this->line("Created: {$server['created_at']}");
+            if (isset($attributes['database_type'])) {
+                $this->line("Database: {$attributes['database_type']}");
+            }
+
+            if (isset($attributes['created_at'])) {
+                $this->line("Created: {$attributes['created_at']}");
             }
 
             $executionTime = round((microtime(true) - $startTime) * 1000, 2);

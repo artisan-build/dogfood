@@ -12,9 +12,9 @@ class ListSslCertificatesCommand extends Command
     use HandlesDefaultArguments;
 
     protected $signature = 'forge:list-ssl-certificates
-                            {organization? : The organization slug or ID}
+                            {site? : The site ID}
                             {server? : The server name or ID}
-                            {site? : The site ID}';
+                            {organization? : The organization slug or ID}';
 
     protected $description = 'List SSL certificates for a site (requires domain-specific context)';
 

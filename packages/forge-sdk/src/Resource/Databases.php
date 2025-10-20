@@ -44,10 +44,14 @@ class Databases extends Resource
     /**
      * @param  string  $organization  The organization slug
      * @param  int  $server  The server ID
+     * @param  array  $body  The request body
      */
-    public function organizationsServersDatabaseSchemasStore(string $organization, int $server): Response
+    public function organizationsServersDatabaseSchemasStore(string $organization, int $server, array $body): Response
     {
-        return $this->connector->send(new OrganizationsServersDatabaseSchemasStore($organization, $server));
+        $request = new OrganizationsServersDatabaseSchemasStore($organization, $server);
+        $request->body()->set($body);
+
+        return $this->connector->send($request);
     }
 
     /**

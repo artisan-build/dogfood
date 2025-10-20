@@ -21,8 +21,11 @@ class CreateDatabaseCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:create-database
-                            {organization? : The organization slug or ID}
+                            {name : The database name}
                             {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
+                            {--user= : Optional database user to create}
+                            {--password= : Password for the database user (required if user is provided)}
                             {--dangerously-skip-confirmation : Skip confirmation prompt}';
 
     protected $description = 'Create a new database schema on a server';
@@ -31,6 +34,7 @@ class CreateDatabaseCommand extends Command
     {
         $startTime = microtime(true);
 
+        $name = $this->argument('name');
         $organizationInput = $this->getOrganizationArgument();
 
         if (! $organizationInput) {
@@ -46,6 +50,16 @@ class CreateDatabaseCommand extends Command
             return self::FAILURE;
         }
 
+        $user = $this->option('user');
+        $password = $this->option('password');
+
+        // Validate that if user is provided, password must also be provided
+        if ($user && ! $password) {
+            $this->error('Password is required when creating a database user.');
+
+            return self::FAILURE;
+        }
+
         try {
             $organization = $this->resolveOrganizationSlug($organizationInput, $forge);
             $serverId = $this->resolveServerId($serverInput, $organization, $forge);
@@ -56,8 +70,12 @@ class CreateDatabaseCommand extends Command
         }
 
         $this->warn('You are about to CREATE a new database on the server.');
+        $this->line("  Database Name: {$name}");
         $this->line("  Organization: {$organization}");
         $this->line("  Server ID: {$serverId}");
+        if ($user) {
+            $this->line("  User: {$user}");
+        }
         $this->newLine();
 
         if (! $this->confirmOperation('Do you want to proceed with creating this database?')) {
@@ -69,12 +87,20 @@ class CreateDatabaseCommand extends Command
         $this->logOperation('Create database', [
             'organization' => $organization,
             'server_id' => $serverId,
+            'name' => $name,
         ], 'warning');
 
         try {
+            $body = ['name' => $name];
+            if ($user) {
+                $body['user'] = $user;
+                $body['password'] = $password;
+            }
+
             $response = $forge->databases()->organizationsServersDatabaseSchemasStore(
                 organization: $organization,
-                server: $serverId
+                server: $serverId,
+                body: $body
             );
 
             if (! $response->successful()) {

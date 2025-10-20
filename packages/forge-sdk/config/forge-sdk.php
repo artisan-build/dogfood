@@ -29,6 +29,24 @@ return [
     'default_server' => env('FORGE_SERVER'),
 
     /**
+     * Default PHP Version
+     *
+     * Set a default PHP version to use when creating servers.
+     * Options: php81, php82, php83, php84
+     * If not set, PHP version must be provided as a command option.
+     */
+    'default_php_version' => env('FORGE_PHP_VERSION'),
+
+    /**
+     * Default Database Type
+     *
+     * Set a default database type to use when creating servers.
+     * Options: mysql8, postgres, mariadb, none
+     * If not set, no database will be installed.
+     */
+    'default_database' => env('FORGE_DATABASE'),
+
+    /**
      * Base URL for the Forge API
      *
      * Default: https://forge.laravel.com/api/v1

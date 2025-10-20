@@ -19,8 +19,8 @@ class ListFirewallRulesCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:list-firewall-rules
-                            {organization? : The organization slug or ID}
                             {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--sort= : Sort by (created_at, updated_at)}
                             {--pagesize= : Number of results per page}
                             {--pagecursor= : Cursor for pagination}
@@ -108,12 +108,12 @@ class ListFirewallRulesCommand extends Command
                 ['ID', 'Name', 'Type', 'IP Address', 'Port', 'Status', 'Created At'],
                 collect($rules)->map(fn ($rule) => [
                     $rule['id'] ?? 'N/A',
-                    $rule['name'] ?? 'N/A',
-                    $rule['type'] ?? 'N/A',
-                    $rule['ip_address'] ?? 'N/A',
-                    $rule['port'] ?? 'N/A',
-                    $rule['status'] ?? 'N/A',
-                    $rule['created_at'] ?? 'N/A',
+                    $rule['attributes']['name'] ?? $rule['name'] ?? 'N/A',
+                    $rule['attributes']['type'] ?? $rule['type'] ?? 'N/A',
+                    $rule['attributes']['ip_address'] ?? $rule['ip_address'] ?? 'N/A',
+                    $rule['attributes']['port'] ?? $rule['port'] ?? 'N/A',
+                    $rule['attributes']['status'] ?? $rule['status'] ?? 'N/A',
+                    $rule['attributes']['created_at'] ?? $rule['created_at'] ?? 'N/A',
                 ])->all()
             );
 

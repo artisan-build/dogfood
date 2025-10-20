@@ -19,9 +19,9 @@ class GetBackgroundProcessCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:get-background-process
-                            {organization? : The organization slug or ID}
+                            {background-process? : The background process ID}
                             {server? : The server name or ID}
-                            {background-process? : The background process ID}';
+                            {organization? : The organization slug or ID}';
 
     protected $description = 'Get details for a specific background process';
 

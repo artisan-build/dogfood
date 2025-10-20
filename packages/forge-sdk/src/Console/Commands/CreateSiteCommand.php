@@ -22,8 +22,8 @@ class CreateSiteCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:create-site
-                            {organization? : The organization slug or ID}
                             {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--domain= : Site domain name}
                             {--project-type= : Project type (php, laravel, html, symfony, spa)}
                             {--directory= : Web directory (e.g., /public)}

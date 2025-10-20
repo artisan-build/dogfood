@@ -19,8 +19,8 @@ class ListBackgroundProcessesCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:list-background-processes
-                            {organization? : The organization slug or ID}
                             {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--sort= : Sort by (user)}
                             {--pagesize= : Number of results per page}
                             {--pagecursor= : Cursor for pagination}
@@ -102,10 +102,10 @@ class ListBackgroundProcessesCommand extends Command
                 ['ID', 'User', 'Command', 'Directory', 'Status'],
                 collect($processes)->map(fn ($process) => [
                     $process['id'] ?? 'N/A',
-                    $process['user'] ?? 'N/A',
-                    str($process['command'] ?? 'N/A')->limit(50),
-                    str($process['directory'] ?? 'N/A')->limit(30),
-                    $process['status'] ?? 'N/A',
+                    $process['attributes']['user'] ?? $process['user'] ?? 'N/A',
+                    str($process['attributes']['command'] ?? $process['command'] ?? 'N/A')->limit(50),
+                    str($process['attributes']['directory'] ?? $process['directory'] ?? 'N/A')->limit(30),
+                    $process['attributes']['status'] ?? $process['status'] ?? 'N/A',
                 ])->all()
             );
 

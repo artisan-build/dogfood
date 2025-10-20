@@ -21,9 +21,9 @@ class DisableQuickDeployCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:disable-quick-deploy
-                            {organization? : The organization slug or ID}
-                            {server? : The server name or ID}
                             {site? : The site name or ID}
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--dangerously-skip-confirmation : Skip confirmation prompt}';
 
     protected $description = 'Disable quick deploy for a site';

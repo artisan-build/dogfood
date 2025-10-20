@@ -21,9 +21,9 @@ class DestroyDatabaseUserCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:destroy-database-user
-                            {organization? : The organization slug or ID}
-                            {server? : The server name or ID}
                             {database-user? : The database user ID}
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--dangerously-skip-confirmation : Skip confirmation prompt}';
 
     protected $description = 'Destroy (delete) a database user';

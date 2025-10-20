@@ -19,9 +19,9 @@ class GetDatabaseUserCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:get-database-user
-                            {organization? : The organization slug or ID}
+                            {database-user? : The database user ID}
                             {server? : The server name or ID}
-                            {database-user? : The database user ID}';
+                            {organization? : The organization slug or ID}';
 
     protected $description = 'Get details for a specific database user';
 

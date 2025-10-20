@@ -19,8 +19,8 @@ class ListDatabasesCommand extends Command
     use ResolvesResourceIdentifiers;
 
     protected $signature = 'forge:list-databases
-                            {organization? : The organization slug or ID}
                             {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
                             {--sort= : Sort by (name, created_at, updated_at)}
                             {--pagesize= : Number of results per page}
                             {--pagecursor= : Cursor for pagination}
@@ -99,9 +99,9 @@ class ListDatabasesCommand extends Command
                 ['ID', 'Name', 'Status', 'Created At'],
                 collect($databases)->map(fn ($database) => [
                     $database['id'] ?? 'N/A',
-                    $database['name'] ?? 'N/A',
-                    $database['status'] ?? 'N/A',
-                    $database['created_at'] ?? 'N/A',
+                    $database['attributes']['name'] ?? $database['name'] ?? 'N/A',
+                    $database['attributes']['status'] ?? $database['status'] ?? 'N/A',
+                    $database['attributes']['created_at'] ?? $database['created_at'] ?? 'N/A',
                 ])->all()
             );
 
