@@ -17,7 +17,7 @@ trait HandlesDefaultArguments
             return (string) $organization;
         }
 
-        return config('forge-sdk.default_organization');
+        return config('forge-client.default_organization');
     }
 
     /**
@@ -25,13 +25,19 @@ trait HandlesDefaultArguments
      */
     protected function getServerArgument(): ?string
     {
+        // Check if the command has a 'server' argument defined
+        if (! $this->hasArgument('server')) {
+            return config('forge-client.default_server');
+        }
+
+        // @phpstan-ignore larastan.console.undefinedArgument (conditional check above ensures argument exists)
         $server = $this->argument('server');
 
         if ($server) {
             return (string) $server;
         }
 
-        return config('forge-sdk.default_server');
+        return config('forge-client.default_server');
     }
 
     /**

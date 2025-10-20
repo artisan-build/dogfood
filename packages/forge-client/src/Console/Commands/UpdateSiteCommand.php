@@ -74,6 +74,7 @@ class UpdateSiteCommand extends Command
         $this->line("  Server: {$server}");
         $this->line("  Site: {$site}");
 
+        // @phpstan-ignore if.alwaysTrue (kept for code clarity)
         if ($directory) {
             $this->line("  Directory: {$directory}");
         }
@@ -88,6 +89,7 @@ class UpdateSiteCommand extends Command
 
         $body = [];
 
+        // @phpstan-ignore if.alwaysTrue (kept for code clarity)
         if ($directory) {
             $body['directory'] = $directory;
         }

@@ -106,6 +106,7 @@ class CreateServerCommand extends Command
         $this->line("  Type: {$type}");
         $this->line("  Ubuntu Version: {$ubuntuVersion}");
 
+        // @phpstan-ignore if.alwaysTrue (kept for code clarity)
         if ($region) {
             $this->line("  Region: {$region}");
         }
@@ -151,6 +152,7 @@ class CreateServerCommand extends Command
             'size_id' => (int) $size,
         ];
 
+        // @phpstan-ignore if.alwaysTrue (kept for code clarity)
         if ($region) {
             $providerConfig['region_id'] = $region;
         }
