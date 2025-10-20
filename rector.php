@@ -32,6 +32,7 @@ return RectorConfig::configure()
             __DIR__.'/packages/agent-os-installer/src/Actions/EnsureAgentOsIsInstalled.php',
         ],
     ])
+    ->withImportNames(true, false, true, true)
     // uncomment to reach your current PHP version
     ->withPhpSets()
     ->withSets([

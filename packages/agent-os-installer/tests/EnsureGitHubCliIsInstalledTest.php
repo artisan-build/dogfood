@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
@@ -10,17 +9,7 @@ it('detects when GitHub CLI is installed', function (): void {
     // Mock composer.json - will be called multiple times by different actions
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
-        ->andReturn(json_encode([
-            'require-dev' => [
-                'pestphp/pest' => '^3.0',
-                'laravel/pint' => '^1.0',
-                'larastan/larastan' => '^3.0',
-                'rector/rector' => '^2.0',
-                'tightenco/duster' => '^3.0',
-                'barryvdh/laravel-debugbar' => '^3.0',
-                'barryvdh/laravel-ide-helper' => '^2.0',
-            ],
-        ]));
+        ->andReturn(json_encode(mockComposerJsonWithAllPackages()));
 
     // Mock File::isDirectory calls (from EnsureAgentOsIsInstalled)
     File::shouldReceive('isDirectory')
@@ -67,25 +56,52 @@ it('detects when GitHub CLI is installed', function (): void {
         ->zeroOrMoreTimes();
 
     // Mock GitHub CLI check
+    // Mock .gitignore content
+
+    File::shouldReceive('get')
+
+        ->with(base_path('.gitignore'))
+
+        ->andReturn(".env\n.phpunit.cache\n");
+
+    File::shouldReceive('append')
+
+        ->with(base_path('.gitignore'), Mockery::type('string'))
+
+        ->zeroOrMoreTimes();
+
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
+        '*/agent-os/scripts/project-install.sh*' => Process::result(),
     ]);
 
-    $exitCode = Artisan::call('agent-os:install');
-
-    expect($exitCode)->toBe(0);
+    $this->artisan('agent-os:install')
+        ->assertSuccessful();
 
     Process::assertRan('which gh');
 });
 
 it('fails when GitHub CLI is not installed', function (): void {
+    // Mock .gitignore content
+
+    File::shouldReceive('get')
+
+        ->with(base_path('.gitignore'))
+
+        ->andReturn(".env\n.phpunit.cache\n");
+
+    File::shouldReceive('append')
+
+        ->with(base_path('.gitignore'), Mockery::type('string'))
+
+        ->zeroOrMoreTimes();
+
     Process::fake([
         'which gh' => Process::result(exitCode: 1),
     ]);
 
-    $exitCode = Artisan::call('agent-os:install');
-
-    expect($exitCode)->toBe(1);
+    $this->artisan('agent-os:install')
+        ->assertFailed();
 
     Process::assertRan('which gh');
 });

@@ -10,17 +10,7 @@ it('detects when Pest is already installed', function (): void {
     // Mock composer.json - will be called multiple times by different actions
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
-        ->andReturn(json_encode([
-            'require-dev' => [
-                'pestphp/pest' => '^3.0',
-                'laravel/pint' => '^1.0',
-                'larastan/larastan' => '^3.0',
-                'rector/rector' => '^2.0',
-                'tightenco/duster' => '^3.0',
-                'barryvdh/laravel-debugbar' => '^3.0',
-                'barryvdh/laravel-ide-helper' => '^2.0',
-            ],
-        ]));
+        ->andReturn(json_encode(mockComposerJsonWithAllPackages()));
 
     // Mock File::isDirectory calls (from EnsureAgentOsIsInstalled)
     File::shouldReceive('isDirectory')
@@ -66,8 +56,25 @@ it('detects when Pest is already installed', function (): void {
     File::shouldReceive('copyDirectory')
         ->zeroOrMoreTimes();
 
+    // Mock .gitignore content
+
+    File::shouldReceive('get')
+
+        ->with(base_path('.gitignore'))
+
+        ->andReturn(".env\n.phpunit.cache\n");
+
+    File::shouldReceive('append')
+
+        ->with(base_path('.gitignore'), Mockery::type('string'))
+
+        ->zeroOrMoreTimes();
+
+    Process::preventStrayProcesses();
+
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
+        '*/agent-os/scripts/project-install.sh*' => Process::result(),
     ]);
 
     $exitCode = Artisan::call('agent-os:install');
@@ -79,17 +86,7 @@ it('detects when Pest plugin is installed without main package', function (): vo
     // Mock composer.json - will be called multiple times by different actions
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
-        ->andReturn(json_encode([
-            'require-dev' => [
-                'pestphp/pest' => '^3.0',
-                'laravel/pint' => '^1.0',
-                'larastan/larastan' => '^3.0',
-                'rector/rector' => '^2.0',
-                'tightenco/duster' => '^3.0',
-                'barryvdh/laravel-debugbar' => '^3.0',
-                'barryvdh/laravel-ide-helper' => '^2.0',
-            ],
-        ]));
+        ->andReturn(json_encode(mockComposerJsonWithAllPackages()));
 
     // Mock File::isDirectory calls (from EnsureAgentOsIsInstalled)
     File::shouldReceive('isDirectory')
@@ -135,8 +132,25 @@ it('detects when Pest plugin is installed without main package', function (): vo
     File::shouldReceive('copyDirectory')
         ->zeroOrMoreTimes();
 
+    // Mock .gitignore content
+
+    File::shouldReceive('get')
+
+        ->with(base_path('.gitignore'))
+
+        ->andReturn(".env\n.phpunit.cache\n");
+
+    File::shouldReceive('append')
+
+        ->with(base_path('.gitignore'), Mockery::type('string'))
+
+        ->zeroOrMoreTimes();
+
+    Process::preventStrayProcesses();
+
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
+        '*/agent-os/scripts/project-install.sh*' => Process::result(),
     ]);
 
     $exitCode = Artisan::call('agent-os:install');
@@ -145,44 +159,45 @@ it('detects when Pest plugin is installed without main package', function (): vo
 });
 
 it('installs Pest when not present', function (): void {
-    // Mock composer.json - will be called multiple times by different actions
+    // Mock composer.json with all packages EXCEPT pestphp/pest and pestphp/pest-plugin-laravel
+    $packages = mockComposerJsonWithAllPackages();
+    unset($packages['require-dev']['pestphp/pest']);
+    unset($packages['require-dev']['pestphp/pest-plugin-laravel']);
+
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
-        ->andReturn(json_encode([
-            'require-dev' => [],
-        ]));
+        ->andReturn(json_encode($packages));
 
     // Mock File::isDirectory calls (from EnsureAgentOsIsInstalled)
     File::shouldReceive('isDirectory')
         ->andReturn(true)
         ->zeroOrMoreTimes();
 
-    // Mock File::exists for config files - return false for all to trigger installation
+    // Mock File::exists - all config files exist
     File::shouldReceive('exists')
-        ->andReturnUsing(function ($path) {
-            // Return false for pint.json, phpstan.neon, rector.php to trigger creation
-            if ($path === base_path('pint.json') ||
-                $path === base_path('phpstan.neon') ||
-                $path === base_path('rector.php')) {
-                return false;
-            }
-
-            // Return true for other paths
-            return true;
-        });
-
-    // Expect config files to be created
-    File::shouldReceive('put')
-        ->with(base_path('pint.json'), Mockery::type('string'))
+        ->andReturn(true)
         ->zeroOrMoreTimes();
 
-    File::shouldReceive('put')
-        ->with(base_path('phpstan.neon'), Mockery::type('string'))
-        ->zeroOrMoreTimes();
+    // Mock config files
+    File::shouldReceive('get')
+        ->with(base_path('pint.json'))
+        ->andReturn(json_encode([
+            'preset' => 'laravel',
+            'rules' => [
+                'declare_strict_types' => true,
+                'fully_qualified_strict_types' => true,
+                'single_trait_insert_per_statement' => true,
+                'array_syntax' => true,
+            ],
+        ]));
 
-    File::shouldReceive('put')
-        ->with(base_path('rector.php'), Mockery::type('string'))
-        ->zeroOrMoreTimes();
+    File::shouldReceive('get')
+        ->with(base_path('phpstan.neon'))
+        ->andReturn('level: 5');
+
+    File::shouldReceive('get')
+        ->with(base_path('rector.php'))
+        ->andReturn('<?php');
 
     // Allow composer.json to be updated with scripts
     File::shouldReceive('put')
@@ -195,14 +210,26 @@ it('installs Pest when not present', function (): void {
     File::shouldReceive('copyDirectory')
         ->zeroOrMoreTimes();
 
+    // Mock .gitignore content
+
+    File::shouldReceive('get')
+
+        ->with(base_path('.gitignore'))
+
+        ->andReturn(".env\n.phpunit.cache\n");
+
+    File::shouldReceive('append')
+
+        ->with(base_path('.gitignore'), Mockery::type('string'))
+
+        ->zeroOrMoreTimes();
+
+    Process::preventStrayProcesses();
+
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
         'composer require --dev pestphp/pest pestphp/pest-plugin-laravel --with-all-dependencies' => Process::result(),
-        'composer require --dev laravel/pint --with-all-dependencies' => Process::result(),
-        'composer require --dev larastan/larastan --with-all-dependencies' => Process::result(),
-        'composer require --dev rector/rector driftingly/rector-laravel --with-all-dependencies' => Process::result(),
-        'composer require --dev tightenco/duster --with-all-dependencies' => Process::result(),
-        'composer require --dev barryvdh/laravel-debugbar barryvdh/laravel-ide-helper --with-all-dependencies' => Process::result(),
+        '*/agent-os/scripts/project-install.sh*' => Process::result(),
     ]);
 
     $exitCode = Artisan::call('agent-os:install');

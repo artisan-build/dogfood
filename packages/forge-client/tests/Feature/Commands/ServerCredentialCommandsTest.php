@@ -88,7 +88,7 @@ test('list server credentials command accepts pagination options', function (): 
 });
 
 test('list server credentials command uses environment organization', function (): void {
-    config()->set('forge-client.organization', 'env-org');
+    config()->set('forge-client.default_organization', 'env-org');
 
     $mockClient = new MockClient([
         MockResponse::make([

@@ -10,17 +10,7 @@ it('detects when Pint is already installed', function (): void {
     // Mock composer.json - will be called multiple times by different actions
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
-        ->andReturn(json_encode([
-            'require-dev' => [
-                'pestphp/pest' => '^3.0',
-                'laravel/pint' => '^1.0',
-                'larastan/larastan' => '^3.0',
-                'rector/rector' => '^2.0',
-                'tightenco/duster' => '^3.0',
-                'barryvdh/laravel-debugbar' => '^3.0',
-                'barryvdh/laravel-ide-helper' => '^2.0',
-            ],
-        ]));
+        ->andReturn(json_encode(mockComposerJsonWithAllPackages()));
 
     // Mock File::isDirectory calls (from EnsureAgentOsIsInstalled)
     File::shouldReceive('isDirectory')
@@ -66,8 +56,25 @@ it('detects when Pint is already installed', function (): void {
     File::shouldReceive('copyDirectory')
         ->zeroOrMoreTimes();
 
+    // Mock .gitignore content
+
+    File::shouldReceive('get')
+
+        ->with(base_path('.gitignore'))
+
+        ->andReturn(".env\n.phpunit.cache\n");
+
+    File::shouldReceive('append')
+
+        ->with(base_path('.gitignore'), Mockery::type('string'))
+
+        ->zeroOrMoreTimes();
+
+    Process::preventStrayProcesses();
+
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
+        '*/agent-os/scripts/project-install.sh*' => Process::result(),
     ]);
 
     $exitCode = Artisan::call('agent-os:install');
@@ -76,12 +83,13 @@ it('detects when Pint is already installed', function (): void {
 });
 
 it('installs Pint when not present', function (): void {
-    // Mock composer.json - called multiple times, all return empty require-dev
+    // Mock composer.json with all packages EXCEPT laravel/pint
+    $packages = mockComposerJsonWithAllPackages();
+    unset($packages['require-dev']['laravel/pint']);
+
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
-        ->andReturn(json_encode([
-            'require-dev' => [],
-        ]));
+        ->andReturn(json_encode($packages));
 
     // Mock File::isDirectory calls
     File::shouldReceive('isDirectory')
@@ -128,14 +136,26 @@ it('installs Pint when not present', function (): void {
     File::shouldReceive('copyDirectory')
         ->zeroOrMoreTimes();
 
+    // Mock .gitignore content
+
+    File::shouldReceive('get')
+
+        ->with(base_path('.gitignore'))
+
+        ->andReturn(".env\n.phpunit.cache\n");
+
+    File::shouldReceive('append')
+
+        ->with(base_path('.gitignore'), Mockery::type('string'))
+
+        ->zeroOrMoreTimes();
+
+    Process::preventStrayProcesses();
+
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
-        'composer require --dev pestphp/pest pestphp/pest-plugin-laravel --with-all-dependencies' => Process::result(),
         'composer require --dev laravel/pint --with-all-dependencies' => Process::result(),
-        'composer require --dev larastan/larastan --with-all-dependencies' => Process::result(),
-        'composer require --dev rector/rector driftingly/rector-laravel --with-all-dependencies' => Process::result(),
-        'composer require --dev tightenco/duster --with-all-dependencies' => Process::result(),
-        'composer require --dev barryvdh/laravel-debugbar barryvdh/laravel-ide-helper --with-all-dependencies' => Process::result(),
+        '*/agent-os/scripts/project-install.sh*' => Process::result(),
     ]);
 
     $exitCode = Artisan::call('agent-os:install');
@@ -149,17 +169,7 @@ it('installs Pint when not present', function (): void {
 it('creates pint.json when it does not exist', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
-        ->andReturn(json_encode([
-            'require-dev' => [
-                'pestphp/pest' => '^3.0',
-                'laravel/pint' => '^1.0',
-                'larastan/larastan' => '^3.0',
-                'rector/rector' => '^2.0',
-                'tightenco/duster' => '^3.0',
-                'barryvdh/laravel-debugbar' => '^3.0',
-                'barryvdh/laravel-ide-helper' => '^2.0',
-            ],
-        ]));
+        ->andReturn(json_encode(mockComposerJsonWithAllPackages()));
 
     // Mock File::isDirectory calls
     File::shouldReceive('isDirectory')
@@ -208,8 +218,25 @@ it('creates pint.json when it does not exist', function (): void {
     File::shouldReceive('copyDirectory')
         ->zeroOrMoreTimes();
 
+    // Mock .gitignore content
+
+    File::shouldReceive('get')
+
+        ->with(base_path('.gitignore'))
+
+        ->andReturn(".env\n.phpunit.cache\n");
+
+    File::shouldReceive('append')
+
+        ->with(base_path('.gitignore'), Mockery::type('string'))
+
+        ->zeroOrMoreTimes();
+
+    Process::preventStrayProcesses();
+
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
+        '*/agent-os/scripts/project-install.sh*' => Process::result(),
     ]);
 
     $exitCode = Artisan::call('agent-os:install');
@@ -220,17 +247,7 @@ it('creates pint.json when it does not exist', function (): void {
 it('merges rules without overriding existing ones', function (): void {
     File::shouldReceive('get')
         ->with(base_path('composer.json'))
-        ->andReturn(json_encode([
-            'require-dev' => [
-                'pestphp/pest' => '^3.0',
-                'laravel/pint' => '^1.0',
-                'larastan/larastan' => '^3.0',
-                'rector/rector' => '^2.0',
-                'tightenco/duster' => '^3.0',
-                'barryvdh/laravel-debugbar' => '^3.0',
-                'barryvdh/laravel-ide-helper' => '^2.0',
-            ],
-        ]));
+        ->andReturn(json_encode(mockComposerJsonWithAllPackages()));
 
     // Mock File::isDirectory calls
     File::shouldReceive('isDirectory')
@@ -286,8 +303,25 @@ it('merges rules without overriding existing ones', function (): void {
     File::shouldReceive('copyDirectory')
         ->zeroOrMoreTimes();
 
+    // Mock .gitignore content
+
+    File::shouldReceive('get')
+
+        ->with(base_path('.gitignore'))
+
+        ->andReturn(".env\n.phpunit.cache\n");
+
+    File::shouldReceive('append')
+
+        ->with(base_path('.gitignore'), Mockery::type('string'))
+
+        ->zeroOrMoreTimes();
+
+    Process::preventStrayProcesses();
+
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
+        '*/agent-os/scripts/project-install.sh*' => Process::result(),
     ]);
 
     $exitCode = Artisan::call('agent-os:install');

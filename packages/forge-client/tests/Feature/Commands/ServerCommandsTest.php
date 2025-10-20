@@ -227,8 +227,10 @@ test('destroy server command requires confirmation', function (): void {
         MockResponse::make([
             'data' => [
                 'id' => 123,
-                'name' => 'server-to-delete',
-                'status' => 'active',
+                'attributes' => [
+                    'name' => 'server-to-delete',
+                    'status' => 'active',
+                ],
             ],
         ], 200),
         // Second request to destroy
@@ -253,8 +255,10 @@ test('destroy server command can skip confirmation', function (): void {
         MockResponse::make([
             'data' => [
                 'id' => 123,
-                'name' => 'server-to-delete',
-                'status' => 'active',
+                'attributes' => [
+                    'name' => 'server-to-delete',
+                    'status' => 'active',
+                ],
             ],
         ], 200),
         // Destroy
@@ -280,8 +284,10 @@ test('destroy server command can be cancelled', function (): void {
         MockResponse::make([
             'data' => [
                 'id' => 123,
-                'name' => 'server-to-keep',
-                'status' => 'active',
+                'attributes' => [
+                    'name' => 'server-to-keep',
+                    'status' => 'active',
+                ],
             ],
         ], 200),
     ]);
