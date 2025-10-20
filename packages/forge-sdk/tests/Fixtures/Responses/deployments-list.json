@@ -1,0 +1,54 @@
+{
+  "data": [
+    {
+      "id": "300",
+      "type": "deployments",
+      "attributes": {
+        "id": 300,
+        "status": "finished",
+        "commit_hash": "abc123def456",
+        "commit_author": "John Doe",
+        "commit_message": "Update dependencies",
+        "started_at": "2025-01-15T14:00:00Z",
+        "ended_at": "2025-01-15T14:02:30Z",
+        "duration": 150,
+        "created_at": "2025-01-15T14:00:00Z",
+        "updated_at": "2025-01-15T14:02:30Z"
+      },
+      "links": {
+        "self": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/deployments/300"
+      }
+    },
+    {
+      "id": "299",
+      "type": "deployments",
+      "attributes": {
+        "id": 299,
+        "status": "finished",
+        "commit_hash": "def456ghi789",
+        "commit_author": "Jane Smith",
+        "commit_message": "Fix bug in authentication",
+        "started_at": "2025-01-14T10:00:00Z",
+        "ended_at": "2025-01-14T10:01:45Z",
+        "duration": 105,
+        "created_at": "2025-01-14T10:00:00Z",
+        "updated_at": "2025-01-14T10:01:45Z"
+      },
+      "links": {
+        "self": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/deployments/299"
+      }
+    }
+  ],
+  "links": {
+    "first": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/deployments?cursor=",
+    "last": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/deployments?cursor=eyJpZCI6Mjk5LCJwb2ludHNUb05leHRJdGVtcyI6ZmFsc2V9",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "path": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/deployments",
+    "per_page": 15,
+    "next_cursor": null,
+    "prev_cursor": null
+  }
+}

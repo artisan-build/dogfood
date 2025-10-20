@@ -19,6 +19,7 @@
         "artisan-build/docsidian": "*",
         "artisan-build/fat-enums": "*",
         "artisan-build/flux-themes": "*",
+        "artisan-build/forge-sdk": "*",
         "artisan-build/gh": "*",
         "artisan-build/hallway-core": "*",
         "artisan-build/hallway-flux": "*",
@@ -42,7 +43,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",
         "barryvdh/laravel-ide-helper": "^3.6",
-        "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.1",
         "driftingly/rector-laravel": "^2.1",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "*",

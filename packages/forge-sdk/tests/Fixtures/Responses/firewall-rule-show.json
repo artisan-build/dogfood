@@ -1,0 +1,19 @@
+{
+  "data": {
+    "id": "800",
+    "type": "firewall-rules",
+    "attributes": {
+      "id": 800,
+      "name": "Allow SSH",
+      "port": 22,
+      "type": "allow",
+      "ip_address": "0.0.0.0/0",
+      "status": "installed",
+      "created_at": "2025-01-10T12:00:00Z",
+      "updated_at": "2025-01-10T12:00:00Z"
+    },
+    "links": {
+      "self": "https://forge.laravel.com/api/orgs/1/servers/100/firewall-rules/800"
+    }
+  }
+}

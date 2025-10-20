@@ -1,0 +1,735 @@
+Launching browser...
+
+Loading documentation page...
+
+Waiting for navigation to load...
+
+Expanding navigation sections...
+
+Screenshot saved to api-docs/debug-screenshot.png
+
+Extracting navigation links...
+
+Found 238 documentation pages
+
+[1/238] /docs/api-reference/introduction -> https://forge.laravel.com/docs/api-reference/introduction.md
+  ✓ Saved
+
+[2/238] /docs/api-reference/pagination -> https://forge.laravel.com/docs/api-reference/pagination.md
+  ✓ Saved
+
+[3/238] /docs/api-reference/rate-limiting -> https://forge.laravel.com/docs/api-reference/rate-limiting.md
+  ✓ Saved
+
+[4/238] /docs/api-reference/filtering -> https://forge.laravel.com/docs/api-reference/filtering.md
+  ✓ Saved
+
+[5/238] /docs/api-reference/relationships -> https://forge.laravel.com/docs/api-reference/relationships.md
+  ✓ Saved
+
+[6/238] /docs/api-reference/background-processes/list-background-processes -> https://forge.laravel.com/docs/api-reference/background-processes/list-background-processes.md
+  ✓ Saved
+
+[7/238] /docs/api-reference/background-processes/create-background-process -> https://forge.laravel.com/docs/api-reference/background-processes/create-background-process.md
+  ✓ Saved
+
+[8/238] /docs/api-reference/background-processes/get-background-process -> https://forge.laravel.com/docs/api-reference/background-processes/get-background-process.md
+  ✓ Saved
+
+[9/238] /docs/api-reference/background-processes/update-background-process -> https://forge.laravel.com/docs/api-reference/background-processes/update-background-process.md
+  ✓ Saved
+
+[10/238] /docs/api-reference/background-processes/delete-background-process -> https://forge.laravel.com/docs/api-reference/background-processes/delete-background-process.md
+  ✓ Saved
+
+[11/238] /docs/api-reference/background-processes/get-background-process-log -> https://forge.laravel.com/docs/api-reference/background-processes/get-background-process-log.md
+  ✓ Saved
+
+[12/238] /docs/api-reference/commands/list-commands -> https://forge.laravel.com/docs/api-reference/commands/list-commands.md
+  ✓ Saved
+
+[13/238] /docs/api-reference/commands/create-command -> https://forge.laravel.com/docs/api-reference/commands/create-command.md
+  ✓ Saved
+
+[14/238] /docs/api-reference/commands/get-command -> https://forge.laravel.com/docs/api-reference/commands/get-command.md
+  ✓ Saved
+
+[15/238] /docs/api-reference/commands/delete-command -> https://forge.laravel.com/docs/api-reference/commands/delete-command.md
+  ✓ Saved
+
+[16/238] /docs/api-reference/databases/list-database-schemas -> https://forge.laravel.com/docs/api-reference/databases/list-database-schemas.md
+  ✓ Saved
+
+[17/238] /docs/api-reference/databases/create-database-schema -> https://forge.laravel.com/docs/api-reference/databases/create-database-schema.md
+  ✓ Saved
+
+[18/238] /docs/api-reference/databases/get-database-schema -> https://forge.laravel.com/docs/api-reference/databases/get-database-schema.md
+  ✓ Saved
+
+[19/238] /docs/api-reference/databases/delete-database-schema -> https://forge.laravel.com/docs/api-reference/databases/delete-database-schema.md
+  ✓ Saved
+
+[20/238] /docs/api-reference/databases/update-database-schemas -> https://forge.laravel.com/docs/api-reference/databases/update-database-schemas.md
+  ✓ Saved
+
+[21/238] /docs/api-reference/databases/list-database-users -> https://forge.laravel.com/docs/api-reference/databases/list-database-users.md
+  ✓ Saved
+
+[22/238] /docs/api-reference/databases/create-database-user -> https://forge.laravel.com/docs/api-reference/databases/create-database-user.md
+  ✓ Saved
+
+[23/238] /docs/api-reference/databases/get-database-user -> https://forge.laravel.com/docs/api-reference/databases/get-database-user.md
+  ✓ Saved
+
+[24/238] /docs/api-reference/databases/update-database-user -> https://forge.laravel.com/docs/api-reference/databases/update-database-user.md
+  ✓ Saved
+
+[25/238] /docs/api-reference/databases/delete-database-user -> https://forge.laravel.com/docs/api-reference/databases/delete-database-user.md
+  ✓ Saved
+
+[26/238] /docs/api-reference/databases/update-the-password-for-the-database -> https://forge.laravel.com/docs/api-reference/databases/update-the-password-for-the-database.md
+  ✓ Saved
+
+[27/238] /docs/api-reference/deployments/list-site-webhooks -> https://forge.laravel.com/docs/api-reference/deployments/list-site-webhooks.md
+  ✓ Saved
+
+[28/238] /docs/api-reference/deployments/create-site-webhook -> https://forge.laravel.com/docs/api-reference/deployments/create-site-webhook.md
+  ✓ Saved
+
+[29/238] /docs/api-reference/deployments/get-site-webhook -> https://forge.laravel.com/docs/api-reference/deployments/get-site-webhook.md
+  ✓ Saved
+
+[30/238] /docs/api-reference/deployments/delete-site-webhook -> https://forge.laravel.com/docs/api-reference/deployments/delete-site-webhook.md
+  ✓ Saved
+
+[31/238] /docs/api-reference/deployments/list-deployments -> https://forge.laravel.com/docs/api-reference/deployments/list-deployments.md
+  ✓ Saved
+
+[32/238] /docs/api-reference/deployments/create-deployment -> https://forge.laravel.com/docs/api-reference/deployments/create-deployment.md
+  ✓ Saved
+
+[33/238] /docs/api-reference/deployments/get-deployment-status -> https://forge.laravel.com/docs/api-reference/deployments/get-deployment-status.md
+  ✓ Saved
+
+[34/238] /docs/api-reference/deployments/update-deployment-state -> https://forge.laravel.com/docs/api-reference/deployments/update-deployment-state.md
+  ✓ Saved
+
+[35/238] /docs/api-reference/deployments/get-deployment-script -> https://forge.laravel.com/docs/api-reference/deployments/get-deployment-script.md
+  ✓ Saved
+
+[36/238] /docs/api-reference/deployments/update-deployment-script -> https://forge.laravel.com/docs/api-reference/deployments/update-deployment-script.md
+  ✓ Saved
+
+[37/238] /docs/api-reference/deployments/get-the-deployment-trigger-url -> https://forge.laravel.com/docs/api-reference/deployments/get-the-deployment-trigger-url.md
+  ✓ Saved
+
+[38/238] /docs/api-reference/deployments/update-deployment-trigger-url -> https://forge.laravel.com/docs/api-reference/deployments/update-deployment-trigger-url.md
+  ✓ Saved
+
+[39/238] /docs/api-reference/deployments/create-push-to-deploy-configuration -> https://forge.laravel.com/docs/api-reference/deployments/create-push-to-deploy-configuration.md
+  ✓ Saved
+
+[40/238] /docs/api-reference/deployments/delete-push-to-deploy-configuration -> https://forge.laravel.com/docs/api-reference/deployments/delete-push-to-deploy-configuration.md
+  ✓ Saved
+
+[41/238] /docs/api-reference/deployments/get-deployment -> https://forge.laravel.com/docs/api-reference/deployments/get-deployment.md
+  ✓ Saved
+
+[42/238] /docs/api-reference/deployments/get-deployment-output -> https://forge.laravel.com/docs/api-reference/deployments/get-deployment-output.md
+  ✓ Saved
+
+[43/238] /docs/api-reference/firewall-rules/list-server-firewall-rules -> https://forge.laravel.com/docs/api-reference/firewall-rules/list-server-firewall-rules.md
+  ✓ Saved
+
+[44/238] /docs/api-reference/firewall-rules/create-server-firewall-rule -> https://forge.laravel.com/docs/api-reference/firewall-rules/create-server-firewall-rule.md
+  ✓ Saved
+
+[45/238] /docs/api-reference/firewall-rules/get-server-firewall-rule -> https://forge.laravel.com/docs/api-reference/firewall-rules/get-server-firewall-rule.md
+  ✓ Saved
+
+[46/238] /docs/api-reference/firewall-rules/delete-server-firewall-rule -> https://forge.laravel.com/docs/api-reference/firewall-rules/delete-server-firewall-rule.md
+  ✓ Saved
+
+[47/238] /docs/api-reference/integrations/get-laravel-horizon-integration-status -> https://forge.laravel.com/docs/api-reference/integrations/get-laravel-horizon-integration-status.md
+  ✓ Saved
+
+[48/238] /docs/api-reference/integrations/create-laravel-horizon-integration -> https://forge.laravel.com/docs/api-reference/integrations/create-laravel-horizon-integration.md
+  ✓ Saved
+
+[49/238] /docs/api-reference/integrations/delete-laravel-horizon-integration -> https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-horizon-integration.md
+  ✓ Saved
+
+[50/238] /docs/api-reference/integrations/get-laravel-octane-integration-status -> https://forge.laravel.com/docs/api-reference/integrations/get-laravel-octane-integration-status.md
+  ✓ Saved
+
+[51/238] /docs/api-reference/integrations/create-laravel-octane-integration -> https://forge.laravel.com/docs/api-reference/integrations/create-laravel-octane-integration.md
+  ✓ Saved
+
+[52/238] /docs/api-reference/integrations/delete-laravel-octane-integration -> https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-octane-integration.md
+  ✓ Saved
+
+[53/238] /docs/api-reference/integrations/get-laravel-reverb-integration-status -> https://forge.laravel.com/docs/api-reference/integrations/get-laravel-reverb-integration-status.md
+  ✓ Saved
+
+[54/238] /docs/api-reference/integrations/create-laravel-reverb-integration -> https://forge.laravel.com/docs/api-reference/integrations/create-laravel-reverb-integration.md
+  ✓ Saved
+
+[55/238] /docs/api-reference/integrations/delete-laravel-reverb-integration -> https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-reverb-integration.md
+  ✓ Saved
+
+[56/238] /docs/api-reference/integrations/get-inertia-integration-status -> https://forge.laravel.com/docs/api-reference/integrations/get-inertia-integration-status.md
+  ✓ Saved
+
+[57/238] /docs/api-reference/integrations/create-inertia-integration -> https://forge.laravel.com/docs/api-reference/integrations/create-inertia-integration.md
+  ✓ Saved
+
+[58/238] /docs/api-reference/integrations/get-laravel-pulse-integration-status -> https://forge.laravel.com/docs/api-reference/integrations/get-laravel-pulse-integration-status.md
+  ✓ Saved
+
+[59/238] /docs/api-reference/integrations/create-laravel-pulse-integration -> https://forge.laravel.com/docs/api-reference/integrations/create-laravel-pulse-integration.md
+  ✓ Saved
+
+[60/238] /docs/api-reference/integrations/delete-laravel-pulse-integration -> https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-pulse-integration.md
+  ✓ Saved
+
+[61/238] /docs/api-reference/integrations/get-laravel-maintenance-integration-status -> https://forge.laravel.com/docs/api-reference/integrations/get-laravel-maintenance-integration-status.md
+  ✓ Saved
+
+[62/238] /docs/api-reference/integrations/create-laravel-maintenance-integration -> https://forge.laravel.com/docs/api-reference/integrations/create-laravel-maintenance-integration.md
+  ✓ Saved
+
+[63/238] /docs/api-reference/integrations/delete-laravel-maintenance-integration -> https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-maintenance-integration.md
+  ✓ Saved
+
+[64/238] /docs/api-reference/integrations/get-laravel-scheduler-integration-job -> https://forge.laravel.com/docs/api-reference/integrations/get-laravel-scheduler-integration-job.md
+  ✓ Saved
+
+[65/238] /docs/api-reference/integrations/create-laravel-scheduler-integration-job -> https://forge.laravel.com/docs/api-reference/integrations/create-laravel-scheduler-integration-job.md
+  ✓ Saved
+
+[66/238] /docs/api-reference/integrations/delete-laravel-scheduler-integration-job -> https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-scheduler-integration-job.md
+  ✓ Saved
+
+[67/238] /docs/api-reference/logs/get-server-log-content -> https://forge.laravel.com/docs/api-reference/logs/get-server-log-content.md
+  ✓ Saved
+
+[68/238] /docs/api-reference/logs/delete-server-log-content -> https://forge.laravel.com/docs/api-reference/logs/delete-server-log-content.md
+  ✓ Saved
+
+[69/238] /docs/api-reference/monitors/list-server-monitors -> https://forge.laravel.com/docs/api-reference/monitors/list-server-monitors.md
+  ✓ Saved
+
+[70/238] /docs/api-reference/monitors/create-server-monitor -> https://forge.laravel.com/docs/api-reference/monitors/create-server-monitor.md
+  ✓ Saved
+
+[71/238] /docs/api-reference/monitors/get-server-monitor -> https://forge.laravel.com/docs/api-reference/monitors/get-server-monitor.md
+  ✓ Saved
+
+[72/238] /docs/api-reference/monitors/delete-server-monitor -> https://forge.laravel.com/docs/api-reference/monitors/delete-server-monitor.md
+  ✓ Saved
+
+[73/238] /docs/api-reference/nginx/list-nginx-templates -> https://forge.laravel.com/docs/api-reference/nginx/list-nginx-templates.md
+  ✓ Saved
+
+[74/238] /docs/api-reference/nginx/create-nginx-template -> https://forge.laravel.com/docs/api-reference/nginx/create-nginx-template.md
+  ✓ Saved
+
+[75/238] /docs/api-reference/nginx/get-nginx-template -> https://forge.laravel.com/docs/api-reference/nginx/get-nginx-template.md
+  ✓ Saved
+
+[76/238] /docs/api-reference/nginx/update-nginx-template -> https://forge.laravel.com/docs/api-reference/nginx/update-nginx-template.md
+  ✓ Saved
+
+[77/238] /docs/api-reference/nginx/delete-nginx-template -> https://forge.laravel.com/docs/api-reference/nginx/delete-nginx-template.md
+  ✓ Saved
+
+[78/238] /docs/api-reference/organizations/list-organizations -> https://forge.laravel.com/docs/api-reference/organizations/list-organizations.md
+  ✓ Saved
+
+[79/238] /docs/api-reference/organizations/get-organization -> https://forge.laravel.com/docs/api-reference/organizations/get-organization.md
+  ✓ Saved
+
+[80/238] /docs/api-reference/organizations/list-server-credentials -> https://forge.laravel.com/docs/api-reference/organizations/list-server-credentials.md
+  ✓ Saved
+
+[81/238] /docs/api-reference/organizations/get-server-credential -> https://forge.laravel.com/docs/api-reference/organizations/get-server-credential.md
+  ✓ Saved
+
+[82/238] /docs/api-reference/organizations/list-vpcs -> https://forge.laravel.com/docs/api-reference/organizations/list-vpcs.md
+  ✓ Saved
+
+[83/238] /docs/api-reference/organizations/create-a-new-vpc -> https://forge.laravel.com/docs/api-reference/organizations/create-a-new-vpc.md
+  ✓ Saved
+
+[84/238] /docs/api-reference/organizations/get-vpc -> https://forge.laravel.com/docs/api-reference/organizations/get-vpc.md
+  ✓ Saved
+
+[85/238] /docs/api-reference/providers/list-providers -> https://forge.laravel.com/docs/api-reference/providers/list-providers.md
+  ✓ Saved
+
+[86/238] /docs/api-reference/providers/get-provider -> https://forge.laravel.com/docs/api-reference/providers/get-provider.md
+  ✓ Saved
+
+[87/238] /docs/api-reference/providers/list-provider-sizes -> https://forge.laravel.com/docs/api-reference/providers/list-provider-sizes.md
+  ✓ Saved
+
+[88/238] /docs/api-reference/providers/get-provider-size -> https://forge.laravel.com/docs/api-reference/providers/get-provider-size.md
+  ✓ Saved
+
+[89/238] /docs/api-reference/providers/list-provider-regions -> https://forge.laravel.com/docs/api-reference/providers/list-provider-regions.md
+  ✓ Saved
+
+[90/238] /docs/api-reference/providers/get-provider-region -> https://forge.laravel.com/docs/api-reference/providers/get-provider-region.md
+  ✓ Saved
+
+[91/238] /docs/api-reference/providers/list-provider-region-sizes -> https://forge.laravel.com/docs/api-reference/providers/list-provider-region-sizes.md
+  ✓ Saved
+
+[92/238] /docs/api-reference/providers/get-provider-region-size -> https://forge.laravel.com/docs/api-reference/providers/get-provider-region-size.md
+  ✓ Saved
+
+[93/238] /docs/api-reference/recipes/list-organization-recipes -> https://forge.laravel.com/docs/api-reference/recipes/list-organization-recipes.md
+  ✓ Saved
+
+[94/238] /docs/api-reference/recipes/create-recipe -> https://forge.laravel.com/docs/api-reference/recipes/create-recipe.md
+  ✓ Saved
+
+[95/238] /docs/api-reference/recipes/get-recipe -> https://forge.laravel.com/docs/api-reference/recipes/get-recipe.md
+  ✓ Saved
+
+[96/238] /docs/api-reference/recipes/update-recipe -> https://forge.laravel.com/docs/api-reference/recipes/update-recipe.md
+  ✓ Saved
+
+[97/238] /docs/api-reference/recipes/delete-recipe -> https://forge.laravel.com/docs/api-reference/recipes/delete-recipe.md
+  ✓ Saved
+
+[98/238] /docs/api-reference/recipes/list-recipe-runs -> https://forge.laravel.com/docs/api-reference/recipes/list-recipe-runs.md
+  ✓ Saved
+
+[99/238] /docs/api-reference/recipes/create-recipe-run -> https://forge.laravel.com/docs/api-reference/recipes/create-recipe-run.md
+  ✓ Saved
+
+[100/238] /docs/api-reference/recipes/get-recipe-run -> https://forge.laravel.com/docs/api-reference/recipes/get-recipe-run.md
+  ✓ Saved
+
+[101/238] /docs/api-reference/recipes/list-team-recipes -> https://forge.laravel.com/docs/api-reference/recipes/list-team-recipes.md
+  ✓ Saved
+
+[102/238] /docs/api-reference/recipes/share-recipe-with-the-team -> https://forge.laravel.com/docs/api-reference/recipes/share-recipe-with-the-team.md
+  ✓ Saved
+
+[103/238] /docs/api-reference/recipes/delete-a-recipe-share -> https://forge.laravel.com/docs/api-reference/recipes/delete-a-recipe-share.md
+  ✓ Saved
+
+[104/238] /docs/api-reference/recipes/list-forges-recipes -> https://forge.laravel.com/docs/api-reference/recipes/list-forges-recipes.md
+  ✓ Saved
+
+[105/238] /docs/api-reference/recipes/get-forge-recipe -> https://forge.laravel.com/docs/api-reference/recipes/get-forge-recipe.md
+  ✓ Saved
+
+[106/238] /docs/api-reference/recipes/create-forge-recipe-run -> https://forge.laravel.com/docs/api-reference/recipes/create-forge-recipe-run.md
+  ✓ Saved
+
+[107/238] /docs/api-reference/redirect-rules/list-site-redirect-rules -> https://forge.laravel.com/docs/api-reference/redirect-rules/list-site-redirect-rules.md
+  ✓ Saved
+
+[108/238] /docs/api-reference/redirect-rules/create-site-redirect-rule -> https://forge.laravel.com/docs/api-reference/redirect-rules/create-site-redirect-rule.md
+  ✓ Saved
+
+[109/238] /docs/api-reference/redirect-rules/get-site-redirect-rule -> https://forge.laravel.com/docs/api-reference/redirect-rules/get-site-redirect-rule.md
+  ✓ Saved
+
+[110/238] /docs/api-reference/redirect-rules/delete-site-redirect-rule -> https://forge.laravel.com/docs/api-reference/redirect-rules/delete-site-redirect-rule.md
+  ✓ Saved
+
+[111/238] /docs/api-reference/roles/list-predefined-roles -> https://forge.laravel.com/docs/api-reference/roles/list-predefined-roles.md
+  ✓ Saved
+
+[112/238] /docs/api-reference/roles/get-predefined-role -> https://forge.laravel.com/docs/api-reference/roles/get-predefined-role.md
+  ✓ Saved
+
+[113/238] /docs/api-reference/roles/list-permissions -> https://forge.laravel.com/docs/api-reference/roles/list-permissions.md
+  ✓ Saved
+
+[114/238] /docs/api-reference/roles/get-permission -> https://forge.laravel.com/docs/api-reference/roles/get-permission.md
+  ✓ Saved
+
+[115/238] /docs/api-reference/roles/list-roles -> https://forge.laravel.com/docs/api-reference/roles/list-roles.md
+  ✓ Saved
+
+[116/238] /docs/api-reference/roles/create-role -> https://forge.laravel.com/docs/api-reference/roles/create-role.md
+  ✓ Saved
+
+[117/238] /docs/api-reference/roles/get-role -> https://forge.laravel.com/docs/api-reference/roles/get-role.md
+  ✓ Saved
+
+[118/238] /docs/api-reference/roles/update-role -> https://forge.laravel.com/docs/api-reference/roles/update-role.md
+  ✓ Saved
+
+[119/238] /docs/api-reference/roles/delete-role -> https://forge.laravel.com/docs/api-reference/roles/delete-role.md
+  ✓ Saved
+
+[120/238] /docs/api-reference/roles/list-role-permissions -> https://forge.laravel.com/docs/api-reference/roles/list-role-permissions.md
+  ✓ Saved
+
+[121/238] /docs/api-reference/ssh-keys/list-server-ssh-keys -> https://forge.laravel.com/docs/api-reference/ssh-keys/list-server-ssh-keys.md
+  ✓ Saved
+
+[122/238] /docs/api-reference/ssh-keys/create-server-ssh-key -> https://forge.laravel.com/docs/api-reference/ssh-keys/create-server-ssh-key.md
+  ✓ Saved
+
+[123/238] /docs/api-reference/ssh-keys/get-server-ssh-key -> https://forge.laravel.com/docs/api-reference/ssh-keys/get-server-ssh-key.md
+  ✓ Saved
+
+[124/238] /docs/api-reference/ssh-keys/delete-server-ssh-key -> https://forge.laravel.com/docs/api-reference/ssh-keys/delete-server-ssh-key.md
+  ✓ Saved
+
+[125/238] /docs/api-reference/ssh-keys/get-server-public-ssh-key -> https://forge.laravel.com/docs/api-reference/ssh-keys/get-server-public-ssh-key.md
+  ✓ Saved
+
+[126/238] /docs/api-reference/ssh-keys/update-server-public-ssh-key -> https://forge.laravel.com/docs/api-reference/ssh-keys/update-server-public-ssh-key.md
+  ✓ Saved
+
+[127/238] /docs/api-reference/scheduled-jobs/list-server-scheduled-jobs -> https://forge.laravel.com/docs/api-reference/scheduled-jobs/list-server-scheduled-jobs.md
+  ✓ Saved
+
+[128/238] /docs/api-reference/scheduled-jobs/create-scheduled-job -> https://forge.laravel.com/docs/api-reference/scheduled-jobs/create-scheduled-job.md
+  ✓ Saved
+
+[129/238] /docs/api-reference/scheduled-jobs/get-scheduled-job -> https://forge.laravel.com/docs/api-reference/scheduled-jobs/get-scheduled-job.md
+  ✓ Saved
+
+[130/238] /docs/api-reference/scheduled-jobs/delete-scheduled-job -> https://forge.laravel.com/docs/api-reference/scheduled-jobs/delete-scheduled-job.md
+  ✓ Saved
+
+[131/238] /docs/api-reference/scheduled-jobs/get-scheduled-job-output -> https://forge.laravel.com/docs/api-reference/scheduled-jobs/get-scheduled-job-output.md
+  ✓ Saved
+
+[132/238] /docs/api-reference/security-rules/list-site-security-rules -> https://forge.laravel.com/docs/api-reference/security-rules/list-site-security-rules.md
+  ✓ Saved
+
+[133/238] /docs/api-reference/security-rules/create-site-security-rule -> https://forge.laravel.com/docs/api-reference/security-rules/create-site-security-rule.md
+  ✓ Saved
+
+[134/238] /docs/api-reference/security-rules/get-site-security-rule -> https://forge.laravel.com/docs/api-reference/security-rules/get-site-security-rule.md
+  ✓ Saved
+
+[135/238] /docs/api-reference/security-rules/update-site-security-rule -> https://forge.laravel.com/docs/api-reference/security-rules/update-site-security-rule.md
+  ✓ Saved
+
+[136/238] /docs/api-reference/security-rules/delete-site-security-rule -> https://forge.laravel.com/docs/api-reference/security-rules/delete-site-security-rule.md
+  ✓ Saved
+
+[137/238] /docs/api-reference/server-credentials/list-team-server-credentials -> https://forge.laravel.com/docs/api-reference/server-credentials/list-team-server-credentials.md
+  ✓ Saved
+
+[138/238] /docs/api-reference/server-credentials/create-a-new-server-credential-share -> https://forge.laravel.com/docs/api-reference/server-credentials/create-a-new-server-credential-share.md
+  ✓ Saved
+
+[139/238] /docs/api-reference/server-credentials/delete-a-server-credential-share -> https://forge.laravel.com/docs/api-reference/server-credentials/delete-a-server-credential-share.md
+  ✓ Saved
+
+[140/238] /docs/api-reference/servers/list-servers -> https://forge.laravel.com/docs/api-reference/servers/list-servers.md
+  ✓ Saved
+
+[141/238] /docs/api-reference/servers/create-server -> https://forge.laravel.com/docs/api-reference/servers/create-server.md
+  ✓ Saved
+
+[142/238] /docs/api-reference/servers/list-archived-servers -> https://forge.laravel.com/docs/api-reference/servers/list-archived-servers.md
+  ✓ Saved
+
+[143/238] /docs/api-reference/servers/create-an-archived-server -> https://forge.laravel.com/docs/api-reference/servers/create-an-archived-server.md
+  ✓ Saved
+
+[144/238] /docs/api-reference/servers/delete-archived-server -> https://forge.laravel.com/docs/api-reference/servers/delete-archived-server.md
+  ✓ Saved
+
+[145/238] /docs/api-reference/servers/perform-an-action-on-a-server-background-process -> https://forge.laravel.com/docs/api-reference/servers/perform-an-action-on-a-server-background-process.md
+  ✓ Saved
+
+[146/238] /docs/api-reference/servers/create-server-action -> https://forge.laravel.com/docs/api-reference/servers/create-server-action.md
+  ✓ Saved
+
+[147/238] /docs/api-reference/servers/perform-nginx-action -> https://forge.laravel.com/docs/api-reference/servers/perform-nginx-action.md
+  ✓ Saved
+
+[148/238] /docs/api-reference/servers/perform-postgres-action -> https://forge.laravel.com/docs/api-reference/servers/perform-postgres-action.md
+  ✓ Saved
+
+[149/238] /docs/api-reference/servers/perform-redis-action -> https://forge.laravel.com/docs/api-reference/servers/perform-redis-action.md
+  ✓ Saved
+
+[150/238] /docs/api-reference/servers/perform-mysql-action -> https://forge.laravel.com/docs/api-reference/servers/perform-mysql-action.md
+  ✓ Saved
+
+[151/238] /docs/api-reference/servers/perform-php-action -> https://forge.laravel.com/docs/api-reference/servers/perform-php-action.md
+  ✓ Saved
+
+[152/238] /docs/api-reference/servers/perform-supervisor-action -> https://forge.laravel.com/docs/api-reference/servers/perform-supervisor-action.md
+  ✓ Saved
+
+[153/238] /docs/api-reference/servers/get-server -> https://forge.laravel.com/docs/api-reference/servers/get-server.md
+  ✓ Saved
+
+[154/238] /docs/api-reference/servers/delete-server -> https://forge.laravel.com/docs/api-reference/servers/delete-server.md
+  ✓ Saved
+
+[155/238] /docs/api-reference/servers/list-server-events -> https://forge.laravel.com/docs/api-reference/servers/list-server-events.md
+  ✓ Saved
+
+[156/238] /docs/api-reference/servers/get-server-event -> https://forge.laravel.com/docs/api-reference/servers/get-server-event.md
+  ✓ Saved
+
+[157/238] /docs/api-reference/servers/get-server-event-output -> https://forge.laravel.com/docs/api-reference/servers/get-server-event-output.md
+  ✓ Saved
+
+[158/238] /docs/api-reference/servers/get-php-cli-version -> https://forge.laravel.com/docs/api-reference/servers/get-php-cli-version.md
+  ✓ Saved
+
+[159/238] /docs/api-reference/servers/update-php-cli-version -> https://forge.laravel.com/docs/api-reference/servers/update-php-cli-version.md
+  ✓ Saved
+
+[160/238] /docs/api-reference/servers/get-php-site-version -> https://forge.laravel.com/docs/api-reference/servers/get-php-site-version.md
+  ✓ Saved
+
+[161/238] /docs/api-reference/servers/update-php-site-version -> https://forge.laravel.com/docs/api-reference/servers/update-php-site-version.md
+  ✓ Saved
+
+[162/238] /docs/api-reference/servers/list-php-versions-for-server -> https://forge.laravel.com/docs/api-reference/servers/list-php-versions-for-server.md
+  ✓ Saved
+
+[163/238] /docs/api-reference/servers/install-new-php-version -> https://forge.laravel.com/docs/api-reference/servers/install-new-php-version.md
+  ✓ Saved
+
+[164/238] /docs/api-reference/servers/get-php-version -> https://forge.laravel.com/docs/api-reference/servers/get-php-version.md
+  ✓ Saved
+
+[165/238] /docs/api-reference/servers/update-installed-php-version -> https://forge.laravel.com/docs/api-reference/servers/update-installed-php-version.md
+  ✓ Saved
+
+[166/238] /docs/api-reference/servers/delete-installed-php-version -> https://forge.laravel.com/docs/api-reference/servers/delete-installed-php-version.md
+  ✓ Saved
+
+[167/238] /docs/api-reference/servers/get-php-version-fpm-config -> https://forge.laravel.com/docs/api-reference/servers/get-php-version-fpm-config.md
+  ✓ Saved
+
+[168/238] /docs/api-reference/servers/update-php-version-fpm-config -> https://forge.laravel.com/docs/api-reference/servers/update-php-version-fpm-config.md
+  ✓ Saved
+
+[169/238] /docs/api-reference/servers/get-php-version-cli-config -> https://forge.laravel.com/docs/api-reference/servers/get-php-version-cli-config.md
+  ✓ Saved
+
+[170/238] /docs/api-reference/servers/update-php-version-cli-config -> https://forge.laravel.com/docs/api-reference/servers/update-php-version-cli-config.md
+  ✓ Saved
+
+[171/238] /docs/api-reference/servers/get-php-version-pool-config -> https://forge.laravel.com/docs/api-reference/servers/get-php-version-pool-config.md
+  ✓ Saved
+
+[172/238] /docs/api-reference/servers/update-php-version-pool-config -> https://forge.laravel.com/docs/api-reference/servers/update-php-version-pool-config.md
+  ✓ Saved
+
+[173/238] /docs/api-reference/servers/get-server-php-max-upload-size -> https://forge.laravel.com/docs/api-reference/servers/get-server-php-max-upload-size.md
+  ✓ Saved
+
+[174/238] /docs/api-reference/servers/update-server-php-max-upload-size -> https://forge.laravel.com/docs/api-reference/servers/update-server-php-max-upload-size.md
+  ✓ Saved
+
+[175/238] /docs/api-reference/servers/get-server-php-max-execution-time -> https://forge.laravel.com/docs/api-reference/servers/get-server-php-max-execution-time.md
+  ✓ Saved
+
+[176/238] /docs/api-reference/servers/update-server-php-max-execution-time -> https://forge.laravel.com/docs/api-reference/servers/update-server-php-max-execution-time.md
+  ✓ Saved
+
+[177/238] /docs/api-reference/servers/get-server-php-opcache-status -> https://forge.laravel.com/docs/api-reference/servers/get-server-php-opcache-status.md
+  ✓ Saved
+
+[178/238] /docs/api-reference/servers/create-php-opcache-config -> https://forge.laravel.com/docs/api-reference/servers/create-php-opcache-config.md
+  ✓ Saved
+
+[179/238] /docs/api-reference/servers/delete-php-opcache-config -> https://forge.laravel.com/docs/api-reference/servers/delete-php-opcache-config.md
+  ✓ Saved
+
+[180/238] /docs/api-reference/servers/list-team-servers -> https://forge.laravel.com/docs/api-reference/servers/list-team-servers.md
+  ✓ Saved
+
+[181/238] /docs/api-reference/servers/create-a-new-server-share -> https://forge.laravel.com/docs/api-reference/servers/create-a-new-server-share.md
+  ✓ Saved
+
+[182/238] /docs/api-reference/servers/delete-a-server-share -> https://forge.laravel.com/docs/api-reference/servers/delete-a-server-share.md
+  ✓ Saved
+
+[183/238] /docs/api-reference/sites/list-sites -> https://forge.laravel.com/docs/api-reference/sites/list-sites.md
+  ✓ Saved
+
+[184/238] /docs/api-reference/sites/list-sites-for-organization -> https://forge.laravel.com/docs/api-reference/sites/list-sites-for-organization.md
+  ✓ Saved
+
+[185/238] /docs/api-reference/sites/get-site -> https://forge.laravel.com/docs/api-reference/sites/get-site.md
+  ✓ Saved
+
+[186/238] /docs/api-reference/sites/list-sites-for-server -> https://forge.laravel.com/docs/api-reference/sites/list-sites-for-server.md
+  ✓ Saved
+
+[187/238] /docs/api-reference/sites/create-site -> https://forge.laravel.com/docs/api-reference/sites/create-site.md
+  ✓ Saved
+
+[188/238] /docs/api-reference/sites/update-site -> https://forge.laravel.com/docs/api-reference/sites/update-site.md
+  ✓ Saved
+
+[189/238] /docs/api-reference/sites/delete-site -> https://forge.laravel.com/docs/api-reference/sites/delete-site.md
+  ✓ Saved
+
+[190/238] /docs/api-reference/sites/list-domains -> https://forge.laravel.com/docs/api-reference/sites/list-domains.md
+  ✓ Saved
+
+[191/238] /docs/api-reference/sites/create-domain -> https://forge.laravel.com/docs/api-reference/sites/create-domain.md
+  ✓ Saved
+
+[192/238] /docs/api-reference/sites/get-domain -> https://forge.laravel.com/docs/api-reference/sites/get-domain.md
+  ✓ Saved
+
+[193/238] /docs/api-reference/sites/delete-domain -> https://forge.laravel.com/docs/api-reference/sites/delete-domain.md
+  ✓ Saved
+
+[194/238] /docs/api-reference/sites/update-domain -> https://forge.laravel.com/docs/api-reference/sites/update-domain.md
+  ✓ Saved
+
+[195/238] /docs/api-reference/sites/get-domain-dns-configuration -> https://forge.laravel.com/docs/api-reference/sites/get-domain-dns-configuration.md
+  ✓ Saved
+
+[196/238] /docs/api-reference/sites/create-domain-action -> https://forge.laravel.com/docs/api-reference/sites/create-domain-action.md
+  ✓ Saved
+
+[197/238] /docs/api-reference/sites/get-domain-certificate -> https://forge.laravel.com/docs/api-reference/sites/get-domain-certificate.md
+  ✓ Saved
+
+[198/238] /docs/api-reference/sites/create-domain-certificate -> https://forge.laravel.com/docs/api-reference/sites/create-domain-certificate.md
+  ✓ Saved
+
+[199/238] /docs/api-reference/sites/delete-domain-certificate -> https://forge.laravel.com/docs/api-reference/sites/delete-domain-certificate.md
+  ✓ Saved
+
+[200/238] /docs/api-reference/sites/get-healthcheck-endpoint -> https://forge.laravel.com/docs/api-reference/sites/get-healthcheck-endpoint.md
+  ✓ Saved
+
+[201/238] /docs/api-reference/sites/update-healthcheck-endpoint -> https://forge.laravel.com/docs/api-reference/sites/update-healthcheck-endpoint.md
+  ✓ Saved
+
+[202/238] /docs/api-reference/sites/get-env-content -> https://forge.laravel.com/docs/api-reference/sites/get-env-content.md
+  ✓ Saved
+
+[203/238] /docs/api-reference/sites/update-env-content -> https://forge.laravel.com/docs/api-reference/sites/update-env-content.md
+  ✓ Saved
+
+[204/238] /docs/api-reference/sites/get-nginx-configuration -> https://forge.laravel.com/docs/api-reference/sites/get-nginx-configuration.md
+  ✓ Saved
+
+[205/238] /docs/api-reference/sites/update-nginx-configuration -> https://forge.laravel.com/docs/api-reference/sites/update-nginx-configuration.md
+  ✓ Saved
+
+[206/238] /docs/api-reference/sites/get-composer-credentials-for-the-site -> https://forge.laravel.com/docs/api-reference/sites/get-composer-credentials-for-the-site.md
+  ✓ Saved
+
+[207/238] /docs/api-reference/sites/create-composer-credentials-for-the-site -> https://forge.laravel.com/docs/api-reference/sites/create-composer-credentials-for-the-site.md
+  ✓ Saved
+
+[208/238] /docs/api-reference/sites/get-composer-credential-for-the-site -> https://forge.laravel.com/docs/api-reference/sites/get-composer-credential-for-the-site.md
+  ✓ Saved
+
+[209/238] /docs/api-reference/sites/update-composer-credentials-for-the-site -> https://forge.laravel.com/docs/api-reference/sites/update-composer-credentials-for-the-site.md
+  ✓ Saved
+
+[210/238] /docs/api-reference/sites/delete-composer-credentials-for-the-site -> https://forge.laravel.com/docs/api-reference/sites/delete-composer-credentials-for-the-site.md
+  ✓ Saved
+
+[211/238] /docs/api-reference/sites/list-load-balancing-nodes -> https://forge.laravel.com/docs/api-reference/sites/list-load-balancing-nodes.md
+  ✓ Saved
+
+[212/238] /docs/api-reference/sites/update-load-balancing-nodes -> https://forge.laravel.com/docs/api-reference/sites/update-load-balancing-nodes.md
+  ✓ Saved
+
+[213/238] /docs/api-reference/sites/get-nginx-access-log-content -> https://forge.laravel.com/docs/api-reference/sites/get-nginx-access-log-content.md
+  ✓ Saved
+
+[214/238] /docs/api-reference/sites/delete-nginx-access-log-content -> https://forge.laravel.com/docs/api-reference/sites/delete-nginx-access-log-content.md
+  ✓ Saved
+
+[215/238] /docs/api-reference/sites/get-nginx-error-log-content -> https://forge.laravel.com/docs/api-reference/sites/get-nginx-error-log-content.md
+  ✓ Saved
+
+[216/238] /docs/api-reference/sites/delete-nginx-error-log-content -> https://forge.laravel.com/docs/api-reference/sites/delete-nginx-error-log-content.md
+  ✓ Saved
+
+[217/238] /docs/api-reference/sites/get-site-log-content -> https://forge.laravel.com/docs/api-reference/sites/get-site-log-content.md
+  ✓ Saved
+
+[218/238] /docs/api-reference/sites/delete-site-log-content -> https://forge.laravel.com/docs/api-reference/sites/delete-site-log-content.md
+  ✓ Saved
+
+[219/238] /docs/api-reference/sites/list-heartbeats -> https://forge.laravel.com/docs/api-reference/sites/list-heartbeats.md
+  ✓ Saved
+
+[220/238] /docs/api-reference/sites/create-heartbeat -> https://forge.laravel.com/docs/api-reference/sites/create-heartbeat.md
+  ✓ Saved
+
+[221/238] /docs/api-reference/sites/get-heartbeat -> https://forge.laravel.com/docs/api-reference/sites/get-heartbeat.md
+  ✓ Saved
+
+[222/238] /docs/api-reference/sites/update-heartbeat -> https://forge.laravel.com/docs/api-reference/sites/update-heartbeat.md
+  ✓ Saved
+
+[223/238] /docs/api-reference/sites/delete-heartbeat -> https://forge.laravel.com/docs/api-reference/sites/delete-heartbeat.md
+  ✓ Saved
+
+[224/238] /docs/api-reference/teams/list-teams -> https://forge.laravel.com/docs/api-reference/teams/list-teams.md
+  ✓ Saved
+
+[225/238] /docs/api-reference/teams/create-team -> https://forge.laravel.com/docs/api-reference/teams/create-team.md
+  ✓ Saved
+
+[226/238] /docs/api-reference/teams/get-team -> https://forge.laravel.com/docs/api-reference/teams/get-team.md
+  ✓ Saved
+
+[227/238] /docs/api-reference/teams/update-team -> https://forge.laravel.com/docs/api-reference/teams/update-team.md
+  ✓ Saved
+
+[228/238] /docs/api-reference/teams/delete-team -> https://forge.laravel.com/docs/api-reference/teams/delete-team.md
+  ✓ Saved
+
+[229/238] /docs/api-reference/teams/list-team-members -> https://forge.laravel.com/docs/api-reference/teams/list-team-members.md
+  ✓ Saved
+
+[230/238] /docs/api-reference/teams/get-team-member -> https://forge.laravel.com/docs/api-reference/teams/get-team-member.md
+  ✓ Saved
+
+[231/238] /docs/api-reference/teams/update-team-member -> https://forge.laravel.com/docs/api-reference/teams/update-team-member.md
+  ✓ Saved
+
+[232/238] /docs/api-reference/teams/delete-team-member -> https://forge.laravel.com/docs/api-reference/teams/delete-team-member.md
+  ✓ Saved
+
+[233/238] /docs/api-reference/teams/list-team-invitations -> https://forge.laravel.com/docs/api-reference/teams/list-team-invitations.md
+  ✓ Saved
+
+[234/238] /docs/api-reference/teams/create-team-invite -> https://forge.laravel.com/docs/api-reference/teams/create-team-invite.md
+  ✓ Saved
+
+[235/238] /docs/api-reference/teams/get-team-invitation -> https://forge.laravel.com/docs/api-reference/teams/get-team-invitation.md
+  ✓ Saved
+
+[236/238] /docs/api-reference/teams/delete-team-invitation -> https://forge.laravel.com/docs/api-reference/teams/delete-team-invitation.md
+  ✓ Saved
+
+[237/238] /docs/api-reference/user/get-user -> https://forge.laravel.com/docs/api-reference/user/get-user.md
+  ✓ Saved
+
+[238/238] /docs/api-reference/user/get-user-1 -> https://forge.laravel.com/docs/api-reference/user/get-user-1.md
+  ✓ Saved
+
+
+============================================================
+Summary:
+  ✓ Successfully fetched: 238 pages
+  ✗ Errors: 0 pages
+============================================================
+

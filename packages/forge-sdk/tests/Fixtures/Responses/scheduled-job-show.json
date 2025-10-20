@@ -1,0 +1,18 @@
+{
+  "data": {
+    "id": "900",
+    "type": "scheduled-jobs",
+    "attributes": {
+      "id": 900,
+      "command": "php artisan schedule:run",
+      "user": "forge",
+      "frequency": "minutely",
+      "status": "installed",
+      "created_at": "2025-01-10T13:00:00Z",
+      "updated_at": "2025-01-10T13:00:00Z"
+    },
+    "links": {
+      "self": "https://forge.laravel.com/api/orgs/1/servers/100/scheduled-jobs/900"
+    }
+  }
+}

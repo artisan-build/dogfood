@@ -1,0 +1,258 @@
+---
+source: https://forge.laravel.com/docs/api-reference/recipes/create-recipe.md
+fetched: 2025-10-19T14:37:46.474Z
+---
+
+# Create recipe
+
+> Create a new recipe for the organization.
+
+Processing mode: <small><code>sync</code></small>
+
+## OpenAPI
+
+````yaml https://forge.laravel.com/api/docs.openapi post /orgs/{organization}/recipes
+paths:
+  path: /orgs/{organization}/recipes
+  method: post
+  servers:
+    - url: https://forge.laravel.com/api
+  request:
+    security:
+      - title: oauth2
+        parameters:
+          query: {}
+          header:
+            Authorization:
+              type: oauth2
+          cookie: {}
+    parameters:
+      path:
+        organization:
+          schema:
+            - type: string
+              required: true
+              description: The organization slug
+      query: {}
+      header: {}
+      cookie: {}
+    body:
+      application/json:
+        schemaArray:
+          - type: object
+            properties:
+              name:
+                allOf:
+                  - type: string
+                    maxLength: 255
+              user:
+                allOf:
+                  - type: string
+                    enum:
+                      - root
+                      - forge
+              script:
+                allOf:
+                  - type: string
+              team_id:
+                allOf:
+                  - type: string
+            required: true
+            title: CreateRecipeRequest
+            refIdentifier: '#/components/schemas/CreateRecipeRequest'
+            requiredProperties:
+              - name
+              - user
+              - script
+        examples:
+          example:
+            value:
+              name: <string>
+              user: root
+              script: <string>
+              team_id: <string>
+  response:
+    '200':
+      application/vnd.api+json:
+        schemaArray:
+          - type: object
+            properties:
+              data:
+                allOf:
+                  - $ref: '#/components/schemas/RecipeResource'
+            requiredProperties:
+              - data
+        examples:
+          example:
+            value:
+              data:
+                id: <string>
+                type: recipes
+                attributes:
+                  name: Install Security tooling
+                  script: apt-get install -y my-custom-tooling
+                  user: root
+                  created_at: '2025-07-29T09:00:00Z'
+                  updated_at: '2025-07-30T09:00:00Z'
+                links:
+                  self:
+                    href: <string>
+                    rel: <string>
+                    describedby: <string>
+                    title: <string>
+                    type: <string>
+                    hreflang: <string>
+                    meta: {}
+        description: '`RecipeResource`'
+    '403':
+      application/json:
+        schemaArray:
+          - type: object
+            properties:
+              message:
+                allOf:
+                  - type: string
+                    description: Error overview.
+            requiredProperties:
+              - message
+        examples:
+          example:
+            value:
+              message: <string>
+        description: Authorization error
+    '404':
+      application/json:
+        schemaArray:
+          - type: object
+            properties:
+              message:
+                allOf:
+                  - type: string
+                    description: Error overview.
+            requiredProperties:
+              - message
+        examples:
+          example:
+            value:
+              message: <string>
+        description: Not found
+    '422':
+      application/json:
+        schemaArray:
+          - type: object
+            properties:
+              message:
+                allOf:
+                  - type: string
+                    description: Errors overview.
+              errors:
+                allOf:
+                  - type: object
+                    description: >-
+                      A detailed description of each field that failed
+                      validation.
+                    additionalProperties:
+                      type: array
+                      items:
+                        type: string
+            requiredProperties:
+              - message
+              - errors
+        examples:
+          example:
+            value:
+              message: <string>
+              errors: {}
+        description: Validation error
+  deprecated: false
+  type: path
+  xMint:
+    metadata:
+      noindex: true
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+        rel:
+          type: string
+        describedby:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        hreflang:
+          anyOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        meta:
+          type: object
+      required:
+        - href
+      title: Link
+    RecipeResource:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+            - recipes
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The name of the Recipe.
+              examples:
+                - Install Security tooling
+            script:
+              type: string
+              description: The script that should be executed.
+              examples:
+                - apt-get install -y my-custom-tooling
+            user:
+              type: string
+              description: The user that the Recipe should be executed as.
+              examples:
+                - root
+            created_at:
+              type: string
+              format: date-time
+              description: The date the Recipe was created.
+              examples:
+                - '2025-07-29T09:00:00Z'
+            updated_at:
+              type: string
+              format: date-time
+              description: The date the Recipe was last updated.
+              examples:
+                - '2025-07-30T09:00:00Z'
+          required:
+            - name
+            - script
+            - user
+            - created_at
+            - updated_at
+        links:
+          type: object
+          properties:
+            self:
+              description: A link to the resource itself
+              $ref: '#/components/schemas/Link'
+          required:
+            - self
+      required:
+        - id
+        - type
+        - links
+      title: RecipeResource
+
+````

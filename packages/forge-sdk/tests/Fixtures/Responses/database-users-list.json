@@ -1,0 +1,46 @@
+{
+  "data": [
+    {
+      "id": "500",
+      "type": "database-users",
+      "attributes": {
+        "id": 500,
+        "name": "app_user",
+        "status": "installed",
+        "databases": ["production_db"],
+        "created_at": "2025-01-10T10:05:00Z",
+        "updated_at": "2025-01-10T10:05:00Z"
+      },
+      "links": {
+        "self": "https://forge.laravel.com/api/orgs/1/servers/100/database-users/500"
+      }
+    },
+    {
+      "id": "501",
+      "type": "database-users",
+      "attributes": {
+        "id": 501,
+        "name": "staging_user",
+        "status": "installed",
+        "databases": ["staging_db"],
+        "created_at": "2025-01-12T12:05:00Z",
+        "updated_at": "2025-01-12T12:05:00Z"
+      },
+      "links": {
+        "self": "https://forge.laravel.com/api/orgs/1/servers/100/database-users/501"
+      }
+    }
+  ],
+  "links": {
+    "first": "https://forge.laravel.com/api/orgs/1/servers/100/database-users?cursor=",
+    "last": "https://forge.laravel.com/api/orgs/1/servers/100/database-users?cursor=eyJpZCI6NTAxLCJwb2ludHNUb05leHRJdGVtcyI6ZmFsc2V9",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "path": "https://forge.laravel.com/api/orgs/1/servers/100/database-users",
+    "per_page": 15,
+    "next_cursor": null,
+    "prev_cursor": null
+  }
+}

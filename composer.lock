@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "61deda924983d0a827360d209732b79f",
+    "content-hash": "4b10b98b24c9ba853bbcdbcabd66d752",
     "packages": [
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -87,7 +87,7 @@
         },
         {
             "name": "artisan-build/agent-os-installer",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/agent-os-installer",
@@ -147,7 +147,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -224,7 +224,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -342,7 +342,7 @@
         },
         {
             "name": "artisan-build/claudecode",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/claudecode",
@@ -422,7 +422,7 @@
         },
         {
             "name": "artisan-build/code-chat-client",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/code-chat-client",
@@ -503,7 +503,7 @@
         },
         {
             "name": "artisan-build/docsidian",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -585,7 +585,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -663,7 +663,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -742,8 +742,91 @@
             }
         },
         {
+            "name": "artisan-build/forge-sdk",
+            "version": "dev-forge-sdk",
+            "dist": {
+                "type": "path",
+                "url": "packages/forge-sdk",
+                "reference": "a7323d71661d22ced2dbb4b7e6dbc2d3f45d9142"
+            },
+            "require": {
+                "illuminate/support": "^11.36|^12.0",
+                "saloonphp/laravel-plugin": "^3.0",
+                "saloonphp/saloon": "^3.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^v3.0.2",
+                "laravel/pint": "^1.19.0",
+                "orchestra/testbench": "^v9.9.0",
+                "pestphp/pest": "^v3.7.1",
+                "phpstan/phpstan": "^2.1.0",
+                "saloonphp/saloon-sdk-generator": "^0.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArtisanBuild\\ForgeSdk\\Providers\\ForgeSdkServiceProvider"
+                    ],
+                    "aliases": {
+                        "Forge": "ArtisanBuild\\ForgeSdk\\Facades\\Forge"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArtisanBuild\\ForgeSdk\\": "src/",
+                    "ArtisanBuild\\ForgeSdk\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@composer run prepare"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-bench --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@composer run prepare",
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "start": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@composer run build",
+                    "@php vendor/bin/testbench serve"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "lint": [
+                    "vendor/bin/pint"
+                ],
+                "stan": [
+                    "vendor/bin/phpstan analyse --memory-limit=-1"
+                ],
+                "ready": [
+                    "@composer lint",
+                    "@composer stan",
+                    "@composer test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Saloon-based SDK for Laravel Forge (2025+ Version)",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "artisan-build/gh",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -819,7 +902,7 @@
         },
         {
             "name": "artisan-build/hallway-core",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-core",
@@ -917,7 +1000,7 @@
         },
         {
             "name": "artisan-build/hallway-flux",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
@@ -1016,7 +1099,7 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
@@ -1098,7 +1181,7 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -1177,7 +1260,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -1254,7 +1337,7 @@
         },
         {
             "name": "artisan-build/mirror",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/mirror",
@@ -1331,7 +1414,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -1409,7 +1492,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -1489,7 +1572,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -1567,7 +1650,7 @@
         },
         {
             "name": "artisan-build/turbulence",
-            "version": "dev-turbulence_docs",
+            "version": "dev-forge-sdk",
             "dist": {
                 "type": "path",
                 "url": "packages/turbulence",
@@ -4017,16 +4100,16 @@
         },
         {
             "name": "laravel/pennant",
-            "version": "v1.18.2",
+            "version": "v1.18.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pennant.git",
-                "reference": "6d3ea4874ee4da4a7d02826f545ef6309160d041"
+                "reference": "1dc2aa4e645cf806b8ae5057a133a9fd62fd6410"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pennant/zipball/6d3ea4874ee4da4a7d02826f545ef6309160d041",
-                "reference": "6d3ea4874ee4da4a7d02826f545ef6309160d041",
+                "url": "https://api.github.com/repos/laravel/pennant/zipball/1dc2aa4e645cf806b8ae5057a133a9fd62fd6410",
+                "reference": "1dc2aa4e645cf806b8ae5057a133a9fd62fd6410",
                 "shasum": ""
             },
             "require": {
@@ -4090,7 +4173,7 @@
                 "issues": "https://github.com/laravel/pennant/issues",
                 "source": "https://github.com/laravel/pennant"
             },
-            "time": "2025-08-18T13:24:56+00:00"
+            "time": "2025-10-13T16:33:58+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -4217,16 +4300,16 @@
         },
         {
             "name": "laravel/serializable-closure",
-            "version": "v2.0.5",
+            "version": "v2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/serializable-closure.git",
-                "reference": "3832547db6e0e2f8bb03d4093857b378c66eceed"
+                "reference": "038ce42edee619599a1debb7e81d7b3759492819"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/3832547db6e0e2f8bb03d4093857b378c66eceed",
-                "reference": "3832547db6e0e2f8bb03d4093857b378c66eceed",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/038ce42edee619599a1debb7e81d7b3759492819",
+                "reference": "038ce42edee619599a1debb7e81d7b3759492819",
                 "shasum": ""
             },
             "require": {
@@ -4274,7 +4357,7 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2025-09-22T17:29:40+00:00"
+            "time": "2025-10-09T13:42:30+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -4895,16 +4978,16 @@
         },
         {
             "name": "livewire/flux",
-            "version": "v2.5.1",
+            "version": "v2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/flux.git",
-                "reference": "7d236c6caa6a8fa8604caa08abf2ae630be12c24"
+                "reference": "3cb2ea40978449da74b3814eeef75f0388124224"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/flux/zipball/7d236c6caa6a8fa8604caa08abf2ae630be12c24",
-                "reference": "7d236c6caa6a8fa8604caa08abf2ae630be12c24",
+                "url": "https://api.github.com/repos/livewire/flux/zipball/3cb2ea40978449da74b3814eeef75f0388124224",
+                "reference": "3cb2ea40978449da74b3814eeef75f0388124224",
                 "shasum": ""
             },
             "require": {
@@ -4955,25 +5038,25 @@
             ],
             "support": {
                 "issues": "https://github.com/livewire/flux/issues",
-                "source": "https://github.com/livewire/flux/tree/v2.5.1"
+                "source": "https://github.com/livewire/flux/tree/v2.6.0"
             },
-            "time": "2025-09-29T21:36:00+00:00"
+            "time": "2025-10-13T23:17:18+00:00"
         },
         {
             "name": "livewire/flux-pro",
-            "version": "2.5.1",
+            "version": "2.6.0",
             "dist": {
                 "type": "zip",
-                "url": "https://composer.fluxui.dev/download/a00f7553-c14a-4e35-9285-af020bbd1380/flux-pro-2.5.1.zip",
-                "reference": "27952bcae259947dca9098b5d8ac3121098efcf8",
-                "shasum": "8397a7cf7718bdb8765e5d3a335e20f1109c2435"
+                "url": "https://composer.fluxui.dev/download/a01b7791-4494-476d-bfd6-9605f43121a7/flux-pro-2.6.0.zip",
+                "reference": "0b2f0c4523bded72b06a47532cf5db248cfa3072",
+                "shasum": "7741f0b5bb2e9a69cf3ec20976f40a9f396b770d"
             },
             "require": {
                 "illuminate/console": "^10.0|^11.0|^12.0",
                 "illuminate/support": "^10.0|^11.0|^12.0",
                 "illuminate/view": "^10.0|^11.0|^12.0",
                 "laravel/prompts": "^0.1.24|^0.2|^0.3",
-                "livewire/flux": "2.5.1|dev-main",
+                "livewire/flux": "2.6.0|dev-main",
                 "livewire/livewire": "^3.6.2",
                 "php": "^8.1",
                 "symfony/console": "^6.0|^7.0"
@@ -5014,7 +5097,7 @@
                 "livewire",
                 "ui"
             ],
-            "time": "2025-10-08T00:15:35+00:00"
+            "time": "2025-10-13T23:31:47+00:00"
         },
         {
             "name": "livewire/livewire",
@@ -5688,31 +5771,31 @@
         },
         {
             "name": "nunomaduro/termwind",
-            "version": "v2.3.1",
+            "version": "v2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/termwind.git",
-                "reference": "dfa08f390e509967a15c22493dc0bac5733d9123"
+                "reference": "eb61920a53057a7debd718a5b89c2178032b52c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/termwind/zipball/dfa08f390e509967a15c22493dc0bac5733d9123",
-                "reference": "dfa08f390e509967a15c22493dc0bac5733d9123",
+                "url": "https://api.github.com/repos/nunomaduro/termwind/zipball/eb61920a53057a7debd718a5b89c2178032b52c0",
+                "reference": "eb61920a53057a7debd718a5b89c2178032b52c0",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "php": "^8.2",
-                "symfony/console": "^7.2.6"
+                "symfony/console": "^7.3.4"
             },
             "require-dev": {
-                "illuminate/console": "^11.44.7",
-                "laravel/pint": "^1.22.0",
+                "illuminate/console": "^11.46.1",
+                "laravel/pint": "^1.25.1",
                 "mockery/mockery": "^1.6.12",
-                "pestphp/pest": "^2.36.0 || ^3.8.2",
-                "phpstan/phpstan": "^1.12.25",
+                "pestphp/pest": "^2.36.0 || ^3.8.4",
+                "phpstan/phpstan": "^1.12.32",
                 "phpstan/phpstan-strict-rules": "^1.6.2",
-                "symfony/var-dumper": "^7.2.6",
+                "symfony/var-dumper": "^7.3.4",
                 "thecodingmachine/phpstan-strict-rules": "^1.0.0"
             },
             "type": "library",
@@ -5755,7 +5838,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nunomaduro/termwind/issues",
-                "source": "https://github.com/nunomaduro/termwind/tree/v2.3.1"
+                "source": "https://github.com/nunomaduro/termwind/tree/v2.3.2"
             },
             "funding": [
                 {
@@ -5771,7 +5854,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-05-08T08:14:37+00:00"
+            "time": "2025-10-18T11:10:27+00:00"
         },
         {
             "name": "oscarotero/html-parser",
@@ -6661,6 +6744,74 @@
                 }
             ],
             "time": "2025-08-19T18:57:03+00:00"
+        },
+        {
+            "name": "saloonphp/laravel-plugin",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saloonphp/laravel-plugin.git",
+                "reference": "6338fcb6c4125d212da9a96f7bd7f447a1a7dcd8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saloonphp/laravel-plugin/zipball/6338fcb6c4125d212da9a96f7bd7f447a1a7dcd8",
+                "reference": "6338fcb6c4125d212da9a96f7bd7f447a1a7dcd8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^10.0 || ^11.0 || ^12.0",
+                "illuminate/support": "^10.0 || ^11.0 || ^12.0",
+                "php": "^8.1",
+                "saloonphp/saloon": "^3.5",
+                "symfony/finder": "^6.4 || ^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.48",
+                "orchestra/testbench": "^8.21 || ^9.0 || ^10.0",
+                "pestphp/pest": "^2.32 || ^3.7",
+                "phpstan/phpstan": "^1.10.56 || ^2.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Saloon": "Saloon\\Laravel\\Facades\\Saloon"
+                    },
+                    "providers": [
+                        "Saloon\\Laravel\\SaloonServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Saloon\\Laravel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Carré",
+                    "email": "29132017+Sammyjo20@users.noreply.github.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The official Laravel plugin for Saloon",
+            "homepage": "https://github.com/saloonphp/laravel-plugin",
+            "keywords": [
+                "api",
+                "api-integrations",
+                "saloon",
+                "saloonphp",
+                "sdk"
+            ],
+            "support": {
+                "source": "https://github.com/saloonphp/laravel-plugin/tree/v3.6.0"
+            },
+            "time": "2025-06-21T13:03:10+00:00"
         },
         {
             "name": "saloonphp/saloon",
@@ -12151,21 +12302,21 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v9.16.3",
+            "version": "v9.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "4ea3b276f706c900e3fccfa1db7742829ee9d5af"
+                "reference": "a5b4d56a40536fde50a72e20ce43abaa76f8de2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/4ea3b276f706c900e3fccfa1db7742829ee9d5af",
-                "reference": "4ea3b276f706c900e3fccfa1db7742829ee9d5af",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/a5b4d56a40536fde50a72e20ce43abaa76f8de2f",
+                "reference": "a5b4d56a40536fde50a72e20ce43abaa76f8de2f",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
-                "orchestra/sidekick": "~1.1.14|^1.2.10",
+                "orchestra/sidekick": "~1.1.20|~1.2.17",
                 "php": "^8.2",
                 "symfony/deprecation-contracts": "^2.5|^3.0",
                 "symfony/polyfill-php83": "^1.32"
@@ -12241,7 +12392,7 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2025-09-03T02:26:35+00:00"
+            "time": "2025-10-14T12:02:37+00:00"
         },
         {
             "name": "orchestra/workbench",
@@ -13754,12 +13905,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "60bbb2fff15a77ab2eda09d7a420883f863938f8"
+                "reference": "7a8f128281289412092c450a5eb3df5cabbc89e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/60bbb2fff15a77ab2eda09d7a420883f863938f8",
-                "reference": "60bbb2fff15a77ab2eda09d7a420883f863938f8",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/7a8f128281289412092c450a5eb3df5cabbc89e1",
+                "reference": "7a8f128281289412092c450a5eb3df5cabbc89e1",
                 "shasum": ""
             },
             "conflict": {
@@ -13778,6 +13929,7 @@
                 "akaunting/akaunting": "<2.1.13",
                 "akeneo/pim-community-dev": "<5.0.119|>=6,<6.0.53",
                 "alextselegidis/easyappointments": "<1.5.2.0-beta1",
+                "alt-design/alt-redirect": "<1.6.4",
                 "alterphp/easyadmin-extension-bundle": ">=1.2,<1.2.11|>=1.3,<1.3.1",
                 "amazing/media2click": ">=1,<1.3.3",
                 "ameos/ameos_tarteaucitron": "<1.2.23",
@@ -13816,7 +13968,7 @@
                 "backpack/filemanager": "<2.0.2|>=3,<3.0.9",
                 "bacula-web/bacula-web": "<9.7.1",
                 "badaso/core": "<=2.9.11",
-                "bagisto/bagisto": "<2.1",
+                "bagisto/bagisto": "<=2.3.7",
                 "barrelstrength/sprout-base-email": "<1.2.7",
                 "barrelstrength/sprout-forms": "<3.9",
                 "barryvdh/laravel-translation-manager": "<0.6.8",
@@ -13973,7 +14125,7 @@
                 "ezsystems/ezdemo-ls-extension": ">=5.4,<5.4.2.1-dev",
                 "ezsystems/ezfind-ls": ">=5.3,<5.3.6.1-dev|>=5.4,<5.4.11.1-dev|>=2017.12,<2017.12.0.1-dev",
                 "ezsystems/ezplatform": "<=1.13.6|>=2,<=2.5.24",
-                "ezsystems/ezplatform-admin-ui": ">=1.3,<1.3.5|>=1.4,<1.4.6|>=1.5,<1.5.29|>=2.3,<2.3.38|>=3.3,<3.3.39",
+                "ezsystems/ezplatform-admin-ui": ">=1.3,<1.3.5|>=1.4,<1.4.6|>=1.5,<1.5.29|>=2.3,<2.3.39|>=3.3,<3.3.39",
                 "ezsystems/ezplatform-admin-ui-assets": ">=4,<4.2.1|>=5,<5.0.1|>=5.1,<5.1.1|>=5.3.0.0-beta1,<5.3.5",
                 "ezsystems/ezplatform-graphql": ">=1.0.0.0-RC1-dev,<1.0.13|>=2.0.0.0-beta1,<2.3.12",
                 "ezsystems/ezplatform-http-cache": "<2.3.16",
@@ -14067,15 +14219,15 @@
                 "hov/jobfair": "<1.0.13|>=2,<2.0.2",
                 "httpsoft/http-message": "<1.0.12",
                 "hyn/multi-tenant": ">=5.6,<5.7.2",
-                "ibexa/admin-ui": ">=4.2,<4.2.3|>=4.6,<4.6.21",
+                "ibexa/admin-ui": ">=4.2,<4.2.3|>=4.6,<4.6.25|>=5,<5.0.3",
                 "ibexa/admin-ui-assets": ">=4.6.0.0-alpha1,<4.6.21",
                 "ibexa/core": ">=4,<4.0.7|>=4.1,<4.1.4|>=4.2,<4.2.3|>=4.5,<4.5.6|>=4.6,<4.6.2",
-                "ibexa/fieldtype-richtext": ">=4.6,<4.6.21",
+                "ibexa/fieldtype-richtext": ">=4.6,<4.6.25|>=5,<5.0.3",
                 "ibexa/graphql": ">=2.5,<2.5.31|>=3.3,<3.3.28|>=4.2,<4.2.3",
                 "ibexa/http-cache": ">=4.6,<4.6.14",
                 "ibexa/post-install": "<1.0.16|>=4.6,<4.6.14",
                 "ibexa/solr": ">=4.5,<4.5.4",
-                "ibexa/user": ">=4,<4.4.3",
+                "ibexa/user": ">=4,<4.4.3|>=5,<5.0.3",
                 "icecoder/icecoder": "<=8.1",
                 "idno/known": "<=1.3.1",
                 "ilicmiljan/secure-props": ">=1.2,<1.2.2",
@@ -14347,6 +14499,7 @@
                 "prestashop/gamification": "<2.3.2",
                 "prestashop/prestashop": "<8.2.3",
                 "prestashop/productcomments": "<5.0.2",
+                "prestashop/ps_checkout": "<4.4.1|>=5,<5.0.5",
                 "prestashop/ps_contactinfo": "<=3.3.2",
                 "prestashop/ps_emailsubscription": "<2.6.1",
                 "prestashop/ps_facetedsearch": "<3.4.1",
@@ -14724,7 +14877,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-10-11T00:19:40+00:00"
+            "time": "2025-10-17T18:06:27+00:00"
         },
         {
             "name": "sebastian/cli-parser",

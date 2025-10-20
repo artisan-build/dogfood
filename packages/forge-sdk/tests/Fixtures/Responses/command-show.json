@@ -1,0 +1,18 @@
+{
+  "data": {
+    "id": "700",
+    "type": "commands",
+    "attributes": {
+      "id": 700,
+      "command": "php artisan migrate --force",
+      "user": "forge",
+      "status": "finished",
+      "exit_code": 0,
+      "created_at": "2025-01-15T16:00:00Z",
+      "updated_at": "2025-01-15T16:00:30Z"
+    },
+    "links": {
+      "self": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/commands/700"
+    }
+  }
+}

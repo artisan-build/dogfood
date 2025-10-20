@@ -1,0 +1,21 @@
+{
+  "data": {
+    "id": "300",
+    "type": "deployments",
+    "attributes": {
+      "id": 300,
+      "status": "finished",
+      "commit_hash": "abc123def456",
+      "commit_author": "John Doe",
+      "commit_message": "Update dependencies",
+      "started_at": "2025-01-15T14:00:00Z",
+      "ended_at": "2025-01-15T14:02:30Z",
+      "duration": 150,
+      "created_at": "2025-01-15T14:00:00Z",
+      "updated_at": "2025-01-15T14:02:30Z"
+    },
+    "links": {
+      "self": "https://forge.laravel.com/api/orgs/1/servers/100/sites/200/deployments/300"
+    }
+  }
+}
