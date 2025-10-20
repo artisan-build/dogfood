@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -10,7 +12,6 @@
 | need to change it using the "pest()" function to bind a different classes or traits.
 |
 */
-use Thunk\Verbs\Event;
 use App\Models\User;
 use ArtisanBuild\Hallway\Channels\Enums\ChannelPermissionTypes;
 use ArtisanBuild\Hallway\Channels\Enums\ChannelTestSwitches;
@@ -23,6 +24,7 @@ use ArtisanBuild\Hallway\Payment\Enums\PaymentStates;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\Context;
 use Tests\TestCase;
+use Thunk\Verbs\Event;
 
 pest()->extends(TestCase::class, LazilyRefreshDatabase::class)
     ->in('Feature', '../packages/*')

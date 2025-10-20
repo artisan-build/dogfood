@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
@@ -75,9 +74,8 @@ it('detects when GitHub CLI is installed', function (): void {
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
     ]);
 
-    $exitCode = Artisan::call('agent-os:install');
-
-    expect($exitCode)->toBe(0);
+    $this->artisan('agent-os:install')
+        ->assertSuccessful();
 
     Process::assertRan('which gh');
 });
@@ -101,9 +99,8 @@ it('fails when GitHub CLI is not installed', function (): void {
         'which gh' => Process::result(exitCode: 1),
     ]);
 
-    $exitCode = Artisan::call('agent-os:install');
-
-    expect($exitCode)->toBe(1);
+    $this->artisan('agent-os:install')
+        ->assertFailed();
 
     Process::assertRan('which gh');
 });

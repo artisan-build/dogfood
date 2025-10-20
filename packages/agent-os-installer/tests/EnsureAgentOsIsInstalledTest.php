@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Request;
@@ -73,9 +72,8 @@ it('detects when Agent OS with Laravel profile is already installed', function (
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
     ]);
 
-    $exitCode = Artisan::call('agent-os:install');
-
-    expect($exitCode)->toBe(0);
+    $this->artisan('agent-os:install')
+        ->assertSuccessful();
 });
 
 it('installs Agent OS when not present', function (): void {

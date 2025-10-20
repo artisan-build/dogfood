@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 
@@ -69,9 +68,8 @@ it('detects when development tools are already installed', function (): void {
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
     ]);
 
-    $exitCode = Artisan::call('agent-os:install');
-
-    expect($exitCode)->toBe(0);
+    $this->artisan('agent-os:install')
+        ->assertSuccessful();
 });
 
 it('installs only missing development tools', function (): void {
@@ -141,9 +139,8 @@ it('installs only missing development tools', function (): void {
         'composer require --dev barryvdh/laravel-ide-helper --with-all-dependencies' => Process::result(),
     ]);
 
-    $exitCode = Artisan::call('agent-os:install');
-
-    expect($exitCode)->toBe(0);
+    $this->artisan('agent-os:install')
+        ->assertSuccessful();
 
     Process::assertRan('composer require --dev barryvdh/laravel-ide-helper --with-all-dependencies');
 });
