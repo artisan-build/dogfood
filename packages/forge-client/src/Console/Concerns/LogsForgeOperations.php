@@ -10,9 +10,9 @@ trait LogsForgeOperations
 {
     protected function logOperation(string $operation, array $context = [], string $level = 'info'): void
     {
-        $channel = config('forge-sdk.logging.channel') ?: config('logging.default');
+        $channel = config('forge-client.logging.channel') ?: config('logging.default');
 
-        Log::channel($channel)->log($level, "Forge SDK: {$operation}", array_merge([
+        Log::channel($channel)->log($level, "Forge Client: {$operation}", array_merge([
             'command' => $this->getName(),
             'timestamp' => now()->toIso8601String(),
         ], $this->sanitizeContext($context)));

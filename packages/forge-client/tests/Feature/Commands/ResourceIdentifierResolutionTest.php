@@ -8,8 +8,8 @@ use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
 beforeEach(function (): void {
-    config(['forge-sdk.api_token' => 'test-token']);
-    config(['forge-sdk.base_url' => 'https://forge.laravel.com/api/v1']);
+    config(['forge-client.api_token' => 'test-token']);
+    config(['forge-client.base_url' => 'https://forge.laravel.com/api/v1']);
 });
 
 test('get server command resolves server by name', function (): void {

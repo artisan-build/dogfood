@@ -13,7 +13,7 @@ test('service provider is registered', function (): void {
         ->and($provider)->toBeInstanceOf(ForgeClientServiceProvider::class);
 });
 
-test('forge sdk connector is registered as singleton', function (): void {
+test('forge client connector is registered as singleton', function (): void {
     $first = app(ForgeClient::class);
     $second = app(ForgeClient::class);
 
@@ -21,24 +21,24 @@ test('forge sdk connector is registered as singleton', function (): void {
         ->and($first)->toBe($second);
 });
 
-test('forge sdk resolves with api token from config', function (): void {
-    Config::set('forge-sdk.api_token', 'test-api-token');
+test('forge client resolves with api token from config', function (): void {
+    Config::set('forge-client.api_token', 'test-api-token');
 
     $sdk = app(ForgeClient::class);
 
     expect($sdk)->toBeInstanceOf(ForgeClient::class);
-    expect(config('forge-sdk.api_token'))->toBe('test-api-token');
+    expect(config('forge-client.api_token'))->toBe('test-api-token');
 });
 
 test('config file can be published', function (): void {
-    $configPath = config_path('forge-sdk.php');
+    $configPath = config_path('forge-client.php');
 
     if (file_exists($configPath)) {
         unlink($configPath);
     }
 
     $this->artisan('vendor:publish', [
-        '--tag' => 'forge-sdk-config',
+        '--tag' => 'forge-client-config',
         '--force' => true,
     ])->assertSuccessful();
 

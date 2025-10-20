@@ -8,8 +8,8 @@ use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
 beforeEach(function (): void {
-    config()->set('forge-sdk.api_token', 'test-token');
-    config()->set('forge-sdk.logging.channel', 'null');
+    config()->set('forge-client.api_token', 'test-token');
+    config()->set('forge-client.logging.channel', 'null');
 });
 
 test('list server credentials command executes successfully', function (): void {
@@ -88,7 +88,7 @@ test('list server credentials command accepts pagination options', function (): 
 });
 
 test('list server credentials command uses environment organization', function (): void {
-    config()->set('forge-sdk.organization', 'env-org');
+    config()->set('forge-client.organization', 'env-org');
 
     $mockClient = new MockClient([
         MockResponse::make([
@@ -106,7 +106,7 @@ test('list server credentials command uses environment organization', function (
 });
 
 test('list server credentials command requires organization', function (): void {
-    config()->set('forge-sdk.default_organization', null);
+    config()->set('forge-client.default_organization', null);
 
     $this->artisan(ListServerCredentialsCommand::class)
         ->assertExitCode(1)

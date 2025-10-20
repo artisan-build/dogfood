@@ -63,8 +63,8 @@ class CreateServerCommand extends Command
         $size = $this->option('size');
         $type = $this->option('type');
         $ubuntuVersion = $this->option('ubuntu-version');
-        $phpVersion = $this->option('php-version') ?? config('forge-sdk.default_php_version');
-        $database = $this->option('database') ?? config('forge-sdk.default_database');
+        $phpVersion = $this->option('php-version') ?? config('forge-client.default_php_version');
+        $database = $this->option('database') ?? config('forge-client.default_database');
 
         // Validate required options
         if (! $name) {

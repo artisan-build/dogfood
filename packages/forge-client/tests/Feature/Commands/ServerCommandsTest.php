@@ -12,8 +12,8 @@ use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
 beforeEach(function (): void {
-    config()->set('forge-sdk.api_token', 'test-token');
-    config()->set('forge-sdk.logging.channel', 'null');
+    config()->set('forge-client.api_token', 'test-token');
+    config()->set('forge-client.logging.channel', 'null');
 });
 
 test('list servers command executes successfully', function (): void {
@@ -191,8 +191,8 @@ test('create server command requires region for all providers', function (): voi
 });
 
 test('create server command uses config defaults for php and database', function (): void {
-    config()->set('forge-sdk.default_php_version', 'php83');
-    config()->set('forge-sdk.default_database', 'postgres');
+    config()->set('forge-client.default_php_version', 'php83');
+    config()->set('forge-client.default_database', 'postgres');
 
     $mockClient = new MockClient([
         MockResponse::make([
@@ -355,7 +355,7 @@ test('reboot server command can skip confirmation', function (): void {
 });
 
 test('list servers command uses default organization from config', function (): void {
-    config()->set('forge-sdk.default_organization', 'default-org');
+    config()->set('forge-client.default_organization', 'default-org');
 
     $mockClient = new MockClient([
         MockResponse::make([
@@ -384,7 +384,7 @@ test('list servers command uses default organization from config', function (): 
 });
 
 test('list servers command requires organization when not in config', function (): void {
-    config()->set('forge-sdk.default_organization', null);
+    config()->set('forge-client.default_organization', null);
 
     $this->artisan(ListServersCommand::class)
         ->assertExitCode(1)
@@ -392,8 +392,8 @@ test('list servers command requires organization when not in config', function (
 });
 
 test('get server command uses default organization and server from config', function (): void {
-    config()->set('forge-sdk.default_organization', 'default-org');
-    config()->set('forge-sdk.default_server', '123');
+    config()->set('forge-client.default_organization', 'default-org');
+    config()->set('forge-client.default_server', '123');
 
     $mockClient = new MockClient([
         MockResponse::make([
@@ -423,8 +423,8 @@ test('get server command uses default organization and server from config', func
 });
 
 test('get server command argument overrides config default', function (): void {
-    config()->set('forge-sdk.default_organization', 'default-org');
-    config()->set('forge-sdk.default_server', '999');
+    config()->set('forge-client.default_organization', 'default-org');
+    config()->set('forge-client.default_server', '999');
 
     $mockClient = new MockClient([
         MockResponse::make([

@@ -16,8 +16,8 @@ use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
 beforeEach(function (): void {
-    config()->set('forge-sdk.api_token', 'test-token');
-    config()->set('forge-sdk.logging.channel', 'null');
+    config()->set('forge-client.api_token', 'test-token');
+    config()->set('forge-client.logging.channel', 'null');
 });
 
 // Database Schema Tests
@@ -95,6 +95,7 @@ test('create database command executes successfully with confirmation', function
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateDatabaseCommand::class, [
+        'name' => 'test_database',
         'server' => 123,
         'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,

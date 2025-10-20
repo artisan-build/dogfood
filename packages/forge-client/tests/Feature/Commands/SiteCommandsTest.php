@@ -15,8 +15,8 @@ use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
 beforeEach(function (): void {
-    config()->set('forge-sdk.api_token', 'test-token');
-    config()->set('forge-sdk.logging.channel', 'null');
+    config()->set('forge-client.api_token', 'test-token');
+    config()->set('forge-client.logging.channel', 'null');
 });
 
 test('list sites command executes successfully', function (): void {
