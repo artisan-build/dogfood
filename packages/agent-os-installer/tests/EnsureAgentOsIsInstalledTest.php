@@ -70,6 +70,7 @@ it('detects when Agent OS with Laravel profile is already installed', function (
 
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
+        '*/agent-os/scripts/project-install.sh*' => Process::result(),
     ]);
 
     $this->artisan('agent-os:install')

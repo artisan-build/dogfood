@@ -66,6 +66,7 @@ it('detects when development tools are already installed', function (): void {
 
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
+        '*/agent-os/scripts/project-install.sh*' => Process::result(),
     ]);
 
     $this->artisan('agent-os:install')
@@ -137,6 +138,7 @@ it('installs only missing development tools', function (): void {
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
         'composer require --dev barryvdh/laravel-ide-helper --with-all-dependencies' => Process::result(),
+        '*/agent-os/scripts/project-install.sh*' => Process::result(),
     ]);
 
     $this->artisan('agent-os:install')
