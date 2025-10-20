@@ -35,15 +35,17 @@ test('get server command resolves server by name', function (): void {
         MockResponse::make([
             'data' => [
                 'id' => 456,
-                'name' => 'my-staging-server',
-                'provider' => 'ocean',
-                'region' => 'nyc3',
-                'size' => '1gb',
-                'ip_address' => '192.168.1.1',
-                'php_version' => 'php84',
-                'ubuntu_version' => '24.04',
-                'status' => 'installed',
-                'created_at' => '2025-01-01T00:00:00Z',
+                'attributes' => [
+                    'name' => 'my-staging-server',
+                    'provider' => 'ocean',
+                    'region' => 'nyc3',
+                    'size' => '1gb',
+                    'ip_address' => '192.168.1.1',
+                    'php_version' => 'php84',
+                    'ubuntu_version' => '24.04',
+                    'status' => 'installed',
+                    'created_at' => '2025-01-01T00:00:00Z',
+                ],
             ],
         ], 200),
     ]);
@@ -51,8 +53,8 @@ test('get server command resolves server by name', function (): void {
     app(ForgeSdk::class)->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
-        'organization' => 'my-org',
         'server' => 'my-staging-server',
+        'organization' => 'my-org',
     ])
         ->expectsOutput('Server: my-staging-server')
         ->assertExitCode(0);
@@ -64,15 +66,17 @@ test('get server command resolves server by ID', function (): void {
         MockResponse::make([
             'data' => [
                 'id' => 456,
-                'name' => 'my-staging-server',
-                'provider' => 'ocean',
-                'region' => 'nyc3',
-                'size' => '1gb',
-                'ip_address' => '192.168.1.1',
-                'php_version' => 'php84',
-                'ubuntu_version' => '24.04',
-                'status' => 'installed',
-                'created_at' => '2025-01-01T00:00:00Z',
+                'attributes' => [
+                    'name' => 'my-staging-server',
+                    'provider' => 'ocean',
+                    'region' => 'nyc3',
+                    'size' => '1gb',
+                    'ip_address' => '192.168.1.1',
+                    'php_version' => 'php84',
+                    'ubuntu_version' => '24.04',
+                    'status' => 'installed',
+                    'created_at' => '2025-01-01T00:00:00Z',
+                ],
             ],
         ], 200),
     ]);
@@ -80,8 +84,8 @@ test('get server command resolves server by ID', function (): void {
     app(ForgeSdk::class)->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
-        'organization' => 'my-org',
         'server' => 456,
+        'organization' => 'my-org',
     ])
         ->expectsOutput('Server: my-staging-server')
         ->assertExitCode(0);
@@ -98,8 +102,8 @@ test('get server command fails when server name not found', function (): void {
     app(ForgeSdk::class)->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
-        'organization' => 'my-org',
         'server' => 'non-existent-server',
+        'organization' => 'my-org',
     ])
         ->expectsOutputToContain("Server 'non-existent-server' not found")
         ->assertExitCode(1);
@@ -139,8 +143,8 @@ test('get server command fails when multiple servers have same name', function (
     app(ForgeSdk::class)->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
-        'organization' => 'my-org',
         'server' => 'staging',
+        'organization' => 'my-org',
     ])
         ->expectsOutputToContain('Multiple servers found')
         ->assertExitCode(1);
@@ -168,15 +172,17 @@ test('get server command resolves organization by ID', function (): void {
         MockResponse::make([
             'data' => [
                 'id' => 789,
-                'name' => 'my-server',
-                'provider' => 'ocean',
-                'region' => 'nyc3',
-                'size' => '1gb',
-                'ip_address' => '192.168.1.1',
-                'php_version' => 'php84',
-                'ubuntu_version' => '24.04',
-                'status' => 'installed',
-                'created_at' => '2025-01-01T00:00:00Z',
+                'attributes' => [
+                    'name' => 'my-server',
+                    'provider' => 'ocean',
+                    'region' => 'nyc3',
+                    'size' => '1gb',
+                    'ip_address' => '192.168.1.1',
+                    'php_version' => 'php84',
+                    'ubuntu_version' => '24.04',
+                    'status' => 'installed',
+                    'created_at' => '2025-01-01T00:00:00Z',
+                ],
             ],
         ], 200),
     ]);
@@ -184,8 +190,8 @@ test('get server command resolves organization by ID', function (): void {
     app(ForgeSdk::class)->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
-        'organization' => 123,
         'server' => 789,
+        'organization' => 123,
     ])
         ->expectsOutput('Server: my-server')
         ->assertExitCode(0);

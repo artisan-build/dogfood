@@ -18,9 +18,9 @@ beforeEach(function (): void {
 
 test('list ssl certificates command provides guidance', function (): void {
     $this->artisan(ListSslCertificatesCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'site' => 456,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('SSL certificates in Laravel Forge are accessed per site domain')
@@ -48,10 +48,10 @@ test('get ssl certificate command executes successfully', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetSslCertificateCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
-        'site' => 456,
         'domain-record' => 789,
+        'site' => 456,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('example.com')
@@ -76,10 +76,10 @@ test('create ssl certificate command executes successfully with confirmation', f
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateSslCertificateCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
-        'site' => 456,
         'domain-record' => 789,
+        'site' => 456,
+        'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -88,9 +88,9 @@ test('create ssl certificate command executes successfully with confirmation', f
 
 test('activate ssl certificate command provides guidance', function (): void {
     $this->artisan(ActivateSslCertificateCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'site' => 456,
+        'server' => 123,
+        'organization' => 'test-org',
         'domain-record' => 789,
     ])
         ->assertExitCode(0)
@@ -116,10 +116,10 @@ test('destroy ssl certificate command requires confirmation', function (): void 
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroySslCertificateCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
-        'site' => 456,
         'domain-record' => 789,
+        'site' => 456,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->expectsConfirmation("Type 'yes' to confirm you want to destroy the SSL certificate for 'example.com'", 'no')
         ->assertExitCode(0)
@@ -144,10 +144,10 @@ test('destroy ssl certificate command executes with confirmation skip', function
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroySslCertificateCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
-        'site' => 456,
         'domain-record' => 789,
+        'site' => 456,
+        'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -171,10 +171,10 @@ test('destroy ssl certificate command can be cancelled', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroySslCertificateCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
-        'site' => 456,
         'domain-record' => 789,
+        'site' => 456,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->expectsConfirmation("Type 'yes' to confirm you want to destroy the SSL certificate for 'important.com'", 'no')
         ->assertExitCode(0)

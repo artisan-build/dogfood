@@ -46,8 +46,8 @@ test('list databases command executes successfully', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListDatabasesCommand::class, [
-        'organization' => 'test-org',
         'server' => 123,
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('production_db')
@@ -71,9 +71,9 @@ test('get database command executes successfully', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetDatabaseCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'database' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('production_db')
@@ -95,8 +95,8 @@ test('create database command executes successfully with confirmation', function
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateDatabaseCommand::class, [
-        'organization' => 'test-org',
         'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -118,9 +118,9 @@ test('destroy database command requires confirmation', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyDatabaseCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'database' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->expectsConfirmation("Type 'yes' to confirm you want to destroy database 'test_database'", 'no')
         ->assertExitCode(0)
@@ -143,9 +143,9 @@ test('destroy database command executes with confirmation skip', function (): vo
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyDatabaseCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'database' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -172,8 +172,8 @@ test('list database users command executes successfully', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListDatabaseUsersCommand::class, [
-        'organization' => 'test-org',
         'server' => 123,
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('forge_user')
@@ -196,9 +196,9 @@ test('get database user command executes successfully', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetDatabaseUserCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'database-user' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('forge_user')
@@ -220,8 +220,8 @@ test('create database user command executes successfully with confirmation', fun
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateDatabaseUserCommand::class, [
-        'organization' => 'test-org',
         'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -243,9 +243,9 @@ test('update database user command executes successfully with confirmation', fun
     $sdk->withMockClient($mockClient);
 
     $this->artisan(UpdateDatabaseUserCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'database-user' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -267,9 +267,9 @@ test('destroy database user command requires confirmation', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyDatabaseUserCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'database-user' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->expectsConfirmation("Type 'yes' to confirm you want to destroy database user 'test_user'", 'no')
         ->assertExitCode(0)
@@ -292,9 +292,9 @@ test('destroy database user command executes with confirmation skip', function (
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyDatabaseUserCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'database-user' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)

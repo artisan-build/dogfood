@@ -22,12 +22,14 @@ test('list servers command executes successfully', function (): void {
             'data' => [
                 [
                     'id' => 1,
-                    'name' => 'production-web-1',
-                    'provider' => 'digitalocean',
-                    'region' => 'nyc3',
-                    'php_version' => '8.3',
-                    'ip_address' => '192.168.1.1',
-                    'status' => 'active',
+                    'attributes' => [
+                        'name' => 'production-web-1',
+                        'provider' => 'digitalocean',
+                        'region' => 'nyc3',
+                        'php_version' => '8.3',
+                        'ip_address' => '192.168.1.1',
+                        'connection_status' => 'active',
+                    ],
                 ],
             ],
         ], 200),
@@ -48,12 +50,14 @@ test('list servers command handles filters', function (): void {
             'data' => [
                 [
                     'id' => 1,
-                    'name' => 'nyc-server',
-                    'provider' => 'digitalocean',
-                    'region' => 'nyc3',
-                    'php_version' => '8.3',
-                    'ip_address' => '192.168.1.1',
-                    'status' => 'active',
+                    'attributes' => [
+                        'name' => 'nyc-server',
+                        'provider' => 'digitalocean',
+                        'region' => 'nyc3',
+                        'php_version' => '8.3',
+                        'ip_address' => '192.168.1.1',
+                        'connection_status' => 'active',
+                    ],
                 ],
             ],
         ], 200),
@@ -77,15 +81,17 @@ test('get server command executes successfully', function (): void {
         MockResponse::make([
             'data' => [
                 'id' => 123,
-                'name' => 'production-web-1',
-                'provider' => 'digitalocean',
-                'region' => 'nyc3',
-                'size' => 's-1vcpu-1gb',
-                'ip_address' => '192.168.1.1',
-                'php_version' => '8.3',
-                'ubuntu_version' => '22.04',
-                'status' => 'active',
-                'created_at' => '2024-01-01T00:00:00Z',
+                'attributes' => [
+                    'name' => 'production-web-1',
+                    'provider' => 'digitalocean',
+                    'region' => 'nyc3',
+                    'size' => 's-1vcpu-1gb',
+                    'ip_address' => '192.168.1.1',
+                    'php_version' => '8.3',
+                    'ubuntu_version' => '22.04',
+                    'status' => 'active',
+                    'created_at' => '2024-01-01T00:00:00Z',
+                ],
             ],
         ], 200),
     ]);
@@ -94,8 +100,8 @@ test('get server command executes successfully', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
-        'organization' => 'test-org',
         'server' => 123,
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('production-web-1')
@@ -120,9 +126,10 @@ test('create server command requires confirmation', function (): void {
     $this->artisan(CreateServerCommand::class, [
         'organization' => 'test-org',
         '--name' => 'new-server',
+        '--provider' => 'ocean2',
         '--credential' => '1',
         '--region' => 'nyc3',
-        '--size' => 's-1vcpu-1gb',
+        '--size' => '1',
         '--database' => 'mysql8',
     ])
         ->expectsConfirmation('Are you sure you want to create this server?', 'yes')
@@ -147,9 +154,10 @@ test('create server command can skip confirmation', function (): void {
     $this->artisan(CreateServerCommand::class, [
         'organization' => 'test-org',
         '--name' => 'new-server',
+        '--provider' => 'ocean2',
         '--credential' => '1',
         '--region' => 'nyc3',
-        '--size' => 's-1vcpu-1gb',
+        '--size' => '1',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -162,10 +170,55 @@ test('create server command validates required options', function (): void {
     $this->artisan(CreateServerCommand::class, [
         'organization' => 'test-org',
         '--name' => 'new-server',
-        // Missing --credential, --region, --size
+        // Missing --provider, --credential, --size
     ])
         ->assertExitCode(1)
-        ->expectsOutputToContain('Missing required options');
+        ->expectsOutputToContain('Missing required option');
+});
+
+test('create server command requires region for all providers', function (): void {
+    $this->artisan(CreateServerCommand::class, [
+        'organization' => 'test-org',
+        '--name' => 'ocean-server',
+        '--provider' => 'ocean2',
+        '--credential' => '1',
+        '--size' => '1',
+        '--dangerously-skip-confirmation' => true,
+        // Missing --region
+    ])
+        ->assertExitCode(1)
+        ->expectsOutputToContain('Missing required option: --region');
+});
+
+test('create server command uses config defaults for php and database', function (): void {
+    config()->set('forge-sdk.default_php_version', 'php83');
+    config()->set('forge-sdk.default_database', 'postgres');
+
+    $mockClient = new MockClient([
+        MockResponse::make([
+            'data' => [
+                'id' => 999,
+                'name' => 'config-defaults-server',
+                'status' => 'provisioning',
+            ],
+        ], 201),
+    ]);
+
+    $sdk = app(ForgeSdk::class);
+    $sdk->withMockClient($mockClient);
+
+    $this->artisan(CreateServerCommand::class, [
+        'organization' => 'test-org',
+        '--name' => 'config-defaults-server',
+        '--provider' => 'laravel',
+        '--credential' => '1',
+        '--region' => 'us-east',
+        '--size' => '1',
+        '--dangerously-skip-confirmation' => true,
+        // Not passing --php-version or --database
+    ])
+        ->assertExitCode(0)
+        ->expectsOutputToContain('Server created successfully');
 });
 
 test('destroy server command requires confirmation', function (): void {
@@ -309,12 +362,14 @@ test('list servers command uses default organization from config', function (): 
             'data' => [
                 [
                     'id' => 1,
-                    'name' => 'production-web-1',
-                    'provider' => 'digitalocean',
-                    'region' => 'nyc3',
-                    'php_version' => '8.3',
-                    'ip_address' => '192.168.1.1',
-                    'status' => 'active',
+                    'attributes' => [
+                        'name' => 'production-web-1',
+                        'provider' => 'digitalocean',
+                        'region' => 'nyc3',
+                        'php_version' => '8.3',
+                        'ip_address' => '192.168.1.1',
+                        'connection_status' => 'active',
+                    ],
                 ],
             ],
         ], 200),
@@ -344,15 +399,17 @@ test('get server command uses default organization and server from config', func
         MockResponse::make([
             'data' => [
                 'id' => 123,
-                'name' => 'production-web-1',
-                'provider' => 'digitalocean',
-                'region' => 'nyc3',
-                'size' => 's-1vcpu-1gb',
-                'ip_address' => '192.168.1.1',
-                'php_version' => '8.3',
-                'ubuntu_version' => '22.04',
-                'status' => 'active',
-                'created_at' => '2024-01-01T00:00:00Z',
+                'attributes' => [
+                    'name' => 'production-web-1',
+                    'provider' => 'digitalocean',
+                    'region' => 'nyc3',
+                    'size' => 's-1vcpu-1gb',
+                    'ip_address' => '192.168.1.1',
+                    'php_version' => '8.3',
+                    'ubuntu_version' => '22.04',
+                    'status' => 'active',
+                    'created_at' => '2024-01-01T00:00:00Z',
+                ],
             ],
         ], 200),
     ]);
@@ -373,15 +430,17 @@ test('get server command argument overrides config default', function (): void {
         MockResponse::make([
             'data' => [
                 'id' => 123,
-                'name' => 'specific-server',
-                'provider' => 'digitalocean',
-                'region' => 'nyc3',
-                'size' => 's-1vcpu-1gb',
-                'ip_address' => '192.168.1.1',
-                'php_version' => '8.3',
-                'ubuntu_version' => '22.04',
-                'status' => 'active',
-                'created_at' => '2024-01-01T00:00:00Z',
+                'attributes' => [
+                    'name' => 'specific-server',
+                    'provider' => 'digitalocean',
+                    'region' => 'nyc3',
+                    'size' => 's-1vcpu-1gb',
+                    'ip_address' => '192.168.1.1',
+                    'php_version' => '8.3',
+                    'ubuntu_version' => '22.04',
+                    'status' => 'active',
+                    'created_at' => '2024-01-01T00:00:00Z',
+                ],
             ],
         ], 200),
     ]);

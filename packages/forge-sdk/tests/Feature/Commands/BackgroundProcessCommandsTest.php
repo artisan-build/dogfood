@@ -36,8 +36,8 @@ test('list background processes command executes successfully', function (): voi
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListBackgroundProcessesCommand::class, [
-        'organization' => 'test-org',
         'server' => 123,
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('queue:work')
@@ -61,9 +61,9 @@ test('get background process command executes successfully', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetBackgroundProcessCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'background-process' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('queue:work')
@@ -85,8 +85,8 @@ test('create background process command executes successfully with confirmation'
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateBackgroundProcessCommand::class, [
-        'organization' => 'test-org',
         'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -108,9 +108,9 @@ test('update background process command executes successfully with confirmation'
     $sdk->withMockClient($mockClient);
 
     $this->artisan(UpdateBackgroundProcessCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'background-process' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -133,9 +133,9 @@ test('restart background process command requires confirmation', function (): vo
     $sdk->withMockClient($mockClient);
 
     $this->artisan(RestartBackgroundProcessCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'background-process' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->expectsConfirmation("Are you sure you want to restart 'php artisan queue:work'?", 'no')
         ->assertExitCode(0)
@@ -158,9 +158,9 @@ test('destroy background process command requires confirmation', function (): vo
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyBackgroundProcessCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'background-process' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->expectsConfirmation("Type 'yes' to confirm you want to destroy background process 'php artisan queue:work'", 'no')
         ->assertExitCode(0)
@@ -183,9 +183,9 @@ test('destroy background process command executes with confirmation skip', funct
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyBackgroundProcessCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'background-process' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)

@@ -47,9 +47,9 @@ test('list deployments command executes successfully', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListDeploymentsCommand::class, [
-        'organization' => 'test-org',
-        'server' => '100',
         'site' => '200',
+        'server' => '100',
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('Update dependencies')
@@ -79,10 +79,10 @@ test('get deployment command executes successfully', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetDeploymentCommand::class, [
-        'organization' => 'test-org',
-        'server' => '100',
-        'site' => '200',
         'deployment' => '300',
+        'site' => '200',
+        'server' => '100',
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('Update dependencies')
@@ -104,9 +104,9 @@ test('trigger deployment command requires confirmation', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(TriggerDeploymentCommand::class, [
-        'organization' => 'test-org',
-        'server' => '100',
         'site' => '200',
+        'server' => '100',
+        'organization' => 'test-org',
     ])
         ->expectsConfirmation('Are you sure you want to trigger a deployment?', 'yes')
         ->assertExitCode(0)
@@ -127,9 +127,9 @@ test('trigger deployment command can skip confirmation', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(TriggerDeploymentCommand::class, [
-        'organization' => 'test-org',
-        'server' => '100',
         'site' => '200',
+        'server' => '100',
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -152,9 +152,9 @@ test('update deployment script command requires confirmation', function (): void
     $sdk->withMockClient($mockClient);
 
     $this->artisan(UpdateDeploymentScriptCommand::class, [
-        'organization' => 'test-org',
-        'server' => '100',
         'site' => '200',
+        'server' => '100',
+        'organization' => 'test-org',
         '--script' => 'cd /home/forge/site && php artisan migrate --force',
     ])
         ->expectsConfirmation('Are you sure you want to update the deployment script?', 'yes')
@@ -176,9 +176,9 @@ test('update deployment script command can skip confirmation', function (): void
     $sdk->withMockClient($mockClient);
 
     $this->artisan(UpdateDeploymentScriptCommand::class, [
-        'organization' => 'test-org',
-        'server' => '100',
         'site' => '200',
+        'server' => '100',
+        'organization' => 'test-org',
         '--script' => 'cd /home/forge/site && php artisan migrate --force',
         '--dangerously-skip-confirmation' => true,
     ])
@@ -201,9 +201,9 @@ test('list deployments command handles API errors gracefully', function (): void
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListDeploymentsCommand::class, [
-        'organization' => 'test-org',
-        'server' => '100',
         'site' => '200',
+        'server' => '100',
+        'organization' => 'test-org',
     ])
         ->assertExitCode(1)
         ->expectsOutputToContain('Failed to list deployments');
@@ -222,10 +222,10 @@ test('get deployment command handles 404 errors', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetDeploymentCommand::class, [
-        'organization' => 'test-org',
-        'server' => '100',
-        'site' => '200',
         'deployment' => '999',
+        'site' => '200',
+        'server' => '100',
+        'organization' => 'test-org',
     ])
         ->assertExitCode(1)
         ->expectsOutputToContain('Failed to get deployment');

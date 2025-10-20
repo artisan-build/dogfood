@@ -45,8 +45,8 @@ test('list firewall rules command executes successfully', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListFirewallRulesCommand::class, [
-        'organization' => 'test-org',
         'server' => 123,
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('Allow SSH')
@@ -75,8 +75,8 @@ test('list firewall rules command handles filters', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListFirewallRulesCommand::class, [
-        'organization' => 'test-org',
         'server' => 123,
+        'organization' => 'test-org',
         '--filter-type' => 'allow',
         '--filter-port' => '22',
     ])
@@ -105,9 +105,9 @@ test('get firewall rule command executes successfully', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetFirewallRuleCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'rule' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->assertExitCode(0)
         ->expectsOutputToContain('Allow SSH')
@@ -133,8 +133,8 @@ test('create firewall rule command executes successfully with confirmation', fun
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateFirewallRuleCommand::class, [
-        'organization' => 'test-org',
         'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -156,9 +156,9 @@ test('destroy firewall rule command requires confirmation', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyFirewallRuleCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'rule' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->expectsConfirmation("Type 'yes' to confirm you want to destroy firewall rule 'Test Rule'", 'no')
         ->assertExitCode(0)
@@ -181,9 +181,9 @@ test('destroy firewall rule command executes with confirmation skip', function (
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyFirewallRuleCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'rule' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
         '--dangerously-skip-confirmation' => true,
     ])
         ->assertExitCode(0)
@@ -205,9 +205,9 @@ test('destroy firewall rule command can be cancelled', function (): void {
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyFirewallRuleCommand::class, [
-        'organization' => 'test-org',
-        'server' => 123,
         'rule' => 1,
+        'server' => 123,
+        'organization' => 'test-org',
     ])
         ->expectsConfirmation("Type 'yes' to confirm you want to destroy firewall rule 'Important Rule'", 'no')
         ->assertExitCode(0)

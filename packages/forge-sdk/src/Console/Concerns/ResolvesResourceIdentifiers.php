@@ -48,8 +48,8 @@ trait ResolvesResourceIdentifiers
         $data = $response->json();
         $servers = collect($data['data'] ?? []);
 
-        // Filter for exact name match
-        $matches = $servers->filter(fn ($server) => $server['name'] === $identifier);
+        // Filter for exact name match (JSON:API format - attributes.name)
+        $matches = $servers->filter(fn ($server) => ($server['attributes']['name'] ?? null) === $identifier);
 
         if ($matches->isEmpty()) {
             throw new InvalidArgumentException("Server '{$identifier}' not found in organization '{$organization}'");
@@ -90,13 +90,13 @@ trait ResolvesResourceIdentifiers
             $data = $response->json();
             $organizations = collect($data['data'] ?? []);
 
-            $match = $organizations->firstWhere('id', (int) $identifier);
+            $match = $organizations->firstWhere('id', (string) $identifier);
 
             if (! $match) {
                 throw new InvalidArgumentException("Organization with ID '{$identifier}' not found");
             }
 
-            return $match['slug'];
+            return $match['attributes']['slug'] ?? $match['slug'];
         }
 
         return $identifier;
@@ -138,8 +138,8 @@ trait ResolvesResourceIdentifiers
         $data = $response->json();
         $sites = collect($data['data'] ?? []);
 
-        // Filter for exact name match
-        $matches = $sites->filter(fn ($site) => $site['name'] === $identifier);
+        // Filter for exact name match (JSON:API format - attributes.name)
+        $matches = $sites->filter(fn ($site) => ($site['attributes']['name'] ?? null) === $identifier);
 
         if ($matches->isEmpty()) {
             throw new InvalidArgumentException("Site '{$identifier}' not found on server '{$server}'");
