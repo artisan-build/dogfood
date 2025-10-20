@@ -1,0 +1,129 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ArtisanBuild\ForgeClient\Console\Commands;
+
+use ArtisanBuild\ForgeClient\Console\Concerns\HandlesDefaultArguments;
+use ArtisanBuild\ForgeClient\Console\Concerns\LogsForgeOperations;
+use ArtisanBuild\ForgeClient\Console\Concerns\PerformsDestructiveForgeOperations;
+use ArtisanBuild\ForgeClient\Console\Concerns\ResolvesResourceIdentifiers;
+use ArtisanBuild\ForgeClient\ForgeClient;
+use Exception;
+use Illuminate\Console\Command;
+use InvalidArgumentException;
+
+class DisableQuickDeployCommand extends Command
+{
+    use HandlesDefaultArguments;
+    use LogsForgeOperations;
+    use PerformsDestructiveForgeOperations;
+    use ResolvesResourceIdentifiers;
+
+    protected $signature = 'forge:disable-quick-deploy
+                            {site? : The site name or ID}
+                            {server? : The server name or ID}
+                            {organization? : The organization slug or ID}
+                            {--dangerously-skip-confirmation : Skip confirmation prompt}';
+
+    protected $description = 'Disable quick deploy for a site';
+
+    public function handle(ForgeClient $forge): int
+    {
+        $startTime = microtime(true);
+
+        $organizationInput = $this->getOrganizationArgument();
+
+        if (! $organizationInput) {
+            $this->error('Organization is required. Either pass the organization argument or set FORGE_ORGANIZATION in your environment.');
+
+            return self::FAILURE;
+        }
+        $serverInput = $this->getServerArgument();
+
+        if (! $serverInput) {
+            $this->error('Server is required. Either pass the server argument or set FORGE_SERVER in your environment.');
+
+            return self::FAILURE;
+        }
+        $siteInput = $this->argument('site');
+
+        try {
+            $organization = $this->resolveOrganizationSlug($organizationInput, $forge);
+            $server = $this->resolveServerIdentifier($serverInput, $organization, $forge);
+            $site = $this->resolveSiteIdentifier($siteInput, $organization, $server, $forge);
+        } catch (InvalidArgumentException $e) {
+            $this->error($e->getMessage());
+
+            return self::FAILURE;
+        }
+
+        $this->info('Disabling quick deploy for site:');
+        $this->line("  Organization: {$organization}");
+        $this->line("  Server: {$server}");
+        $this->line("  Site: {$site}");
+        $this->newLine();
+
+        if (! $this->confirmOperation('Are you sure you want to disable quick deploy?')) {
+            $this->info('Operation cancelled.');
+
+            return self::SUCCESS;
+        }
+
+        $this->logOperation('Disable quick deploy', [
+            'organization' => $organization,
+            'server' => $server,
+            'site' => $site,
+        ], 'warning');
+
+        try {
+            $response = $forge->deployments()->organizationsServersSitesDeploymentsPushToDeployDestroy($organization, $server, $site);
+
+            if (! $response->successful()) {
+                $this->logError('Disable quick deploy', $response->body(), [
+                    'status' => $response->status(),
+                    'organization' => $organization,
+                    'server' => $server,
+                    'site' => $site,
+                ]);
+                $this->error("Failed to disable quick deploy: {$response->body()}");
+
+                return self::FAILURE;
+            }
+
+            $data = $response->json();
+            $siteData = $data['data'] ?? $data;
+
+            $this->info('Quick deploy disabled successfully!');
+            $this->line("ID: {$siteData['id']}");
+            $this->line('Quick Deploy: '.($siteData['quick_deploy'] ?? false ? 'Enabled' : 'Disabled'));
+
+            $executionTime = round((microtime(true) - $startTime) * 1000, 2);
+
+            $this->logSuccess('Disable quick deploy', [
+                'organization' => $organization,
+                'server' => $server,
+                'site' => $site,
+                'execution_time_ms' => $executionTime,
+            ]);
+
+            $this->newLine();
+            $this->comment("Quick deploy disabled in {$executionTime}ms");
+
+            return self::SUCCESS;
+        } catch (Exception $e) {
+            $executionTime = round((microtime(true) - $startTime) * 1000, 2);
+
+            $this->logError('Disable quick deploy', $e->getMessage(), [
+                'organization' => $organization,
+                'server' => $server,
+                'site' => $site,
+                'execution_time_ms' => $executionTime,
+            ]);
+
+            $this->error("Error: {$e->getMessage()}");
+
+            return self::FAILURE;
+        }
+    }
+}
