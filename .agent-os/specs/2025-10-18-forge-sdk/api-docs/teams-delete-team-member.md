@@ -1,0 +1,108 @@
+---
+source: https://forge.laravel.com/docs/api-reference/teams/delete-team-member.md
+fetched: 2025-10-19T14:43:12.220Z
+---
+
+# Delete team member
+
+> Remove a member from the team.
+
+Processing mode: <small><code>sync</code></small>
+
+## OpenAPI
+
+````yaml https://forge.laravel.com/api/docs.openapi delete /orgs/{organization}/teams/{team}/members/{user}
+paths:
+  path: /orgs/{organization}/teams/{team}/members/{user}
+  method: delete
+  servers:
+    - url: https://forge.laravel.com/api
+  request:
+    security:
+      - title: oauth2
+        parameters:
+          query: {}
+          header:
+            Authorization:
+              type: oauth2
+          cookie: {}
+    parameters:
+      path:
+        organization:
+          schema:
+            - type: string
+              required: true
+              description: The organization slug
+        team:
+          schema:
+            - type: integer
+              required: true
+              description: The team ID
+        user:
+          schema:
+            - type: integer
+              required: true
+              description: The user ID
+      query: {}
+      header: {}
+      cookie: {}
+    body: {}
+  response:
+    '204':
+      _mintlify/placeholder:
+        schemaArray:
+          - type: any
+            description: |-
+              Member removed from team
+
+
+
+              No content
+        examples: {}
+        description: |-
+          Member removed from team
+
+
+
+          No content
+    '403':
+      application/json:
+        schemaArray:
+          - type: object
+            properties:
+              message:
+                allOf:
+                  - type: string
+                    description: Error overview.
+            requiredProperties:
+              - message
+        examples:
+          example:
+            value:
+              message: <string>
+        description: Authorization error
+    '404':
+      application/json:
+        schemaArray:
+          - type: object
+            properties:
+              message:
+                allOf:
+                  - type: string
+                    description: Error overview.
+            requiredProperties:
+              - message
+        examples:
+          example:
+            value:
+              message: <string>
+        description: Not found
+  deprecated: false
+  type: path
+  xMint:
+    metadata:
+      noindex: true
+components:
+  schemas: {}
+
+````

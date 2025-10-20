@@ -1,0 +1,1192 @@
+[
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/introduction.md",
+    "path": "/docs/api-reference/introduction",
+    "filename": "introduction.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/pagination.md",
+    "path": "/docs/api-reference/pagination",
+    "filename": "pagination.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/rate-limiting.md",
+    "path": "/docs/api-reference/rate-limiting",
+    "filename": "rate-limiting.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/filtering.md",
+    "path": "/docs/api-reference/filtering",
+    "filename": "filtering.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/relationships.md",
+    "path": "/docs/api-reference/relationships",
+    "filename": "relationships.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/background-processes/list-background-processes.md",
+    "path": "/docs/api-reference/background-processes/list-background-processes",
+    "filename": "background-processes-list-background-processes.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/background-processes/create-background-process.md",
+    "path": "/docs/api-reference/background-processes/create-background-process",
+    "filename": "background-processes-create-background-process.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/background-processes/get-background-process.md",
+    "path": "/docs/api-reference/background-processes/get-background-process",
+    "filename": "background-processes-get-background-process.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/background-processes/update-background-process.md",
+    "path": "/docs/api-reference/background-processes/update-background-process",
+    "filename": "background-processes-update-background-process.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/background-processes/delete-background-process.md",
+    "path": "/docs/api-reference/background-processes/delete-background-process",
+    "filename": "background-processes-delete-background-process.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/background-processes/get-background-process-log.md",
+    "path": "/docs/api-reference/background-processes/get-background-process-log",
+    "filename": "background-processes-get-background-process-log.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/commands/list-commands.md",
+    "path": "/docs/api-reference/commands/list-commands",
+    "filename": "commands-list-commands.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/commands/create-command.md",
+    "path": "/docs/api-reference/commands/create-command",
+    "filename": "commands-create-command.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/commands/get-command.md",
+    "path": "/docs/api-reference/commands/get-command",
+    "filename": "commands-get-command.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/commands/delete-command.md",
+    "path": "/docs/api-reference/commands/delete-command",
+    "filename": "commands-delete-command.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/databases/list-database-schemas.md",
+    "path": "/docs/api-reference/databases/list-database-schemas",
+    "filename": "databases-list-database-schemas.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/databases/create-database-schema.md",
+    "path": "/docs/api-reference/databases/create-database-schema",
+    "filename": "databases-create-database-schema.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/databases/get-database-schema.md",
+    "path": "/docs/api-reference/databases/get-database-schema",
+    "filename": "databases-get-database-schema.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/databases/delete-database-schema.md",
+    "path": "/docs/api-reference/databases/delete-database-schema",
+    "filename": "databases-delete-database-schema.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/databases/update-database-schemas.md",
+    "path": "/docs/api-reference/databases/update-database-schemas",
+    "filename": "databases-update-database-schemas.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/databases/list-database-users.md",
+    "path": "/docs/api-reference/databases/list-database-users",
+    "filename": "databases-list-database-users.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/databases/create-database-user.md",
+    "path": "/docs/api-reference/databases/create-database-user",
+    "filename": "databases-create-database-user.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/databases/get-database-user.md",
+    "path": "/docs/api-reference/databases/get-database-user",
+    "filename": "databases-get-database-user.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/databases/update-database-user.md",
+    "path": "/docs/api-reference/databases/update-database-user",
+    "filename": "databases-update-database-user.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/databases/delete-database-user.md",
+    "path": "/docs/api-reference/databases/delete-database-user",
+    "filename": "databases-delete-database-user.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/databases/update-the-password-for-the-database.md",
+    "path": "/docs/api-reference/databases/update-the-password-for-the-database",
+    "filename": "databases-update-the-password-for-the-database.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/list-site-webhooks.md",
+    "path": "/docs/api-reference/deployments/list-site-webhooks",
+    "filename": "deployments-list-site-webhooks.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/create-site-webhook.md",
+    "path": "/docs/api-reference/deployments/create-site-webhook",
+    "filename": "deployments-create-site-webhook.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/get-site-webhook.md",
+    "path": "/docs/api-reference/deployments/get-site-webhook",
+    "filename": "deployments-get-site-webhook.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/delete-site-webhook.md",
+    "path": "/docs/api-reference/deployments/delete-site-webhook",
+    "filename": "deployments-delete-site-webhook.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/list-deployments.md",
+    "path": "/docs/api-reference/deployments/list-deployments",
+    "filename": "deployments-list-deployments.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/create-deployment.md",
+    "path": "/docs/api-reference/deployments/create-deployment",
+    "filename": "deployments-create-deployment.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/get-deployment-status.md",
+    "path": "/docs/api-reference/deployments/get-deployment-status",
+    "filename": "deployments-get-deployment-status.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/update-deployment-state.md",
+    "path": "/docs/api-reference/deployments/update-deployment-state",
+    "filename": "deployments-update-deployment-state.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/get-deployment-script.md",
+    "path": "/docs/api-reference/deployments/get-deployment-script",
+    "filename": "deployments-get-deployment-script.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/update-deployment-script.md",
+    "path": "/docs/api-reference/deployments/update-deployment-script",
+    "filename": "deployments-update-deployment-script.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/get-the-deployment-trigger-url.md",
+    "path": "/docs/api-reference/deployments/get-the-deployment-trigger-url",
+    "filename": "deployments-get-the-deployment-trigger-url.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/update-deployment-trigger-url.md",
+    "path": "/docs/api-reference/deployments/update-deployment-trigger-url",
+    "filename": "deployments-update-deployment-trigger-url.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/create-push-to-deploy-configuration.md",
+    "path": "/docs/api-reference/deployments/create-push-to-deploy-configuration",
+    "filename": "deployments-create-push-to-deploy-configuration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/delete-push-to-deploy-configuration.md",
+    "path": "/docs/api-reference/deployments/delete-push-to-deploy-configuration",
+    "filename": "deployments-delete-push-to-deploy-configuration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/get-deployment.md",
+    "path": "/docs/api-reference/deployments/get-deployment",
+    "filename": "deployments-get-deployment.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/deployments/get-deployment-output.md",
+    "path": "/docs/api-reference/deployments/get-deployment-output",
+    "filename": "deployments-get-deployment-output.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/firewall-rules/list-server-firewall-rules.md",
+    "path": "/docs/api-reference/firewall-rules/list-server-firewall-rules",
+    "filename": "firewall-rules-list-server-firewall-rules.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/firewall-rules/create-server-firewall-rule.md",
+    "path": "/docs/api-reference/firewall-rules/create-server-firewall-rule",
+    "filename": "firewall-rules-create-server-firewall-rule.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/firewall-rules/get-server-firewall-rule.md",
+    "path": "/docs/api-reference/firewall-rules/get-server-firewall-rule",
+    "filename": "firewall-rules-get-server-firewall-rule.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/firewall-rules/delete-server-firewall-rule.md",
+    "path": "/docs/api-reference/firewall-rules/delete-server-firewall-rule",
+    "filename": "firewall-rules-delete-server-firewall-rule.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/get-laravel-horizon-integration-status.md",
+    "path": "/docs/api-reference/integrations/get-laravel-horizon-integration-status",
+    "filename": "integrations-get-laravel-horizon-integration-status.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/create-laravel-horizon-integration.md",
+    "path": "/docs/api-reference/integrations/create-laravel-horizon-integration",
+    "filename": "integrations-create-laravel-horizon-integration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-horizon-integration.md",
+    "path": "/docs/api-reference/integrations/delete-laravel-horizon-integration",
+    "filename": "integrations-delete-laravel-horizon-integration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/get-laravel-octane-integration-status.md",
+    "path": "/docs/api-reference/integrations/get-laravel-octane-integration-status",
+    "filename": "integrations-get-laravel-octane-integration-status.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/create-laravel-octane-integration.md",
+    "path": "/docs/api-reference/integrations/create-laravel-octane-integration",
+    "filename": "integrations-create-laravel-octane-integration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-octane-integration.md",
+    "path": "/docs/api-reference/integrations/delete-laravel-octane-integration",
+    "filename": "integrations-delete-laravel-octane-integration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/get-laravel-reverb-integration-status.md",
+    "path": "/docs/api-reference/integrations/get-laravel-reverb-integration-status",
+    "filename": "integrations-get-laravel-reverb-integration-status.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/create-laravel-reverb-integration.md",
+    "path": "/docs/api-reference/integrations/create-laravel-reverb-integration",
+    "filename": "integrations-create-laravel-reverb-integration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-reverb-integration.md",
+    "path": "/docs/api-reference/integrations/delete-laravel-reverb-integration",
+    "filename": "integrations-delete-laravel-reverb-integration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/get-inertia-integration-status.md",
+    "path": "/docs/api-reference/integrations/get-inertia-integration-status",
+    "filename": "integrations-get-inertia-integration-status.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/create-inertia-integration.md",
+    "path": "/docs/api-reference/integrations/create-inertia-integration",
+    "filename": "integrations-create-inertia-integration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/get-laravel-pulse-integration-status.md",
+    "path": "/docs/api-reference/integrations/get-laravel-pulse-integration-status",
+    "filename": "integrations-get-laravel-pulse-integration-status.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/create-laravel-pulse-integration.md",
+    "path": "/docs/api-reference/integrations/create-laravel-pulse-integration",
+    "filename": "integrations-create-laravel-pulse-integration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-pulse-integration.md",
+    "path": "/docs/api-reference/integrations/delete-laravel-pulse-integration",
+    "filename": "integrations-delete-laravel-pulse-integration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/get-laravel-maintenance-integration-status.md",
+    "path": "/docs/api-reference/integrations/get-laravel-maintenance-integration-status",
+    "filename": "integrations-get-laravel-maintenance-integration-status.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/create-laravel-maintenance-integration.md",
+    "path": "/docs/api-reference/integrations/create-laravel-maintenance-integration",
+    "filename": "integrations-create-laravel-maintenance-integration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-maintenance-integration.md",
+    "path": "/docs/api-reference/integrations/delete-laravel-maintenance-integration",
+    "filename": "integrations-delete-laravel-maintenance-integration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/get-laravel-scheduler-integration-job.md",
+    "path": "/docs/api-reference/integrations/get-laravel-scheduler-integration-job",
+    "filename": "integrations-get-laravel-scheduler-integration-job.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/create-laravel-scheduler-integration-job.md",
+    "path": "/docs/api-reference/integrations/create-laravel-scheduler-integration-job",
+    "filename": "integrations-create-laravel-scheduler-integration-job.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/integrations/delete-laravel-scheduler-integration-job.md",
+    "path": "/docs/api-reference/integrations/delete-laravel-scheduler-integration-job",
+    "filename": "integrations-delete-laravel-scheduler-integration-job.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/logs/get-server-log-content.md",
+    "path": "/docs/api-reference/logs/get-server-log-content",
+    "filename": "logs-get-server-log-content.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/logs/delete-server-log-content.md",
+    "path": "/docs/api-reference/logs/delete-server-log-content",
+    "filename": "logs-delete-server-log-content.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/monitors/list-server-monitors.md",
+    "path": "/docs/api-reference/monitors/list-server-monitors",
+    "filename": "monitors-list-server-monitors.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/monitors/create-server-monitor.md",
+    "path": "/docs/api-reference/monitors/create-server-monitor",
+    "filename": "monitors-create-server-monitor.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/monitors/get-server-monitor.md",
+    "path": "/docs/api-reference/monitors/get-server-monitor",
+    "filename": "monitors-get-server-monitor.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/monitors/delete-server-monitor.md",
+    "path": "/docs/api-reference/monitors/delete-server-monitor",
+    "filename": "monitors-delete-server-monitor.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/nginx/list-nginx-templates.md",
+    "path": "/docs/api-reference/nginx/list-nginx-templates",
+    "filename": "nginx-list-nginx-templates.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/nginx/create-nginx-template.md",
+    "path": "/docs/api-reference/nginx/create-nginx-template",
+    "filename": "nginx-create-nginx-template.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/nginx/get-nginx-template.md",
+    "path": "/docs/api-reference/nginx/get-nginx-template",
+    "filename": "nginx-get-nginx-template.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/nginx/update-nginx-template.md",
+    "path": "/docs/api-reference/nginx/update-nginx-template",
+    "filename": "nginx-update-nginx-template.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/nginx/delete-nginx-template.md",
+    "path": "/docs/api-reference/nginx/delete-nginx-template",
+    "filename": "nginx-delete-nginx-template.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/organizations/list-organizations.md",
+    "path": "/docs/api-reference/organizations/list-organizations",
+    "filename": "organizations-list-organizations.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/organizations/get-organization.md",
+    "path": "/docs/api-reference/organizations/get-organization",
+    "filename": "organizations-get-organization.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/organizations/list-server-credentials.md",
+    "path": "/docs/api-reference/organizations/list-server-credentials",
+    "filename": "organizations-list-server-credentials.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/organizations/get-server-credential.md",
+    "path": "/docs/api-reference/organizations/get-server-credential",
+    "filename": "organizations-get-server-credential.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/organizations/list-vpcs.md",
+    "path": "/docs/api-reference/organizations/list-vpcs",
+    "filename": "organizations-list-vpcs.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/organizations/create-a-new-vpc.md",
+    "path": "/docs/api-reference/organizations/create-a-new-vpc",
+    "filename": "organizations-create-a-new-vpc.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/organizations/get-vpc.md",
+    "path": "/docs/api-reference/organizations/get-vpc",
+    "filename": "organizations-get-vpc.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/providers/list-providers.md",
+    "path": "/docs/api-reference/providers/list-providers",
+    "filename": "providers-list-providers.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/providers/get-provider.md",
+    "path": "/docs/api-reference/providers/get-provider",
+    "filename": "providers-get-provider.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/providers/list-provider-sizes.md",
+    "path": "/docs/api-reference/providers/list-provider-sizes",
+    "filename": "providers-list-provider-sizes.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/providers/get-provider-size.md",
+    "path": "/docs/api-reference/providers/get-provider-size",
+    "filename": "providers-get-provider-size.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/providers/list-provider-regions.md",
+    "path": "/docs/api-reference/providers/list-provider-regions",
+    "filename": "providers-list-provider-regions.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/providers/get-provider-region.md",
+    "path": "/docs/api-reference/providers/get-provider-region",
+    "filename": "providers-get-provider-region.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/providers/list-provider-region-sizes.md",
+    "path": "/docs/api-reference/providers/list-provider-region-sizes",
+    "filename": "providers-list-provider-region-sizes.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/providers/get-provider-region-size.md",
+    "path": "/docs/api-reference/providers/get-provider-region-size",
+    "filename": "providers-get-provider-region-size.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/list-organization-recipes.md",
+    "path": "/docs/api-reference/recipes/list-organization-recipes",
+    "filename": "recipes-list-organization-recipes.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/create-recipe.md",
+    "path": "/docs/api-reference/recipes/create-recipe",
+    "filename": "recipes-create-recipe.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/get-recipe.md",
+    "path": "/docs/api-reference/recipes/get-recipe",
+    "filename": "recipes-get-recipe.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/update-recipe.md",
+    "path": "/docs/api-reference/recipes/update-recipe",
+    "filename": "recipes-update-recipe.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/delete-recipe.md",
+    "path": "/docs/api-reference/recipes/delete-recipe",
+    "filename": "recipes-delete-recipe.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/list-recipe-runs.md",
+    "path": "/docs/api-reference/recipes/list-recipe-runs",
+    "filename": "recipes-list-recipe-runs.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/create-recipe-run.md",
+    "path": "/docs/api-reference/recipes/create-recipe-run",
+    "filename": "recipes-create-recipe-run.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/get-recipe-run.md",
+    "path": "/docs/api-reference/recipes/get-recipe-run",
+    "filename": "recipes-get-recipe-run.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/list-team-recipes.md",
+    "path": "/docs/api-reference/recipes/list-team-recipes",
+    "filename": "recipes-list-team-recipes.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/share-recipe-with-the-team.md",
+    "path": "/docs/api-reference/recipes/share-recipe-with-the-team",
+    "filename": "recipes-share-recipe-with-the-team.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/delete-a-recipe-share.md",
+    "path": "/docs/api-reference/recipes/delete-a-recipe-share",
+    "filename": "recipes-delete-a-recipe-share.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/list-forges-recipes.md",
+    "path": "/docs/api-reference/recipes/list-forges-recipes",
+    "filename": "recipes-list-forges-recipes.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/get-forge-recipe.md",
+    "path": "/docs/api-reference/recipes/get-forge-recipe",
+    "filename": "recipes-get-forge-recipe.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/recipes/create-forge-recipe-run.md",
+    "path": "/docs/api-reference/recipes/create-forge-recipe-run",
+    "filename": "recipes-create-forge-recipe-run.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/redirect-rules/list-site-redirect-rules.md",
+    "path": "/docs/api-reference/redirect-rules/list-site-redirect-rules",
+    "filename": "redirect-rules-list-site-redirect-rules.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/redirect-rules/create-site-redirect-rule.md",
+    "path": "/docs/api-reference/redirect-rules/create-site-redirect-rule",
+    "filename": "redirect-rules-create-site-redirect-rule.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/redirect-rules/get-site-redirect-rule.md",
+    "path": "/docs/api-reference/redirect-rules/get-site-redirect-rule",
+    "filename": "redirect-rules-get-site-redirect-rule.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/redirect-rules/delete-site-redirect-rule.md",
+    "path": "/docs/api-reference/redirect-rules/delete-site-redirect-rule",
+    "filename": "redirect-rules-delete-site-redirect-rule.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/roles/list-predefined-roles.md",
+    "path": "/docs/api-reference/roles/list-predefined-roles",
+    "filename": "roles-list-predefined-roles.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/roles/get-predefined-role.md",
+    "path": "/docs/api-reference/roles/get-predefined-role",
+    "filename": "roles-get-predefined-role.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/roles/list-permissions.md",
+    "path": "/docs/api-reference/roles/list-permissions",
+    "filename": "roles-list-permissions.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/roles/get-permission.md",
+    "path": "/docs/api-reference/roles/get-permission",
+    "filename": "roles-get-permission.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/roles/list-roles.md",
+    "path": "/docs/api-reference/roles/list-roles",
+    "filename": "roles-list-roles.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/roles/create-role.md",
+    "path": "/docs/api-reference/roles/create-role",
+    "filename": "roles-create-role.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/roles/get-role.md",
+    "path": "/docs/api-reference/roles/get-role",
+    "filename": "roles-get-role.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/roles/update-role.md",
+    "path": "/docs/api-reference/roles/update-role",
+    "filename": "roles-update-role.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/roles/delete-role.md",
+    "path": "/docs/api-reference/roles/delete-role",
+    "filename": "roles-delete-role.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/roles/list-role-permissions.md",
+    "path": "/docs/api-reference/roles/list-role-permissions",
+    "filename": "roles-list-role-permissions.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/ssh-keys/list-server-ssh-keys.md",
+    "path": "/docs/api-reference/ssh-keys/list-server-ssh-keys",
+    "filename": "ssh-keys-list-server-ssh-keys.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/ssh-keys/create-server-ssh-key.md",
+    "path": "/docs/api-reference/ssh-keys/create-server-ssh-key",
+    "filename": "ssh-keys-create-server-ssh-key.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/ssh-keys/get-server-ssh-key.md",
+    "path": "/docs/api-reference/ssh-keys/get-server-ssh-key",
+    "filename": "ssh-keys-get-server-ssh-key.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/ssh-keys/delete-server-ssh-key.md",
+    "path": "/docs/api-reference/ssh-keys/delete-server-ssh-key",
+    "filename": "ssh-keys-delete-server-ssh-key.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/ssh-keys/get-server-public-ssh-key.md",
+    "path": "/docs/api-reference/ssh-keys/get-server-public-ssh-key",
+    "filename": "ssh-keys-get-server-public-ssh-key.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/ssh-keys/update-server-public-ssh-key.md",
+    "path": "/docs/api-reference/ssh-keys/update-server-public-ssh-key",
+    "filename": "ssh-keys-update-server-public-ssh-key.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/scheduled-jobs/list-server-scheduled-jobs.md",
+    "path": "/docs/api-reference/scheduled-jobs/list-server-scheduled-jobs",
+    "filename": "scheduled-jobs-list-server-scheduled-jobs.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/scheduled-jobs/create-scheduled-job.md",
+    "path": "/docs/api-reference/scheduled-jobs/create-scheduled-job",
+    "filename": "scheduled-jobs-create-scheduled-job.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/scheduled-jobs/get-scheduled-job.md",
+    "path": "/docs/api-reference/scheduled-jobs/get-scheduled-job",
+    "filename": "scheduled-jobs-get-scheduled-job.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/scheduled-jobs/delete-scheduled-job.md",
+    "path": "/docs/api-reference/scheduled-jobs/delete-scheduled-job",
+    "filename": "scheduled-jobs-delete-scheduled-job.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/scheduled-jobs/get-scheduled-job-output.md",
+    "path": "/docs/api-reference/scheduled-jobs/get-scheduled-job-output",
+    "filename": "scheduled-jobs-get-scheduled-job-output.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/security-rules/list-site-security-rules.md",
+    "path": "/docs/api-reference/security-rules/list-site-security-rules",
+    "filename": "security-rules-list-site-security-rules.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/security-rules/create-site-security-rule.md",
+    "path": "/docs/api-reference/security-rules/create-site-security-rule",
+    "filename": "security-rules-create-site-security-rule.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/security-rules/get-site-security-rule.md",
+    "path": "/docs/api-reference/security-rules/get-site-security-rule",
+    "filename": "security-rules-get-site-security-rule.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/security-rules/update-site-security-rule.md",
+    "path": "/docs/api-reference/security-rules/update-site-security-rule",
+    "filename": "security-rules-update-site-security-rule.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/security-rules/delete-site-security-rule.md",
+    "path": "/docs/api-reference/security-rules/delete-site-security-rule",
+    "filename": "security-rules-delete-site-security-rule.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/server-credentials/list-team-server-credentials.md",
+    "path": "/docs/api-reference/server-credentials/list-team-server-credentials",
+    "filename": "server-credentials-list-team-server-credentials.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/server-credentials/create-a-new-server-credential-share.md",
+    "path": "/docs/api-reference/server-credentials/create-a-new-server-credential-share",
+    "filename": "server-credentials-create-a-new-server-credential-share.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/server-credentials/delete-a-server-credential-share.md",
+    "path": "/docs/api-reference/server-credentials/delete-a-server-credential-share",
+    "filename": "server-credentials-delete-a-server-credential-share.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/list-servers.md",
+    "path": "/docs/api-reference/servers/list-servers",
+    "filename": "servers-list-servers.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/create-server.md",
+    "path": "/docs/api-reference/servers/create-server",
+    "filename": "servers-create-server.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/list-archived-servers.md",
+    "path": "/docs/api-reference/servers/list-archived-servers",
+    "filename": "servers-list-archived-servers.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/create-an-archived-server.md",
+    "path": "/docs/api-reference/servers/create-an-archived-server",
+    "filename": "servers-create-an-archived-server.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/delete-archived-server.md",
+    "path": "/docs/api-reference/servers/delete-archived-server",
+    "filename": "servers-delete-archived-server.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/perform-an-action-on-a-server-background-process.md",
+    "path": "/docs/api-reference/servers/perform-an-action-on-a-server-background-process",
+    "filename": "servers-perform-an-action-on-a-server-background-process.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/create-server-action.md",
+    "path": "/docs/api-reference/servers/create-server-action",
+    "filename": "servers-create-server-action.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/perform-nginx-action.md",
+    "path": "/docs/api-reference/servers/perform-nginx-action",
+    "filename": "servers-perform-nginx-action.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/perform-postgres-action.md",
+    "path": "/docs/api-reference/servers/perform-postgres-action",
+    "filename": "servers-perform-postgres-action.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/perform-redis-action.md",
+    "path": "/docs/api-reference/servers/perform-redis-action",
+    "filename": "servers-perform-redis-action.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/perform-mysql-action.md",
+    "path": "/docs/api-reference/servers/perform-mysql-action",
+    "filename": "servers-perform-mysql-action.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/perform-php-action.md",
+    "path": "/docs/api-reference/servers/perform-php-action",
+    "filename": "servers-perform-php-action.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/perform-supervisor-action.md",
+    "path": "/docs/api-reference/servers/perform-supervisor-action",
+    "filename": "servers-perform-supervisor-action.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-server.md",
+    "path": "/docs/api-reference/servers/get-server",
+    "filename": "servers-get-server.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/delete-server.md",
+    "path": "/docs/api-reference/servers/delete-server",
+    "filename": "servers-delete-server.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/list-server-events.md",
+    "path": "/docs/api-reference/servers/list-server-events",
+    "filename": "servers-list-server-events.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-server-event.md",
+    "path": "/docs/api-reference/servers/get-server-event",
+    "filename": "servers-get-server-event.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-server-event-output.md",
+    "path": "/docs/api-reference/servers/get-server-event-output",
+    "filename": "servers-get-server-event-output.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-php-cli-version.md",
+    "path": "/docs/api-reference/servers/get-php-cli-version",
+    "filename": "servers-get-php-cli-version.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/update-php-cli-version.md",
+    "path": "/docs/api-reference/servers/update-php-cli-version",
+    "filename": "servers-update-php-cli-version.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-php-site-version.md",
+    "path": "/docs/api-reference/servers/get-php-site-version",
+    "filename": "servers-get-php-site-version.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/update-php-site-version.md",
+    "path": "/docs/api-reference/servers/update-php-site-version",
+    "filename": "servers-update-php-site-version.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/list-php-versions-for-server.md",
+    "path": "/docs/api-reference/servers/list-php-versions-for-server",
+    "filename": "servers-list-php-versions-for-server.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/install-new-php-version.md",
+    "path": "/docs/api-reference/servers/install-new-php-version",
+    "filename": "servers-install-new-php-version.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-php-version.md",
+    "path": "/docs/api-reference/servers/get-php-version",
+    "filename": "servers-get-php-version.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/update-installed-php-version.md",
+    "path": "/docs/api-reference/servers/update-installed-php-version",
+    "filename": "servers-update-installed-php-version.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/delete-installed-php-version.md",
+    "path": "/docs/api-reference/servers/delete-installed-php-version",
+    "filename": "servers-delete-installed-php-version.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-php-version-fpm-config.md",
+    "path": "/docs/api-reference/servers/get-php-version-fpm-config",
+    "filename": "servers-get-php-version-fpm-config.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/update-php-version-fpm-config.md",
+    "path": "/docs/api-reference/servers/update-php-version-fpm-config",
+    "filename": "servers-update-php-version-fpm-config.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-php-version-cli-config.md",
+    "path": "/docs/api-reference/servers/get-php-version-cli-config",
+    "filename": "servers-get-php-version-cli-config.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/update-php-version-cli-config.md",
+    "path": "/docs/api-reference/servers/update-php-version-cli-config",
+    "filename": "servers-update-php-version-cli-config.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-php-version-pool-config.md",
+    "path": "/docs/api-reference/servers/get-php-version-pool-config",
+    "filename": "servers-get-php-version-pool-config.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/update-php-version-pool-config.md",
+    "path": "/docs/api-reference/servers/update-php-version-pool-config",
+    "filename": "servers-update-php-version-pool-config.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-server-php-max-upload-size.md",
+    "path": "/docs/api-reference/servers/get-server-php-max-upload-size",
+    "filename": "servers-get-server-php-max-upload-size.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/update-server-php-max-upload-size.md",
+    "path": "/docs/api-reference/servers/update-server-php-max-upload-size",
+    "filename": "servers-update-server-php-max-upload-size.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-server-php-max-execution-time.md",
+    "path": "/docs/api-reference/servers/get-server-php-max-execution-time",
+    "filename": "servers-get-server-php-max-execution-time.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/update-server-php-max-execution-time.md",
+    "path": "/docs/api-reference/servers/update-server-php-max-execution-time",
+    "filename": "servers-update-server-php-max-execution-time.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/get-server-php-opcache-status.md",
+    "path": "/docs/api-reference/servers/get-server-php-opcache-status",
+    "filename": "servers-get-server-php-opcache-status.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/create-php-opcache-config.md",
+    "path": "/docs/api-reference/servers/create-php-opcache-config",
+    "filename": "servers-create-php-opcache-config.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/delete-php-opcache-config.md",
+    "path": "/docs/api-reference/servers/delete-php-opcache-config",
+    "filename": "servers-delete-php-opcache-config.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/list-team-servers.md",
+    "path": "/docs/api-reference/servers/list-team-servers",
+    "filename": "servers-list-team-servers.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/create-a-new-server-share.md",
+    "path": "/docs/api-reference/servers/create-a-new-server-share",
+    "filename": "servers-create-a-new-server-share.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/servers/delete-a-server-share.md",
+    "path": "/docs/api-reference/servers/delete-a-server-share",
+    "filename": "servers-delete-a-server-share.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/list-sites.md",
+    "path": "/docs/api-reference/sites/list-sites",
+    "filename": "sites-list-sites.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/list-sites-for-organization.md",
+    "path": "/docs/api-reference/sites/list-sites-for-organization",
+    "filename": "sites-list-sites-for-organization.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-site.md",
+    "path": "/docs/api-reference/sites/get-site",
+    "filename": "sites-get-site.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/list-sites-for-server.md",
+    "path": "/docs/api-reference/sites/list-sites-for-server",
+    "filename": "sites-list-sites-for-server.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/create-site.md",
+    "path": "/docs/api-reference/sites/create-site",
+    "filename": "sites-create-site.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/update-site.md",
+    "path": "/docs/api-reference/sites/update-site",
+    "filename": "sites-update-site.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/delete-site.md",
+    "path": "/docs/api-reference/sites/delete-site",
+    "filename": "sites-delete-site.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/list-domains.md",
+    "path": "/docs/api-reference/sites/list-domains",
+    "filename": "sites-list-domains.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/create-domain.md",
+    "path": "/docs/api-reference/sites/create-domain",
+    "filename": "sites-create-domain.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-domain.md",
+    "path": "/docs/api-reference/sites/get-domain",
+    "filename": "sites-get-domain.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/delete-domain.md",
+    "path": "/docs/api-reference/sites/delete-domain",
+    "filename": "sites-delete-domain.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/update-domain.md",
+    "path": "/docs/api-reference/sites/update-domain",
+    "filename": "sites-update-domain.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-domain-dns-configuration.md",
+    "path": "/docs/api-reference/sites/get-domain-dns-configuration",
+    "filename": "sites-get-domain-dns-configuration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/create-domain-action.md",
+    "path": "/docs/api-reference/sites/create-domain-action",
+    "filename": "sites-create-domain-action.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-domain-certificate.md",
+    "path": "/docs/api-reference/sites/get-domain-certificate",
+    "filename": "sites-get-domain-certificate.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/create-domain-certificate.md",
+    "path": "/docs/api-reference/sites/create-domain-certificate",
+    "filename": "sites-create-domain-certificate.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/delete-domain-certificate.md",
+    "path": "/docs/api-reference/sites/delete-domain-certificate",
+    "filename": "sites-delete-domain-certificate.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-healthcheck-endpoint.md",
+    "path": "/docs/api-reference/sites/get-healthcheck-endpoint",
+    "filename": "sites-get-healthcheck-endpoint.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/update-healthcheck-endpoint.md",
+    "path": "/docs/api-reference/sites/update-healthcheck-endpoint",
+    "filename": "sites-update-healthcheck-endpoint.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-env-content.md",
+    "path": "/docs/api-reference/sites/get-env-content",
+    "filename": "sites-get-env-content.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/update-env-content.md",
+    "path": "/docs/api-reference/sites/update-env-content",
+    "filename": "sites-update-env-content.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-nginx-configuration.md",
+    "path": "/docs/api-reference/sites/get-nginx-configuration",
+    "filename": "sites-get-nginx-configuration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/update-nginx-configuration.md",
+    "path": "/docs/api-reference/sites/update-nginx-configuration",
+    "filename": "sites-update-nginx-configuration.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-composer-credentials-for-the-site.md",
+    "path": "/docs/api-reference/sites/get-composer-credentials-for-the-site",
+    "filename": "sites-get-composer-credentials-for-the-site.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/create-composer-credentials-for-the-site.md",
+    "path": "/docs/api-reference/sites/create-composer-credentials-for-the-site",
+    "filename": "sites-create-composer-credentials-for-the-site.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-composer-credential-for-the-site.md",
+    "path": "/docs/api-reference/sites/get-composer-credential-for-the-site",
+    "filename": "sites-get-composer-credential-for-the-site.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/update-composer-credentials-for-the-site.md",
+    "path": "/docs/api-reference/sites/update-composer-credentials-for-the-site",
+    "filename": "sites-update-composer-credentials-for-the-site.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/delete-composer-credentials-for-the-site.md",
+    "path": "/docs/api-reference/sites/delete-composer-credentials-for-the-site",
+    "filename": "sites-delete-composer-credentials-for-the-site.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/list-load-balancing-nodes.md",
+    "path": "/docs/api-reference/sites/list-load-balancing-nodes",
+    "filename": "sites-list-load-balancing-nodes.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/update-load-balancing-nodes.md",
+    "path": "/docs/api-reference/sites/update-load-balancing-nodes",
+    "filename": "sites-update-load-balancing-nodes.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-nginx-access-log-content.md",
+    "path": "/docs/api-reference/sites/get-nginx-access-log-content",
+    "filename": "sites-get-nginx-access-log-content.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/delete-nginx-access-log-content.md",
+    "path": "/docs/api-reference/sites/delete-nginx-access-log-content",
+    "filename": "sites-delete-nginx-access-log-content.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-nginx-error-log-content.md",
+    "path": "/docs/api-reference/sites/get-nginx-error-log-content",
+    "filename": "sites-get-nginx-error-log-content.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/delete-nginx-error-log-content.md",
+    "path": "/docs/api-reference/sites/delete-nginx-error-log-content",
+    "filename": "sites-delete-nginx-error-log-content.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-site-log-content.md",
+    "path": "/docs/api-reference/sites/get-site-log-content",
+    "filename": "sites-get-site-log-content.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/delete-site-log-content.md",
+    "path": "/docs/api-reference/sites/delete-site-log-content",
+    "filename": "sites-delete-site-log-content.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/list-heartbeats.md",
+    "path": "/docs/api-reference/sites/list-heartbeats",
+    "filename": "sites-list-heartbeats.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/create-heartbeat.md",
+    "path": "/docs/api-reference/sites/create-heartbeat",
+    "filename": "sites-create-heartbeat.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/get-heartbeat.md",
+    "path": "/docs/api-reference/sites/get-heartbeat",
+    "filename": "sites-get-heartbeat.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/update-heartbeat.md",
+    "path": "/docs/api-reference/sites/update-heartbeat",
+    "filename": "sites-update-heartbeat.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/sites/delete-heartbeat.md",
+    "path": "/docs/api-reference/sites/delete-heartbeat",
+    "filename": "sites-delete-heartbeat.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/list-teams.md",
+    "path": "/docs/api-reference/teams/list-teams",
+    "filename": "teams-list-teams.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/create-team.md",
+    "path": "/docs/api-reference/teams/create-team",
+    "filename": "teams-create-team.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/get-team.md",
+    "path": "/docs/api-reference/teams/get-team",
+    "filename": "teams-get-team.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/update-team.md",
+    "path": "/docs/api-reference/teams/update-team",
+    "filename": "teams-update-team.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/delete-team.md",
+    "path": "/docs/api-reference/teams/delete-team",
+    "filename": "teams-delete-team.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/list-team-members.md",
+    "path": "/docs/api-reference/teams/list-team-members",
+    "filename": "teams-list-team-members.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/get-team-member.md",
+    "path": "/docs/api-reference/teams/get-team-member",
+    "filename": "teams-get-team-member.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/update-team-member.md",
+    "path": "/docs/api-reference/teams/update-team-member",
+    "filename": "teams-update-team-member.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/delete-team-member.md",
+    "path": "/docs/api-reference/teams/delete-team-member",
+    "filename": "teams-delete-team-member.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/list-team-invitations.md",
+    "path": "/docs/api-reference/teams/list-team-invitations",
+    "filename": "teams-list-team-invitations.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/create-team-invite.md",
+    "path": "/docs/api-reference/teams/create-team-invite",
+    "filename": "teams-create-team-invite.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/get-team-invitation.md",
+    "path": "/docs/api-reference/teams/get-team-invitation",
+    "filename": "teams-get-team-invitation.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/teams/delete-team-invitation.md",
+    "path": "/docs/api-reference/teams/delete-team-invitation",
+    "filename": "teams-delete-team-invitation.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/user/get-user.md",
+    "path": "/docs/api-reference/user/get-user",
+    "filename": "user-get-user.md"
+  },
+  {
+    "url": "https://forge.laravel.com/docs/api-reference/user/get-user-1.md",
+    "path": "/docs/api-reference/user/get-user-1",
+    "filename": "user-get-user-1.md"
+  }
+]
