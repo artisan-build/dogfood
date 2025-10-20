@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\ForgeSdk;
 
+use ArtisanBuild\ForgeSdk\Exceptions\ApiException;
+use ArtisanBuild\ForgeSdk\Exceptions\AuthenticationException;
+use ArtisanBuild\ForgeSdk\Exceptions\RateLimitException;
 use ArtisanBuild\ForgeSdk\Resource\BackgroundProcesses;
 use ArtisanBuild\ForgeSdk\Resource\Commands;
 use ArtisanBuild\ForgeSdk\Resource\Databases;
@@ -27,6 +30,7 @@ use ArtisanBuild\ForgeSdk\Resource\SshKeys;
 use ArtisanBuild\ForgeSdk\Resource\Teams;
 use ArtisanBuild\ForgeSdk\Resource\User;
 use Saloon\Http\Connector;
+use Saloon\Http\Response;
 
 /**
  * Forge
@@ -148,5 +152,60 @@ class ForgeSdk extends Connector
     public function user(): User
     {
         return new User($this);
+    }
+
+    /**
+     * Handle HTTP responses and throw appropriate exceptions for error statuses.
+     */
+    public function getResponse(Response $response): Response
+    {
+        $status = $response->status();
+
+        // Success responses (2xx) - return as-is
+        if ($status >= 200 && $status < 300) {
+            return $response;
+        }
+
+        // Get response data for error context
+        $responseData = $response->json() ?? [];
+        $endpoint = $response->getPendingRequest()->getUrl();
+        $method = $response->getPendingRequest()->getMethod()->value;
+
+        // Handle specific error statuses
+        match ($status) {
+            401 => throw AuthenticationException::unauthenticated($endpoint, $method),
+            403 => throw AuthenticationException::forbidden($endpoint, $method, $responseData['message'] ?? null),
+            429 => throw RateLimitException::fromRetryAfter(
+                retryAfterSeconds: $this->getRetryAfterSeconds($response),
+                endpoint: $endpoint,
+                method: $method
+            ),
+            default => throw ApiException::fromResponse($status, $responseData, $endpoint, $method),
+        };
+    }
+
+    /**
+     * Extract retry-after seconds from response headers.
+     */
+    protected function getRetryAfterSeconds(Response $response): ?int
+    {
+        $retryAfter = $response->header('Retry-After');
+
+        if ($retryAfter === null) {
+            return null;
+        }
+
+        // Retry-After can be either seconds (integer) or HTTP date
+        if (is_numeric($retryAfter)) {
+            return (int) $retryAfter;
+        }
+
+        // If it's a date, calculate seconds from now
+        $retryDate = strtotime($retryAfter);
+        if ($retryDate !== false) {
+            return max(0, $retryDate - time());
+        }
+
+        return null;
     }
 }
