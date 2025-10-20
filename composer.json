@@ -46,6 +46,7 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^1.1",
         "driftingly/rector-laravel": "^2.1",
         "fakerphp/faker": "^1.23",
+        "ivqonsanada/enlightn": "^2.11",
         "larastan/larastan": "*",
         "laravel/pail": "^1.1",
         "laravel/pint": "^1.25",
@@ -91,6 +92,7 @@
             "@php artisan test --parallel --recreate-databases"
         ],
         "lint": [
+            "find packages -type d -name 'build' -exec rm -rf {} + 2>/dev/null || true",
             "vendor/bin/duster fix"
         ],
         "rector": [

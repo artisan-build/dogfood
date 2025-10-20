@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\File;
 
 uses(TestCase::class)->in(__DIR__);
 
+// Require the helpers file
+require_once __DIR__.'/helpers.php';
+
 // Set up common mocks that all tests need
 // Note: We do NOT set up Process::fake() here because each test has different
 // Process expectations. Setting it up globally conflicts with test-specific mocks.

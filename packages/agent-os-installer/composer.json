@@ -26,7 +26,10 @@
     "autoload-dev": {
         "psr-4": {
             "ArtisanBuild\\AgentOsInstaller\\Tests\\": "tests/"
-        }
+        },
+        "files": [
+            "tests/helpers.php"
+        ]
     },
     "scripts": {
         "test": "vendor/bin/pest",

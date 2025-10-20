@@ -1,7 +1,13 @@
 {
     "preset": "laravel",
     "notPath": [
-        "packages/turbulence/config/turbulence.php'"
+        "packages/turbulence/config/turbulence.php",
+        "build",
+        "*/build/*",
+        "**/build/**",
+        ".phpunit.cache",
+        "*/.phpunit.cache/*",
+        "**/.phpunit.cache/**"
     ],
     "rules": {
         "declare_strict_types": true,

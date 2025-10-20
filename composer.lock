@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "76cb359ba9829712c0df820ef1307cca",
+    "content-hash": "01e8e21106e1f9ab58aea99a97203ea7",
     "packages": [
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -87,11 +87,11 @@
         },
         {
             "name": "artisan-build/agent-os-installer",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/agent-os-installer",
-                "reference": "4138ae850d1505a8947645e704efe58277a3c3ab"
+                "reference": "fd24721fe5c78602403d48e1668b0dbd624556dd"
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0|^12.0",
@@ -118,7 +118,10 @@
             "autoload-dev": {
                 "psr-4": {
                     "ArtisanBuild\\AgentOsInstaller\\Tests\\": "tests/"
-                }
+                },
+                "files": [
+                    "tests/helpers.php"
+                ]
             },
             "scripts": {
                 "test": [
@@ -147,7 +150,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -224,7 +227,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -342,7 +345,7 @@
         },
         {
             "name": "artisan-build/claudecode",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/claudecode",
@@ -422,7 +425,7 @@
         },
         {
             "name": "artisan-build/code-chat-client",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/code-chat-client",
@@ -503,7 +506,7 @@
         },
         {
             "name": "artisan-build/docsidian",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -585,7 +588,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -663,7 +666,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -743,7 +746,7 @@
         },
         {
             "name": "artisan-build/forge-client",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/forge-client",
@@ -826,7 +829,7 @@
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -902,7 +905,7 @@
         },
         {
             "name": "artisan-build/hallway-core",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-core",
@@ -1000,7 +1003,7 @@
         },
         {
             "name": "artisan-build/hallway-flux",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
@@ -1099,7 +1102,7 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
@@ -1181,7 +1184,7 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -1260,7 +1263,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -1337,7 +1340,7 @@
         },
         {
             "name": "artisan-build/mirror",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/mirror",
@@ -1414,7 +1417,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -1492,7 +1495,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -1572,7 +1575,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -1650,7 +1653,7 @@
         },
         {
             "name": "artisan-build/turbulence",
-            "version": "dev-rename-forge-sdk-to-forge-client",
+            "version": "dev-fix-issues",
             "dist": {
                 "type": "path",
                 "url": "packages/turbulence",
@@ -4616,16 +4619,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.30.0",
+            "version": "3.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "2203e3151755d874bb2943649dae1eb8533ac93e"
+                "reference": "c139fd65c1f796b926f4aec0df37f6caa959a8da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/2203e3151755d874bb2943649dae1eb8533ac93e",
-                "reference": "2203e3151755d874bb2943649dae1eb8533ac93e",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c139fd65c1f796b926f4aec0df37f6caa959a8da",
+                "reference": "c139fd65c1f796b926f4aec0df37f6caa959a8da",
                 "shasum": ""
             },
             "require": {
@@ -4693,9 +4696,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.30.0"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.30.1"
             },
-            "time": "2025-06-25T13:29:59+00:00"
+            "time": "2025-10-20T15:35:26+00:00"
         },
         {
             "name": "league/flysystem-local",
@@ -10602,28 +10605,28 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.11.0",
+            "version": "1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "11cb2199493b2f8a3b53e7f19068fc6aac760991"
+                "reference": "541057574806f942c94662b817a50f63f7345360"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/11cb2199493b2f8a3b53e7f19068fc6aac760991",
-                "reference": "11cb2199493b2f8a3b53e7f19068fc6aac760991",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/541057574806f942c94662b817a50f63f7345360",
+                "reference": "541057574806f942c94662b817a50f63f7345360",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
+                "ext-date": "*",
+                "ext-filter": "*",
                 "php": "^7.2 || ^8.0"
             },
-            "conflict": {
-                "phpstan/phpstan": "<0.12.20",
-                "vimeo/psalm": "<4.6.1 || 4.6.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.5.13"
+            "suggest": {
+                "ext-intl": "",
+                "ext-simplexml": "",
+                "ext-spl": ""
             },
             "type": "library",
             "extra": {
@@ -10654,9 +10657,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/1.11.0"
+                "source": "https://github.com/webmozarts/assert/tree/1.12.0"
             },
-            "time": "2022-06-03T18:03:27+00:00"
+            "time": "2025-10-20T12:43:39+00:00"
         }
     ],
     "packages-dev": [
@@ -11164,6 +11167,72 @@
             "time": "2025-10-12T21:51:39+00:00"
         },
         {
+            "name": "enlightn/security-checker",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/enlightn/security-checker.git",
+                "reference": "d495ab07639388c7c770c5223aa0d42fee1d2604"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/enlightn/security-checker/zipball/d495ab07639388c7c770c5223aa0d42fee1d2604",
+                "reference": "d495ab07639388c7c770c5223aa0d42fee1d2604",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.3|^7.0",
+                "php": ">=8.2",
+                "symfony/console": "^7",
+                "symfony/finder": "^3|^4|^5|^6|^7",
+                "symfony/process": "^3.4|^4|^5|^6|^7",
+                "symfony/yaml": "^3.4|^4|^5|^6|^7"
+            },
+            "require-dev": {
+                "ext-zip": "*",
+                "friendsofphp/php-cs-fixer": "^2.18|^3.0",
+                "phpunit/phpunit": "^5.5|^6|^7|^8|^9"
+            },
+            "bin": [
+                "security-checker"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Enlightn\\SecurityChecker\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paras Malhotra",
+                    "email": "paras@laravel-enlightn.com"
+                },
+                {
+                    "name": "Miguel Piedrafita",
+                    "email": "soy@miguelpiedrafita.com"
+                }
+            ],
+            "description": "A PHP dependency vulnerabilities scanner based on the Security Advisories Database.",
+            "keywords": [
+                "package",
+                "php",
+                "scanner",
+                "security",
+                "security advisories",
+                "vulnerability scanner"
+            ],
+            "support": {
+                "issues": "https://github.com/enlightn/security-checker/issues",
+                "source": "https://github.com/enlightn/security-checker/tree/v2.0.0"
+            },
+            "time": "2023-12-10T07:17:09+00:00"
+        },
+        {
             "name": "fakerphp/faker",
             "version": "v1.24.1",
             "source": {
@@ -11449,6 +11518,99 @@
                 "source": "https://github.com/iamcal/SQLParser/tree/v0.6"
             },
             "time": "2025-03-17T16:59:46+00:00"
+        },
+        {
+            "name": "ivqonsanada/enlightn",
+            "version": "2.11.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ivqonsanada/enlightn.git",
+                "reference": "99d873cd9d2068ac25c86f52648914fdf02a3559"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ivqonsanada/enlightn/zipball/99d873cd9d2068ac25c86f52648914fdf02a3559",
+                "reference": "99d873cd9d2068ac25c86f52648914fdf02a3559",
+                "shasum": ""
+            },
+            "require": {
+                "enlightn/security-checker": "^1.1|^2.0",
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.0",
+                "larastan/larastan": "^3.0",
+                "laravel/framework": "^9.0|^10.0|^11.0|^12.0",
+                "nikic/php-parser": "^4.0|^5.0",
+                "php": "^8.0",
+                "phpstan/phpstan-deprecation-rules": "^1.1|^2.0",
+                "symfony/finder": "^4.0|^5.0|^6.0|^7.0"
+            },
+            "replace": {
+                "enlightn/enlightn": "2.10.*"
+            },
+            "require-dev": {
+                "barryvdh/laravel-ide-helper": "^2.8|^3.0",
+                "brianium/paratest": "^6.1|^7.0",
+                "friendsofphp/php-cs-fixer": "^2.18|^3.0",
+                "mockery/mockery": "^1.3",
+                "orchestra/testbench": "^7.0|^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^9.0|^10.0|^11.5.3",
+                "predis/predis": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Enlightn\\Enlightn\\EnlightnServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Enlightn\\Enlightn\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Paras Malhotra",
+                    "email": "paras@laravel-enlightn.com"
+                },
+                {
+                    "name": "Miguel Piedrafita",
+                    "email": "soy@miguelpiedrafita.com"
+                },
+                {
+                    "name": "Lars Klopstra",
+                    "email": "lars@flowframe.nl"
+                },
+                {
+                    "name": "Ivqonnada Al Mufarrih",
+                    "email": "ivqonsanada@gmail.com"
+                }
+            ],
+            "description": "Fork of Enlightn - Your performance & security consultant, an artisan command away.",
+            "homepage": "https://www.laravel-enlightn.com/",
+            "keywords": [
+                "Audit",
+                "analysis tool",
+                "dynamic analysis",
+                "dynamic analyzer",
+                "laravel",
+                "package",
+                "performance",
+                "security",
+                "static analysis",
+                "static analyzer"
+            ],
+            "support": {
+                "docs": "https://www.laravel-enlightn.com/docs/",
+                "issues": "https://github.com/ivqonsanada/enlightn/issues",
+                "source": "https://github.com/ivqonsanada/enlightn/tree/v2.11.4"
+            },
+            "time": "2025-03-28T17:28:36+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -13394,6 +13556,53 @@
                 }
             ],
             "time": "2025-10-10T14:14:11+00:00"
+        },
+        {
+            "name": "phpstan/phpstan-deprecation-rules",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan-deprecation-rules.git",
+                "reference": "468e02c9176891cc901143da118f09dc9505fc2f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/468e02c9176891cc901143da118f09dc9505fc2f",
+                "reference": "468e02c9176891cc901143da118f09dc9505fc2f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "phpstan/phpstan": "^2.1.15"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "phpstan-extension",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "rules.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan rules for detecting usage of deprecated classes, methods, properties, constants and traits.",
+            "support": {
+                "issues": "https://github.com/phpstan/phpstan-deprecation-rules/issues",
+                "source": "https://github.com/phpstan/phpstan-deprecation-rules/tree/2.0.3"
+            },
+            "time": "2025-05-14T10:56:57+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
