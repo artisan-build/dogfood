@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b10b98b24c9ba853bbcdbcabd66d752",
+    "content-hash": "76cb359ba9829712c0df820ef1307cca",
     "packages": [
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -87,7 +87,7 @@
         },
         {
             "name": "artisan-build/agent-os-installer",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/agent-os-installer",
@@ -147,7 +147,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -224,7 +224,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -342,7 +342,7 @@
         },
         {
             "name": "artisan-build/claudecode",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/claudecode",
@@ -422,7 +422,7 @@
         },
         {
             "name": "artisan-build/code-chat-client",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/code-chat-client",
@@ -503,7 +503,7 @@
         },
         {
             "name": "artisan-build/docsidian",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -585,7 +585,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -663,7 +663,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -742,12 +742,12 @@
             }
         },
         {
-            "name": "artisan-build/forge-sdk",
-            "version": "dev-forge-sdk",
+            "name": "artisan-build/forge-client",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
-                "url": "packages/forge-sdk",
-                "reference": "a7323d71661d22ced2dbb4b7e6dbc2d3f45d9142"
+                "url": "packages/forge-client",
+                "reference": "dc0ccf15d27a056a07903d33beb225191d1012ed"
             },
             "require": {
                 "illuminate/support": "^11.36|^12.0",
@@ -766,17 +766,17 @@
             "extra": {
                 "laravel": {
                     "providers": [
-                        "ArtisanBuild\\ForgeSdk\\Providers\\ForgeSdkServiceProvider"
+                        "ArtisanBuild\\ForgeClient\\Providers\\ForgeClientServiceProvider"
                     ],
                     "aliases": {
-                        "Forge": "ArtisanBuild\\ForgeSdk\\Facades\\Forge"
+                        "Forge": "ArtisanBuild\\ForgeClient\\Facades\\Forge"
                     }
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "ArtisanBuild\\ForgeSdk\\": "src/",
-                    "ArtisanBuild\\ForgeSdk\\Tests\\": "tests/"
+                    "ArtisanBuild\\ForgeClient\\": "src/",
+                    "ArtisanBuild\\ForgeClient\\Tests\\": "tests/"
                 }
             },
             "scripts": {
@@ -819,14 +819,14 @@
             "license": [
                 "MIT"
             ],
-            "description": "A Saloon-based SDK for Laravel Forge (2025+ Version)",
+            "description": "A Saloon-based client for Laravel Forge (2025+ Version)",
             "transport-options": {
                 "relative": true
             }
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -902,7 +902,7 @@
         },
         {
             "name": "artisan-build/hallway-core",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-core",
@@ -1000,7 +1000,7 @@
         },
         {
             "name": "artisan-build/hallway-flux",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
@@ -1099,7 +1099,7 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
@@ -1181,7 +1181,7 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -1260,7 +1260,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -1337,7 +1337,7 @@
         },
         {
             "name": "artisan-build/mirror",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/mirror",
@@ -1414,7 +1414,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -1492,7 +1492,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -1572,7 +1572,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -1650,7 +1650,7 @@
         },
         {
             "name": "artisan-build/turbulence",
-            "version": "dev-forge-sdk",
+            "version": "dev-rename-forge-sdk-to-forge-client",
             "dist": {
                 "type": "path",
                 "url": "packages/turbulence",

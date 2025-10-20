@@ -19,7 +19,7 @@
         "artisan-build/docsidian": "*",
         "artisan-build/fat-enums": "*",
         "artisan-build/flux-themes": "*",
-        "artisan-build/forge-sdk": "*",
+        "artisan-build/forge-client": "*",
         "artisan-build/gh": "*",
         "artisan-build/hallway-core": "*",
         "artisan-build/hallway-flux": "*",
