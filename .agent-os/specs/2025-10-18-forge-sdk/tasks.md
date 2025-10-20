@@ -104,33 +104,33 @@ This SDK will be generated from the official Laravel Forge OpenAPI specification
   - [x] 8.12 Fixed all parameter signature issues (removed incorrect filtercommand from BackgroundProcesses)
   - [x] 8.13 All 133 forge-sdk tests pass successfully (100% pass rate achieved)
 
-- [ ] 9. Exception Handling & Error Messages
-  - [ ] 9.1 Write tests for custom exception classes
-  - [ ] 9.2 Create ForgeException base exception
-  - [ ] 9.3 Create ValidationException for parameter validation
-  - [ ] 9.4 Create ApiException for API errors
-  - [ ] 9.5 Create RateLimitException for 429 responses
-  - [ ] 9.6 Create AuthenticationException for 401/403 responses
-  - [ ] 9.7 Add exception handling middleware to connector
-  - [ ] 9.8 Add helpful error messages with context
-  - [ ] 9.9 Verify all exception tests pass
+- [x] 9. Exception Handling & Error Messages
+  - [x] 9.1 Write tests for custom exception classes
+  - [x] 9.2 Enhance ForgeException with context support and factory methods
+  - [x] 9.3 Enhance ValidationException with parameter validation helpers
+  - [x] 9.4 Enhance ApiException with HTTP status and response data
+  - [x] 9.5 Enhance RateLimitException with retry-after information
+  - [x] 9.6 Enhance AuthenticationException with helpful troubleshooting messages
+  - [x] 9.7 Add exception handling response interceptor to connector
+  - [x] 9.8 All exceptions include helpful error messages with context
+  - [x] 9.9 All exception tests pass (30 tests, 65 assertions)
 
-- [ ] 10. README Documentation
-  - [ ] 10.1 Create README.md with comprehensive table of contents
-  - [ ] 10.2 Write Installation section (composer require, publish config)
-  - [ ] 10.3 Write Configuration section (API token, environment variables)
-  - [ ] 10.4 Write Quick Start example (basic usage pattern)
-  - [ ] 10.5 Document Organizations resource with all endpoint examples
-  - [ ] 10.6 Document Servers resource with create, manage, action examples
-  - [ ] 10.7 Document Sites resource with Git and environment examples
-  - [ ] 10.8 Document Deployments resource with trigger and monitoring examples
-  - [ ] 10.9 Document all remaining resources with usage examples
-  - [ ] 10.10 Add Testing Commands reference section
-  - [ ] 10.11 Add Error Handling & Exceptions section
-  - [ ] 10.12 Add Troubleshooting section (common issues, rate limits)
-  - [ ] 10.13 Add Contributing guide
-  - [ ] 10.14 Add License (MIT)
-  - [ ] 10.15 Review README for completeness and clarity
+- [x] 10. README Documentation
+  - [x] 10.1 Create README.md with comprehensive table of contents
+  - [x] 10.2 Write Installation section (composer require, publish config)
+  - [x] 10.3 Write Configuration section (API token, environment variables)
+  - [x] 10.4 Write Quick Start example (basic usage pattern)
+  - [x] 10.5 Document Organizations resource with all endpoint examples
+  - [x] 10.6 Document Servers resource with create, manage, action examples
+  - [x] 10.7 Document Sites resource with Git and environment examples
+  - [x] 10.8 Document Deployments resource with trigger and monitoring examples
+  - [x] 10.9 Document all remaining resources with usage examples
+  - [x] 10.10 Add Artisan Commands reference section (all 44 commands documented)
+  - [x] 10.11 Add Error Handling & Exceptions section (all 5 exception types)
+  - [x] 10.12 Add Troubleshooting section (common issues, rate limits, debug mode)
+  - [x] 10.13 Add Contributing guide
+  - [x] 10.14 Add License (MIT)
+  - [x] 10.15 Review README for completeness and clarity
 
 - [ ] 11. Final Quality Checks & Polish
   - [ ] 11.1 Run `composer ready` and fix any issues

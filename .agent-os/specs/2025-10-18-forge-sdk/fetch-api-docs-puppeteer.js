@@ -33,7 +33,7 @@ function urlToFilename(urlPath) {
     const filename = urlPath
         .replace('/docs/api-reference/', '')
         .replace(/\//g, '-') || 'introduction';
-    return `${filename}.html`;
+    return `${filename}.md`;
 }
 
 /**
@@ -128,11 +128,12 @@ async function main() {
         // Process each link
         for (let i = 0; i < links.length; i++) {
             const urlPath = links[i];
-            const fullUrl = urlPath.startsWith('http') ? urlPath : `${BASE_URL}${urlPath}`;
+            // Append .md to the URL to get markdown version from Mintlify
+            const fullUrl = urlPath.startsWith('http') ? `${urlPath}.md` : `${BASE_URL}${urlPath}.md`;
             const filename = urlToFilename(urlPath);
             const filepath = path.join(OUTPUT_DIR, filename);
 
-            console.log(`[${i + 1}/${links.length}] ${urlPath}`);
+            console.log(`[${i + 1}/${links.length}] ${urlPath} -> ${fullUrl}`);
 
             try {
                 // Navigate to the page
@@ -141,31 +142,29 @@ async function main() {
                     timeout: 30000
                 });
 
-                // Wait for main content to load
-                await page.waitForSelector('main, article', { timeout: 5000 }).catch(() => {});
+                // Give the page time to load (markdown pages should load quickly)
+                await new Promise(resolve => setTimeout(resolve, 500));
 
-                // Give dynamic content time to render
-                await new Promise(resolve => setTimeout(resolve, 1000));
-
-                // Extract the main content
+                // Extract the markdown content (Mintlify serves raw markdown with .md extension)
                 const content = await page.evaluate((url) => {
-                    // Try to get just the main content area
-                    const main = document.querySelector('main');
-                    const article = document.querySelector('article');
-                    const contentArea = main || article || document.body;
+                    // For markdown pages, the content is usually in a <pre> tag or the body text
+                    const pre = document.querySelector('pre');
+                    const body = document.body;
 
-                    // Remove scripts and styles
-                    const scripts = contentArea.querySelectorAll('script');
-                    const styles = contentArea.querySelectorAll('style');
-                    scripts.forEach(s => s.remove());
-                    styles.forEach(s => s.remove());
+                    let markdown = '';
+                    if (pre) {
+                        markdown = pre.textContent;
+                    } else {
+                        // If no pre tag, get the text content of the body
+                        markdown = body.textContent;
+                    }
 
-                    const html = contentArea.innerHTML;
+                    return `---
+source: ${url}
+fetched: ${new Date().toISOString()}
+---
 
-                    return `<!-- Source: ${url} -->
-<!-- Fetched: ${new Date().toISOString()} -->
-
-${html}`;
+${markdown}`;
                 }, fullUrl);
 
                 // Save the content
