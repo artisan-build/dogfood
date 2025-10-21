@@ -1,0 +1,66 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ArtisanBuild\FatEnums\Collections;
+
+use BackedEnum;
+use Illuminate\Support\Collection;
+use InvalidArgumentException;
+use UnitEnum;
+
+/**
+ * @template T of UnitEnum
+ *
+ * @extends Collection<array-key, T>
+ */
+class EnumCollection extends Collection
+{
+    private readonly string $enumClass;
+
+    /**
+     * @param  enum-string<T>|iterable<T>  $items
+     */
+    public function __construct(
+        string|iterable $items = [],
+    ) {
+        if (is_string($items)) {
+            if (! enum_exists($items)) {
+                throw new InvalidArgumentException('Invalid enum class: '.$items);
+            }
+
+            $this->enumClass = $items;
+            parent::__construct($items::cases());
+
+            return;
+        }
+
+        if (! is_array($items)) {
+            $items = iterator_to_array($items);
+        }
+
+        // check that every item is an enum
+        foreach ($items as $item) {
+            if (! $item instanceof BackedEnum && ! $item instanceof UnitEnum) {
+                throw new InvalidArgumentException('All items must be an enum instance, '.get_debug_type($item).' given');
+            }
+        }
+
+        // check that every item is an instance of the **same** enum class
+        $enumClass = $items[0]::class;
+        foreach ($items as $item) {
+            if ($item::class !== $enumClass) {
+                throw new InvalidArgumentException('All items must be an instance of the same enum class: '.$enumClass);
+            }
+        }
+
+        $this->enumClass = $enumClass;
+
+        parent::__construct($items);
+    }
+
+    public function getEnumClass(): string
+    {
+        return $this->enumClass;
+    }
+}
