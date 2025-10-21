@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\ForgeClient\Requests\Sites;
 
+use ArtisanBuild\ForgeClient\Exceptions\ProtectedResourceException;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
@@ -27,10 +28,26 @@ class OrganizationsServersSitesDestroy extends Request
         protected string $organization,
         protected int $server,
         protected int $site,
-    ) {}
+    ) {
+        $this->checkProtection();
+    }
 
     public function resolveEndpoint(): string
     {
         return "/orgs/{$this->organization}/servers/{$this->server}/sites/{$this->site}";
+    }
+
+    /**
+     * Check if the site is protected from deletion.
+     *
+     * @throws ProtectedResourceException
+     */
+    protected function checkProtection(): void
+    {
+        $protectedSites = config('forge-client.protected_sites', []);
+
+        if (in_array($this->site, $protectedSites, true)) {
+            throw ProtectedResourceException::site($this->site);
+        }
     }
 }

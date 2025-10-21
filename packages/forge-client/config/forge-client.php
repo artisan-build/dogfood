@@ -95,4 +95,26 @@ return [
          */
         'level' => env('FORGE_LOG_LEVEL', 'info'),
     ],
+
+    /**
+     * Protected Sites
+     *
+     * List of site IDs that cannot be deleted via the SDK.
+     * This prevents accidental deletion of critical sites.
+     * Sites can still be deleted through the Forge UI.
+     *
+     * Example: [123, 456, 789]
+     */
+    'protected_sites' => [],
+
+    /**
+     * Protected Servers
+     *
+     * List of server IDs that cannot be deleted via the SDK.
+     * This prevents accidental deletion of critical servers.
+     * Servers can still be deleted through the Forge UI.
+     *
+     * Example: [100, 200, 300]
+     */
+    'protected_servers' => [],
 ];

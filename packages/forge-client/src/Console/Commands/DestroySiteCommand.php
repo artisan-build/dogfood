@@ -8,6 +8,7 @@ use ArtisanBuild\ForgeClient\Console\Concerns\HandlesDefaultArguments;
 use ArtisanBuild\ForgeClient\Console\Concerns\LogsForgeOperations;
 use ArtisanBuild\ForgeClient\Console\Concerns\PerformsDestructiveForgeOperations;
 use ArtisanBuild\ForgeClient\Console\Concerns\ResolvesResourceIdentifiers;
+use ArtisanBuild\ForgeClient\Exceptions\ProtectedResourceException;
 use ArtisanBuild\ForgeClient\ForgeClient;
 use Exception;
 use Illuminate\Console\Command;
@@ -106,6 +107,27 @@ class DestroySiteCommand extends Command
             $this->comment("Site destroyed in {$executionTime}ms");
 
             return self::SUCCESS;
+        } catch (ProtectedResourceException $e) {
+            $this->newLine();
+            $this->error('PROTECTED RESOURCE');
+            $this->newLine();
+            $this->line("Site {$site} is marked as protected because it is critical to your business operations.");
+            $this->line('This site cannot be deleted via the SDK to prevent accidental data loss.');
+            $this->newLine();
+            $this->comment('What to do:');
+            $this->line('  • If this site has been replaced, update config/forge-client.php');
+            $this->line("  • Remove site ID {$site} from the 'protected_sites' array");
+            $this->line("  • Add the new site's ID to 'protected_sites' if needed");
+            $this->line('  • If you still need to delete this site, do so through the Forge UI');
+            $this->newLine();
+
+            $this->logError('Protected site deletion attempt', $e->getMessage(), [
+                'organization' => $organization,
+                'server' => $server,
+                'site' => $site,
+            ]);
+
+            return self::FAILURE;
         } catch (Exception $e) {
             $executionTime = round((microtime(true) - $startTime) * 1000, 2);
 

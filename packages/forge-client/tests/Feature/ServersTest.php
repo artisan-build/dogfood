@@ -82,6 +82,28 @@ test('servers destroy deletes a server', function (): void {
     expect($response->status())->toBe(204);
 });
 
+test('servers destroy throws exception for protected server', function (): void {
+    config(['forge-client.protected_servers' => [100]]);
+
+    expect(fn () => $this->sdk->servers()->organizationsServersDestroy('1', 100))
+        ->toThrow(
+            ArtisanBuild\ForgeClient\Exceptions\ProtectedResourceException::class,
+            'Cannot delete protected server (ID: 100)'
+        );
+});
+
+test('servers destroy allows deletion of unprotected server when other servers are protected', function (): void {
+    config(['forge-client.protected_servers' => [999, 888]]);
+
+    $this->mockClient->addResponse(MockResponseFactory::make([], 204));
+
+    $this->sdk->withMockClient($this->mockClient);
+
+    $response = $this->sdk->servers()->organizationsServersDestroy('1', 100);
+
+    expect($response->status())->toBe(204);
+});
+
 test('servers index handles unauthorized requests', function (): void {
     $this->mockClient->addResponse(MockResponseFactory::unauthorized());
 
