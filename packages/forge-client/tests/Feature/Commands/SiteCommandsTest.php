@@ -376,3 +376,18 @@ test('get site command handles 404 errors', function (): void {
         ->assertExitCode(1)
         ->expectsOutputToContain('Failed to get site');
 });
+
+test('destroy site command handles protected site gracefully', function (): void {
+    config()->set('forge-client.protected_sites', [200]);
+
+    $this->artisan(DestroySiteCommand::class, [
+        'site' => '200',
+        'server' => '100',
+        'organization' => 'test-org',
+        '--dangerously-skip-confirmation' => true,
+    ])
+        ->assertExitCode(1)
+        ->expectsOutputToContain('PROTECTED RESOURCE')
+        ->expectsOutputToContain('marked as protected')
+        ->expectsOutputToContain('config/forge-client.php');
+});

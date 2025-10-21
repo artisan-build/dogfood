@@ -460,3 +460,34 @@ test('get server command argument overrides config default', function (): void {
         ->assertExitCode(0)
         ->expectsOutputToContain('specific-server');
 });
+
+test('destroy server command handles protected server gracefully', function (): void {
+    config()->set('forge-client.protected_servers', [100]);
+
+    $mockClient = new MockClient([
+        MockResponse::make([
+            'data' => [
+                'id' => '100',
+                'type' => 'servers',
+                'attributes' => [
+                    'name' => 'production-web-1',
+                    'provider' => 'ocean',
+                    'ip_address' => '192.0.2.1',
+                ],
+            ],
+        ], 200),
+    ]);
+
+    $sdk = app(ForgeClient::class);
+    $sdk->withMockClient($mockClient);
+
+    $this->artisan(DestroyServerCommand::class, [
+        'server' => '100',
+        'organization' => 'test-org',
+        '--dangerously-skip-confirmation' => true,
+    ])
+        ->assertExitCode(1)
+        ->expectsOutputToContain('PROTECTED RESOURCE')
+        ->expectsOutputToContain('marked as protected')
+        ->expectsOutputToContain('config/forge-client.php');
+});

@@ -8,6 +8,7 @@ use ArtisanBuild\ForgeClient\Console\Concerns\HandlesDefaultArguments;
 use ArtisanBuild\ForgeClient\Console\Concerns\LogsForgeOperations;
 use ArtisanBuild\ForgeClient\Console\Concerns\PerformsDestructiveForgeOperations;
 use ArtisanBuild\ForgeClient\Console\Concerns\ResolvesResourceIdentifiers;
+use ArtisanBuild\ForgeClient\Exceptions\ProtectedResourceException;
 use ArtisanBuild\ForgeClient\ForgeClient;
 use Exception;
 use Illuminate\Console\Command;
@@ -128,6 +129,26 @@ class DestroyServerCommand extends Command
             $this->info("Server {$serverId} destroyed successfully in {$executionTime}ms");
 
             return self::SUCCESS;
+        } catch (ProtectedResourceException $e) {
+            $this->newLine();
+            $this->error('PROTECTED RESOURCE');
+            $this->newLine();
+            $this->line("Server {$serverId} is marked as protected because it is critical to your business operations.");
+            $this->line('This server cannot be deleted via the SDK to prevent accidental data loss.');
+            $this->newLine();
+            $this->comment('What to do:');
+            $this->line('  • If this server has been replaced, update config/forge-client.php');
+            $this->line("  • Remove server ID {$serverId} from the 'protected_servers' array");
+            $this->line("  • Add the new server's ID to 'protected_servers' if needed");
+            $this->line('  • If you still need to delete this server, do so through the Forge UI');
+            $this->newLine();
+
+            $this->logError('Protected server deletion attempt', $e->getMessage(), [
+                'organization' => $organization,
+                'server_id' => $serverId,
+            ]);
+
+            return self::FAILURE;
         } catch (Exception $e) {
             $executionTime = round((microtime(true) - $startTime) * 1000, 2);
 

@@ -102,3 +102,25 @@ test('sites destroy deletes a site', function (): void {
 
     expect($response->status())->toBe(204);
 });
+
+test('sites destroy throws exception for protected site', function (): void {
+    config(['forge-client.protected_sites' => [200]]);
+
+    expect(fn () => $this->sdk->sites()->organizationsServersSitesDestroy('1', 100, 200))
+        ->toThrow(
+            ArtisanBuild\ForgeClient\Exceptions\ProtectedResourceException::class,
+            'Cannot delete protected site (ID: 200)'
+        );
+});
+
+test('sites destroy allows deletion of unprotected site when other sites are protected', function (): void {
+    config(['forge-client.protected_sites' => [999, 888]]);
+
+    $this->mockClient->addResponse(MockResponseFactory::make([], 204));
+
+    $this->sdk->withMockClient($this->mockClient);
+
+    $response = $this->sdk->sites()->organizationsServersSitesDestroy('1', 100, 200);
+
+    expect($response->status())->toBe(204);
+});
