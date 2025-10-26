@@ -13,13 +13,13 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [x] 1.3 Add environment variable support for all config values
   - [x] 1.4 Verify configuration tests pass
 
-- [ ] 2. Generate SDK with Saloon SDK Generator
-  - [ ] 2.1 Create tests to verify generated classes exist and are autoloadable
-  - [ ] 2.2 Run `saloon-sdk-generator` CLI command in package directory with correct parameters
-  - [ ] 2.3 Verify generated code structure in `src/Generated/` directory
-  - [ ] 2.4 Add `src/Generated/` to `.gitignore` if needed (or commit generated code based on preference)
-  - [ ] 2.5 Run `composer dump-autoload` to register generated classes
-  - [ ] 2.6 Verify SDK generation tests pass
+- [x] 2. Generate SDK with Saloon SDK Generator
+  - [x] 2.1 Create tests to verify generated classes exist and are autoloadable
+  - [x] 2.2 Run `saloon-sdk-generator` CLI command in package directory with correct parameters
+  - [x] 2.3 Verify generated code structure in `src/OpenCode/` directory
+  - [x] 2.4 Add `src/OpenCode/` to `.gitignore` if needed (or commit generated code based on preference)
+  - [x] 2.5 Run `composer dump-autoload` to register generated classes
+  - [x] 2.6 Verify SDK generation tests pass
 
 - [ ] 3. Update Service Provider
   - [ ] 3.1 Write tests for connector binding and configuration injection
