@@ -38,13 +38,13 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [ ] 4.7 Create test fixtures directory and add sample API response fixtures
   - [ ] 4.8 Verify all tests pass with `composer test`
 
-- [ ] 5. Update Documentation
-  - [ ] 5.1 Update README.md with installation instructions
-  - [ ] 5.2 Add configuration section with all available options
-  - [ ] 5.3 Add usage examples showing basic SDK usage (creating sessions, sending messages)
-  - [ ] 5.4 Add advanced usage examples (authentication, custom timeout, retry logic)
-  - [ ] 5.5 Document how to publish config file
-  - [ ] 5.6 Add troubleshooting section if needed
+- [x] 5. Update Documentation
+  - [x] 5.1 Update README.md with installation instructions
+  - [x] 5.2 Add configuration section with all available options
+  - [x] 5.3 Add usage examples showing basic SDK usage (creating sessions, sending messages)
+  - [x] 5.4 Add advanced usage examples (authentication, custom timeout, retry logic)
+  - [x] 5.5 Document how to publish config file
+  - [x] 5.6 Add troubleshooting section if needed
 
 - [ ] 6. Run Quality Checks
   - [ ] 6.1 Run `composer lint` to verify code style
