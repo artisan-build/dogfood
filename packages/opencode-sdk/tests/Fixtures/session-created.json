@@ -1,0 +1,7 @@
+{
+  "id": "ses_new",
+  "title": "New Session",
+  "model": "claude-3-5-sonnet-20241022",
+  "created_at": "2025-10-26T12:00:00Z",
+  "updated_at": "2025-10-26T12:00:00Z"
+}

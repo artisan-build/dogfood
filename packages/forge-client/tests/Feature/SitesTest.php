@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use ArtisanBuild\ForgeClient\Exceptions\ProtectedResourceException;
 use ArtisanBuild\ForgeClient\ForgeClient;
 use ArtisanBuild\ForgeClient\Tests\Helpers\MockResponseFactory;
 use Saloon\Http\Faking\MockClient;
@@ -108,7 +109,7 @@ test('sites destroy throws exception for protected site', function (): void {
 
     expect(fn () => $this->sdk->sites()->organizationsServersSitesDestroy('1', 100, 200))
         ->toThrow(
-            ArtisanBuild\ForgeClient\Exceptions\ProtectedResourceException::class,
+            ProtectedResourceException::class,
             'Cannot delete protected site (ID: 200)'
         );
 });

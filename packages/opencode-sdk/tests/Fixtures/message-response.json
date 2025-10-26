@@ -1,0 +1,14 @@
+[
+  {
+    "id": "msg_1",
+    "role": "user",
+    "content": "Write a hello world function",
+    "created_at": "2025-10-26T12:01:00Z"
+  },
+  {
+    "id": "msg_2",
+    "role": "assistant",
+    "content": "Here's a hello world function:\n\n```php\nfunction helloWorld() {\n    echo 'Hello, World!';\n}\n```",
+    "created_at": "2025-10-26T12:01:15Z"
+  }
+]
