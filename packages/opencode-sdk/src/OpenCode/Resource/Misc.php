@@ -77,7 +77,7 @@ class Misc extends BaseResource
 
     public function configUpdate(?string $directory = null): Response
     {
-        return $this->connector->send(new ConfigUpdate($directory, $directory));
+        return $this->connector->send(new ConfigUpdate($directory));
     }
 
     public function toolIds(?string $directory = null): Response
@@ -87,7 +87,7 @@ class Misc extends BaseResource
 
     public function toolList(?string $directory, string $provider, string $model): Response
     {
-        return $this->connector->send(new ToolList($directory, $directory, $provider, $model));
+        return $this->connector->send(new ToolList($directory, $provider, $model));
     }
 
     public function pathGet(?string $directory = null): Response
@@ -102,27 +102,27 @@ class Misc extends BaseResource
 
     public function sessionCreate(?string $directory = null): Response
     {
-        return $this->connector->send(new SessionCreate($directory, $directory));
+        return $this->connector->send(new SessionCreate($directory));
     }
 
     public function sessionGet(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionGet($id, $directory, $directory));
+        return $this->connector->send(new SessionGet($id, $directory));
     }
 
     public function sessionDelete(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionDelete($id, $directory, $directory));
+        return $this->connector->send(new SessionDelete($id, $directory));
     }
 
     public function sessionUpdate(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionUpdate($id, $directory, $directory, $directory));
+        return $this->connector->send(new SessionUpdate($id, $directory));
     }
 
     public function sessionChildren(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionChildren($id, $directory, $directory));
+        return $this->connector->send(new SessionChildren($id, $directory));
     }
 
     /**
@@ -130,7 +130,7 @@ class Misc extends BaseResource
      */
     public function sessionTodo(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionTodo($id, $directory, $directory));
+        return $this->connector->send(new SessionTodo($id, $directory));
     }
 
     /**
@@ -138,32 +138,32 @@ class Misc extends BaseResource
      */
     public function sessionInit(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionInit($id, $directory, $directory, $directory));
+        return $this->connector->send(new SessionInit($id, $directory));
     }
 
     public function sessionFork(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionFork($id, $directory, $directory, $directory));
+        return $this->connector->send(new SessionFork($id, $directory));
     }
 
     public function sessionAbort(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionAbort($id, $directory, $directory));
+        return $this->connector->send(new SessionAbort($id, $directory));
     }
 
     public function sessionShare(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionShare($id, $directory, $directory));
+        return $this->connector->send(new SessionShare($id, $directory));
     }
 
     public function sessionUnshare(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionUnshare($id, $directory, $directory));
+        return $this->connector->send(new SessionUnshare($id, $directory));
     }
 
     public function sessionDiff(string $id, ?string $directory = null, ?string $messageId = null): Response
     {
-        return $this->connector->send(new SessionDiff($id, $directory, $directory, $directory, $messageId));
+        return $this->connector->send(new SessionDiff($id, $directory, $messageId));
     }
 
     /**
@@ -171,7 +171,7 @@ class Misc extends BaseResource
      */
     public function sessionSummarize(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionSummarize($id, $directory, $directory, $directory));
+        return $this->connector->send(new SessionSummarize($id, $directory));
     }
 
     /**
@@ -179,7 +179,7 @@ class Misc extends BaseResource
      */
     public function sessionMessages(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionMessages($id, $directory, $directory));
+        return $this->connector->send(new SessionMessages($id, $directory));
     }
 
     /**
@@ -187,7 +187,7 @@ class Misc extends BaseResource
      */
     public function sessionPrompt(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionPrompt($id, $directory, $directory, $directory));
+        return $this->connector->send(new SessionPrompt($id, $directory));
     }
 
     /**
@@ -196,7 +196,7 @@ class Misc extends BaseResource
      */
     public function sessionMessage(string $id, string $messageId, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionMessage($id, $messageId, $directory, $directory));
+        return $this->connector->send(new SessionMessage($id, $messageId, $directory));
     }
 
     /**
@@ -204,7 +204,7 @@ class Misc extends BaseResource
      */
     public function sessionCommand(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionCommand($id, $directory, $directory, $directory));
+        return $this->connector->send(new SessionCommand($id, $directory));
     }
 
     /**
@@ -212,17 +212,17 @@ class Misc extends BaseResource
      */
     public function sessionShell(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionShell($id, $directory, $directory, $directory));
+        return $this->connector->send(new SessionShell($id, $directory));
     }
 
     public function sessionRevert(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionRevert($id, $directory, $directory, $directory));
+        return $this->connector->send(new SessionRevert($id, $directory));
     }
 
     public function sessionUnrevert(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionUnrevert($id, $directory, $directory));
+        return $this->connector->send(new SessionUnrevert($id, $directory));
     }
 
     public function postSessionIdPermissionsPermissionId(
@@ -230,7 +230,7 @@ class Misc extends BaseResource
         string $permissionId,
         ?string $directory = null,
     ): Response {
-        return $this->connector->send(new PostSessionIdPermissionsPermissionId($id, $permissionId, $directory, $directory, $directory));
+        return $this->connector->send(new PostSessionIdPermissionsPermissionId($id, $permissionId, $directory));
     }
 
     public function commandList(?string $directory = null): Response
@@ -245,27 +245,27 @@ class Misc extends BaseResource
 
     public function findText(?string $directory, string $pattern): Response
     {
-        return $this->connector->send(new FindText($directory, $directory, $pattern));
+        return $this->connector->send(new FindText($directory, $pattern));
     }
 
     public function findFiles(?string $directory, string $query): Response
     {
-        return $this->connector->send(new FindFiles($directory, $directory, $query));
+        return $this->connector->send(new FindFiles($directory, $query));
     }
 
     public function findSymbols(?string $directory, string $query): Response
     {
-        return $this->connector->send(new FindSymbols($directory, $directory, $query));
+        return $this->connector->send(new FindSymbols($directory, $query));
     }
 
     public function fileList(?string $directory, string $path): Response
     {
-        return $this->connector->send(new FileList($directory, $directory, $path));
+        return $this->connector->send(new FileList($directory, $path));
     }
 
     public function fileRead(?string $directory, string $path): Response
     {
-        return $this->connector->send(new FileRead($directory, $directory, $path));
+        return $this->connector->send(new FileRead($directory, $path));
     }
 
     public function fileStatus(?string $directory = null): Response
@@ -275,7 +275,7 @@ class Misc extends BaseResource
 
     public function appLog(?string $directory = null): Response
     {
-        return $this->connector->send(new AppLog($directory, $directory));
+        return $this->connector->send(new AppLog($directory));
     }
 
     public function appAgents(?string $directory = null): Response
@@ -290,7 +290,7 @@ class Misc extends BaseResource
 
     public function tuiAppendPrompt(?string $directory = null): Response
     {
-        return $this->connector->send(new TuiAppendPrompt($directory, $directory));
+        return $this->connector->send(new TuiAppendPrompt($directory));
     }
 
     public function tuiOpenHelp(?string $directory = null): Response
@@ -325,17 +325,17 @@ class Misc extends BaseResource
 
     public function tuiExecuteCommand(?string $directory = null): Response
     {
-        return $this->connector->send(new TuiExecuteCommand($directory, $directory));
+        return $this->connector->send(new TuiExecuteCommand($directory));
     }
 
     public function tuiShowToast(?string $directory = null): Response
     {
-        return $this->connector->send(new TuiShowToast($directory, $directory));
+        return $this->connector->send(new TuiShowToast($directory));
     }
 
     public function authSet(string $id, ?string $directory = null): Response
     {
-        return $this->connector->send(new AuthSet($id, $directory, $directory, $directory));
+        return $this->connector->send(new AuthSet($id, $directory));
     }
 
     public function eventSubscribe(?string $directory = null): Response

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use ArtisanBuild\ForgeClient\Exceptions\ProtectedResourceException;
 use ArtisanBuild\ForgeClient\ForgeClient;
 use ArtisanBuild\ForgeClient\Tests\Helpers\MockResponseFactory;
 use Saloon\Http\Faking\MockClient;
@@ -87,7 +88,7 @@ test('servers destroy throws exception for protected server', function (): void 
 
     expect(fn () => $this->sdk->servers()->organizationsServersDestroy('1', 100))
         ->toThrow(
-            ArtisanBuild\ForgeClient\Exceptions\ProtectedResourceException::class,
+            ProtectedResourceException::class,
             'Cannot delete protected server (ID: 100)'
         );
 });

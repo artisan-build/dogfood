@@ -14,11 +14,13 @@ use Saloon\Http\Connector;
  */
 class OpenCode extends Connector
 {
-    public function __construct() {}
+    public function __construct(
+        protected string $baseUrl = 'http://localhost:3333',
+    ) {}
 
     public function resolveBaseUrl(): string
     {
-        return '/';
+        return $this->baseUrl;
     }
 
     public function misc(): Misc

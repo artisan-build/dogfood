@@ -18,7 +18,7 @@ class FindSymbols extends Request
 
     public function __construct(
         protected ?string $directory,
-        protected string $query,
+        protected string $searchQuery,
     ) {}
 
     public function resolveEndpoint(): string
@@ -28,6 +28,6 @@ class FindSymbols extends Request
 
     public function defaultQuery(): array
     {
-        return array_filter(['directory' => $this->directory, 'query' => $this->query]);
+        return array_filter(['directory' => $this->directory, 'query' => $this->searchQuery]);
     }
 }
