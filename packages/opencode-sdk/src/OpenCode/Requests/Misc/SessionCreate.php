@@ -4,20 +4,16 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\OpencodeSdk\OpenCode\Requests\Misc;
 
-use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
-use Saloon\Traits\Body\HasJsonBody;
 
 /**
  * session.create
  *
  * Create a new session
  */
-class SessionCreate extends Request implements HasBody
+class SessionCreate extends Request
 {
-    use HasJsonBody;
-
     protected Method $method = Method::POST;
 
     public function __construct(

@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b59ea55beabed5af3e89c5d734efdb1",
+    "content-hash": "eac0924a94892ffdc00cf688dc55c030",
     "packages": [
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -87,7 +87,7 @@
         },
         {
             "name": "artisan-build/agent-os-installer",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/agent-os-installer",
@@ -150,7 +150,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -227,7 +227,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -345,7 +345,7 @@
         },
         {
             "name": "artisan-build/claudecode",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/claudecode",
@@ -425,7 +425,7 @@
         },
         {
             "name": "artisan-build/code-chat-client",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/code-chat-client",
@@ -506,7 +506,7 @@
         },
         {
             "name": "artisan-build/docsidian",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -588,7 +588,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -666,7 +666,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -746,7 +746,7 @@
         },
         {
             "name": "artisan-build/forge-client",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/forge-client",
@@ -829,7 +829,7 @@
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -905,7 +905,7 @@
         },
         {
             "name": "artisan-build/hallway-core",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-core",
@@ -1003,7 +1003,7 @@
         },
         {
             "name": "artisan-build/hallway-flux",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
@@ -1102,7 +1102,7 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
@@ -1184,7 +1184,7 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -1263,7 +1263,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -1340,7 +1340,7 @@
         },
         {
             "name": "artisan-build/mirror",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/mirror",
@@ -1416,8 +1416,85 @@
             }
         },
         {
+            "name": "artisan-build/opencode-client",
+            "version": "dev-opencode-client",
+            "dist": {
+                "type": "path",
+                "url": "packages/opencode-client",
+                "reference": "ea820b04f6b2a0c836dec0c90c60ad79b30b7b30"
+            },
+            "require": {
+                "illuminate/support": "^11.36|^12.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^v3.0.2",
+                "laravel/pint": "^1.19.0",
+                "orchestra/testbench": "^v9.9.0",
+                "pestphp/pest": "^v3.7.1",
+                "phpstan/phpstan": "^2.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArtisanBuild\\OpencodeClient\\Providers\\OpencodeClientServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArtisanBuild\\OpencodeClient\\": "src/",
+                    "ArtisanBuild\\OpencodeClient\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@composer run prepare"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-bench --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@composer run prepare",
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "start": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@composer run build",
+                    "@php vendor/bin/testbench serve"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "lint": [
+                    "vendor/bin/pint"
+                ],
+                "stan": [
+                    "vendor/bin/phpstan analyse --memory-limit=-1"
+                ],
+                "ready": [
+                    "@composer lint",
+                    "@composer stan",
+                    "@composer test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "An OpenCode client for Laravel",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "artisan-build/opencode-sdk",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/opencode-sdk",
@@ -1494,7 +1571,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -1572,7 +1649,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -1652,7 +1729,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -1730,7 +1807,7 @@
         },
         {
             "name": "artisan-build/turbulence",
-            "version": "dev-openapi-sdk",
+            "version": "dev-opencode-client",
             "dist": {
                 "type": "path",
                 "url": "packages/turbulence",

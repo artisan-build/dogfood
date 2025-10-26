@@ -22,9 +22,11 @@ class SessionPrompt extends Request implements HasBody
 
     /**
      * @param  string  $id  Session ID
+     * @param  string  $prompt  The prompt message to send
      */
     public function __construct(
         protected string $id,
+        protected string $prompt,
         protected ?string $directory = null,
     ) {}
 
@@ -36,5 +38,17 @@ class SessionPrompt extends Request implements HasBody
     public function defaultQuery(): array
     {
         return array_filter(['directory' => $this->directory]);
+    }
+
+    public function defaultBody(): array
+    {
+        return [
+            'parts' => [
+                [
+                    'type' => 'text',
+                    'text' => $this->prompt,
+                ],
+            ],
+        ];
     }
 }
