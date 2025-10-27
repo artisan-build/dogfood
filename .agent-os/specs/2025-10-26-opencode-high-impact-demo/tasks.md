@@ -153,23 +153,23 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [x] 16.6 Update breadcrumbs for new project
   - [x] 16.7 Verify all tests pass
 
-- [ ] 17. TUI Remote Control - Core Setup
-  - [ ] 17.1 Write tests for OpencodeRemote component
-  - [ ] 17.2 Create OpencodeRemote Livewire component
-  - [ ] 17.3 Add connection status check
-  - [ ] 17.4 Create main layout with sections
-  - [ ] 17.5 Style component for projector visibility
-  - [ ] 17.6 Add error handling for TUI not running
-  - [ ] 17.7 Verify all tests pass
+- [x] 17. TUI Remote Control - Core Setup
+  - [x] 17.1 Write tests for OpencodeRemote component
+  - [x] 17.2 Create OpencodeRemote Livewire component
+  - [x] 17.3 Add connection status check
+  - [x] 17.4 Create main layout with sections
+  - [x] 17.5 Style component for projector visibility
+  - [x] 17.6 Add error handling for TUI not running
+  - [x] 17.7 Verify all tests pass
 
-- [ ] 18. TUI Remote Control - Prompt Management
-  - [ ] 18.1 Write tests for prompt operations
-  - [ ] 18.2 Implement TuiSubmitPrompt endpoint integration
-  - [ ] 18.3 Implement TuiAppendPrompt endpoint integration
-  - [ ] 18.4 Implement TuiClearPrompt endpoint integration
-  - [ ] 18.5 Create prompt input section with buttons
-  - [ ] 18.6 Add loading states for operations
-  - [ ] 18.7 Verify all tests pass
+- [x] 18. TUI Remote Control - Prompt Management
+  - [x] 18.1 Write tests for prompt operations
+  - [x] 18.2 Implement TuiSubmitPrompt endpoint integration
+  - [x] 18.3 Implement TuiAppendPrompt endpoint integration
+  - [x] 18.4 Implement TuiClearPrompt endpoint integration
+  - [x] 18.5 Create prompt input section with buttons
+  - [x] 18.6 Add loading states for operations
+  - [x] 18.7 Verify all tests pass
 
 - [ ] 19. TUI Remote Control - Quick Actions
   - [ ] 19.1 Write tests for quick action buttons

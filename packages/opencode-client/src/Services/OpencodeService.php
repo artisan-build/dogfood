@@ -412,6 +412,16 @@ class OpencodeService
     }
 
     /**
+     * Get server status (check if TUI is running).
+     */
+    public function getServerStatus(?string $directory = null): array
+    {
+        // Try to list sessions as a simple connectivity check
+        // If this succeeds, the TUI/server is running
+        return $this->handleRequest(fn() => $this->client()->misc()->sessionList($directory));
+    }
+
+    /**
      * Handle API request with error handling.
      */
     protected function handleRequest(callable $request): array
