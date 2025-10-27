@@ -50,7 +50,14 @@ trait HandlesOpencodeErrors
      */
     protected function getErrorMessage(array $response): string
     {
-        return $response['error'] ?? $response['message'] ?? 'An unknown error occurred';
+        $error = $response['error'] ?? $response['message'] ?? 'An unknown error occurred';
+
+        // If error is an array, convert it to a string
+        if (is_array($error)) {
+            return json_encode($error);
+        }
+
+        return (string) $error;
     }
 
     /**
