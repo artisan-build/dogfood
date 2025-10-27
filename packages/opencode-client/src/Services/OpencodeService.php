@@ -402,6 +402,16 @@ class OpencodeService
     }
 
     /**
+     * Respond to a permission request (approve or deny).
+     */
+    public function respondToPermission(string $sessionId, string $permissionId, ?string $directory = null): array
+    {
+        return $this->handleRequest(fn() =>
+            $this->client()->misc()->postSessionIdPermissionsPermissionId($sessionId, $permissionId, $directory)
+        );
+    }
+
+    /**
      * Handle API request with error handling.
      */
     protected function handleRequest(callable $request): array

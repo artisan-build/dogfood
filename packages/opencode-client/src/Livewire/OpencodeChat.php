@@ -93,6 +93,36 @@ class OpencodeChat extends Component
     public array $todos = [];
 
     /**
+     * Shell command input.
+     */
+    public string $shellCommand = '';
+
+    /**
+     * Shell command output.
+     */
+    public ?string $shellOutput = null;
+
+    /**
+     * Whether a command is currently executing.
+     */
+    public bool $executingCommand = false;
+
+    /**
+     * Whether the dangerous command modal is open.
+     */
+    public bool $showDangerousCommandModal = false;
+
+    /**
+     * Pending dangerous command awaiting confirmation.
+     */
+    public ?string $pendingCommand = null;
+
+    /**
+     * Array of pending permissions.
+     */
+    public array $pendingPermissions = [];
+
+    /**
      * OpencodeService instance.
      */
     protected OpencodeService $opencode;
@@ -565,6 +595,166 @@ class OpencodeChat extends Component
     public function getIncompleteTodoCountProperty(): int
     {
         return count(array_filter($this->todos, fn ($todo) => ! $todo['completed']));
+    }
+
+    /**
+     * Execute shell command.
+     */
+    public function executeShellCommand(): void
+    {
+        $this->clearMessages();
+
+        // Validate command input
+        if (empty(trim($this->shellCommand))) {
+            $this->setError('Command cannot be empty');
+
+            return;
+        }
+
+        // Check if we have a session
+        if (! $this->currentSessionId) {
+            $this->setError('No active session');
+
+            return;
+        }
+
+        // Check if command is dangerous
+        if ($this->isDangerousCommand($this->shellCommand)) {
+            $this->pendingCommand = $this->shellCommand;
+            $this->showDangerousCommandModal = true;
+
+            return;
+        }
+
+        // Execute the command
+        $this->executeCommand($this->shellCommand);
+    }
+
+    /**
+     * Check if command is dangerous.
+     */
+    protected function isDangerousCommand(string $command): bool
+    {
+        $dangerousPatterns = [
+            '/\brm\b.*-[rf]/',  // rm with -r or -f flags
+            '/\bsudo\b/',       // sudo commands
+            '/\bchmod\b.*777/', // chmod 777
+            '/\>\s*\/dev\/null/', // Output redirection to dev/null
+            '/\bkill\b/',       // kill commands
+            '/\breboot\b/',     // reboot
+            '/\bshutdown\b/',   // shutdown
+        ];
+
+        foreach ($dangerousPatterns as $pattern) {
+            if (preg_match($pattern, $command)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Execute command without confirmation.
+     */
+    protected function executeCommand(string $command): void
+    {
+        $this->executingCommand = true;
+        $this->shellOutput = null;
+
+        $response = $this->opencode->executeShell($this->currentSessionId, $command);
+
+        if ($this->handleResponse($response)) {
+            $this->shellOutput = $response['output'] ?? 'Command executed successfully';
+            $this->shellCommand = '';
+        }
+
+        $this->executingCommand = false;
+    }
+
+    /**
+     * Confirm and execute dangerous command.
+     */
+    public function confirmDangerousCommand(): void
+    {
+        if ($this->pendingCommand) {
+            $this->executeCommand($this->pendingCommand);
+        }
+
+        $this->showDangerousCommandModal = false;
+        $this->pendingCommand = null;
+    }
+
+    /**
+     * Cancel dangerous command execution.
+     */
+    public function cancelDangerousCommand(): void
+    {
+        $this->showDangerousCommandModal = false;
+        $this->pendingCommand = null;
+        $this->shellCommand = '';
+    }
+
+    /**
+     * Approve a permission.
+     */
+    public function approvePermission(string $permissionId): void
+    {
+        $this->clearMessages();
+
+        if (! $this->currentSessionId) {
+            $this->setError('No active session');
+
+            return;
+        }
+
+        $response = $this->opencode->respondToPermission($this->currentSessionId, $permissionId);
+
+        if ($this->handleResponse($response, 'Permission approved')) {
+            // Remove the permission from the pending list
+            $this->pendingPermissions = array_filter(
+                $this->pendingPermissions,
+                fn ($permission) => $permission['id'] !== $permissionId
+            );
+
+            // Re-index array to maintain sequential keys
+            $this->pendingPermissions = array_values($this->pendingPermissions);
+        }
+    }
+
+    /**
+     * Deny a permission.
+     */
+    public function denyPermission(string $permissionId): void
+    {
+        $this->clearMessages();
+
+        if (! $this->currentSessionId) {
+            $this->setError('No active session');
+
+            return;
+        }
+
+        $response = $this->opencode->respondToPermission($this->currentSessionId, $permissionId);
+
+        if ($this->handleResponse($response, 'Permission denied')) {
+            // Remove the permission from the pending list
+            $this->pendingPermissions = array_filter(
+                $this->pendingPermissions,
+                fn ($permission) => $permission['id'] !== $permissionId
+            );
+
+            // Re-index array to maintain sequential keys
+            $this->pendingPermissions = array_values($this->pendingPermissions);
+        }
+    }
+
+    /**
+     * Get pending permission count.
+     */
+    public function getPendingPermissionCountProperty(): int
+    {
+        return count($this->pendingPermissions);
     }
 
     /**

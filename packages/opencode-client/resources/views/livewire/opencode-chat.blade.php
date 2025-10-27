@@ -123,6 +123,19 @@
 
                 <div class="flex items-center gap-3">
                     @if ($currentSessionId)
+                        {{-- Permissions Indicator --}}
+                        @if ($this->pendingPermissionCount > 0)
+                            <div class="relative">
+                                <flux:icon.shield-check class="w-5 h-5 text-blue-500 animate-pulse" />
+                                <flux:badge
+                                    color="blue"
+                                    size="sm"
+                                    class="absolute -top-2 -right-2">
+                                    {{ $this->pendingPermissionCount }}
+                                </flux:badge>
+                            </div>
+                        @endif
+
                         {{-- Todo Button --}}
                         <flux:button
                             wire:click="openTodoPanel"
@@ -280,6 +293,55 @@
                         Create or select a session to start chatting
                     </p>
                 @endif
+
+                {{-- Shell Command Section --}}
+                @if ($currentSessionId)
+                    <div class="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
+                        <div class="mb-2">
+                            <flux:label>
+                                <flux:icon.command-line class="w-4 h-4 mr-1 inline" />
+                                Shell Command
+                            </flux:label>
+                        </div>
+                        <div class="flex gap-3">
+                            <flux:input
+                                class="shell-command-input flex-1"
+                                wire:model.live="shellCommand"
+                                wire:keydown.enter.prevent="executeShellCommand"
+                                placeholder="Enter shell command... (Enter to execute)"
+                                :disabled="$executingCommand" />
+
+                            <flux:button
+                                wire:click="executeShellCommand"
+                                variant="primary"
+                                :disabled="$executingCommand || empty(trim($shellCommand))">
+                                @if ($executingCommand)
+                                    <flux:icon.arrow-path class="w-4 h-4 mr-2 animate-spin" />
+                                    Executing
+                                @else
+                                    <flux:icon.play class="w-4 h-4 mr-2" />
+                                    Execute
+                                @endif
+                            </flux:button>
+                        </div>
+
+                        {{-- Shell Output --}}
+                        @if ($shellOutput)
+                            <div class="mt-3 bg-gray-900 dark:bg-black text-gray-100 p-4 rounded font-mono text-xs overflow-x-auto">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-green-400">$ Output</span>
+                                    <flux:button
+                                        wire:click="$set('shellOutput', null)"
+                                        variant="ghost"
+                                        size="xs">
+                                        <flux:icon.x-mark class="w-3 h-3" />
+                                    </flux:button>
+                                </div>
+                                <pre class="whitespace-pre-wrap">{{ $shellOutput }}</pre>
+                            </div>
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -389,6 +451,119 @@
             <div class="p-4 border-t border-gray-200 dark:border-gray-700">
                 <div class="text-sm text-gray-600 dark:text-gray-400 text-center">
                     {{ $this->incompleteTodoCount }} of {{ $this->todoCount }} incomplete
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
+{{-- Dangerous Command Confirmation Modal --}}
+@if ($showDangerousCommandModal)
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+         wire:click="cancelDangerousCommand">
+        <div class="dangerous-command-modal bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4"
+             wire:click.stop>
+            {{-- Modal Header --}}
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center gap-3">
+                    <flux:icon.exclamation-triangle class="w-8 h-8 text-yellow-500" />
+                    <flux:heading size="lg">Dangerous Command</flux:heading>
+                </div>
+            </div>
+
+            {{-- Modal Body --}}
+            <div class="p-6">
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                    You're about to execute a potentially dangerous command:
+                </p>
+                <div class="bg-gray-100 dark:bg-gray-900 p-3 rounded font-mono text-sm text-red-600 dark:text-red-400 break-all">
+                    {{ $pendingCommand }}
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 text-sm mt-4">
+                    This command could modify or delete files. Are you sure you want to proceed?
+                </p>
+            </div>
+
+            {{-- Modal Footer --}}
+            <div class="p-6 border-t border-gray-200 dark:border-gray-700 flex gap-3 justify-end">
+                <flux:button
+                    wire:click="cancelDangerousCommand"
+                    variant="ghost">
+                    Cancel
+                </flux:button>
+                <flux:button
+                    wire:click="confirmDangerousCommand"
+                    variant="danger">
+                    Execute Anyway
+                </flux:button>
+            </div>
+        </div>
+    </div>
+@endif
+
+{{-- Permission Request Modal --}}
+@if (count($pendingPermissions) > 0)
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="permission-modal bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] flex flex-col">
+            {{-- Modal Header --}}
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center gap-3">
+                    <flux:icon.shield-check class="w-8 h-8 text-blue-500" />
+                    <div>
+                        <flux:heading size="lg">Permission Requests</flux:heading>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                            {{ count($pendingPermissions) }} {{ Str::plural('request', count($pendingPermissions)) }} pending
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Modal Body --}}
+            <div class="p-6 flex-1 overflow-auto">
+                <div class="space-y-4">
+                    @foreach ($pendingPermissions as $permission)
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <flux:badge
+                                            size="sm"
+                                            variant="primary">
+                                            {{ $permission['type'] }}
+                                        </flux:badge>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                                            {{ $permission['id'] }}
+                                        </span>
+                                    </div>
+                                    <div class="font-mono text-sm text-gray-900 dark:text-gray-100 break-all bg-white dark:bg-black p-2 rounded">
+                                        {{ $permission['resource'] }}
+                                    </div>
+                                    @if (isset($permission['reason']))
+                                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                                            {{ $permission['reason'] }}
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="flex gap-2 justify-end">
+                                <flux:button
+                                    wire:click="denyPermission('{{ $permission['id'] }}')"
+                                    variant="ghost"
+                                    size="sm">
+                                    <flux:icon.x-mark class="w-4 h-4 mr-1" />
+                                    Deny
+                                </flux:button>
+                                <flux:button
+                                    wire:click="approvePermission('{{ $permission['id'] }}')"
+                                    variant="primary"
+                                    size="sm">
+                                    <flux:icon.check class="w-4 h-4 mr-1" />
+                                    Approve
+                                </flux:button>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>

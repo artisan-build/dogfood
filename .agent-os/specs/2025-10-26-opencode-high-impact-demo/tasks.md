@@ -1,4 +1,4 @@
-# Spec Tasks
+Grweat # Spec Tasks
 
 These are the tasks to be completed for the spec detailed in @.agent-os/specs/2025-10-26-opencode-high-impact-demo/spec.md
 
@@ -89,69 +89,69 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [x] 9.6 Update todo count in UI
   - [x] 9.7 Verify all tests pass
 
-- [ ] 10. Enhanced Chat Interface - Shell Commands
-  - [ ] 10.1 Write tests for shell command execution
-  - [ ] 10.2 Implement SessionShell endpoint integration
-  - [ ] 10.3 Add shell command input field
-  - [ ] 10.4 Display shell output in chat
-  - [ ] 10.5 Add confirmation modal for dangerous commands
-  - [ ] 10.6 Show loading state during execution
-  - [ ] 10.7 Verify all tests pass
+- [x] 10. Enhanced Chat Interface - Shell Commands
+  - [x] 10.1 Write tests for shell command execution
+  - [x] 10.2 Implement SessionShell endpoint integration
+  - [x] 10.3 Add shell command input field
+  - [x] 10.4 Display shell output in chat
+  - [x] 10.5 Add confirmation modal for dangerous commands
+  - [x] 10.6 Show loading state during execution
+  - [x] 10.7 Verify all tests pass
 
-- [ ] 11. Enhanced Chat Interface - Permissions
-  - [ ] 11.1 Write tests for permission handling
-  - [ ] 11.2 Implement PostSessionIdPermissionsPermissionId endpoint
-  - [ ] 11.3 Create permission request modal
-  - [ ] 11.4 Add approve/deny buttons
-  - [ ] 11.5 Handle permission response
-  - [ ] 11.6 Update UI based on permission state
-  - [ ] 11.7 Verify all tests pass
+- [x] 11. Enhanced Chat Interface - Permissions
+  - [x] 11.1 Write tests for permission handling
+  - [x] 11.2 Implement PostSessionIdPermissionsPermissionId endpoint
+  - [x] 11.3 Create permission request modal
+  - [x] 11.4 Add approve/deny buttons
+  - [x] 11.5 Handle permission response
+  - [x] 11.6 Update UI based on permission state
+  - [x] 11.7 Verify all tests pass
 
-- [ ] 12. Project Explorer - Core File Browser
-  - [ ] 12.1 Write tests for OpencodeExplorer component
-  - [ ] 12.2 Create OpencodeExplorer Livewire component
-  - [ ] 12.3 Implement FileList endpoint integration
-  - [ ] 12.4 Build file tree structure from API response
-  - [ ] 12.5 Add expand/collapse functionality for directories
-  - [ ] 12.6 Style file tree with indentation and icons
-  - [ ] 12.7 Verify all tests pass
+- [x] 12. Project Explorer - Core File Browser
+  - [x] 12.1 Write tests for OpencodeExplorer component
+  - [x] 12.2 Create OpencodeExplorer Livewire component
+  - [x] 12.3 Implement FileList endpoint integration
+  - [x] 12.4 Build file tree structure from API response
+  - [x] 12.5 Add expand/collapse functionality for directories
+  - [x] 12.6 Style file tree with indentation and icons
+  - [x] 12.7 Verify all tests pass
 
-- [ ] 13. Project Explorer - File Viewing
-  - [ ] 13.1 Write tests for file content viewing
-  - [ ] 13.2 Implement FileRead endpoint integration
-  - [ ] 13.3 Create file content viewer component
-  - [ ] 13.4 Add syntax highlighting with highlight.js
-  - [ ] 13.5 Display line numbers
-  - [ ] 13.6 Add breadcrumb navigation
-  - [ ] 13.7 Verify all tests pass
+- [x] 13. Project Explorer - File Viewing
+  - [x] 13.1 Write tests for file content viewing
+  - [x] 13.2 Implement FileRead endpoint integration
+  - [x] 13.3 Create file content viewer component
+  - [x] 13.4 Add syntax highlighting with highlight.js
+  - [x] 13.5 Display line numbers
+  - [x] 13.6 Add breadcrumb navigation
+  - [x] 13.7 Verify all tests pass
 
-- [ ] 14. Project Explorer - File Status
-  - [ ] 14.1 Write tests for git status indicators
-  - [ ] 14.2 Implement FileStatus endpoint integration
-  - [ ] 14.3 Add visual badges for modified files
-  - [ ] 14.4 Add visual badges for added files
-  - [ ] 14.5 Add visual badges for deleted files
-  - [ ] 14.6 Update file tree with status indicators
-  - [ ] 14.7 Verify all tests pass
+- [x] 14. Project Explorer - File Status
+  - [x] 14.1 Write tests for git status indicators
+  - [x] 14.2 Implement FileStatus endpoint integration
+  - [x] 14.3 Add visual badges for modified files
+  - [x] 14.4 Add visual badges for added files
+  - [x] 14.5 Add visual badges for deleted files
+  - [x] 14.6 Update file tree with status indicators
+  - [x] 14.7 Verify all tests pass
 
-- [ ] 15. Project Explorer - Search Functionality
-  - [ ] 15.1 Write tests for text search
-  - [ ] 15.2 Implement FindText endpoint integration
-  - [ ] 15.3 Implement FindFiles endpoint integration
-  - [ ] 15.4 Implement FindSymbols endpoint integration
-  - [ ] 15.5 Create search interface with tab switching
-  - [ ] 15.6 Display search results with previews
-  - [ ] 15.7 Add click-to-open functionality from results
-  - [ ] 15.8 Verify all tests pass
+- [x] 15. Project Explorer - Search Functionality
+  - [x] 15.1 Write tests for text search
+  - [x] 15.2 Implement FindText endpoint integration
+  - [x] 15.3 Implement FindFiles endpoint integration
+  - [x] 15.4 Implement FindSymbols endpoint integration
+  - [x] 15.5 Create search interface with tab switching
+  - [x] 15.6 Display search results with previews
+  - [x] 15.7 Add click-to-open functionality from results
+  - [x] 15.8 Verify all tests pass
 
-- [ ] 16. Project Explorer - Project Management
-  - [ ] 16.1 Write tests for project switching
-  - [ ] 16.2 Implement ProjectList endpoint integration
-  - [ ] 16.3 Implement ProjectCurrent endpoint integration
-  - [ ] 16.4 Create project switcher dropdown
-  - [ ] 16.5 Refresh file tree on project switch
-  - [ ] 16.6 Update breadcrumbs for new project
-  - [ ] 16.7 Verify all tests pass
+- [x] 16. Project Explorer - Project Management
+  - [x] 16.1 Write tests for project switching
+  - [x] 16.2 Implement ProjectList endpoint integration
+  - [x] 16.3 Implement ProjectCurrent endpoint integration
+  - [x] 16.4 Create project switcher dropdown
+  - [x] 16.5 Refresh file tree on project switch
+  - [x] 16.6 Update breadcrumbs for new project
+  - [x] 16.7 Verify all tests pass
 
 - [ ] 17. TUI Remote Control - Core Setup
   - [ ] 17.1 Write tests for OpencodeRemote component
