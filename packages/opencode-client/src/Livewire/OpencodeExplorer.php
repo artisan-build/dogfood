@@ -118,7 +118,8 @@ class OpencodeExplorer extends Component
         $response = $this->opencode->listFiles($path);
 
         if ($this->handleResponse($response)) {
-            $this->files = $response['files'] ?? [];
+            // API returns array of files directly, not wrapped in 'files' key
+            $this->files = is_array($response) && ! isset($response['error']) ? $response : [];
             $this->currentPath = $path;
         }
     }
@@ -174,7 +175,7 @@ class OpencodeExplorer extends Component
         $directories = array_filter($this->files, fn ($item) => $item['type'] === 'directory');
 
         // Sort alphabetically
-        usort($directories, fn ($a, $b) => strcmp($a['name'], $b['name']));
+        usort($directories, fn ($a, $b) => strcmp((string) $a['name'], (string) $b['name']));
 
         return array_values($directories);
     }
@@ -187,7 +188,7 @@ class OpencodeExplorer extends Component
         $files = array_filter($this->files, fn ($item) => $item['type'] === 'file');
 
         // Sort alphabetically
-        usort($files, fn ($a, $b) => strcmp($a['name'], $b['name']));
+        usort($files, fn ($a, $b) => strcmp((string) $a['name'], (string) $b['name']));
 
         return array_values($files);
     }
@@ -387,6 +388,27 @@ class OpencodeExplorer extends Component
     }
 
     /**
+     * Get line count of current file.
+     */
+    public function getLineCountProperty(): int
+    {
+        if (! $this->fileContent) {
+            return 0;
+        }
+
+        return substr_count($this->fileContent, "\n") + 1;
+    }
+
+    /**
+     * Render the component.
+     */
+    public function render()
+    {
+        return view('opencode-client::livewire.opencode-explorer')
+            ->layout('layouts.app');
+    }
+
+    /**
      * Detect language from file path.
      */
     protected function detectLanguage(string $path): string
@@ -418,26 +440,5 @@ class OpencodeExplorer extends Component
         ];
 
         return $languageMap[$extension] ?? 'text';
-    }
-
-    /**
-     * Get line count of current file.
-     */
-    public function getLineCountProperty(): int
-    {
-        if (! $this->fileContent) {
-            return 0;
-        }
-
-        return substr_count($this->fileContent, "\n") + 1;
-    }
-
-    /**
-     * Render the component.
-     */
-    public function render()
-    {
-        return view('opencode-client::livewire.opencode-explorer')
-            ->layout('layouts.app');
     }
 }

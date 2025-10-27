@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeRemote;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Submit Prompt', function () {
-    test('can submit prompt to TUI', function () {
+describe('Submit Prompt', function (): void {
+    test('can submit prompt to TUI', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount()
             MockResponse::make(['success' => true], 200),
@@ -20,12 +22,10 @@ describe('Submit Prompt', function () {
             ->set('promptText', 'Write a function to calculate fibonacci')
             ->call('submitPrompt')
             ->assertSet('promptText', '') // Should clear after submit
-            ->assertSet('success', function ($success) {
-                return $success !== null;
-            });
+            ->assertSet('success', fn ($success) => $success !== null);
     });
 
-    test('validates prompt is not empty before submitting', function () {
+    test('validates prompt is not empty before submitting', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount()
         ]);
@@ -33,12 +33,10 @@ describe('Submit Prompt', function () {
         Livewire::test(OpencodeRemote::class)
             ->set('promptText', '')
             ->call('submitPrompt')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('handles submit prompt error', function () {
+    test('handles submit prompt error', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount()
             MockResponse::make(['error' => 'TUI not responding'], 500),
@@ -47,12 +45,10 @@ describe('Submit Prompt', function () {
         Livewire::test(OpencodeRemote::class)
             ->set('promptText', 'test prompt')
             ->call('submitPrompt')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('sets loading state during submit', function () {
+    test('sets loading state during submit', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount()
             MockResponse::make(['success' => true], 200),
@@ -69,8 +65,8 @@ describe('Submit Prompt', function () {
     });
 });
 
-describe('Append Prompt', function () {
-    test('can append text to TUI prompt', function () {
+describe('Append Prompt', function (): void {
+    test('can append text to TUI prompt', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount()
             MockResponse::make(['success' => true], 200),
@@ -80,12 +76,10 @@ describe('Append Prompt', function () {
             ->set('appendText', 'Add more details')
             ->call('appendPrompt')
             ->assertSet('appendText', '') // Should clear after append
-            ->assertSet('success', function ($success) {
-                return $success !== null;
-            });
+            ->assertSet('success', fn ($success) => $success !== null);
     });
 
-    test('validates append text is not empty', function () {
+    test('validates append text is not empty', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -93,12 +87,10 @@ describe('Append Prompt', function () {
         Livewire::test(OpencodeRemote::class)
             ->set('appendText', '')
             ->call('appendPrompt')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('handles append prompt error', function () {
+    test('handles append prompt error', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount()
             MockResponse::make(['error' => 'Append failed'], 500),
@@ -107,12 +99,10 @@ describe('Append Prompt', function () {
         Livewire::test(OpencodeRemote::class)
             ->set('appendText', 'test text')
             ->call('appendPrompt')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('sets loading state during append', function () {
+    test('sets loading state during append', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
             MockResponse::make(['success' => true], 200),
@@ -126,8 +116,8 @@ describe('Append Prompt', function () {
     });
 });
 
-describe('Clear Prompt', function () {
-    test('can clear TUI prompt', function () {
+describe('Clear Prompt', function (): void {
+    test('can clear TUI prompt', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount()
             MockResponse::make(['success' => true], 200),
@@ -135,12 +125,10 @@ describe('Clear Prompt', function () {
 
         Livewire::test(OpencodeRemote::class)
             ->call('clearPrompt')
-            ->assertSet('success', function ($success) {
-                return $success !== null;
-            });
+            ->assertSet('success', fn ($success) => $success !== null);
     });
 
-    test('handles clear prompt error', function () {
+    test('handles clear prompt error', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
             MockResponse::make(['error' => 'Clear failed'], 500),
@@ -148,12 +136,10 @@ describe('Clear Prompt', function () {
 
         Livewire::test(OpencodeRemote::class)
             ->call('clearPrompt')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('sets loading state during clear', function () {
+    test('sets loading state during clear', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
             MockResponse::make(['success' => true], 200),
@@ -166,8 +152,8 @@ describe('Clear Prompt', function () {
     });
 });
 
-describe('Prompt UI', function () {
-    test('displays prompt input section', function () {
+describe('Prompt UI', function (): void {
+    test('displays prompt input section', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -176,7 +162,7 @@ describe('Prompt UI', function () {
             ->assertSeeHtml('prompt-section');
     });
 
-    test('has submit prompt button', function () {
+    test('has submit prompt button', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -185,7 +171,7 @@ describe('Prompt UI', function () {
             ->assertSeeHtml('submitPrompt');
     });
 
-    test('has append prompt button', function () {
+    test('has append prompt button', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -194,7 +180,7 @@ describe('Prompt UI', function () {
             ->assertSeeHtml('appendPrompt');
     });
 
-    test('has clear prompt button', function () {
+    test('has clear prompt button', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -203,7 +189,7 @@ describe('Prompt UI', function () {
             ->assertSeeHtml('clearPrompt');
     });
 
-    test('shows loading state for submit button', function () {
+    test('shows loading state for submit button', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -213,7 +199,7 @@ describe('Prompt UI', function () {
             ->assertSeeHtml('Submitting');
     });
 
-    test('shows loading state for append button', function () {
+    test('shows loading state for append button', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -223,7 +209,7 @@ describe('Prompt UI', function () {
             ->assertSeeHtml('Appending');
     });
 
-    test('shows loading state for clear button', function () {
+    test('shows loading state for clear button', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -233,7 +219,7 @@ describe('Prompt UI', function () {
             ->assertSeeHtml('Clearing');
     });
 
-    test('shows success message after operation', function () {
+    test('shows success message after operation', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
             MockResponse::make(['success' => true], 200),
@@ -246,8 +232,8 @@ describe('Prompt UI', function () {
     });
 });
 
-describe('Prompt Section Visibility', function () {
-    test('shows prompt section when TUI is connected', function () {
+describe('Prompt Section Visibility', function (): void {
+    test('shows prompt section when TUI is connected', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -256,7 +242,7 @@ describe('Prompt Section Visibility', function () {
             ->assertSeeHtml('prompt-section');
     });
 
-    test('hides prompt section when TUI is disconnected', function () {
+    test('hides prompt section when TUI is disconnected', function (): void {
         MockClient::global([
             MockResponse::make(['error' => 'Connection refused'], 500),
         ]);

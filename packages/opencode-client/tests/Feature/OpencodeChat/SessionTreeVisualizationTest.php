@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeChat;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Session Tree Modal', function () {
-    test('can open tree visualization modal', function () {
+describe('Session Tree Modal', function (): void {
+    test('can open tree visualization modal', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -20,7 +22,7 @@ describe('Session Tree Modal', function () {
             ->assertSet('showTreeModal', true);
     });
 
-    test('can close tree visualization modal', function () {
+    test('can close tree visualization modal', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -31,7 +33,7 @@ describe('Session Tree Modal', function () {
             ->assertSet('showTreeModal', false);
     });
 
-    test('modal button appears when sessions exist', function () {
+    test('modal button appears when sessions exist', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_1', 'name' => 'Session 1'],
@@ -43,8 +45,8 @@ describe('Session Tree Modal', function () {
     });
 });
 
-describe('Tree Data Structure', function () {
-    test('builds tree data from flat session list', function () {
+describe('Tree Data Structure', function (): void {
+    test('builds tree data from flat session list', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_parent', 'name' => 'Parent'],
@@ -62,7 +64,7 @@ describe('Tree Data Structure', function () {
             ->and($treeData['edges'])->toHaveCount(2);
     });
 
-    test('creates nodes with correct properties', function () {
+    test('creates nodes with correct properties', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_1', 'name' => 'Test Session'],
@@ -79,7 +81,7 @@ describe('Tree Data Structure', function () {
             ->and($node['label'])->toBe('Test Session');
     });
 
-    test('creates edges for parent-child relationships', function () {
+    test('creates edges for parent-child relationships', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_parent'],
@@ -97,7 +99,7 @@ describe('Tree Data Structure', function () {
             ->and($edge['to'])->toBe('ses_child');
     });
 
-    test('highlights current session in tree', function () {
+    test('highlights current session in tree', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_1', 'name' => 'Session 1'],
@@ -115,7 +117,7 @@ describe('Tree Data Structure', function () {
             ->and($currentNode['color'])->toBe('#3b82f6'); // blue-500
     });
 
-    test('handles sessions with no parent', function () {
+    test('handles sessions with no parent', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_1'],
@@ -130,8 +132,8 @@ describe('Tree Data Structure', function () {
     });
 });
 
-describe('Tree Navigation', function () {
-    test('can navigate to session from tree node click', function () {
+describe('Tree Navigation', function (): void {
+    test('can navigate to session from tree node click', function (): void {
         MockClient::global([
             MockResponse::make([
                 ['id' => 'ses_1'],
@@ -150,7 +152,7 @@ describe('Tree Navigation', function () {
             ->assertSet('showTreeModal', false);
     });
 
-    test('closes modal after navigation', function () {
+    test('closes modal after navigation', function (): void {
         MockClient::global([
             MockResponse::make([
                 ['id' => 'ses_1'],
@@ -168,8 +170,8 @@ describe('Tree Navigation', function () {
     });
 });
 
-describe('Tree Display', function () {
-    test('displays tree container in modal', function () {
+describe('Tree Display', function (): void {
+    test('displays tree container in modal', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_1', 'name' => 'Session 1'],
@@ -181,7 +183,7 @@ describe('Tree Display', function () {
             ->assertSeeHtml('id="session-tree"');
     });
 
-    test('shows empty state when no sessions', function () {
+    test('shows empty state when no sessions', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -191,7 +193,7 @@ describe('Tree Display', function () {
             ->assertSee('No sessions to display');
     });
 
-    test('shows session count in modal header', function () {
+    test('shows session count in modal header', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_1'],

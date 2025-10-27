@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeChat;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Diff Modal', function () {
-    test('can open diff viewer modal', function () {
+describe('Diff Modal', function (): void {
+    test('can open diff viewer modal', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -27,7 +29,7 @@ describe('Diff Modal', function () {
             ->assertSet('currentMessageId', 'msg_123');
     });
 
-    test('can close diff viewer modal', function () {
+    test('can close diff viewer modal', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -39,7 +41,7 @@ describe('Diff Modal', function () {
             ->assertSet('currentMessageId', null);
     });
 
-    test('modal button appears on assistant messages', function () {
+    test('modal button appears on assistant messages', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -57,8 +59,8 @@ describe('Diff Modal', function () {
     });
 });
 
-describe('Diff Data Loading', function () {
-    test('loads diff data when modal opens', function () {
+describe('Diff Data Loading', function (): void {
+    test('loads diff data when modal opens', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -80,12 +82,10 @@ class User
         Livewire::test(OpencodeChat::class)
             ->set('currentSessionId', 'ses_123')
             ->call('openDiffModal', 'msg_123')
-            ->assertSet('diffData', function ($data) {
-                return isset($data['files']) && count($data['files']) === 1;
-            });
+            ->assertSet('diffData', fn ($data) => isset($data['files']) && count($data['files']) === 1);
     });
 
-    test('handles diff loading error', function () {
+    test('handles diff loading error', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['error' => 'Diff not available'], 400),
@@ -94,12 +94,10 @@ class User
         Livewire::test(OpencodeChat::class)
             ->set('currentSessionId', 'ses_123')
             ->call('openDiffModal', 'msg_123')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('displays diff for multiple files', function () {
+    test('displays diff for multiple files', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -113,14 +111,12 @@ class User
         Livewire::test(OpencodeChat::class)
             ->set('currentSessionId', 'ses_123')
             ->call('openDiffModal', 'msg_123')
-            ->assertSet('diffData', function ($data) {
-                return count($data['files']) === 2;
-            });
+            ->assertSet('diffData', fn ($data) => count($data['files']) === 2);
     });
 });
 
-describe('Diff Display', function () {
-    test('displays file path in diff viewer', function () {
+describe('Diff Display', function (): void {
+    test('displays file path in diff viewer', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -137,7 +133,7 @@ describe('Diff Display', function () {
             ->assertSee('app/Models/User.php');
     });
 
-    test('displays diff content with line numbers', function () {
+    test('displays diff content with line numbers', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -157,7 +153,7 @@ describe('Diff Display', function () {
             ->assertSee('@@ -1,3 +1,5 @@');
     });
 
-    test('shows empty state when no diff data', function () {
+    test('shows empty state when no diff data', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -169,7 +165,7 @@ describe('Diff Display', function () {
             ->assertSee('No diff available');
     });
 
-    test('applies syntax highlighting to diff', function () {
+    test('applies syntax highlighting to diff', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -187,8 +183,8 @@ describe('Diff Display', function () {
     });
 });
 
-describe('Diff Color Coding', function () {
-    test('highlights additions in green', function () {
+describe('Diff Color Coding', function (): void {
+    test('highlights additions in green', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -205,7 +201,7 @@ describe('Diff Color Coding', function () {
             ->assertSeeHtml('diff-addition');
     });
 
-    test('highlights deletions in red', function () {
+    test('highlights deletions in red', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -222,7 +218,7 @@ describe('Diff Color Coding', function () {
             ->assertSeeHtml('diff-deletion');
     });
 
-    test('shows unchanged lines in default color', function () {
+    test('shows unchanged lines in default color', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);

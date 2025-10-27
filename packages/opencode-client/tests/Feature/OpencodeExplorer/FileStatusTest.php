@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeExplorer;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Git Status Loading', function () {
-    test('can load git status for files', function () {
+describe('Git Status Loading', function (): void {
+    test('can load git status for files', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -24,15 +26,13 @@ describe('Git Status Loading', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('loadFileStatuses')
-            ->assertSet('fileStatuses', function ($statuses) {
-                return count($statuses) === 3
-                    && $statuses['/project/src/Controller.php'] === 'modified'
-                    && $statuses['/project/tests/NewTest.php'] === 'added'
-                    && $statuses['/project/old/Legacy.php'] === 'deleted';
-            });
+            ->assertSet('fileStatuses', fn ($statuses) => count($statuses) === 3
+                && $statuses['/project/src/Controller.php'] === 'modified'
+                && $statuses['/project/tests/NewTest.php'] === 'added'
+                && $statuses['/project/old/Legacy.php'] === 'deleted');
     });
 
-    test('handles empty status response', function () {
+    test('handles empty status response', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['statuses' => []], 200),
@@ -43,7 +43,7 @@ describe('Git Status Loading', function () {
             ->assertSet('fileStatuses', []);
     });
 
-    test('handles file status error', function () {
+    test('handles file status error', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['error' => 'Git not available'], 400),
@@ -51,14 +51,12 @@ describe('Git Status Loading', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('loadFileStatuses')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Status Badge Display', function () {
-    test('shows modified badge for modified files', function () {
+describe('Status Badge Display', function (): void {
+    test('shows modified badge for modified files', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -73,7 +71,7 @@ describe('Status Badge Display', function () {
             ->assertSeeHtml('Modified');
     });
 
-    test('shows added badge for new files', function () {
+    test('shows added badge for new files', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -88,7 +86,7 @@ describe('Status Badge Display', function () {
             ->assertSeeHtml('Added');
     });
 
-    test('shows deleted badge for deleted files', function () {
+    test('shows deleted badge for deleted files', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -103,7 +101,7 @@ describe('Status Badge Display', function () {
             ->assertSeeHtml('Deleted');
     });
 
-    test('shows no badge for unmodified files', function () {
+    test('shows no badge for unmodified files', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -119,8 +117,8 @@ describe('Status Badge Display', function () {
     });
 });
 
-describe('Status Indicator Colors', function () {
-    test('modified badge uses yellow color', function () {
+describe('Status Indicator Colors', function (): void {
+    test('modified badge uses yellow color', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -135,7 +133,7 @@ describe('Status Indicator Colors', function () {
             ->assertSeeHtml('text-yellow-800');
     });
 
-    test('added badge uses green color', function () {
+    test('added badge uses green color', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -150,7 +148,7 @@ describe('Status Indicator Colors', function () {
             ->assertSeeHtml('text-green-800');
     });
 
-    test('deleted badge uses red color', function () {
+    test('deleted badge uses red color', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -166,8 +164,8 @@ describe('Status Indicator Colors', function () {
     });
 });
 
-describe('File Tree Integration', function () {
-    test('file tree displays status badges alongside files', function () {
+describe('File Tree Integration', function (): void {
+    test('file tree displays status badges alongside files', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -185,7 +183,7 @@ describe('File Tree Integration', function () {
         expect($component->html())->toContain('Clean.php');
     });
 
-    test('can get file status for a given path', function () {
+    test('can get file status for a given path', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
         ]);
@@ -200,7 +198,7 @@ describe('File Tree Integration', function () {
         expect($component->get('fileStatuses')['/project/Added.php'])->toBe('added');
     });
 
-    test('directories do not show status badges', function () {
+    test('directories do not show status badges', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -224,8 +222,8 @@ describe('File Tree Integration', function () {
     });
 });
 
-describe('Status Refresh', function () {
-    test('can refresh file statuses', function () {
+describe('Status Refresh', function (): void {
+    test('can refresh file statuses', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -243,18 +241,14 @@ describe('Status Refresh', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('loadFileStatuses')
-            ->assertSet('fileStatuses', function ($statuses) {
-                return count($statuses) === 1;
-            })
+            ->assertSet('fileStatuses', fn ($statuses) => count($statuses) === 1)
             ->call('loadFileStatuses')
-            ->assertSet('fileStatuses', function ($statuses) {
-                return count($statuses) === 2;
-            });
+            ->assertSet('fileStatuses', fn ($statuses) => count($statuses) === 2);
     });
 });
 
-describe('Multiple File Statuses', function () {
-    test('handles multiple files with different statuses', function () {
+describe('Multiple File Statuses', function (): void {
+    test('handles multiple files with different statuses', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [

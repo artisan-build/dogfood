@@ -198,42 +198,6 @@ class OpencodeChat extends Component
     }
 
     /**
-     * Load messages for current session.
-     */
-    protected function loadMessages(): void
-    {
-        if (! $this->currentSessionId) {
-            return;
-        }
-
-        $response = $this->opencode->getMessages($this->currentSessionId);
-
-        if ($this->handleResponse($response)) {
-            // Transform messages from API format (with 'parts') to display format (with 'content')
-            $this->messages = array_map(function ($message) {
-                $content = '';
-
-                if (isset($message['parts']) && is_array($message['parts'])) {
-                    foreach ($message['parts'] as $part) {
-                        if (isset($part['type']) && $part['type'] === 'text' && isset($part['text'])) {
-                            $content = $part['text'];
-                            break;
-                        }
-                    }
-                }
-
-                return [
-                    'role' => $message['role'] ?? 'unknown',
-                    'content' => $content,
-                    'timestamp' => $message['timestamp'] ?? $message['created_at'] ?? null,
-                    'id' => $message['id'] ?? null,
-                    'reverted' => $message['reverted'] ?? false,
-                ];
-            }, $response);
-        }
-    }
-
-    /**
      * Delete a session.
      */
     public function deleteSession(string $sessionId): void
@@ -552,15 +516,7 @@ class OpencodeChat extends Component
 
             return;
         }
-
-        // Find the todo in the local array
-        $todoIndex = null;
-        foreach ($this->todos as $index => $todo) {
-            if ($todo['id'] === $todoId) {
-                $todoIndex = $index;
-                break;
-            }
-        }
+        $todoIndex = array_find_key($this->todos, fn ($todo) => $todo['id'] === $todoId);
 
         if ($todoIndex === null) {
             $this->setError('Todo not found');
@@ -628,48 +584,6 @@ class OpencodeChat extends Component
 
         // Execute the command
         $this->executeCommand($this->shellCommand);
-    }
-
-    /**
-     * Check if command is dangerous.
-     */
-    protected function isDangerousCommand(string $command): bool
-    {
-        $dangerousPatterns = [
-            '/\brm\b.*-[rf]/',  // rm with -r or -f flags
-            '/\bsudo\b/',       // sudo commands
-            '/\bchmod\b.*777/', // chmod 777
-            '/\>\s*\/dev\/null/', // Output redirection to dev/null
-            '/\bkill\b/',       // kill commands
-            '/\breboot\b/',     // reboot
-            '/\bshutdown\b/',   // shutdown
-        ];
-
-        foreach ($dangerousPatterns as $pattern) {
-            if (preg_match($pattern, $command)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Execute command without confirmation.
-     */
-    protected function executeCommand(string $command): void
-    {
-        $this->executingCommand = true;
-        $this->shellOutput = null;
-
-        $response = $this->opencode->executeShell($this->currentSessionId, $command);
-
-        if ($this->handleResponse($response)) {
-            $this->shellOutput = $response['output'] ?? 'Command executed successfully';
-            $this->shellCommand = '';
-        }
-
-        $this->executingCommand = false;
     }
 
     /**
@@ -824,5 +738,86 @@ class OpencodeChat extends Component
     {
         return view('opencode-client::livewire.opencode-chat')
             ->layout('layouts.app');
+    }
+
+    /**
+     * Load messages for current session.
+     */
+    protected function loadMessages(): void
+    {
+        if (! $this->currentSessionId) {
+            return;
+        }
+
+        $response = $this->opencode->getMessages($this->currentSessionId);
+
+        if ($this->handleResponse($response)) {
+            // Transform messages from API format (with 'parts') to display format (with 'content')
+            // API returns array of messages directly, not wrapped
+            $messages = is_array($response) && ! isset($response['error']) ? $response : [];
+
+            $this->messages = array_values(array_filter(array_map(function ($message) {
+                $content = '';
+
+                // Extract text content from parts array
+                if (isset($message['parts']) && is_array($message['parts'])) {
+                    foreach ($message['parts'] as $part) {
+                        if (isset($part['type']) && $part['type'] === 'text' && isset($part['text'])) {
+                            // Concatenate multiple text parts
+                            $content .= $part['text'];
+                        }
+                    }
+                }
+
+                // Get message info from 'info' object
+                $info = $message['info'] ?? [];
+
+                return [
+                    'role' => $info['role'] ?? 'unknown',
+                    'content' => $content,
+                    'timestamp' => $info['time']['created'] ?? null,
+                    'id' => $info['id'] ?? null,
+                    'reverted' => false, // TODO: determine if message is reverted
+                ];
+            }, $messages), fn ($message) =>
+                // Filter out messages with no text content
+                ! empty(trim((string) $message['content']))));
+        }
+    }
+
+    /**
+     * Check if command is dangerous.
+     */
+    protected function isDangerousCommand(string $command): bool
+    {
+        $dangerousPatterns = [
+            '/\brm\b.*-[rf]/',  // rm with -r or -f flags
+            '/\bsudo\b/',       // sudo commands
+            '/\bchmod\b.*777/', // chmod 777
+            '/\>\s*\/dev\/null/', // Output redirection to dev/null
+            '/\bkill\b/',       // kill commands
+            '/\breboot\b/',     // reboot
+            '/\bshutdown\b/',   // shutdown
+        ];
+
+        return array_any($dangerousPatterns, fn ($pattern) => preg_match($pattern, $command));
+    }
+
+    /**
+     * Execute command without confirmation.
+     */
+    protected function executeCommand(string $command): void
+    {
+        $this->executingCommand = true;
+        $this->shellOutput = null;
+
+        $response = $this->opencode->executeShell($this->currentSessionId, $command);
+
+        if ($this->handleResponse($response)) {
+            $this->shellOutput = $response['output'] ?? 'Command executed successfully';
+            $this->shellCommand = '';
+        }
+
+        $this->executingCommand = false;
     }
 }

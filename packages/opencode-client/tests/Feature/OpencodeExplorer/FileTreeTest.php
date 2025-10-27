@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeExplorer;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('File Tree Loading', function () {
-    test('loads file tree structure from API', function () {
+describe('File Tree Loading', function (): void {
+    test('loads file tree structure from API', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -23,14 +25,12 @@ describe('File Tree Loading', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('loadFiles', '/')
-            ->assertSet('files', function ($files) {
-                return count($files) === 3
-                    && $files[0]['name'] === 'src'
-                    && $files[0]['type'] === 'directory';
-            });
+            ->assertSet('files', fn ($files) => count($files) === 3
+                && $files[0]['name'] === 'src'
+                && $files[0]['type'] === 'directory');
     });
 
-    test('handles empty directory', function () {
+    test('handles empty directory', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
         ]);
@@ -40,21 +40,19 @@ describe('File Tree Loading', function () {
             ->assertSet('files', []);
     });
 
-    test('handles file list error', function () {
+    test('handles file list error', function (): void {
         MockClient::global([
             MockResponse::make(['error' => 'Cannot list files'], 400),
         ]);
 
         Livewire::test(OpencodeExplorer::class)
             ->call('loadFiles', '/')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Directory Navigation', function () {
-    test('can navigate into directory', function () {
+describe('Directory Navigation', function (): void {
+    test('can navigate into directory', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount() calls loadFiles('/')
             MockResponse::make([
@@ -68,12 +66,10 @@ describe('Directory Navigation', function () {
         Livewire::test(OpencodeExplorer::class)
             ->call('navigateToDirectory', '/project/src')
             ->assertSet('currentPath', '/project/src')
-            ->assertSet('files', function ($files) {
-                return count($files) === 2;
-            });
+            ->assertSet('files', fn ($files) => count($files) === 2);
     });
 
-    test('tracks current path correctly', function () {
+    test('tracks current path correctly', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['files' => []], 200), // navigateToDirectory()
@@ -84,7 +80,7 @@ describe('Directory Navigation', function () {
             ->assertSet('currentPath', '/project/src/Controllers');
     });
 
-    test('can navigate back to parent directory', function () {
+    test('can navigate back to parent directory', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
             MockResponse::make(['files' => []], 200),
@@ -97,8 +93,8 @@ describe('Directory Navigation', function () {
     });
 });
 
-describe('File Tree Structure', function () {
-    test('separates directories and files', function () {
+describe('File Tree Structure', function (): void {
+    test('separates directories and files', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -120,7 +116,7 @@ describe('File Tree Structure', function () {
         expect($files)->toHaveCount(2);
     });
 
-    test('sorts directories before files', function () {
+    test('sorts directories before files', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -138,7 +134,7 @@ describe('File Tree Structure', function () {
         expect($directories[0]['name'])->toBe('aaa');
     });
 
-    test('sorts entries alphabetically within their type', function () {
+    test('sorts entries alphabetically within their type', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -163,20 +159,18 @@ describe('File Tree Structure', function () {
     });
 });
 
-describe('Expand/Collapse Functionality', function () {
-    test('can expand directory', function () {
+describe('Expand/Collapse Functionality', function (): void {
+    test('can expand directory', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
         ]);
 
         Livewire::test(OpencodeExplorer::class)
             ->call('toggleDirectory', '/project/src')
-            ->assertSet('expandedDirectories', function ($expanded) {
-                return in_array('/project/src', $expanded);
-            });
+            ->assertSet('expandedDirectories', fn ($expanded) => in_array('/project/src', $expanded));
     });
 
-    test('can collapse expanded directory', function () {
+    test('can collapse expanded directory', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
         ]);
@@ -184,12 +178,10 @@ describe('Expand/Collapse Functionality', function () {
         Livewire::test(OpencodeExplorer::class)
             ->set('expandedDirectories', ['/project/src'])
             ->call('toggleDirectory', '/project/src')
-            ->assertSet('expandedDirectories', function ($expanded) {
-                return ! in_array('/project/src', $expanded);
-            });
+            ->assertSet('expandedDirectories', fn ($expanded) => ! in_array('/project/src', $expanded));
     });
 
-    test('can expand multiple directories simultaneously', function () {
+    test('can expand multiple directories simultaneously', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
         ]);
@@ -197,15 +189,13 @@ describe('Expand/Collapse Functionality', function () {
         Livewire::test(OpencodeExplorer::class)
             ->call('toggleDirectory', '/project/src')
             ->call('toggleDirectory', '/project/tests')
-            ->assertSet('expandedDirectories', function ($expanded) {
-                return in_array('/project/src', $expanded)
-                    && in_array('/project/tests', $expanded);
-            });
+            ->assertSet('expandedDirectories', fn ($expanded) => in_array('/project/src', $expanded)
+                && in_array('/project/tests', $expanded));
     });
 });
 
-describe('File Tree UI', function () {
-    test('displays file tree container', function () {
+describe('File Tree UI', function (): void {
+    test('displays file tree container', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
         ]);
@@ -215,7 +205,7 @@ describe('File Tree UI', function () {
             ->assertSeeHtml('file-tree');
     });
 
-    test('shows directories with folder icon', function () {
+    test('shows directories with folder icon', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -228,12 +218,10 @@ describe('File Tree UI', function () {
         Livewire::test(OpencodeExplorer::class)
             ->call('loadFiles', '/')
             ->assertSeeHtml('src')
-            ->assertSet('files', function ($files) {
-                return count($files) === 1 && $files[0]['type'] === 'directory';
-            });
+            ->assertSet('files', fn ($files) => count($files) === 1 && $files[0]['type'] === 'directory');
     });
 
-    test('shows files with document icon', function () {
+    test('shows files with document icon', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -246,14 +234,12 @@ describe('File Tree UI', function () {
         Livewire::test(OpencodeExplorer::class)
             ->call('loadFiles', '/')
             ->assertSeeHtml('README.md')
-            ->assertSet('files', function ($files) {
-                return count($files) === 1 && $files[0]['type'] === 'file';
-            });
+            ->assertSet('files', fn ($files) => count($files) === 1 && $files[0]['type'] === 'file');
     });
 });
 
-describe('Breadcrumb Navigation', function () {
-    test('computes breadcrumb trail', function () {
+describe('Breadcrumb Navigation', function (): void {
+    test('computes breadcrumb trail', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
         ]);
@@ -270,7 +256,7 @@ describe('Breadcrumb Navigation', function () {
         expect($breadcrumbs[3])->toBe('/project/src/Controllers');
     });
 
-    test('displays breadcrumb navigation', function () {
+    test('displays breadcrumb navigation', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
         ]);

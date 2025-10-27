@@ -42,7 +42,39 @@ trait HandlesOpencodeErrors
      */
     protected function hasError(array $response): bool
     {
-        return isset($response['error']) || isset($response['message']);
+        // Only treat as error if 'error' key exists
+        // OR if 'message' exists WITHOUT any expected data keys
+        if (isset($response['error'])) {
+            return true;
+        }
+
+        // If there's a message but no data keys, it might be an error
+        if (isset($response['message']) && $this->isErrorMessage($response)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if a response with 'message' is actually an error.
+     */
+    protected function isErrorMessage(array $response): bool
+    {
+        // List of keys that indicate successful data responses
+        $dataKeys = [
+            'files',       // File list responses
+            'content',     // File read responses
+            'sessions',    // Session list responses
+            'session',     // Session detail responses
+            'messages',    // Message list responses
+            'results',     // Search results
+            'projects',    // Project list responses
+            'project',     // Project detail responses
+            'statuses',    // File status responses
+        ];
+
+        return array_all($dataKeys, fn ($key) => ! isset($response[$key]));
     }
 
     /**

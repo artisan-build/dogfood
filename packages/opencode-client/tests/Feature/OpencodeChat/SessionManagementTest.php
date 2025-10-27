@@ -1,18 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeChat;
-use ArtisanBuild\OpencodeClient\Services\OpencodeService;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Set up mock client globally
     MockClient::destroyGlobal();
 });
 
-describe('Component Rendering', function () {
-    test('can render chat component', function () {
+describe('Component Rendering', function (): void {
+    test('can render chat component', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -23,8 +24,8 @@ describe('Component Rendering', function () {
     });
 });
 
-describe('Session List', function () {
-    test('can load session list', function () {
+describe('Session List', function (): void {
+    test('can load session list', function (): void {
         MockClient::global([
             // Use wildcard to match any request
             '*' => MockResponse::make([
@@ -34,25 +35,21 @@ describe('Session List', function () {
         ]);
 
         Livewire::test(OpencodeChat::class)
-            ->assertSet('sessions', function ($sessions) {
-                return count($sessions) === 2
-                    && $sessions[0]['id'] === 'ses_1'
-                    && $sessions[1]['id'] === 'ses_2';
-            });
+            ->assertSet('sessions', fn ($sessions) => count($sessions) === 2
+                && $sessions[0]['id'] === 'ses_1'
+                && $sessions[1]['id'] === 'ses_2');
     });
 
-    test('displays error when session list fails to load', function () {
+    test('displays error when session list fails to load', function (): void {
         MockClient::global([
             '*' => MockResponse::make(['error' => 'Server unavailable'], 500),
         ]);
 
         Livewire::test(OpencodeChat::class)
-            ->assertSet('error', function ($error) {
-                return $error !== null && str_contains($error, 'Server unavailable');
-            });
+            ->assertSet('error', fn ($error) => $error !== null && str_contains($error, 'Server unavailable'));
     });
 
-    test('session list is empty when API returns empty array', function () {
+    test('session list is empty when API returns empty array', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -62,8 +59,8 @@ describe('Session List', function () {
     });
 });
 
-describe('Session Creation', function () {
-    test('can create new session', function () {
+describe('Session Creation', function (): void {
+    test('can create new session', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['id' => 'ses_new123'], 200), // createSession()
@@ -76,7 +73,7 @@ describe('Session Creation', function () {
             ->assertSet('error', null);
     });
 
-    test('displays success message after creating session', function () {
+    test('displays success message after creating session', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['id' => 'ses_new123'], 200), // createSession()
@@ -91,7 +88,7 @@ describe('Session Creation', function () {
             ->and($successMessage)->toContain('created');
     });
 
-    test('handles session creation error', function () {
+    test('handles session creation error', function (): void {
         MockClient::global([
             '*' => MockResponse::make(['error' => 'Failed to create session'], 500),
         ]);
@@ -99,14 +96,12 @@ describe('Session Creation', function () {
         Livewire::test(OpencodeChat::class)
             ->call('createNewSession')
             ->assertSet('currentSessionId', null)
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Session Switching', function () {
-    test('can switch to different session', function () {
+describe('Session Switching', function (): void {
+    test('can switch to different session', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -123,7 +118,7 @@ describe('Session Switching', function () {
             ->assertSet('error', null);
     });
 
-    test('clears messages when switching sessions', function () {
+    test('clears messages when switching sessions', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -141,7 +136,7 @@ describe('Session Switching', function () {
             ->assertSet('messages', []);
     });
 
-    test('loads session messages after switching', function () {
+    test('loads session messages after switching', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -156,12 +151,10 @@ describe('Session Switching', function () {
 
         Livewire::test(OpencodeChat::class)
             ->call('switchSession', 'ses_switch123')
-            ->assertSet('messages', function ($messages) {
-                return count($messages) === 2;
-            });
+            ->assertSet('messages', fn ($messages) => count($messages) === 2);
     });
 
-    test('handles session switch error', function () {
+    test('handles session switch error', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['error' => 'Session not found'], 404), // getSession()
@@ -171,14 +164,12 @@ describe('Session Switching', function () {
             ->set('currentSessionId', 'ses_old123')
             ->call('switchSession', 'ses_invalid')
             ->assertSet('currentSessionId', 'ses_old123') // Should not change
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Session Deletion', function () {
-    test('can delete session', function () {
+describe('Session Deletion', function (): void {
+    test('can delete session', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['deleted' => true], 200), // deleteSession()
@@ -193,12 +184,10 @@ describe('Session Deletion', function () {
                 ['id' => 'ses_2'],
             ])
             ->call('deleteSession', 'ses_2')
-            ->assertSet('sessions', function ($sessions) {
-                return count($sessions) === 1 && $sessions[0]['id'] === 'ses_1';
-            });
+            ->assertSet('sessions', fn ($sessions) => count($sessions) === 1 && $sessions[0]['id'] === 'ses_1');
     });
 
-    test('displays success message after deletion', function () {
+    test('displays success message after deletion', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['deleted' => true], 200), // deleteSession()
@@ -207,24 +196,20 @@ describe('Session Deletion', function () {
 
         Livewire::test(OpencodeChat::class)
             ->call('deleteSession', 'ses_delete123')
-            ->assertSet('successMessage', function ($message) {
-                return $message !== null && str_contains($message, 'deleted');
-            });
+            ->assertSet('successMessage', fn ($message) => $message !== null && str_contains($message, 'deleted'));
     });
 
-    test('handles deletion error', function () {
+    test('handles deletion error', function (): void {
         MockClient::global([
             '*' => MockResponse::make(['error' => 'Cannot delete active session'], 400),
         ]);
 
         Livewire::test(OpencodeChat::class)
             ->call('deleteSession', 'ses_active123')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('clears current session if deleting active session', function () {
+    test('clears current session if deleting active session', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['deleted' => true], 200), // deleteSession()
@@ -238,8 +223,8 @@ describe('Session Deletion', function () {
     });
 });
 
-describe('Session Renaming', function () {
-    test('can rename session', function () {
+describe('Session Renaming', function (): void {
+    test('can rename session', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['id' => 'ses_rename123', 'name' => 'New Name', 'updated' => true], 200), // updateSession()
@@ -256,7 +241,7 @@ describe('Session Renaming', function () {
             ->assertSet('sessions.0.name', 'New Name');
     });
 
-    test('displays success message after renaming', function () {
+    test('displays success message after renaming', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['updated' => true], 200), // updateSession()
@@ -265,38 +250,32 @@ describe('Session Renaming', function () {
 
         Livewire::test(OpencodeChat::class)
             ->call('renameSession', 'ses_rename123', 'New Name')
-            ->assertSet('successMessage', function ($message) {
-                return $message !== null && str_contains($message, 'renamed');
-            });
+            ->assertSet('successMessage', fn ($message) => $message !== null && str_contains($message, 'renamed'));
     });
 
-    test('validates session name is not empty', function () {
+    test('validates session name is not empty', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
 
         Livewire::test(OpencodeChat::class)
             ->call('renameSession', 'ses_123', '')
-            ->assertSet('error', function ($error) {
-                return $error !== null && str_contains($error, 'empty');
-            });
+            ->assertSet('error', fn ($error) => $error !== null && str_contains($error, 'empty'));
     });
 
-    test('handles rename error', function () {
+    test('handles rename error', function (): void {
         MockClient::global([
             '*' => MockResponse::make(['error' => 'Session not found'], 404),
         ]);
 
         Livewire::test(OpencodeChat::class)
             ->call('renameSession', 'ses_invalid', 'New Name')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('UI State Management', function () {
-    test('shows active session with visual indicator', function () {
+describe('UI State Management', function (): void {
+    test('shows active session with visual indicator', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -311,7 +290,7 @@ describe('UI State Management', function () {
             ->assertSee('Other Session');
     });
 
-    test('session list updates after create', function () {
+    test('session list updates after create', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['id' => 'ses_new123'], 200), // createSession()
@@ -323,12 +302,10 @@ describe('UI State Management', function () {
         Livewire::test(OpencodeChat::class)
             ->set('sessions', [])
             ->call('createNewSession')
-            ->assertSet('sessions', function ($sessions) {
-                return count($sessions) === 1;
-            });
+            ->assertSet('sessions', fn ($sessions) => count($sessions) === 1);
     });
 
-    test('session list updates after delete', function () {
+    test('session list updates after delete', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['deleted' => true], 200), // deleteSession()
@@ -343,8 +320,6 @@ describe('UI State Management', function () {
                 ['id' => 'ses_2'],
             ])
             ->call('deleteSession', 'ses_2')
-            ->assertSet('sessions', function ($sessions) {
-                return count($sessions) === 1;
-            });
+            ->assertSet('sessions', fn ($sessions) => count($sessions) === 1);
     });
 });

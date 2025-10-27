@@ -1,30 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Services\OpencodeService;
 use ArtisanBuild\OpencodeSdk\OpenCode\OpenCode;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->service = new OpencodeService('http://127.0.0.1:64415');
 });
 
-describe('Client Instantiation', function () {
-    test('can create OpenCode client instance', function () {
+describe('Client Instantiation', function (): void {
+    test('can create OpenCode client instance', function (): void {
         $client = $this->service->client();
 
         expect($client)->toBeInstanceOf(OpenCode::class);
     });
 
-    test('uses correct base URL', function () {
+    test('uses correct base URL', function (): void {
         $client = $this->service->client();
 
         expect($client->resolveBaseUrl())->toBe('http://127.0.0.1:64415');
     });
 });
 
-describe('Session Management', function () {
-    test('can create session', function () {
+describe('Session Management', function (): void {
+    test('can create session', function (): void {
         MockClient::global([
             MockResponse::make(['id' => 'ses_test123'], 200),
         ]);
@@ -36,7 +38,7 @@ describe('Session Management', function () {
             ->and($result['id'])->toBe('ses_test123');
     });
 
-    test('can list sessions', function () {
+    test('can list sessions', function (): void {
         MockClient::global([
             MockResponse::make([
                 ['id' => 'ses_1', 'created_at' => '2025-10-26T12:00:00Z'],
@@ -51,7 +53,7 @@ describe('Session Management', function () {
             ->and($result[0]['id'])->toBe('ses_1');
     });
 
-    test('can get session details', function () {
+    test('can get session details', function (): void {
         MockClient::global([
             MockResponse::make([
                 'id' => 'ses_test123',
@@ -67,7 +69,7 @@ describe('Session Management', function () {
             ->and($result['id'])->toBe('ses_test123');
     });
 
-    test('can update session', function () {
+    test('can update session', function (): void {
         MockClient::global([
             MockResponse::make(['id' => 'ses_test123', 'updated' => true], 200),
         ]);
@@ -79,7 +81,7 @@ describe('Session Management', function () {
             ->and($result['updated'])->toBeTrue();
     });
 
-    test('can delete session', function () {
+    test('can delete session', function (): void {
         MockClient::global([
             MockResponse::make(['deleted' => true], 200),
         ]);
@@ -91,7 +93,7 @@ describe('Session Management', function () {
             ->and($result['deleted'])->toBeTrue();
     });
 
-    test('can fork session', function () {
+    test('can fork session', function (): void {
         MockClient::global([
             MockResponse::make(['id' => 'ses_forked123', 'parent_id' => 'ses_test123'], 200),
         ]);
@@ -103,7 +105,7 @@ describe('Session Management', function () {
             ->and($result['id'])->toBe('ses_forked123');
     });
 
-    test('can get session children', function () {
+    test('can get session children', function (): void {
         MockClient::global([
             MockResponse::make([
                 ['id' => 'ses_child1'],
@@ -117,7 +119,7 @@ describe('Session Management', function () {
             ->and($result)->toHaveCount(2);
     });
 
-    test('can abort session', function () {
+    test('can abort session', function (): void {
         MockClient::global([
             MockResponse::make(['aborted' => true], 200),
         ]);
@@ -129,7 +131,7 @@ describe('Session Management', function () {
             ->and($result['aborted'])->toBeTrue();
     });
 
-    test('can summarize session', function () {
+    test('can summarize session', function (): void {
         MockClient::global([
             MockResponse::make(['summary' => 'This session discussed authentication'], 200),
         ]);
@@ -140,7 +142,7 @@ describe('Session Management', function () {
             ->and($result)->toHaveKey('summary');
     });
 
-    test('can share session', function () {
+    test('can share session', function (): void {
         MockClient::global([
             MockResponse::make(['share_url' => 'https://example.com/share/xyz'], 200),
         ]);
@@ -151,7 +153,7 @@ describe('Session Management', function () {
             ->and($result)->toHaveKey('share_url');
     });
 
-    test('can unshare session', function () {
+    test('can unshare session', function (): void {
         MockClient::global([
             MockResponse::make(['unshared' => true], 200),
         ]);
@@ -164,8 +166,8 @@ describe('Session Management', function () {
     });
 });
 
-describe('Message Operations', function () {
-    test('can send prompt to session', function () {
+describe('Message Operations', function (): void {
+    test('can send prompt to session', function (): void {
         MockClient::global([
             MockResponse::make([
                 'id' => 'msg_123',
@@ -183,7 +185,7 @@ describe('Message Operations', function () {
             ->and($result['id'])->toBe('msg_123');
     });
 
-    test('can get session messages', function () {
+    test('can get session messages', function (): void {
         MockClient::global([
             MockResponse::make([
                 ['id' => 'msg_1', 'role' => 'user'],
@@ -197,7 +199,7 @@ describe('Message Operations', function () {
             ->and($result)->toHaveCount(2);
     });
 
-    test('can get single message', function () {
+    test('can get single message', function (): void {
         MockClient::global([
             MockResponse::make([
                 'id' => 'msg_123',
@@ -213,7 +215,7 @@ describe('Message Operations', function () {
             ->and($result['id'])->toBe('msg_123');
     });
 
-    test('can get session diff', function () {
+    test('can get session diff', function (): void {
         MockClient::global([
             MockResponse::make([
                 'files' => [
@@ -233,7 +235,7 @@ describe('Message Operations', function () {
             ->and($result)->toHaveKey('files');
     });
 
-    test('can revert message', function () {
+    test('can revert message', function (): void {
         MockClient::global([
             MockResponse::make(['reverted' => true], 200),
         ]);
@@ -245,7 +247,7 @@ describe('Message Operations', function () {
             ->and($result['reverted'])->toBeTrue();
     });
 
-    test('can unrevert message', function () {
+    test('can unrevert message', function (): void {
         MockClient::global([
             MockResponse::make(['unreverted' => true], 200),
         ]);
@@ -258,8 +260,8 @@ describe('Message Operations', function () {
     });
 });
 
-describe('Todo Operations', function () {
-    test('can get session todos', function () {
+describe('Todo Operations', function (): void {
+    test('can get session todos', function (): void {
         MockClient::global([
             MockResponse::make([
                 ['id' => 'todo_1', 'text' => 'Implement authentication', 'completed' => false],
@@ -274,8 +276,8 @@ describe('Todo Operations', function () {
     });
 });
 
-describe('Shell Operations', function () {
-    test('can execute shell command', function () {
+describe('Shell Operations', function (): void {
+    test('can execute shell command', function (): void {
         MockClient::global([
             MockResponse::make([
                 'output' => 'Command executed successfully',
@@ -290,8 +292,8 @@ describe('Shell Operations', function () {
     });
 });
 
-describe('File Operations', function () {
-    test('can list files', function () {
+describe('File Operations', function (): void {
+    test('can list files', function (): void {
         MockClient::global([
             MockResponse::make([
                 ['name' => 'src', 'type' => 'directory'],
@@ -305,7 +307,7 @@ describe('File Operations', function () {
             ->and($result)->toHaveCount(2);
     });
 
-    test('can read file contents', function () {
+    test('can read file contents', function (): void {
         MockClient::global([
             MockResponse::make([
                 'path' => 'README.md',
@@ -319,7 +321,7 @@ describe('File Operations', function () {
             ->and($result)->toHaveKey('content');
     });
 
-    test('can get file status', function () {
+    test('can get file status', function (): void {
         MockClient::global([
             MockResponse::make([
                 ['path' => 'app/Models/User.php', 'status' => 'modified'],
@@ -334,8 +336,8 @@ describe('File Operations', function () {
     });
 });
 
-describe('Search Operations', function () {
-    test('can search for text', function () {
+describe('Search Operations', function (): void {
+    test('can search for text', function (): void {
         MockClient::global([
             MockResponse::make([
                 [
@@ -352,7 +354,7 @@ describe('Search Operations', function () {
             ->and($result)->toHaveCount(1);
     });
 
-    test('can search for files', function () {
+    test('can search for files', function (): void {
         MockClient::global([
             MockResponse::make([
                 ['path' => 'app/Models/User.php'],
@@ -366,7 +368,7 @@ describe('Search Operations', function () {
             ->and($result)->toHaveCount(2);
     });
 
-    test('can search for symbols', function () {
+    test('can search for symbols', function (): void {
         MockClient::global([
             MockResponse::make([
                 ['name' => 'User', 'type' => 'class', 'file' => 'app/Models/User.php', 'line' => 5],
@@ -381,8 +383,8 @@ describe('Search Operations', function () {
     });
 });
 
-describe('Project Operations', function () {
-    test('can list projects', function () {
+describe('Project Operations', function (): void {
+    test('can list projects', function (): void {
         MockClient::global([
             MockResponse::make([
                 ['name' => 'kibble', 'path' => '/Users/ed/Projects/kibble'],
@@ -396,7 +398,7 @@ describe('Project Operations', function () {
             ->and($result)->toHaveCount(2);
     });
 
-    test('can get current project', function () {
+    test('can get current project', function (): void {
         MockClient::global([
             MockResponse::make([
                 'name' => 'kibble',
@@ -410,7 +412,7 @@ describe('Project Operations', function () {
             ->and($result)->toHaveKey('name');
     });
 
-    test('can get path info', function () {
+    test('can get path info', function (): void {
         MockClient::global([
             MockResponse::make([
                 'path' => '/Users/ed/Projects/kibble/src',
@@ -426,8 +428,8 @@ describe('Project Operations', function () {
     });
 });
 
-describe('TUI Operations', function () {
-    test('can submit prompt to TUI', function () {
+describe('TUI Operations', function (): void {
+    test('can submit prompt to TUI', function (): void {
         MockClient::global([
             MockResponse::make(['submitted' => true], 200),
         ]);
@@ -439,7 +441,7 @@ describe('TUI Operations', function () {
             ->and($result['submitted'])->toBeTrue();
     });
 
-    test('can append to TUI prompt', function () {
+    test('can append to TUI prompt', function (): void {
         MockClient::global([
             MockResponse::make(['appended' => true], 200),
         ]);
@@ -451,7 +453,7 @@ describe('TUI Operations', function () {
             ->and($result['appended'])->toBeTrue();
     });
 
-    test('can clear TUI prompt', function () {
+    test('can clear TUI prompt', function (): void {
         MockClient::global([
             MockResponse::make(['cleared' => true], 200),
         ]);
@@ -463,7 +465,7 @@ describe('TUI Operations', function () {
             ->and($result['cleared'])->toBeTrue();
     });
 
-    test('can show toast in TUI', function () {
+    test('can show toast in TUI', function (): void {
         MockClient::global([
             MockResponse::make(['shown' => true], 200),
         ]);
@@ -475,7 +477,7 @@ describe('TUI Operations', function () {
             ->and($result['shown'])->toBeTrue();
     });
 
-    test('can execute TUI command', function () {
+    test('can execute TUI command', function (): void {
         MockClient::global([
             MockResponse::make(['executed' => true], 200),
         ]);
@@ -487,7 +489,7 @@ describe('TUI Operations', function () {
             ->and($result['executed'])->toBeTrue();
     });
 
-    test('can open TUI themes dialog', function () {
+    test('can open TUI themes dialog', function (): void {
         MockClient::global([
             MockResponse::make(['opened' => true], 200),
         ]);
@@ -499,7 +501,7 @@ describe('TUI Operations', function () {
             ->and($result['opened'])->toBeTrue();
     });
 
-    test('can open TUI models dialog', function () {
+    test('can open TUI models dialog', function (): void {
         MockClient::global([
             MockResponse::make(['opened' => true], 200),
         ]);
@@ -511,7 +513,7 @@ describe('TUI Operations', function () {
             ->and($result['opened'])->toBeTrue();
     });
 
-    test('can open TUI help dialog', function () {
+    test('can open TUI help dialog', function (): void {
         MockClient::global([
             MockResponse::make(['opened' => true], 200),
         ]);
@@ -523,7 +525,7 @@ describe('TUI Operations', function () {
             ->and($result['opened'])->toBeTrue();
     });
 
-    test('can open TUI sessions dialog', function () {
+    test('can open TUI sessions dialog', function (): void {
         MockClient::global([
             MockResponse::make(['opened' => true], 200),
         ]);
@@ -536,8 +538,8 @@ describe('TUI Operations', function () {
     });
 });
 
-describe('Error Handling', function () {
-    test('handles API errors gracefully', function () {
+describe('Error Handling', function (): void {
+    test('handles API errors gracefully', function (): void {
         MockClient::global([
             MockResponse::make(['error' => 'Server unavailable'], 500),
         ]);
@@ -548,7 +550,7 @@ describe('Error Handling', function () {
             ->and($result)->toHaveKey('error');
     });
 
-    test('returns proper error messages on failure', function () {
+    test('returns proper error messages on failure', function (): void {
         MockClient::global([
             MockResponse::make(['message' => 'Invalid session ID'], 404),
         ]);

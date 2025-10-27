@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeExplorer;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Text Search', function () {
-    test('can search for text across files', function () {
+describe('Text Search', function (): void {
+    test('can search for text across files', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -33,15 +35,13 @@ describe('Text Search', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('searchText', 'handleRequest')
-            ->assertSet('searchResults', function ($results) {
-                return count($results) === 2
-                    && $results[0]['path'] === '/project/src/Controller.php'
-                    && $results[0]['line'] === 42;
-            })
+            ->assertSet('searchResults', fn ($results) => count($results) === 2
+                && $results[0]['path'] === '/project/src/Controller.php'
+                && $results[0]['line'] === 42)
             ->assertSet('searchQuery', 'handleRequest');
     });
 
-    test('handles empty text search results', function () {
+    test('handles empty text search results', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['results' => []], 200),
@@ -52,7 +52,7 @@ describe('Text Search', function () {
             ->assertSet('searchResults', []);
     });
 
-    test('handles text search error', function () {
+    test('handles text search error', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['error' => 'Search failed'], 400),
@@ -60,14 +60,12 @@ describe('Text Search', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('searchText', 'query')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('File Search', function () {
-    test('can search for files by name', function () {
+describe('File Search', function (): void {
+    test('can search for files by name', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -80,13 +78,11 @@ describe('File Search', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('searchFiles', 'Controller')
-            ->assertSet('searchResults', function ($results) {
-                return count($results) === 2
-                    && $results[0]['path'] === '/project/src/Controller.php';
-            });
+            ->assertSet('searchResults', fn ($results) => count($results) === 2
+                && $results[0]['path'] === '/project/src/Controller.php');
     });
 
-    test('handles empty file search results', function () {
+    test('handles empty file search results', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['results' => []], 200),
@@ -97,7 +93,7 @@ describe('File Search', function () {
             ->assertSet('searchResults', []);
     });
 
-    test('handles file search error', function () {
+    test('handles file search error', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['error' => 'Search failed'], 400),
@@ -105,14 +101,12 @@ describe('File Search', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('searchFiles', 'query')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Symbol Search', function () {
-    test('can search for code symbols', function () {
+describe('Symbol Search', function (): void {
+    test('can search for code symbols', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -135,14 +129,12 @@ describe('Symbol Search', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('searchSymbols', 'User')
-            ->assertSet('searchResults', function ($results) {
-                return count($results) === 2
-                    && $results[0]['name'] === 'User'
-                    && $results[0]['type'] === 'class';
-            });
+            ->assertSet('searchResults', fn ($results) => count($results) === 2
+                && $results[0]['name'] === 'User'
+                && $results[0]['type'] === 'class');
     });
 
-    test('handles empty symbol search results', function () {
+    test('handles empty symbol search results', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['results' => []], 200),
@@ -153,7 +145,7 @@ describe('Symbol Search', function () {
             ->assertSet('searchResults', []);
     });
 
-    test('handles symbol search error', function () {
+    test('handles symbol search error', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['error' => 'Search failed'], 400),
@@ -161,14 +153,12 @@ describe('Symbol Search', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('searchSymbols', 'query')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Search Mode Management', function () {
-    test('tracks current search mode', function () {
+describe('Search Mode Management', function (): void {
+    test('tracks current search mode', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
         ]);
@@ -182,7 +172,7 @@ describe('Search Mode Management', function () {
             ->assertSet('searchMode', 'symbols');
     });
 
-    test('clears results when switching modes', function () {
+    test('clears results when switching modes', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['results' => [['path' => '/test.php']]], 200), // searchText()
@@ -190,17 +180,15 @@ describe('Search Mode Management', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('searchText', 'query')
-            ->assertSet('searchResults', function ($results) {
-                return count($results) === 1;
-            })
+            ->assertSet('searchResults', fn ($results) => count($results) === 1)
             ->call('clearSearch')
             ->assertSet('searchResults', [])
             ->assertSet('searchQuery', '');
     });
 });
 
-describe('Search UI Display', function () {
-    test('shows search panel when searching', function () {
+describe('Search UI Display', function (): void {
+    test('shows search panel when searching', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['results' => [['path' => '/test.php']]], 200), // searchText()
@@ -211,7 +199,7 @@ describe('Search UI Display', function () {
             ->assertSeeHtml('search-panel');
     });
 
-    test('shows search mode tabs', function () {
+    test('shows search mode tabs', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
         ]);
@@ -223,7 +211,7 @@ describe('Search UI Display', function () {
             ->assertSeeHtml('Symbols');
     });
 
-    test('displays search results with file paths', function () {
+    test('displays search results with file paths', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -244,7 +232,7 @@ describe('Search UI Display', function () {
             ->assertSeeHtml('public function test()');
     });
 
-    test('shows line numbers in text search results', function () {
+    test('shows line numbers in text search results', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -264,7 +252,7 @@ describe('Search UI Display', function () {
             ->assertSeeHtml('42');
     });
 
-    test('shows empty state when no results', function () {
+    test('shows empty state when no results', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['results' => []], 200),
@@ -276,8 +264,8 @@ describe('Search UI Display', function () {
     });
 });
 
-describe('Search Result Actions', function () {
-    test('can open file from text search result', function () {
+describe('Search Result Actions', function (): void {
+    test('can open file from text search result', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -303,7 +291,7 @@ describe('Search Result Actions', function () {
             ->assertSet('currentFile', '/project/test.php');
     });
 
-    test('can open file from file search result', function () {
+    test('can open file from file search result', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -324,7 +312,7 @@ describe('Search Result Actions', function () {
             ->assertSet('currentFile', '/project/test.php');
     });
 
-    test('can open file from symbol search result', function () {
+    test('can open file from symbol search result', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -351,8 +339,8 @@ describe('Search Result Actions', function () {
     });
 });
 
-describe('Search Query Persistence', function () {
-    test('retains search query after search', function () {
+describe('Search Query Persistence', function (): void {
+    test('retains search query after search', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['results' => []], 200),
@@ -363,7 +351,7 @@ describe('Search Query Persistence', function () {
             ->assertSet('searchQuery', 'my query');
     });
 
-    test('clears search query when clearing search', function () {
+    test('clears search query when clearing search', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['results' => []], 200),

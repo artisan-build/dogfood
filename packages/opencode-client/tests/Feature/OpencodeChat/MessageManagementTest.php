@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeChat;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Message Display', function () {
-    test('displays user messages with correct styling', function () {
+describe('Message Display', function (): void {
+    test('displays user messages with correct styling', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -24,7 +26,7 @@ describe('Message Display', function () {
             ->assertSee('You');
     });
 
-    test('displays assistant messages with correct styling', function () {
+    test('displays assistant messages with correct styling', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -38,7 +40,7 @@ describe('Message Display', function () {
             ->assertSee('Assistant');
     });
 
-    test('displays multiple messages in order', function () {
+    test('displays multiple messages in order', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -56,8 +58,8 @@ describe('Message Display', function () {
     });
 });
 
-describe('Message History Loading', function () {
-    test('loads message history when switching to session', function () {
+describe('Message History Loading', function (): void {
+    test('loads message history when switching to session', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['id' => 'ses_123'], 200), // getSession()
@@ -79,16 +81,14 @@ describe('Message History Loading', function () {
 
         Livewire::test(OpencodeChat::class)
             ->call('switchSession', 'ses_123')
-            ->assertSet('messages', function ($messages) {
-                return count($messages) === 2
-                    && $messages[0]['role'] === 'user'
-                    && $messages[0]['content'] === 'Hello'
-                    && $messages[1]['role'] === 'assistant'
-                    && $messages[1]['content'] === 'Hi there';
-            });
+            ->assertSet('messages', fn ($messages) => count($messages) === 2
+                && $messages[0]['role'] === 'user'
+                && $messages[0]['content'] === 'Hello'
+                && $messages[1]['role'] === 'assistant'
+                && $messages[1]['content'] === 'Hi there');
     });
 
-    test('transforms API message format to display format', function () {
+    test('transforms API message format to display format', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['id' => 'ses_123'], 200), // getSession()
@@ -109,7 +109,7 @@ describe('Message History Loading', function () {
             ->assertSet('messages.0.role', 'user');
     });
 
-    test('handles messages with multiple parts', function () {
+    test('handles messages with multiple parts', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['id' => 'ses_123'], 200), // getSession()
@@ -131,7 +131,7 @@ describe('Message History Loading', function () {
             ->assertSet('messages.0.content', 'First text part');
     });
 
-    test('handles empty message history', function () {
+    test('handles empty message history', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['id' => 'ses_123'], 200), // getSession()
@@ -144,8 +144,8 @@ describe('Message History Loading', function () {
     });
 });
 
-describe('Sending Messages', function () {
-    test('can send message to active session', function () {
+describe('Sending Messages', function (): void {
+    test('can send message to active session', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -160,16 +160,14 @@ describe('Sending Messages', function () {
             ->set('messageInput', 'Test message')
             ->call('sendMessage')
             ->assertSet('messageInput', '') // Input cleared
-            ->assertSet('messages', function ($messages) {
-                return count($messages) === 2 // user message + AI response
-                    && $messages[0]['role'] === 'user'
-                    && $messages[0]['content'] === 'Test message'
-                    && $messages[1]['role'] === 'assistant'
-                    && $messages[1]['content'] === 'Response from AI';
-            });
+            ->assertSet('messages', fn ($messages) => count($messages) === 2 // user message + AI response
+                && $messages[0]['role'] === 'user'
+                && $messages[0]['content'] === 'Test message'
+                && $messages[1]['role'] === 'assistant'
+                && $messages[1]['content'] === 'Response from AI');
     });
 
-    test('validates message is not empty', function () {
+    test('validates message is not empty', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -178,12 +176,10 @@ describe('Sending Messages', function () {
             ->set('currentSessionId', 'ses_123')
             ->set('messageInput', '   ')
             ->call('sendMessage')
-            ->assertSet('error', function ($error) {
-                return $error !== null && str_contains($error, 'empty');
-            });
+            ->assertSet('error', fn ($error) => $error !== null && str_contains($error, 'empty'));
     });
 
-    test('requires active session to send message', function () {
+    test('requires active session to send message', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -192,12 +188,10 @@ describe('Sending Messages', function () {
             ->set('currentSessionId', null)
             ->set('messageInput', 'Test message')
             ->call('sendMessage')
-            ->assertSet('error', function ($error) {
-                return $error !== null && str_contains($error, 'session');
-            });
+            ->assertSet('error', fn ($error) => $error !== null && str_contains($error, 'session'));
     });
 
-    test('shows sending state while processing', function () {
+    test('shows sending state while processing', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -209,7 +203,7 @@ describe('Sending Messages', function () {
         expect($component->get('sending'))->toBeTrue();
     });
 
-    test('handles message sending error', function () {
+    test('handles message sending error', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['error' => 'API error'], 500), // sendPrompt() fails
@@ -219,14 +213,12 @@ describe('Sending Messages', function () {
             ->set('currentSessionId', 'ses_123')
             ->set('messageInput', 'Test message')
             ->call('sendMessage')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Message UI States', function () {
-    test('shows empty state when no messages', function () {
+describe('Message UI States', function (): void {
+    test('shows empty state when no messages', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -237,7 +229,7 @@ describe('Message UI States', function () {
             ->assertSee('Start the conversation');
     });
 
-    test('shows no active session state when session is null', function () {
+    test('shows no active session state when session is null', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -247,7 +239,7 @@ describe('Message UI States', function () {
             ->assertSee('No active session');
     });
 
-    test('shows thinking indicator while sending', function () {
+    test('shows thinking indicator while sending', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ArtisanBuild\OpencodeClient\Services;
 
 use ArtisanBuild\OpencodeSdk\OpenCode\OpenCode;
+use ArtisanBuild\OpencodeSdk\OpenCode\Requests\Misc\SessionPrompt;
+use Exception;
 use Saloon\Exceptions\Request\RequestException;
 
 class OpencodeService
@@ -26,8 +28,7 @@ class OpencodeService
      */
     public function createSession(?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionCreate($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionCreate($directory)
         );
     }
 
@@ -36,8 +37,7 @@ class OpencodeService
      */
     public function listSessions(?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionList($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionList($directory)
         );
     }
 
@@ -46,8 +46,7 @@ class OpencodeService
      */
     public function getSession(string $id, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionGet($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionGet($id, $directory)
         );
     }
 
@@ -56,8 +55,7 @@ class OpencodeService
      */
     public function updateSession(string $id, array $data, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionUpdate($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionUpdate($id, $directory)
         );
     }
 
@@ -66,8 +64,7 @@ class OpencodeService
      */
     public function deleteSession(string $id, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionDelete($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionDelete($id, $directory)
         );
     }
 
@@ -76,8 +73,7 @@ class OpencodeService
      */
     public function forkSession(string $id, string $messageId, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionFork($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionFork($id, $directory)
         );
     }
 
@@ -86,8 +82,7 @@ class OpencodeService
      */
     public function getSessionChildren(string $id, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionChildren($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionChildren($id, $directory)
         );
     }
 
@@ -96,8 +91,7 @@ class OpencodeService
      */
     public function getDiff(string $sessionId, string $messageId, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionDiff($sessionId, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionDiff($sessionId, $directory)
         );
     }
 
@@ -106,18 +100,20 @@ class OpencodeService
      */
     public function abortSession(string $id, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionAbort($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionAbort($id, $directory)
         );
     }
 
     /**
      * Summarize session.
      */
-    public function summarizeSession(string $id, ?string $directory = null): array
-    {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionSummarize($id, $directory)
+    public function summarizeSession(
+        string $id,
+        string $providerID = 'anthropic',
+        string $modelID = 'claude-sonnet-4-20250514',
+        ?string $directory = null
+    ): array {
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionSummarize($id, $providerID, $modelID, $directory)
         );
     }
 
@@ -126,8 +122,7 @@ class OpencodeService
      */
     public function shareSession(string $id, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionShare($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionShare($id, $directory)
         );
     }
 
@@ -136,8 +131,7 @@ class OpencodeService
      */
     public function unshareSession(string $id, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionUnshare($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionUnshare($id, $directory)
         );
     }
 
@@ -146,8 +140,7 @@ class OpencodeService
      */
     public function sendPrompt(string $id, string $prompt, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->send(new \ArtisanBuild\OpencodeSdk\OpenCode\Requests\Misc\SessionPrompt($id, $prompt, $directory))
+        return $this->handleRequest(fn () => $this->client()->send(new SessionPrompt($id, $prompt, $directory))
         );
     }
 
@@ -156,8 +149,7 @@ class OpencodeService
      */
     public function getMessages(string $id, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionMessages($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionMessages($id, $directory)
         );
     }
 
@@ -166,8 +158,7 @@ class OpencodeService
      */
     public function getMessage(string $sessionId, string $messageId, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionMessage($sessionId, $messageId, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionMessage($sessionId, $messageId, $directory)
         );
     }
 
@@ -176,8 +167,7 @@ class OpencodeService
      */
     public function getSessionDiff(string $id, ?string $messageId = null, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionDiff($id, $directory, $messageId)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionDiff($id, $directory, $messageId)
         );
     }
 
@@ -186,8 +176,7 @@ class OpencodeService
      */
     public function revertMessage(string $id, string $messageId, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionRevert($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionRevert($id, $directory)
         );
     }
 
@@ -196,8 +185,7 @@ class OpencodeService
      */
     public function unrevertMessage(string $id, string $messageId, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionUnrevert($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionUnrevert($id, $directory)
         );
     }
 
@@ -206,8 +194,7 @@ class OpencodeService
      */
     public function getTodos(string $id, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionTodo($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionTodo($id, $directory)
         );
     }
 
@@ -216,8 +203,7 @@ class OpencodeService
      */
     public function executeShell(string $id, string $command, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->sessionShell($id, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionShell($id, $command, $directory)
         );
     }
 
@@ -226,8 +212,7 @@ class OpencodeService
      */
     public function listFiles(string $path, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->fileList($directory, $path)
+        return $this->handleRequest(fn () => $this->client()->misc()->fileList($directory, $path)
         );
     }
 
@@ -236,8 +221,7 @@ class OpencodeService
      */
     public function readFile(string $path, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->fileRead($directory, $path)
+        return $this->handleRequest(fn () => $this->client()->misc()->fileRead($directory, $path)
         );
     }
 
@@ -246,8 +230,7 @@ class OpencodeService
      */
     public function getFileStatus(?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->fileStatus($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->fileStatus($directory)
         );
     }
 
@@ -256,8 +239,7 @@ class OpencodeService
      */
     public function searchText(string $pattern, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->findText($directory, $pattern)
+        return $this->handleRequest(fn () => $this->client()->misc()->findText($directory, $pattern)
         );
     }
 
@@ -266,8 +248,7 @@ class OpencodeService
      */
     public function searchFiles(string $query, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->findFiles($directory, $query)
+        return $this->handleRequest(fn () => $this->client()->misc()->findFiles($directory, $query)
         );
     }
 
@@ -276,8 +257,7 @@ class OpencodeService
      */
     public function searchSymbols(string $query, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->findSymbols($directory, $query)
+        return $this->handleRequest(fn () => $this->client()->misc()->findSymbols($directory, $query)
         );
     }
 
@@ -286,8 +266,7 @@ class OpencodeService
      */
     public function listProjects(?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->projectList($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->projectList($directory)
         );
     }
 
@@ -296,8 +275,7 @@ class OpencodeService
      */
     public function getCurrentProject(?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->projectCurrent($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->projectCurrent($directory)
         );
     }
 
@@ -306,8 +284,7 @@ class OpencodeService
      */
     public function getPath(string $path, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->pathGet($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->pathGet($directory)
         );
     }
 
@@ -316,8 +293,7 @@ class OpencodeService
      */
     public function submitTuiPrompt(string $prompt, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->tuiSubmitPrompt($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->tuiSubmitPrompt($directory)
         );
     }
 
@@ -326,8 +302,7 @@ class OpencodeService
      */
     public function appendTuiPrompt(string $text, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->tuiAppendPrompt($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->tuiAppendPrompt($directory)
         );
     }
 
@@ -336,8 +311,7 @@ class OpencodeService
      */
     public function clearTuiPrompt(?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->tuiClearPrompt($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->tuiClearPrompt($directory)
         );
     }
 
@@ -346,8 +320,7 @@ class OpencodeService
      */
     public function showTuiToast(string $message, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->tuiShowToast($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->tuiShowToast($directory)
         );
     }
 
@@ -356,8 +329,7 @@ class OpencodeService
      */
     public function executeTuiCommand(string $command, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->tuiExecuteCommand($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->tuiExecuteCommand($directory)
         );
     }
 
@@ -366,8 +338,7 @@ class OpencodeService
      */
     public function openTuiThemes(?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->tuiOpenThemes($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->tuiOpenThemes($directory)
         );
     }
 
@@ -376,8 +347,7 @@ class OpencodeService
      */
     public function openTuiModels(?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->tuiOpenModels($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->tuiOpenModels($directory)
         );
     }
 
@@ -386,8 +356,7 @@ class OpencodeService
      */
     public function openTuiHelp(?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->tuiOpenHelp($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->tuiOpenHelp($directory)
         );
     }
 
@@ -396,8 +365,7 @@ class OpencodeService
      */
     public function openTuiSessions(?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->tuiOpenSessions($directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->tuiOpenSessions($directory)
         );
     }
 
@@ -406,8 +374,7 @@ class OpencodeService
      */
     public function respondToPermission(string $sessionId, string $permissionId, ?string $directory = null): array
     {
-        return $this->handleRequest(fn() =>
-            $this->client()->misc()->postSessionIdPermissionsPermissionId($sessionId, $permissionId, $directory)
+        return $this->handleRequest(fn () => $this->client()->misc()->postSessionIdPermissionsPermissionId($sessionId, $permissionId, $directory)
         );
     }
 
@@ -418,7 +385,7 @@ class OpencodeService
     {
         // Try to list sessions as a simple connectivity check
         // If this succeeds, the TUI/server is running
-        return $this->handleRequest(fn() => $this->client()->misc()->sessionList($directory));
+        return $this->handleRequest(fn () => $this->client()->misc()->sessionList($directory));
     }
 
     /**
@@ -435,7 +402,7 @@ class OpencodeService
                 'error' => $e->getMessage(),
                 'message' => $e->getResponse()?->json('message') ?? 'Unknown error',
             ];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [
                 'error' => $e->getMessage(),
                 'message' => 'An unexpected error occurred',

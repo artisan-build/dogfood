@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeChat;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Todo Panel Toggle', function () {
-    test('can open todo panel', function () {
+describe('Todo Panel Toggle', function (): void {
+    test('can open todo panel', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -21,7 +23,7 @@ describe('Todo Panel Toggle', function () {
             ->assertSet('showTodoPanel', true);
     });
 
-    test('can close todo panel', function () {
+    test('can close todo panel', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -34,8 +36,8 @@ describe('Todo Panel Toggle', function () {
     });
 });
 
-describe('Todo Data Loading', function () {
-    test('loads todos for current session', function () {
+describe('Todo Data Loading', function (): void {
+    test('loads todos for current session', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -55,16 +57,14 @@ describe('Todo Data Loading', function () {
         Livewire::test(OpencodeChat::class)
             ->set('currentSessionId', 'ses_123')
             ->call('loadTodos')
-            ->assertSet('todos', function ($todos) {
-                return count($todos) === 2
-                    && $todos[0]['content'] === 'Implement feature X'
-                    && $todos[0]['completed'] === false
-                    && $todos[1]['content'] === 'Fix bug Y'
-                    && $todos[1]['completed'] === true;
-            });
+            ->assertSet('todos', fn ($todos) => count($todos) === 2
+                && $todos[0]['content'] === 'Implement feature X'
+                && $todos[0]['completed'] === false
+                && $todos[1]['content'] === 'Fix bug Y'
+                && $todos[1]['completed'] === true);
     });
 
-    test('handles empty todo list', function () {
+    test('handles empty todo list', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([], 200), // getTodos()
@@ -76,21 +76,19 @@ describe('Todo Data Loading', function () {
             ->assertSet('todos', []);
     });
 
-    test('requires active session to load todos', function () {
+    test('requires active session to load todos', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
 
         Livewire::test(OpencodeChat::class)
             ->call('loadTodos')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Todo Count', function () {
-    test('computes total todo count', function () {
+describe('Todo Count', function (): void {
+    test('computes total todo count', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -105,7 +103,7 @@ describe('Todo Count', function () {
         expect($component->get('todoCount'))->toBe(3);
     });
 
-    test('computes incomplete todo count', function () {
+    test('computes incomplete todo count', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -121,8 +119,8 @@ describe('Todo Count', function () {
     });
 });
 
-describe('Todo Display', function () {
-    test('shows todo panel when open', function () {
+describe('Todo Display', function (): void {
+    test('shows todo panel when open', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -138,7 +136,7 @@ describe('Todo Display', function () {
             ->assertSeeHtml('Task 1');
     });
 
-    test('displays todos as checkboxes', function () {
+    test('displays todos as checkboxes', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -156,7 +154,7 @@ describe('Todo Display', function () {
             ->assertSeeHtml('Task 2');
     });
 
-    test('shows completed state with strikethrough', function () {
+    test('shows completed state with strikethrough', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -172,8 +170,8 @@ describe('Todo Display', function () {
     });
 });
 
-describe('Todo Toggle', function () {
-    test('can toggle todo completion status', function () {
+describe('Todo Toggle', function (): void {
+    test('can toggle todo completion status', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -189,12 +187,10 @@ describe('Todo Toggle', function () {
                 ['id' => 'todo_1', 'content' => 'Task 1', 'completed' => false],
             ])
             ->call('toggleTodo', 'todo_1')
-            ->assertSet('todos', function ($todos) {
-                return $todos[0]['completed'] === true;
-            });
+            ->assertSet('todos', fn ($todos) => $todos[0]['completed'] === true);
     });
 
-    test('handles toggle error gracefully', function () {
+    test('handles toggle error gracefully', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['error' => 'Cannot toggle todo'], 400),
@@ -206,14 +202,12 @@ describe('Todo Toggle', function () {
                 ['id' => 'todo_1', 'content' => 'Task 1', 'completed' => false],
             ])
             ->call('toggleTodo', 'todo_1')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Todo Count Display', function () {
-    test('shows todo count badge in header', function () {
+describe('Todo Count Display', function (): void {
+    test('shows todo count badge in header', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);

@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeExplorer;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('File Content Loading', function () {
-    test('can load file content', function () {
+describe('File Content Loading', function (): void {
+    test('can load file content', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -23,12 +25,10 @@ describe('File Content Loading', function () {
         Livewire::test(OpencodeExplorer::class)
             ->call('viewFile', '/project/README.md')
             ->assertSet('currentFile', '/project/README.md')
-            ->assertSet('fileContent', function ($content) {
-                return str_contains($content, '# My Project');
-            });
+            ->assertSet('fileContent', fn ($content) => str_contains($content, '# My Project'));
     });
 
-    test('handles file read error', function () {
+    test('handles file read error', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['error' => 'File not found'], 404),
@@ -36,12 +36,10 @@ describe('File Content Loading', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('viewFile', '/project/missing.txt')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('can close file viewer', function () {
+    test('can close file viewer', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
         ]);
@@ -55,8 +53,8 @@ describe('File Content Loading', function () {
     });
 });
 
-describe('Syntax Highlighting', function () {
-    test('detects language from file extension', function () {
+describe('Syntax Highlighting', function (): void {
+    test('detects language from file extension', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -72,7 +70,7 @@ describe('Syntax Highlighting', function () {
         expect($component->get('fileLanguage'))->toBe('php');
     });
 
-    test('supports multiple languages', function () {
+    test('supports multiple languages', function (): void {
         // Test JavaScript
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
@@ -106,8 +104,8 @@ describe('Syntax Highlighting', function () {
     });
 });
 
-describe('Line Numbers', function () {
-    test('displays content with line numbers', function () {
+describe('Line Numbers', function (): void {
+    test('displays content with line numbers', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -122,7 +120,7 @@ describe('Line Numbers', function () {
             ->assertSeeHtml('line-numbers');
     });
 
-    test('computes line count correctly', function () {
+    test('computes line count correctly', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
         ]);
@@ -134,8 +132,8 @@ describe('Line Numbers', function () {
     });
 });
 
-describe('File Viewer UI', function () {
-    test('shows file viewer when file is loaded', function () {
+describe('File Viewer UI', function (): void {
+    test('shows file viewer when file is loaded', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
         ]);
@@ -146,7 +144,7 @@ describe('File Viewer UI', function () {
             ->assertSeeHtml('file-viewer');
     });
 
-    test('shows file path in viewer header', function () {
+    test('shows file path in viewer header', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
         ]);
@@ -157,7 +155,7 @@ describe('File Viewer UI', function () {
             ->assertSeeHtml('Controller.php');
     });
 
-    test('shows close button', function () {
+    test('shows close button', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
         ]);
@@ -169,8 +167,8 @@ describe('File Viewer UI', function () {
     });
 });
 
-describe('File Selection from Tree', function () {
-    test('clicking file in tree opens viewer', function () {
+describe('File Selection from Tree', function (): void {
+    test('clicking file in tree opens viewer', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -187,8 +185,8 @@ describe('File Selection from Tree', function () {
     });
 });
 
-describe('Empty File Handling', function () {
-    test('handles empty files gracefully', function () {
+describe('Empty File Handling', function (): void {
+    test('handles empty files gracefully', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -205,8 +203,8 @@ describe('Empty File Handling', function () {
     });
 });
 
-describe('Large File Handling', function () {
-    test('loads large files', function () {
+describe('Large File Handling', function (): void {
+    test('loads large files', function (): void {
         // Create content with exactly 1000 lines (999 newlines, plus the initial line)
         $largeContent = str_repeat("This is line content.\n", 999).'This is line content.';
 

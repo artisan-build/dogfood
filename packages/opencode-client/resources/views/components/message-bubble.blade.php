@@ -21,7 +21,8 @@
             </div>
             @if (isset($message['timestamp']))
                 <div class="text-xs {{ $message['role'] === 'user' ? 'text-blue-300' : 'text-gray-400 dark:text-gray-500' }}">
-                    {{ \Carbon\Carbon::parse($message['timestamp'])->diffForHumans() }}
+                    {{-- Convert milliseconds to seconds for Carbon --}}
+                    {{ \Carbon\Carbon::createFromTimestampMs($message['timestamp'])->diffForHumans() }}
                 </div>
             @endif
         </div>

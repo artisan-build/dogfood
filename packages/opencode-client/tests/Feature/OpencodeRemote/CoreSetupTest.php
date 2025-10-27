@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeRemote;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Component Mounting', function () {
-    test('can mount the component', function () {
+describe('Component Mounting', function (): void {
+    test('can mount the component', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // TUI status check
         ]);
@@ -19,7 +21,7 @@ describe('Component Mounting', function () {
             ->assertStatus(200);
     });
 
-    test('initializes with default properties', function () {
+    test('initializes with default properties', function (): void {
         MockClient::global([
             MockResponse::make(['error' => 'Connection refused'], 500),
         ]);
@@ -30,7 +32,7 @@ describe('Component Mounting', function () {
             ->assertSet('tuiStatus', null);
     });
 
-    test('checks TUI connection on mount', function () {
+    test('checks TUI connection on mount', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running', 'version' => '1.0.0'], 200),
         ]);
@@ -42,8 +44,8 @@ describe('Component Mounting', function () {
     });
 });
 
-describe('TUI Connection Status', function () {
-    test('detects when TUI is running', function () {
+describe('TUI Connection Status', function (): void {
+    test('detects when TUI is running', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount()
             MockResponse::make(['status' => 'running'], 200), // checkTuiConnection()
@@ -55,7 +57,7 @@ describe('TUI Connection Status', function () {
             ->assertSet('tuiStatus', 'running');
     });
 
-    test('detects when TUI is not running', function () {
+    test('detects when TUI is not running', function (): void {
         MockClient::global([
             MockResponse::make(['error' => 'Connection refused'], 500),
         ]);
@@ -65,7 +67,7 @@ describe('TUI Connection Status', function () {
             ->assertSet('tuiConnected', false);
     });
 
-    test('handles TUI connection timeout', function () {
+    test('handles TUI connection timeout', function (): void {
         MockClient::global([
             MockResponse::make(['error' => 'Request timeout'], 504),
         ]);
@@ -73,12 +75,10 @@ describe('TUI Connection Status', function () {
         Livewire::test(OpencodeRemote::class)
             ->call('checkTuiConnection')
             ->assertSet('tuiConnected', false)
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('can manually refresh connection status', function () {
+    test('can manually refresh connection status', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount
             MockResponse::make(['status' => 'running'], 200), // manual refresh
@@ -90,8 +90,8 @@ describe('TUI Connection Status', function () {
     });
 });
 
-describe('Error Handling', function () {
-    test('shows error message when TUI is not running', function () {
+describe('Error Handling', function (): void {
+    test('shows error message when TUI is not running', function (): void {
         MockClient::global([
             MockResponse::make(['error' => 'Connection refused'], 500),
         ]);
@@ -101,7 +101,7 @@ describe('Error Handling', function () {
             ->assertSeeHtml('TUI is not running');
     });
 
-    test('shows connection instructions when TUI is not available', function () {
+    test('shows connection instructions when TUI is not available', function (): void {
         MockClient::global([
             MockResponse::make(['error' => 'Connection refused'], 500),
         ]);
@@ -110,7 +110,7 @@ describe('Error Handling', function () {
             ->assertSeeHtml('Start the OpenCode TUI');
     });
 
-    test('error message includes server URL', function () {
+    test('error message includes server URL', function (): void {
         MockClient::global([
             MockResponse::make(['error' => 'Connection refused'], 500),
         ]);
@@ -119,7 +119,7 @@ describe('Error Handling', function () {
             ->assertSeeHtml('http://127.0.0.1:64415');
     });
 
-    test('can clear error messages', function () {
+    test('can clear error messages', function (): void {
         MockClient::global([
             MockResponse::make(['error' => 'Connection refused'], 500), // mount()
             MockResponse::make(['error' => 'Connection refused'], 500), // First checkTuiConnection() - sets error
@@ -128,16 +128,14 @@ describe('Error Handling', function () {
 
         Livewire::test(OpencodeRemote::class)
             ->call('checkTuiConnection') // Sets error
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            })
+            ->assertSet('error', fn ($error) => $error !== null)
             ->call('checkTuiConnection') // Clears and succeeds
             ->assertSet('error', null);
     });
 });
 
-describe('Layout Sections', function () {
-    test('displays header with title', function () {
+describe('Layout Sections', function (): void {
+    test('displays header with title', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -146,7 +144,7 @@ describe('Layout Sections', function () {
             ->assertSeeHtml('TUI Remote Control');
     });
 
-    test('displays connection status indicator', function () {
+    test('displays connection status indicator', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -156,7 +154,7 @@ describe('Layout Sections', function () {
             ->assertSeeHtml('connection-status');
     });
 
-    test('shows connected status when TUI is running', function () {
+    test('shows connected status when TUI is running', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount()
             MockResponse::make(['status' => 'running'], 200), // checkTuiConnection()
@@ -167,7 +165,7 @@ describe('Layout Sections', function () {
             ->assertSeeHtml('Connected');
     });
 
-    test('shows disconnected status when TUI is not running', function () {
+    test('shows disconnected status when TUI is not running', function (): void {
         MockClient::global([
             MockResponse::make(['error' => 'Connection refused'], 500),
         ]);
@@ -177,7 +175,7 @@ describe('Layout Sections', function () {
             ->assertSeeHtml('Disconnected');
     });
 
-    test('has main content sections container', function () {
+    test('has main content sections container', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -187,8 +185,8 @@ describe('Layout Sections', function () {
     });
 });
 
-describe('Projector-Optimized Styling', function () {
-    test('uses large text for projector visibility', function () {
+describe('Projector-Optimized Styling', function (): void {
+    test('uses large text for projector visibility', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -197,7 +195,7 @@ describe('Projector-Optimized Styling', function () {
             ->assertSeeHtml('text-2xl');
     });
 
-    test('has high contrast colors for visibility', function () {
+    test('has high contrast colors for visibility', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -207,7 +205,7 @@ describe('Projector-Optimized Styling', function () {
             ->assertSeeHtml('dark:bg-gray-800');
     });
 
-    test('connection status uses color coding', function () {
+    test('connection status uses color coding', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount()
             MockResponse::make(['status' => 'running'], 200), // checkTuiConnection()
@@ -219,8 +217,8 @@ describe('Projector-Optimized Styling', function () {
     });
 });
 
-describe('Refresh Functionality', function () {
-    test('has refresh button for connection status', function () {
+describe('Refresh Functionality', function (): void {
+    test('has refresh button for connection status', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200),
         ]);
@@ -229,7 +227,7 @@ describe('Refresh Functionality', function () {
             ->assertSeeHtml('checkTuiConnection');
     });
 
-    test('refresh button updates connection status', function () {
+    test('refresh button updates connection status', function (): void {
         MockClient::global([
             MockResponse::make(['status' => 'running'], 200), // mount
             MockResponse::make(['error' => 'Connection refused'], 500), // first check

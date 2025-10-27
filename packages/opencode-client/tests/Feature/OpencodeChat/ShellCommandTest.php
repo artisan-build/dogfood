@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeChat;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Shell Command Execution', function () {
-    test('can execute shell command', function () {
+describe('Shell Command Execution', function (): void {
+    test('can execute shell command', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -24,13 +26,11 @@ describe('Shell Command Execution', function () {
             ->set('currentSessionId', 'ses_123')
             ->set('shellCommand', 'ls -la')
             ->call('executeShellCommand')
-            ->assertSet('shellOutput', function ($output) {
-                return $output !== null && str_contains($output, 'total 48');
-            })
+            ->assertSet('shellOutput', fn ($output) => $output !== null && str_contains($output, 'total 48'))
             ->assertSet('shellCommand', ''); // Input cleared after execution
     });
 
-    test('handles shell command error', function () {
+    test('handles shell command error', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['error' => 'Command failed'], 400),
@@ -40,12 +40,10 @@ describe('Shell Command Execution', function () {
             ->set('currentSessionId', 'ses_123')
             ->set('shellCommand', 'invalid-command')
             ->call('executeShellCommand')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('requires active session to execute commands', function () {
+    test('requires active session to execute commands', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -53,12 +51,10 @@ describe('Shell Command Execution', function () {
         Livewire::test(OpencodeChat::class)
             ->set('shellCommand', 'ls')
             ->call('executeShellCommand')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('validates command is not empty', function () {
+    test('validates command is not empty', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -67,14 +63,12 @@ describe('Shell Command Execution', function () {
             ->set('currentSessionId', 'ses_123')
             ->set('shellCommand', '   ')
             ->call('executeShellCommand')
-            ->assertSet('error', function ($error) {
-                return $error !== null && str_contains($error, 'empty');
-            });
+            ->assertSet('error', fn ($error) => $error !== null && str_contains($error, 'empty'));
     });
 });
 
-describe('Dangerous Commands Detection', function () {
-    test('detects rm command as dangerous', function () {
+describe('Dangerous Commands Detection', function (): void {
+    test('detects rm command as dangerous', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -87,7 +81,7 @@ describe('Dangerous Commands Detection', function () {
             ->assertSet('pendingCommand', 'rm -rf /');
     });
 
-    test('detects sudo command as dangerous', function () {
+    test('detects sudo command as dangerous', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -99,7 +93,7 @@ describe('Dangerous Commands Detection', function () {
             ->assertSet('showDangerousCommandModal', true);
     });
 
-    test('can confirm dangerous command execution', function () {
+    test('can confirm dangerous command execution', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -115,12 +109,10 @@ describe('Dangerous Commands Detection', function () {
             ->call('confirmDangerousCommand')
             ->assertSet('showDangerousCommandModal', false)
             ->assertSet('pendingCommand', null)
-            ->assertSet('shellOutput', function ($output) {
-                return $output !== null;
-            });
+            ->assertSet('shellOutput', fn ($output) => $output !== null);
     });
 
-    test('can cancel dangerous command execution', function () {
+    test('can cancel dangerous command execution', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -135,8 +127,8 @@ describe('Dangerous Commands Detection', function () {
     });
 });
 
-describe('Shell Output Display', function () {
-    test('displays shell output in chat area', function () {
+describe('Shell Output Display', function (): void {
+    test('displays shell output in chat area', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -148,7 +140,7 @@ describe('Shell Output Display', function () {
             ->assertSeeHtml('Command executed successfully');
     });
 
-    test('shows loading state while executing', function () {
+    test('shows loading state while executing', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -160,7 +152,7 @@ describe('Shell Output Display', function () {
         expect($component->get('executingCommand'))->toBe(true);
     });
 
-    test('clears output when executing new command', function () {
+    test('clears output when executing new command', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -175,14 +167,12 @@ describe('Shell Output Display', function () {
             ->set('shellOutput', 'Previous output')
             ->set('shellCommand', 'pwd')
             ->call('executeShellCommand')
-            ->assertSet('shellOutput', function ($output) {
-                return ! str_contains($output, 'Previous output');
-            });
+            ->assertSet('shellOutput', fn ($output) => ! str_contains($output, 'Previous output'));
     });
 });
 
-describe('Shell Command UI', function () {
-    test('shows shell command input when session active', function () {
+describe('Shell Command UI', function (): void {
+    test('shows shell command input when session active', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -193,7 +183,7 @@ describe('Shell Command UI', function () {
             ->assertSeeHtml('shell-command-input');
     });
 
-    test('shows dangerous command modal', function () {
+    test('shows dangerous command modal', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);

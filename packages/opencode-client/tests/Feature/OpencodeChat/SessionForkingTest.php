@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeChat;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Session Forking', function () {
-    test('can fork session from message', function () {
+describe('Session Forking', function (): void {
+    test('can fork session from message', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -28,12 +30,10 @@ describe('Session Forking', function () {
             ->set('currentSessionId', 'ses_original_123')
             ->call('forkSession', 'msg_123')
             ->assertSet('currentSessionId', 'ses_forked_123')
-            ->assertSet('successMessage', function ($message) {
-                return $message !== null && str_contains($message, 'fork');
-            });
+            ->assertSet('successMessage', fn ($message) => $message !== null && str_contains($message, 'fork'));
     });
 
-    test('handles fork error gracefully', function () {
+    test('handles fork error gracefully', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['error' => 'Cannot fork session'], 400), // forkSession() fails
@@ -42,12 +42,10 @@ describe('Session Forking', function () {
         Livewire::test(OpencodeChat::class)
             ->set('currentSessionId', 'ses_123')
             ->call('forkSession', 'msg_123')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 
-    test('switches to forked session after creation', function () {
+    test('switches to forked session after creation', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -67,8 +65,8 @@ describe('Session Forking', function () {
     });
 });
 
-describe('Session Children Loading', function () {
-    test('loads child sessions when present', function () {
+describe('Session Children Loading', function (): void {
+    test('loads child sessions when present', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_parent'],
@@ -86,15 +84,13 @@ describe('Session Children Loading', function () {
         ]);
 
         Livewire::test(OpencodeChat::class)
-            ->assertSet('sessions', function ($sessions) {
-                return count($sessions) === 3
-                    && $sessions[0]['id'] === 'ses_parent'
-                    && $sessions[1]['parent_id'] === 'ses_parent'
-                    && $sessions[2]['parent_id'] === 'ses_parent';
-            });
+            ->assertSet('sessions', fn ($sessions) => count($sessions) === 3
+                && $sessions[0]['id'] === 'ses_parent'
+                && $sessions[1]['parent_id'] === 'ses_parent'
+                && $sessions[2]['parent_id'] === 'ses_parent');
     });
 
-    test('identifies parent-child relationships', function () {
+    test('identifies parent-child relationships', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_1'],
@@ -110,8 +106,8 @@ describe('Session Children Loading', function () {
     });
 });
 
-describe('Session Hierarchy Display', function () {
-    test('displays parent sessions at root level', function () {
+describe('Session Hierarchy Display', function (): void {
+    test('displays parent sessions at root level', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_parent', 'name' => 'Parent Session'],
@@ -122,7 +118,7 @@ describe('Session Hierarchy Display', function () {
             ->assertSee('Parent Session');
     });
 
-    test('displays child sessions with indentation', function () {
+    test('displays child sessions with indentation', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_parent', 'name' => 'Parent'],
@@ -139,7 +135,7 @@ describe('Session Hierarchy Display', function () {
             ->assertSee('Child');
     });
 
-    test('shows fork indicator for child sessions', function () {
+    test('shows fork indicator for child sessions', function (): void {
         MockClient::global([
             '*' => MockResponse::make([
                 ['id' => 'ses_parent'],
@@ -164,8 +160,8 @@ describe('Session Hierarchy Display', function () {
     });
 });
 
-describe('Fork Button Display', function () {
-    test('fork button appears on hover for assistant messages', function () {
+describe('Fork Button Display', function (): void {
+    test('fork button appears on hover for assistant messages', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -182,7 +178,7 @@ describe('Fork Button Display', function () {
             ->assertSee('Fork from here');
     });
 
-    test('fork button not shown for user messages', function () {
+    test('fork button not shown for user messages', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -199,7 +195,7 @@ describe('Fork Button Display', function () {
             ->assertDontSee('Fork from here');
     });
 
-    test('fork button not shown for messages without ID', function () {
+    test('fork button not shown for messages without ID', function (): void {
         MockClient::global([
             '*' => MockResponse::make([], 200),
         ]);
@@ -217,8 +213,8 @@ describe('Fork Button Display', function () {
     });
 });
 
-describe('Session Navigation', function () {
-    test('can switch to child session', function () {
+describe('Session Navigation', function (): void {
+    test('can switch to child session', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -234,7 +230,7 @@ describe('Session Navigation', function () {
             ->assertSet('currentSessionId', 'ses_child');
     });
 
-    test('can switch back to parent session', function () {
+    test('can switch back to parent session', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([

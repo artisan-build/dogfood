@@ -43,6 +43,22 @@
                     Browse project files and directories
                 </p>
             </div>
+
+            {{-- Action Buttons --}}
+            <div class="flex items-center gap-2">
+                <flux:button
+                    wire:click="$toggle('showSearch')"
+                    variant="ghost">
+                    <flux:icon.magnifying-glass class="w-5 h-5" />
+                    Search
+                </flux:button>
+                <flux:button
+                    wire:click="loadFileStatuses"
+                    variant="ghost">
+                    <flux:icon.arrow-path class="w-5 h-5" />
+                    Refresh
+                </flux:button>
+            </div>
         </div>
 
         {{-- Breadcrumb Navigation --}}

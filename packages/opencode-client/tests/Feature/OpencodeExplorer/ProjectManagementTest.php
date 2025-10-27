@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeExplorer;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Project List Loading', function () {
-    test('can load list of available projects', function () {
+describe('Project List Loading', function (): void {
+    test('can load list of available projects', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -24,13 +26,11 @@ describe('Project List Loading', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('loadProjects')
-            ->assertSet('availableProjects', function ($projects) {
-                return count($projects) === 3
-                    && $projects[0]['name'] === 'Project 1';
-            });
+            ->assertSet('availableProjects', fn ($projects) => count($projects) === 3
+                && $projects[0]['name'] === 'Project 1');
     });
 
-    test('handles empty project list', function () {
+    test('handles empty project list', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['projects' => []], 200),
@@ -41,7 +41,7 @@ describe('Project List Loading', function () {
             ->assertSet('availableProjects', []);
     });
 
-    test('handles project list error', function () {
+    test('handles project list error', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['error' => 'Cannot list projects'], 400),
@@ -49,14 +49,12 @@ describe('Project List Loading', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('loadProjects')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Current Project', function () {
-    test('can get current project', function () {
+describe('Current Project', function (): void {
+    test('can get current project', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -69,12 +67,10 @@ describe('Current Project', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('loadCurrentProject')
-            ->assertSet('currentProject', function ($project) {
-                return $project['name'] === 'Current Project';
-            });
+            ->assertSet('currentProject', fn ($project) => $project['name'] === 'Current Project');
     });
 
-    test('handles no current project', function () {
+    test('handles no current project', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['project' => null], 200),
@@ -85,7 +81,7 @@ describe('Current Project', function () {
             ->assertSet('currentProject', null);
     });
 
-    test('handles current project error', function () {
+    test('handles current project error', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['error' => 'Cannot get current project'], 400),
@@ -93,14 +89,12 @@ describe('Current Project', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('loadCurrentProject')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Project Switching', function () {
-    test('can switch to a different project', function () {
+describe('Project Switching', function (): void {
+    test('can switch to a different project', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['files' => []], 200), // loadFiles() after switch
@@ -111,13 +105,11 @@ describe('Project Switching', function () {
                 ['path' => '/home/user/new-project', 'name' => 'New Project'],
             ])
             ->call('switchProject', '/home/user/new-project')
-            ->assertSet('currentProject', function ($project) {
-                return $project['path'] === '/home/user/new-project';
-            })
+            ->assertSet('currentProject', fn ($project) => $project['path'] === '/home/user/new-project')
             ->assertSet('currentPath', '/');
     });
 
-    test('refreshes file tree after project switch', function () {
+    test('refreshes file tree after project switch', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -132,12 +124,10 @@ describe('Project Switching', function () {
                 ['path' => '/new', 'name' => 'New Project'],
             ])
             ->call('switchProject', '/new')
-            ->assertSet('files', function ($files) {
-                return count($files) === 1 && $files[0]['name'] === 'new-file.php';
-            });
+            ->assertSet('files', fn ($files) => count($files) === 1 && $files[0]['name'] === 'new-file.php');
     });
 
-    test('handles project switch error', function () {
+    test('handles project switch error', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['error' => 'Project not found'], 404),
@@ -145,14 +135,12 @@ describe('Project Switching', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('switchProject', '/invalid/path')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Project Dropdown UI', function () {
-    test('shows project dropdown when projects loaded', function () {
+describe('Project Dropdown UI', function (): void {
+    test('shows project dropdown when projects loaded', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
         ]);
@@ -167,7 +155,7 @@ describe('Project Dropdown UI', function () {
             ->assertSeeHtml('project-dropdown');
     });
 
-    test('displays current project name in header', function () {
+    test('displays current project name in header', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
         ]);
@@ -177,7 +165,7 @@ describe('Project Dropdown UI', function () {
             ->assertSeeHtml('My Project');
     });
 
-    test('shows all available projects in dropdown', function () {
+    test('shows all available projects in dropdown', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
         ]);
@@ -195,7 +183,7 @@ describe('Project Dropdown UI', function () {
             ->assertSeeHtml('Project 3');
     });
 
-    test('can toggle project dropdown', function () {
+    test('can toggle project dropdown', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200),
         ]);
@@ -209,8 +197,8 @@ describe('Project Dropdown UI', function () {
     });
 });
 
-describe('Breadcrumbs After Project Switch', function () {
-    test('resets breadcrumbs to root after project switch', function () {
+describe('Breadcrumbs After Project Switch', function (): void {
+    test('resets breadcrumbs to root after project switch', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['files' => []], 200), // loadFiles()
@@ -230,8 +218,8 @@ describe('Breadcrumbs After Project Switch', function () {
     });
 });
 
-describe('Project Switcher Integration', function () {
-    test('loads projects automatically on mount when configured', function () {
+describe('Project Switcher Integration', function (): void {
+    test('loads projects automatically on mount when configured', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
         ]);
@@ -242,7 +230,7 @@ describe('Project Switcher Integration', function () {
         expect($component->get('availableProjects'))->toBe([]);
     });
 
-    test('can manually trigger project list load', function () {
+    test('can manually trigger project list load', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make([
@@ -254,14 +242,12 @@ describe('Project Switcher Integration', function () {
 
         Livewire::test(OpencodeExplorer::class)
             ->call('loadProjects')
-            ->assertSet('availableProjects', function ($projects) {
-                return count($projects) === 1;
-            });
+            ->assertSet('availableProjects', fn ($projects) => count($projects) === 1);
     });
 });
 
-describe('Project Path Handling', function () {
-    test('handles relative paths correctly', function () {
+describe('Project Path Handling', function (): void {
+    test('handles relative paths correctly', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['files' => []], 200), // loadFiles()
@@ -272,12 +258,10 @@ describe('Project Path Handling', function () {
                 ['path' => '~/projects/my-project', 'name' => 'My Project'],
             ])
             ->call('switchProject', '~/projects/my-project')
-            ->assertSet('currentProject', function ($project) {
-                return $project['path'] === '~/projects/my-project';
-            });
+            ->assertSet('currentProject', fn ($project) => $project['path'] === '~/projects/my-project');
     });
 
-    test('handles absolute paths correctly', function () {
+    test('handles absolute paths correctly', function (): void {
         MockClient::global([
             MockResponse::make(['files' => []], 200), // mount()
             MockResponse::make(['files' => []], 200), // loadFiles()
@@ -288,8 +272,6 @@ describe('Project Path Handling', function () {
                 ['path' => '/home/user/absolute/path', 'name' => 'Absolute Project'],
             ])
             ->call('switchProject', '/home/user/absolute/path')
-            ->assertSet('currentProject', function ($project) {
-                return $project['path'] === '/home/user/absolute/path';
-            });
+            ->assertSet('currentProject', fn ($project) => $project['path'] === '/home/user/absolute/path');
     });
 });

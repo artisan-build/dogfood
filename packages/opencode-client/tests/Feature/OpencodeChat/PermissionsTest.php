@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeChat;
 use Livewire\Livewire;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-beforeEach(function () {
+beforeEach(function (): void {
     MockClient::destroyGlobal();
 });
 
-describe('Permission State Management', function () {
-    test('can set pending permissions manually', function () {
+describe('Permission State Management', function (): void {
+    test('can set pending permissions manually', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -24,13 +26,11 @@ describe('Permission State Management', function () {
                     'status' => 'pending',
                 ],
             ])
-            ->assertSet('pendingPermissions', function ($permissions) {
-                return count($permissions) === 1
-                    && $permissions[0]['type'] === 'file_write';
-            });
+            ->assertSet('pendingPermissions', fn ($permissions) => count($permissions) === 1
+                && $permissions[0]['type'] === 'file_write');
     });
 
-    test('handles empty permission list', function () {
+    test('handles empty permission list', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -41,8 +41,8 @@ describe('Permission State Management', function () {
     });
 });
 
-describe('Permission Approval', function () {
-    test('can approve permission', function () {
+describe('Permission Approval', function (): void {
+    test('can approve permission', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -62,7 +62,7 @@ describe('Permission Approval', function () {
             });
     });
 
-    test('handles approval error', function () {
+    test('handles approval error', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['error' => 'Cannot approve permission'], 400),
@@ -74,14 +74,12 @@ describe('Permission Approval', function () {
                 ['id' => 'perm_1', 'type' => 'file_write', 'resource' => '/file.txt', 'status' => 'pending'],
             ])
             ->call('approvePermission', 'perm_1')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Permission Denial', function () {
-    test('can deny permission', function () {
+describe('Permission Denial', function (): void {
+    test('can deny permission', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make([
@@ -101,7 +99,7 @@ describe('Permission Denial', function () {
             });
     });
 
-    test('handles denial error', function () {
+    test('handles denial error', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['error' => 'Cannot deny permission'], 400),
@@ -113,14 +111,12 @@ describe('Permission Denial', function () {
                 ['id' => 'perm_1', 'type' => 'file_write', 'resource' => '/file.txt', 'status' => 'pending'],
             ])
             ->call('denyPermission', 'perm_1')
-            ->assertSet('error', function ($error) {
-                return $error !== null;
-            });
+            ->assertSet('error', fn ($error) => $error !== null);
     });
 });
 
-describe('Permission Modal Display', function () {
-    test('shows permission modal when permissions pending', function () {
+describe('Permission Modal Display', function (): void {
+    test('shows permission modal when permissions pending', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -135,7 +131,7 @@ describe('Permission Modal Display', function () {
             ->assertSeeHtml('/file.txt');
     });
 
-    test('displays permission type and resource', function () {
+    test('displays permission type and resource', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -155,7 +151,7 @@ describe('Permission Modal Display', function () {
             ->assertSeeHtml('rm -rf /tmp/*');
     });
 
-    test('shows approve and deny buttons', function () {
+    test('shows approve and deny buttons', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -171,8 +167,8 @@ describe('Permission Modal Display', function () {
     });
 });
 
-describe('Multiple Permissions', function () {
-    test('handles multiple pending permissions', function () {
+describe('Multiple Permissions', function (): void {
+    test('handles multiple pending permissions', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -190,7 +186,7 @@ describe('Multiple Permissions', function () {
             ->assertSeeHtml('git push');
     });
 
-    test('approving one permission keeps others pending', function () {
+    test('approving one permission keeps others pending', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
             MockResponse::make(['id' => 'perm_1', 'status' => 'approved'], 200),
@@ -203,14 +199,12 @@ describe('Multiple Permissions', function () {
                 ['id' => 'perm_2', 'type' => 'file_write', 'resource' => '/file2.txt', 'status' => 'pending'],
             ])
             ->call('approvePermission', 'perm_1')
-            ->assertSet('pendingPermissions', function ($permissions) {
-                return count($permissions) === 1 && $permissions[0]['id'] === 'perm_2';
-            });
+            ->assertSet('pendingPermissions', fn ($permissions) => count($permissions) === 1 && $permissions[0]['id'] === 'perm_2');
     });
 });
 
-describe('Permission Badge Counter', function () {
-    test('computes pending permission count', function () {
+describe('Permission Badge Counter', function (): void {
+    test('computes pending permission count', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);
@@ -225,7 +219,7 @@ describe('Permission Badge Counter', function () {
         expect($component->get('pendingPermissionCount'))->toBe(3);
     });
 
-    test('shows permission count badge when permissions pending', function () {
+    test('shows permission count badge when permissions pending', function (): void {
         MockClient::global([
             MockResponse::make([], 200), // mount()
         ]);

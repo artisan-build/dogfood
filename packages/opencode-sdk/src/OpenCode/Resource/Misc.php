@@ -168,10 +168,12 @@ class Misc extends BaseResource
 
     /**
      * @param  string  $id  Session ID
+     * @param  string  $providerID  AI provider ID
+     * @param  string  $modelID  Model ID
      */
-    public function sessionSummarize(string $id, ?string $directory = null): Response
+    public function sessionSummarize(string $id, string $providerID, string $modelID, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionSummarize($id, $directory));
+        return $this->connector->send(new SessionSummarize($id, $providerID, $modelID, $directory));
     }
 
     /**
@@ -209,10 +211,11 @@ class Misc extends BaseResource
 
     /**
      * @param  string  $id  Session ID
+     * @param  string  $command  The shell command to execute
      */
-    public function sessionShell(string $id, ?string $directory = null): Response
+    public function sessionShell(string $id, string $command, ?string $directory = null): Response
     {
-        return $this->connector->send(new SessionShell($id, $directory));
+        return $this->connector->send(new SessionShell($id, $command, $directory));
     }
 
     public function sessionRevert(string $id, ?string $directory = null): Response

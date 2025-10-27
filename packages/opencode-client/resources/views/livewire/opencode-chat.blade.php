@@ -221,6 +221,34 @@
                     </div>
                 </div>
             @endif
+
+            {{-- Share URL Display --}}
+            @if ($shareUrl)
+                <div class="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded">
+                    <div class="flex items-start gap-3">
+                        <flux:icon.link class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                        <div class="flex-1 min-w-0">
+                            <div class="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">
+                                Shareable Link
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <code class="flex-1 text-xs bg-white dark:bg-gray-800 px-2 py-1 rounded border border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 truncate">
+                                    {{ $shareUrl }}
+                                </code>
+                                <flux:button
+                                    onclick="navigator.clipboard.writeText('{{ $shareUrl }}'); this.textContent = 'Copied!'; setTimeout(() => this.textContent = 'Copy', 2000)"
+                                    size="sm"
+                                    variant="primary">
+                                    Copy
+                                </flux:button>
+                            </div>
+                            <p class="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                                Share this link to give others access to this session
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
 
         {{-- Messages Area --}}
