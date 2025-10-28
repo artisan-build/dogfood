@@ -5,7 +5,7 @@ declare(strict_types=1);
 use ArtisanBuild\GH\GH;
 use Illuminate\Support\Facades\Process;
 
-beforeEach(fn () => Process::fake());
+beforeEach(Process::fake(...));
 describe('The repo command', function (): void {
     it('calls the edit command correctly', function (): void {
         GH::repo('artisan-build/test')->edit();

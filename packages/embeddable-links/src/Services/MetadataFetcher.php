@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\EmbeddableLinks\Services;
 
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -23,7 +24,7 @@ class MetadataFetcher
             $crawler = new Crawler($html);
 
             return $this->extractMetadata($crawler, $url);
-        } catch (\Exception) {
+        } catch (Exception) {
             return $this->getDefaultMetadata($url);
         }
     }
@@ -54,14 +55,14 @@ class MetadataFetcher
                     return $content;
                 }
             }
-        } catch (\Exception) {
+        } catch (Exception) {
             // Continue to fallback
         }
 
         // Fall back to title tag
         try {
             return $crawler->filter('title')->text();
-        } catch (\Exception) {
+        } catch (Exception) {
             return null;
         }
     }
@@ -77,7 +78,7 @@ class MetadataFetcher
                     return $content;
                 }
             }
-        } catch (\Exception) {
+        } catch (Exception) {
             // Continue to fallback
         }
 
@@ -90,7 +91,7 @@ class MetadataFetcher
                     return $content;
                 }
             }
-        } catch (\Exception) {
+        } catch (Exception) {
             // Continue to fallback
         }
 
@@ -99,7 +100,7 @@ class MetadataFetcher
             $firstParagraph = $crawler->filter('p')->first()->text();
 
             return $this->truncateText($firstParagraph, 200);
-        } catch (\Exception) {
+        } catch (Exception) {
             return null;
         }
     }
@@ -111,7 +112,7 @@ class MetadataFetcher
             if ($ogImage->count() > 0) {
                 return $ogImage->attr('content');
             }
-        } catch (\Exception) {
+        } catch (Exception) {
             // No image found
         }
 

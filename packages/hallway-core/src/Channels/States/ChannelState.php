@@ -30,12 +30,12 @@ class ChannelState extends State
 
     public function members(): Collection
     {
-        return collect($this->member_ids)->map(fn (int $id) => MemberState::load($id));
+        return collect($this->member_ids)->map(MemberState::load(...));
     }
 
     public function messages(): Collection
     {
-        return collect($this->message_ids)->map(fn (int $id) => MessageState::load($id));
+        return collect($this->message_ids)->map(MessageState::load(...));
     }
 
     public function availableToMember(): bool

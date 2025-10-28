@@ -5,7 +5,7 @@
     class="block no-underline hover:opacity-90 transition-opacity"
 >
     <flux:card class="embeddable-link-card cursor-pointer">
-        @if(isset($metadata['image']))
+        @if (isset($metadata['image']))
             <img
                 src="{{ $metadata['image'] }}"
                 alt="{{ $metadata['title'] ?? 'Link preview' }}"
@@ -18,7 +18,7 @@
                 {{ $metadata['title'] ?? 'Untitled' }}
             </flux:heading>
 
-            @if(isset($metadata['description']))
+            @if (isset($metadata['description']))
                 <flux:text class="text-gray-600 dark:text-gray-400 mb-3">
                     {{ $metadata['description'] }}
                 </flux:text>

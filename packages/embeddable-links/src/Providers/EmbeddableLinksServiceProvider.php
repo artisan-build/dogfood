@@ -8,6 +8,7 @@ use ArtisanBuild\EmbeddableLinks\Services\CacheManager;
 use ArtisanBuild\EmbeddableLinks\Services\EmbedManager;
 use ArtisanBuild\EmbeddableLinks\Services\MetadataFetcher;
 use ArtisanBuild\EmbeddableLinks\Services\UrlParser;
+use ArtisanBuild\EmbeddableLinks\View\Components\Embed;
 use Illuminate\Support\ServiceProvider;
 use Override;
 
@@ -37,7 +38,7 @@ class EmbeddableLinksServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'embeddable-links');
 
         $this->loadViewComponentsAs('embeddable-links', [
-            \ArtisanBuild\EmbeddableLinks\View\Components\Embed::class,
+            Embed::class,
         ]);
 
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');

@@ -43,7 +43,7 @@ class MessageState extends State
 
     public function attachments()
     {
-        return collect($this->attachment_ids)->map(fn ($id) => AttachmentState::load($id));
+        return collect($this->attachment_ids)->map(AttachmentState::load(...));
     }
 
     public function pinned_by(): ?MemberState

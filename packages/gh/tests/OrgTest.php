@@ -5,7 +5,7 @@ declare(strict_types=1);
 use ArtisanBuild\GH\GH;
 use Illuminate\Support\Facades\Process;
 
-beforeEach(fn () => Process::fake());
+beforeEach(Process::fake(...));
 
 describe('The org command', function (): void {
 

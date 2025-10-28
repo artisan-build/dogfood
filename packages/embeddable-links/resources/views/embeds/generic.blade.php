@@ -10,7 +10,7 @@
                 {{ $metadata['title'] ?? 'Untitled Page' }}
             </flux:heading>
 
-            @if(isset($metadata['description']))
+            @if (isset($metadata['description']))
                 <flux:text class="text-gray-600 dark:text-gray-400 mb-3">
                     {{ $metadata['description'] }}
                 </flux:text>

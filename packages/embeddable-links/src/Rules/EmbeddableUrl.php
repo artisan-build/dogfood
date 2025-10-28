@@ -6,16 +6,12 @@ namespace ArtisanBuild\EmbeddableLinks\Rules;
 
 use ArtisanBuild\EmbeddableLinks\Services\UrlParser;
 use Closure;
+use Exception;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class EmbeddableUrl implements ValidationRule
 {
-    protected array $allowedServices = [];
-
-    public function __construct(array $allowedServices = [])
-    {
-        $this->allowedServices = $allowedServices;
-    }
+    public function __construct(protected array $allowedServices = []) {}
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
@@ -38,7 +34,7 @@ class EmbeddableUrl implements ValidationRule
                 $services = implode(', ', $this->allowedServices);
                 $fail("The {$attribute} must be a URL from one of these services: {$services}.");
             }
-        } catch (\Exception) {
+        } catch (Exception) {
             $fail("The {$attribute} could not be parsed.");
         }
     }

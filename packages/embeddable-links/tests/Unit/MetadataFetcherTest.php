@@ -97,7 +97,7 @@ test('handles HTTP errors gracefully', function (): void {
 });
 
 test('handles timeouts gracefully', function (): void {
-    Http::fake(fn () => throw new \Exception('Timeout'));
+    Http::fake(fn () => throw new Exception('Timeout'));
 
     $fetcher = new MetadataFetcher;
     $metadata = $fetcher->fetch('https://example.com/timeout');
