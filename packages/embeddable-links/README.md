@@ -68,6 +68,17 @@ EMBEDDABLE_LINKS_ASPECT_RATIO=16/9
 />
 ```
 
+### Custom Link Target
+
+By default, OpenGraph and generic link cards open in a new tab (`target="_blank"`). You can override this:
+
+```blade
+<x-embeddable-links-embed
+    url="https://example.com/article"
+    target="_self"
+/>
+```
+
 ### Supported Services
 
 **YouTube:**

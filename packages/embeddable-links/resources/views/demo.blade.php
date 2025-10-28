@@ -21,7 +21,7 @@
         <flux:card>
             <flux:heading size="lg" class="mb-4">Vimeo Video</flux:heading>
             <x-embeddable-links-embed
-                url="https://vimeo.com/148751763"
+                url="https://vimeo.com/1123887400?fl=wc"
                 :cache="false"
             />
         </flux:card>
@@ -29,7 +29,7 @@
         <flux:card>
             <flux:heading size="lg" class="mb-4">GitHub Gist</flux:heading>
             <x-embeddable-links-embed
-                url="https://gist.github.com/zeitiger/a8c7eb8b0655ddb3cf834e329da1a1e2"
+                url="https://gist.github.com/edgrosvenor/58b54bc4213a3ba192c3f7b340286f1f"
                 :cache="false"
             />
         </flux:card>

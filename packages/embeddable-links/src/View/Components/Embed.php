@@ -15,6 +15,7 @@ class Embed extends Component
         public string $url,
         public ?string $aspectRatio = null,
         public bool $cache = true,
+        public string $target = '_blank',
     ) {}
 
     public function render(): View|string
@@ -22,6 +23,7 @@ class Embed extends Component
         $options = array_filter([
             'aspect_ratio' => $this->aspectRatio,
             'cache' => $this->cache,
+            'target' => $this->target,
         ]);
 
         return $this->manager->embed($this->url, $options);
