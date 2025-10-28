@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 use ArtisanBuild\OpencodeClient\Livewire\OpencodeChat;
 use Livewire\Livewire;
+use Saloon\Http\Faking\MockClient;
+use Saloon\Http\Faking\MockResponse;
+
+beforeEach(function (): void {
+    MockClient::destroyGlobal();
+    MockClient::global([
+        '*' => MockResponse::make([], 200),
+    ]);
+});
 
 it('renders server url input field', function (): void {
     Livewire::test(OpencodeChat::class)
