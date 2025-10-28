@@ -47,13 +47,13 @@ EMBEDDABLE_LINKS_ASPECT_RATIO=16/9
 ### Basic Blade Component
 
 ```blade
-<x-embeddable-links::embed url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+<x-embeddable-links-embed url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
 ```
 
 ### Custom Aspect Ratio
 
 ```blade
-<x-embeddable-links::embed
+<x-embeddable-links-embed
     url="https://vimeo.com/123456789"
     aspect-ratio="4/3"
 />
@@ -62,7 +62,7 @@ EMBEDDABLE_LINKS_ASPECT_RATIO=16/9
 ### Disable Caching
 
 ```blade
-<x-embeddable-links::embed
+<x-embeddable-links-embed
     url="https://example.com/article"
     :cache="false"
 />
@@ -72,23 +72,23 @@ EMBEDDABLE_LINKS_ASPECT_RATIO=16/9
 
 **YouTube:**
 ```blade
-<x-embeddable-links::embed url="https://www.youtube.com/watch?v=VIDEO_ID" />
-<x-embeddable-links::embed url="https://youtu.be/VIDEO_ID" />
+<x-embeddable-links-embed url="https://www.youtube.com/watch?v=VIDEO_ID" />
+<x-embeddable-links-embed url="https://youtu.be/VIDEO_ID" />
 ```
 
 **Vimeo:**
 ```blade
-<x-embeddable-links::embed url="https://vimeo.com/VIDEO_ID" />
+<x-embeddable-links-embed url="https://vimeo.com/VIDEO_ID" />
 ```
 
 **GitHub Gist:**
 ```blade
-<x-embeddable-links::embed url="https://gist.github.com/username/GIST_ID" />
+<x-embeddable-links-embed url="https://gist.github.com/username/GIST_ID" />
 ```
 
 **Any URL with OpenGraph:**
 ```blade
-<x-embeddable-links::embed url="https://laravel.com/docs" />
+<x-embeddable-links-embed url="https://laravel.com/docs" />
 ```
 
 ### URL Validation

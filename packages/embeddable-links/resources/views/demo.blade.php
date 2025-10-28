@@ -12,7 +12,7 @@
 
         <flux:card>
             <flux:heading size="lg" class="mb-4">YouTube Video</flux:heading>
-            <x-embeddable-links::embed
+            <x-embeddable-links-embed
                 url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
                 :cache="false"
             />
@@ -20,7 +20,7 @@
 
         <flux:card>
             <flux:heading size="lg" class="mb-4">Vimeo Video</flux:heading>
-            <x-embeddable-links::embed
+            <x-embeddable-links-embed
                 url="https://vimeo.com/148751763"
                 :cache="false"
             />
@@ -28,7 +28,7 @@
 
         <flux:card>
             <flux:heading size="lg" class="mb-4">GitHub Gist</flux:heading>
-            <x-embeddable-links::embed
+            <x-embeddable-links-embed
                 url="https://gist.github.com/zeitiger/a8c7eb8b0655ddb3cf834e329da1a1e2"
                 :cache="false"
             />
@@ -36,7 +36,7 @@
 
         <flux:card>
             <flux:heading size="lg" class="mb-4">OpenGraph Link (Laravel Docs)</flux:heading>
-            <x-embeddable-links::embed
+            <x-embeddable-links-embed
                 url="https://laravel.com/docs"
                 :cache="false"
             />
@@ -44,7 +44,7 @@
 
         <flux:card>
             <flux:heading size="lg" class="mb-4">Generic Link (Example)</flux:heading>
-            <x-embeddable-links::embed
+            <x-embeddable-links-embed
                 url="https://example.com"
                 :cache="false"
             />
