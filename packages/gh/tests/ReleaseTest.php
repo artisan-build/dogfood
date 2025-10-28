@@ -5,7 +5,7 @@ declare(strict_types=1);
 use ArtisanBuild\GH\GH;
 use Illuminate\Support\Facades\Process;
 
-beforeEach(Process::fake(...));
+beforeEach(fn () => Process::fake());
 
 describe('The release command', function (): void {
 
