@@ -17,6 +17,7 @@
         "artisan-build/claudecode": "*",
         "artisan-build/code-chat-client": "*",
         "artisan-build/docsidian": "*",
+        "artisan-build/embeddable-links": "*",
         "artisan-build/fat-enums": "*",
         "artisan-build/flux-themes": "*",
         "artisan-build/forge-client": "*",

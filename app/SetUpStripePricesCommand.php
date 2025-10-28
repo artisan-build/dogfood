@@ -91,7 +91,7 @@ class SetUpStripePricesCommand extends Command
 
         try {
             $product = spin(
-                fn () => $this->setupProduct(),
+                $this->setupProduct(...),
                 'Setting up product...'
             );
 

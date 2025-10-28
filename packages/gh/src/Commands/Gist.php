@@ -36,7 +36,7 @@ class Gist extends BaseCommand
 
     public function create(array $files, ?string $description = null, bool $public = false): string
     {
-        $fileArgs = implode(' ', array_map('escapeshellarg', $files));
+        $fileArgs = implode(' ', array_map(escapeshellarg(...), $files));
 
         $command = implode(' ', array_filter([
             'gh',
@@ -53,7 +53,7 @@ class Gist extends BaseCommand
 
     public function edit(string $id, array $files, ?string $description = null): string
     {
-        $fileArgs = implode(' ', array_map('escapeshellarg', $files));
+        $fileArgs = implode(' ', array_map(escapeshellarg(...), $files));
 
         $command = implode(' ', array_filter([
             'gh',

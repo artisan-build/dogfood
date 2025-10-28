@@ -24,3 +24,8 @@ yarn-error.log
 /.zed
 /build
 
+# Claude Code local settings
+.claude/settings.local.json
+
+# Playwright MCP test artifacts
+.playwright-mcp/

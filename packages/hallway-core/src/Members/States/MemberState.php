@@ -63,7 +63,7 @@ class MemberState extends State
 
     public function channels(): Collection
     {
-        return collect(array_diff($this->channel_ids, $this->muted_channel_ids))->map(fn (int $id) => ChannelState::load($id));
+        return collect(array_diff($this->channel_ids, $this->muted_channel_ids))->map(ChannelState::load(...));
     }
 
     public function inChannel(): bool
