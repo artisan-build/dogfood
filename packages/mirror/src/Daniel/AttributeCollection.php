@@ -19,14 +19,14 @@ class AttributeCollection extends Collection
     public static function fromReflectionProp(ReflectionProperty $prop): static
     {
         return new static($prop->getAttributes())->map(
-            fn ($attr) => Attribute::fromReflectionAttribute($attr)
+            Attribute::fromReflectionAttribute(...)
         );
     }
 
     public static function fromReflectionClass(ReflectionClass $class): static
     {
         return new static($class->getAttributes())->map(
-            fn ($attr) => Attribute::fromReflectionAttribute($attr)
+            Attribute::fromReflectionAttribute(...)
         );
     }
 
