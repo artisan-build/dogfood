@@ -119,7 +119,7 @@ class OpencodeExplorer extends Component
 
         if ($this->handleResponse($response)) {
             // API returns array of files directly, not wrapped in 'files' key
-            $this->files = is_array($response) && ! isset($response['error']) ? $response : [];
+            $this->files = ! isset($response['error']) ? $response : [];
             $this->currentPath = $path;
         }
     }
@@ -174,10 +174,10 @@ class OpencodeExplorer extends Component
     {
         $directories = array_filter($this->files, fn ($item) => $item['type'] === 'directory');
 
-        // Sort alphabetically
+        // Sort alphabetically (usort re-indexes the array)
         usort($directories, fn ($a, $b) => strcmp((string) $a['name'], (string) $b['name']));
 
-        return array_values($directories);
+        return $directories;
     }
 
     /**
@@ -187,10 +187,10 @@ class OpencodeExplorer extends Component
     {
         $files = array_filter($this->files, fn ($item) => $item['type'] === 'file');
 
-        // Sort alphabetically
+        // Sort alphabetically (usort re-indexes the array)
         usort($files, fn ($a, $b) => strcmp((string) $a['name'], (string) $b['name']));
 
-        return array_values($files);
+        return $files;
     }
 
     /**

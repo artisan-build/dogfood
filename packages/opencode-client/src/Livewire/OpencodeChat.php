@@ -754,7 +754,7 @@ class OpencodeChat extends Component
         if ($this->handleResponse($response)) {
             // Transform messages from API format (with 'parts') to display format (with 'content')
             // API returns array of messages directly, not wrapped
-            $messages = is_array($response) && ! isset($response['error']) ? $response : [];
+            $messages = ! isset($response['error']) ? $response : [];
 
             $this->messages = array_values(array_filter(array_map(function ($message) {
                 $content = '';

@@ -398,9 +398,11 @@ class OpencodeService
 
             return $response->json();
         } catch (RequestException $e) {
+            $response = $e->getResponse();
+
             return [
                 'error' => $e->getMessage(),
-                'message' => $e->getResponse()?->json('message') ?? 'Unknown error',
+                'message' => $response->json('message') ?? 'Unknown error',
             ];
         } catch (Exception $e) {
             return [
