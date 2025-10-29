@@ -48,7 +48,7 @@ test('can build session prompt request', function (): void {
     $connector = new OpenCode;
     $connector->withMockClient($mockClient);
 
-    $request = new SessionPrompt(id: 'ses_123');
+    $request = new SessionPrompt(id: 'ses_123', prompt: 'Test prompt');
     $response = $connector->send($request);
 
     expect($response->status())->toBe(200);

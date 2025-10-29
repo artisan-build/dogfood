@@ -56,13 +56,11 @@ class EnsureComposerScriptsAreDefined
             'composer test',
         ],
         'report' => [
-            '@php artisan config:clear --ansi || true',
-            '@php artisan ide-helper:models --write || true',
-            'composer rector || true',
-            'composer lint || true',
-            'composer stan || true',
-            'composer sniff || true',
-            'composer test || true',
+            "@php artisan config:clear --ansi || true",
+            "composer rector --dry-run || true",
+            "composer stan || true",
+            "composer sniff || true",
+            "composer test || true"
         ],
         'coverage-html' => [
             'XDEBUG_MODE=coverage herd debug ./vendor/bin/pest --coverage-php coverage.php',

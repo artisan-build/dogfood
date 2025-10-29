@@ -13,7 +13,7 @@ it('installs Agent OS in the project', function (): void {
     // Mock GitHub CLI check
     Process::fake([
         'which gh' => Process::result(output: '/opt/homebrew/bin/gh'),
-        $homeDir.'/agent-os/scripts/project-install.sh --multi-agent-mode true --single-agent-mode true --profile laravel' => Process::result(),
+        $homeDir.'/agent-os/scripts/project-install.sh --profile laravel' => Process::result(),
     ]);
 
     // Mock Agent OS with Laravel profile exists

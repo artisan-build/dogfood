@@ -25,7 +25,7 @@ class InstallAgentOsInProject
 
         $result = Process::path(base_path())
             ->timeout(300)
-            ->run($installScript.' --multi-agent-mode true --single-agent-mode true --profile laravel', function ($type, $buffer) use ($command): void {
+            ->run($installScript.' --profile laravel', function ($type, $buffer) use ($command): void {
                 $command->getOutput()->write($buffer);
             });
 

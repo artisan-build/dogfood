@@ -34,4 +34,9 @@ class SessionAbort extends Request implements HasBody
     {
         return array_filter(['directory' => $this->directory]);
     }
+
+    public function defaultBody(): array
+    {
+        return [];
+    }
 }

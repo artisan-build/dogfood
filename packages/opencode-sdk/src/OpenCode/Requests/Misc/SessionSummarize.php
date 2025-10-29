@@ -22,9 +22,13 @@ class SessionSummarize extends Request implements HasBody
 
     /**
      * @param  string  $id  Session ID
+     * @param  string  $providerID  AI provider ID (e.g., 'anthropic', 'openai')
+     * @param  string  $modelID  Model ID (e.g., 'claude-sonnet-4-20250514')
      */
     public function __construct(
         protected string $id,
+        protected string $providerID,
+        protected string $modelID,
         protected ?string $directory = null,
     ) {}
 
@@ -36,5 +40,13 @@ class SessionSummarize extends Request implements HasBody
     public function defaultQuery(): array
     {
         return array_filter(['directory' => $this->directory]);
+    }
+
+    public function defaultBody(): array
+    {
+        return [
+            'providerID' => $this->providerID,
+            'modelID' => $this->modelID,
+        ];
     }
 }
