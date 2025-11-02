@@ -41,5 +41,34 @@ class AgentOsInstallerServiceProvider extends ServiceProvider
                 OptimizeClaudeReviewsCommand::class,
             ]);
         }
+
+        $this->registerViewerRoutes();
+    }
+
+    /**
+     * Register web viewer routes if enabled
+     */
+    protected function registerViewerRoutes(): void
+    {
+        if (! config('agent-os-installer.viewer.enabled', true)) {
+            return;
+        }
+
+        $prefix = config('agent-os-installer.viewer.route_prefix', 'agent-os');
+        $middleware = config('agent-os-installer.viewer.middleware', ['web']);
+
+        \Illuminate\Support\Facades\Route::middleware($middleware)
+            ->prefix($prefix)
+            ->group(function () {
+                // Index route - displays Product folder or README based on config
+                \Illuminate\Support\Facades\Route::get('/', function () {
+                    return view('agent-os-installer::viewer');
+                })->name('agent-os.index');
+
+                // View specific file/spec route
+                \Illuminate\Support\Facades\Route::get('/{path}', function (string $path) {
+                    return view('agent-os-installer::viewer', ['path' => $path]);
+                })->where('path', '.*')->name('agent-os.view');
+            });
     }
 }
