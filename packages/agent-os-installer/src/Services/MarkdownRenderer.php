@@ -46,8 +46,13 @@ class MarkdownRenderer
     }
 
     /**
-     * Convert Agent OS @ reference links to internal navigation
-     * Example: @.agent-os/product/mission.md becomes a link
+     * Convert Agent OS @ reference links to internal navigation or anchor links
+     *
+     * For sub-specs within the same spec folder, converts to anchor links (#section)
+     * For other references, converts to navigation links (/path)
+     *
+     * Example: @.agent-os/specs/2025-11-01-spec/sub-specs/technical-spec.md becomes #technical-spec
+     * Example: @.agent-os/product/mission.md becomes /.agent-os/product/mission.md
      */
     protected function convertReferenceLinks(string $markdown): string
     {
@@ -57,6 +62,21 @@ class MarkdownRenderer
                 $path = $matches[1];
                 $displayPath = str_replace('.agent-os/', '', $path);
 
+                // Check if this is a sub-spec reference (within specs/.../sub-specs/)
+                if (preg_match('/\.agent-os\/specs\/[^\/]+\/sub-specs\/(.+)\.md$/', $path, $subMatches)) {
+                    // Convert to anchor link using the filename
+                    $filename = $subMatches[1];
+                    $anchor = strtolower(str_replace('_', '-', $filename));
+
+                    return "[{$displayPath}](#{$anchor})";
+                }
+
+                // Check if this is a tasks.md reference within a spec
+                if (preg_match('/\.agent-os\/specs\/[^\/]+\/tasks\.md$/', $path)) {
+                    return "[{$displayPath}](#tasks)";
+                }
+
+                // For all other references, use navigation links
                 return "[{$displayPath}](/{$path})";
             },
             $markdown

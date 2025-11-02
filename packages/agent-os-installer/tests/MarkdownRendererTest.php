@@ -155,3 +155,41 @@ test('it only converts @ links with .md extension', function (): void {
         ->toContain('@user.name') // Email should not be converted
         ->toContain('<a href="/.agent-os/product/mission.md">'); // @ link should be converted
 });
+
+test('it converts sub-spec references to anchor links', function (): void {
+    $renderer = new MarkdownRenderer;
+
+    $markdown = 'See @.agent-os/specs/2025-11-01-test-spec/sub-specs/technical-spec.md for details.';
+    $html = $renderer->render($markdown);
+
+    expect($html)
+        ->toContain('<a href="#technical-spec">')
+        ->toContain('specs/2025-11-01-test-spec/sub-specs/technical-spec.md</a>')
+        ->not->toContain('/.agent-os/specs');
+});
+
+test('it converts tasks.md references to anchor links', function (): void {
+    $renderer = new MarkdownRenderer;
+
+    $markdown = 'Check @.agent-os/specs/2025-11-01-test-spec/tasks.md for the task list.';
+    $html = $renderer->render($markdown);
+
+    expect($html)
+        ->toContain('<a href="#tasks">')
+        ->toContain('specs/2025-11-01-test-spec/tasks.md</a>');
+});
+
+test('it handles multiple sub-spec anchor links', function (): void {
+    $renderer = new MarkdownRenderer;
+
+    $markdown = <<<'MD'
+        Review @.agent-os/specs/2025-11-01-spec/sub-specs/technical-spec.md
+        and @.agent-os/specs/2025-11-01-spec/sub-specs/database-schema.md.
+        MD;
+
+    $html = $renderer->render($markdown);
+
+    expect($html)
+        ->toContain('<a href="#technical-spec">')
+        ->toContain('<a href="#database-schema">');
+});
