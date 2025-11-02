@@ -84,15 +84,16 @@ test('it renders code blocks', function (): void {
         ->toContain('echo &quot;Hello World&quot;');
 });
 
-test('it escapes HTML for safety', function (): void {
+test('it allows HTML since content is trusted', function (): void {
     $renderer = new MarkdownRenderer;
 
-    $markdown = '<script>alert("XSS")</script>';
+    // HTML is allowed because all content is developer-created and trusted
+    $markdown = '<p align="center"><img src="logo.webp" width="75%" alt="Logo"></p>';
     $html = $renderer->render($markdown);
 
     expect($html)
-        ->not->toContain('<script>')
-        ->toContain('&lt;script&gt;');
+        ->toContain('<p align="center">')
+        ->toContain('<img src="logo.webp"');
 });
 
 test('it does not allow unsafe links', function (): void {

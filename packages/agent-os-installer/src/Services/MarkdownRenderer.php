@@ -21,7 +21,7 @@ class MarkdownRenderer
     public function __construct()
     {
         $config = [
-            'html_input' => 'escape',
+            'html_input' => 'allow', // Allow HTML since all content is developer-created and trusted
             'allow_unsafe_links' => false,
         ];
 
