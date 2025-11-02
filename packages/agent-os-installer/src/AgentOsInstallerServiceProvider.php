@@ -6,6 +6,7 @@ namespace ArtisanBuild\AgentOsInstaller;
 
 use ArtisanBuild\AgentOsInstaller\Commands\InstallCommand;
 use ArtisanBuild\AgentOsInstaller\Commands\OptimizeClaudeReviewsCommand;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Override;
 
@@ -64,18 +65,14 @@ class AgentOsInstallerServiceProvider extends ServiceProvider
         $prefix = config('agent-os-installer.viewer.route_prefix', 'agent-os');
         $middleware = config('agent-os-installer.viewer.middleware', ['web']);
 
-        \Illuminate\Support\Facades\Route::middleware($middleware)
+        Route::middleware($middleware)
             ->prefix($prefix)
-            ->group(function () {
+            ->group(function (): void {
                 // Index route - displays Product folder or README based on config
-                \Illuminate\Support\Facades\Route::get('/', function () {
-                    return view('agent-os-installer::viewer');
-                })->name('agent-os.index');
+                Route::get('/', fn () => view('agent-os-installer::viewer'))->name('agent-os.index');
 
                 // View specific file/spec route
-                \Illuminate\Support\Facades\Route::get('/{path}', function (string $path) {
-                    return view('agent-os-installer::viewer', ['path' => $path]);
-                })->where('path', '.*')->name('agent-os.view');
+                Route::get('/{path}', fn (string $path) => view('agent-os-installer::viewer', ['path' => $path]))->where('path', '.*')->name('agent-os.view');
             });
     }
 }

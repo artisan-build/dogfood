@@ -101,7 +101,7 @@ class DirectoryScanner
         $directories = File::directories($specsPath);
 
         foreach ($directories as $dir) {
-            $folderName = basename($dir);
+            $folderName = basename((string) $dir);
 
             // Parse folder name: YYYY-MM-DD-spec-name
             if (! preg_match('/^(\d{4}-\d{2}-\d{2})-(.+)$/', $folderName, $matches)) {

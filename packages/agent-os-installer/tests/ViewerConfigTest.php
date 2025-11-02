@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-use function Pest\Laravel\{get};
-
-it('has viewer configuration with default values', function () {
+it('has viewer configuration with default values', function (): void {
     $config = config('agent-os-installer.viewer');
 
     expect($config)->toBeArray()
@@ -17,19 +15,19 @@ it('has viewer configuration with default values', function () {
         ->and($config['default_view'])->toBe('product');
 });
 
-it('respects AGENT_OS_VIEWER_ENABLED environment variable', function () {
+it('respects AGENT_OS_VIEWER_ENABLED environment variable', function (): void {
     config(['agent-os-installer.viewer.enabled' => false]);
 
     expect(config('agent-os-installer.viewer.enabled'))->toBeFalse();
 });
 
-it('respects AGENT_OS_ROUTE_PREFIX environment variable', function () {
+it('respects AGENT_OS_ROUTE_PREFIX environment variable', function (): void {
     config(['agent-os-installer.viewer.route_prefix' => 'documentation']);
 
     expect(config('agent-os-installer.viewer.route_prefix'))->toBe('documentation');
 });
 
-it('allows custom middleware configuration', function () {
+it('allows custom middleware configuration', function (): void {
     config(['agent-os-installer.viewer.middleware' => ['web', 'auth']]);
 
     expect(config('agent-os-installer.viewer.middleware'))
@@ -38,13 +36,13 @@ it('allows custom middleware configuration', function () {
         ->toContain('web', 'auth');
 });
 
-it('allows custom gate configuration', function () {
+it('allows custom gate configuration', function (): void {
     config(['agent-os-installer.viewer.gate' => 'view-agent-os']);
 
     expect(config('agent-os-installer.viewer.gate'))->toBe('view-agent-os');
 });
 
-it('allows additional paths configuration', function () {
+it('allows additional paths configuration', function (): void {
     config([
         'agent-os-installer.viewer.paths' => [
             '.agent-os' => 'Agent OS Documentation',
@@ -61,7 +59,7 @@ it('allows additional paths configuration', function () {
         ->and($paths['docs'])->toBe('User Documentation');
 });
 
-it('allows custom default_view configuration', function () {
+it('allows custom default_view configuration', function (): void {
     config(['agent-os-installer.viewer.default_view' => 'readme']);
 
     expect(config('agent-os-installer.viewer.default_view'))->toBe('readme');

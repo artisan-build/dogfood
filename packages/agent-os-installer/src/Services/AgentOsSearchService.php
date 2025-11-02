@@ -117,13 +117,7 @@ class AgentOsSearchService
         $words = explode(' ', $query);
         $line = strtolower($line);
 
-        foreach ($words as $word) {
-            if (stripos($line, strtolower($word)) === false) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($words, fn ($word) => ! (stripos($line, strtolower((string) $word)) === false));
     }
 
     /**

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\AgentOsInstaller\Services;
 
-use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;

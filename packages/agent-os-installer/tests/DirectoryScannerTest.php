@@ -5,7 +5,7 @@ declare(strict_types=1);
 use ArtisanBuild\AgentOsInstaller\Services\DirectoryScanner;
 use Illuminate\Support\Facades\File;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Create test directory structure
     $this->testDir = base_path('tests/fixtures/.agent-os');
     File::ensureDirectoryExists($this->testDir.'/product');
@@ -24,11 +24,11 @@ beforeEach(function () {
     $this->scanner = new DirectoryScanner(base_path('tests/fixtures'));
 });
 
-afterEach(function () {
+afterEach(function (): void {
     File::deleteDirectory(base_path('tests/fixtures'));
 });
 
-it('scans agent-os directory recursively', function () {
+it('scans agent-os directory recursively', function (): void {
     $structure = $this->scanner->scan();
 
     expect($structure)->toBeArray()
@@ -36,14 +36,14 @@ it('scans agent-os directory recursively', function () {
         ->and($structure['specs'])->toBeArray();
 });
 
-it('includes README.md from project root', function () {
+it('includes README.md from project root', function (): void {
     $structure = $this->scanner->scan();
 
     expect($structure)->toHaveKey('readme')
         ->and($structure['readme']['path'])->toBe(base_path('tests/fixtures/README.md'));
 });
 
-it('parses spec folder names to extract date and title', function () {
+it('parses spec folder names to extract date and title', function (): void {
     $structure = $this->scanner->scan();
 
     expect($structure['specs'])->toHaveCount(2)
@@ -52,26 +52,26 @@ it('parses spec folder names to extract date and title', function () {
         ->and($structure['specs'][0]['folder'])->toBe('2025-11-01-test-spec');
 });
 
-it('sorts specs in reverse chronological order', function () {
+it('sorts specs in reverse chronological order', function (): void {
     $structure = $this->scanner->scan();
 
     expect($structure['specs'][0]['date'])->toBe('2025-11-01')
         ->and($structure['specs'][1]['date'])->toBe('2025-10-15');
 });
 
-it('converts kebab-case spec names to Title Case', function () {
+it('converts kebab-case spec names to Title Case', function (): void {
     $structure = $this->scanner->scan();
 
     expect($structure['specs'][0]['title'])->toBe('Test Spec');
 });
 
-it('handles missing directories gracefully', function () {
+it('handles missing directories gracefully', function (): void {
     $scanner = new DirectoryScanner(base_path('non-existent'));
 
     expect(fn () => $scanner->scan())->not->toThrow(Exception::class);
 });
 
-it('merges additional configured directories', function () {
+it('merges additional configured directories', function (): void {
     // Create additional test directory
     $docsDir = base_path('tests/fixtures/docs');
     File::ensureDirectoryExists($docsDir);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 use ArtisanBuild\AgentOsInstaller\Services\ProductConcatenationService;
 use Illuminate\Support\Facades\File;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Create test directory structure
     $this->testDir = base_path('tests/fixtures/.agent-os/product');
     File::ensureDirectoryExists($this->testDir);
@@ -19,11 +19,11 @@ beforeEach(function () {
     $this->service = new ProductConcatenationService(base_path('tests/fixtures'));
 });
 
-afterEach(function () {
+afterEach(function (): void {
     File::deleteDirectory(base_path('tests/fixtures'));
 });
 
-it('concatenates all files in product folder', function () {
+it('concatenates all files in product folder', function (): void {
     $content = $this->service->concatenate();
 
     expect($content)->toBeString()
@@ -33,20 +33,20 @@ it('concatenates all files in product folder', function () {
         ->and($content)->toContain('These are decisions.');
 });
 
-it('concatenates files in correct order', function () {
+it('concatenates files in correct order', function (): void {
     $content = $this->service->concatenate();
 
-    $missionPos = strpos($content, 'This is the mission.');
-    $roadmapPos = strpos($content, 'This is the roadmap.');
-    $techStackPos = strpos($content, 'This is the tech stack.');
-    $decisionsPos = strpos($content, 'These are decisions.');
+    $missionPos = strpos((string) $content, 'This is the mission.');
+    $roadmapPos = strpos((string) $content, 'This is the roadmap.');
+    $techStackPos = strpos((string) $content, 'This is the tech stack.');
+    $decisionsPos = strpos((string) $content, 'These are decisions.');
 
     expect($missionPos)->toBeLessThan($roadmapPos)
         ->and($roadmapPos)->toBeLessThan($techStackPos)
         ->and($techStackPos)->toBeLessThan($decisionsPos);
 });
 
-it('keeps mission.md heading but strips others', function () {
+it('keeps mission.md heading but strips others', function (): void {
     $content = $this->service->concatenate();
 
     expect($content)->toContain('# Product Mission')
@@ -55,7 +55,7 @@ it('keeps mission.md heading but strips others', function () {
         ->and($content)->not->toContain('# Product Decisions Log');
 });
 
-it('generates section headers from filenames', function () {
+it('generates section headers from filenames', function (): void {
     $content = $this->service->concatenate();
 
     expect($content)->toContain('# Roadmap')
@@ -63,13 +63,13 @@ it('generates section headers from filenames', function () {
         ->and($content)->toContain('# Decisions');
 });
 
-it('adds horizontal rules between sections', function () {
+it('adds horizontal rules between sections', function (): void {
     $content = $this->service->concatenate();
 
     expect($content)->toContain('---');
 });
 
-it('handles missing product files gracefully', function () {
+it('handles missing product files gracefully', function (): void {
     // Remove one file
     File::delete($this->testDir.'/tech-stack.md');
 
@@ -81,7 +81,7 @@ it('handles missing product files gracefully', function () {
         ->and($content)->not->toContain('This is the tech stack.');
 });
 
-it('returns empty string when product folder does not exist', function () {
+it('returns empty string when product folder does not exist', function (): void {
     $service = new ProductConcatenationService(base_path('non-existent'));
 
     $content = $service->concatenate();
