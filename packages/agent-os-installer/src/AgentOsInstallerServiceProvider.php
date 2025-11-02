@@ -6,7 +6,11 @@ namespace ArtisanBuild\AgentOsInstaller;
 
 use ArtisanBuild\AgentOsInstaller\Commands\InstallCommand;
 use ArtisanBuild\AgentOsInstaller\Commands\OptimizeClaudeReviewsCommand;
+use ArtisanBuild\AgentOsInstaller\Livewire\AgentOsViewer;
+use ArtisanBuild\AgentOsInstaller\Livewire\SidebarNavigation;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use Override;
 
 /**
@@ -31,15 +35,51 @@ class AgentOsInstallerServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Load views
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'agent-os-installer');
+
+        // Register Livewire components
+        Livewire::component('agent-os-viewer', AgentOsViewer::class);
+        Livewire::component('sidebar-navigation', SidebarNavigation::class);
+
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/agent-os-installer.php' => config_path('agent-os-installer.php'),
             ], 'agent-os-installer-config');
+
+            $this->publishes([
+                __DIR__.'/../resources/views' => resource_path('views/vendor/agent-os-installer'),
+            ], 'agent-os-installer-views');
 
             $this->commands([
                 InstallCommand::class,
                 OptimizeClaudeReviewsCommand::class,
             ]);
         }
+
+        $this->registerViewerRoutes();
+    }
+
+    /**
+     * Register web viewer routes if enabled
+     */
+    protected function registerViewerRoutes(): void
+    {
+        if (! config('agent-os-installer.viewer.enabled', true)) {
+            return;
+        }
+
+        $prefix = config('agent-os-installer.viewer.route_prefix', 'agent-os');
+        $middleware = config('agent-os-installer.viewer.middleware', ['web']);
+
+        Route::middleware($middleware)
+            ->prefix($prefix)
+            ->group(function (): void {
+                // Index route - displays Product folder or README based on config
+                Route::get('/', fn () => view('agent-os-installer::viewer'))->name('agent-os.index');
+
+                // View specific file/spec route
+                Route::get('/{path}', fn (string $path) => view('agent-os-installer::viewer', ['path' => $path]))->where('path', '.*')->name('agent-os.view');
+            });
     }
 }

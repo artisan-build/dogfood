@@ -11,7 +11,10 @@
     ],
     "require": {
         "php": "^8.3",
-        "illuminate/support": "^10.0|^11.0|^12.0"
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "livewire/livewire": "^3.0",
+        "livewire/flux": "^2.0",
+        "league/commonmark": "^2.4"
     },
     "require-dev": {
         "pestphp/pest": "^3.0",

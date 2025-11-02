@@ -1,0 +1,137 @@
+# Spec Tasks
+
+These are the tasks to be completed for the spec detailed in @.agent-os/specs/2025-11-01-agent-os-web-viewer/spec.md
+
+> Created: 2025-11-01
+> Status: Ready for Implementation
+
+## Tasks
+
+- [x] 1. Set up package structure and configuration
+  - [x] 1.1 Write tests for config file structure and default values
+  - [x] 1.2 Create config file with viewer settings (enabled, route_prefix, middleware, paths, default_view)
+  - [x] 1.3 Update service provider to register routes with configurable prefix
+  - [x] 1.4 Add route registration with environment variable support (AGENT_OS_ROUTE_PREFIX, AGENT_OS_VIEWER_ENABLED)
+  - [x] 1.5 Verify all tests pass
+
+- [x] 2. Implement file system scanning and navigation structure
+  - [x] 2.1 Write tests for directory scanner service
+  - [x] 2.2 Create service to scan .agent-os directory and additional configured paths
+  - [x] 2.3 Implement spec folder name parsing (extract date and title from YYYY-MM-DD-spec-name format)
+  - [x] 2.4 Implement chronological sorting (reverse order, newest first)
+  - [x] 2.5 Implement title formatting (kebab-case to Title Case conversion)
+  - [x] 2.6 Handle README.md inclusion and missing directories gracefully
+  - [x] 2.7 Verify all tests pass
+
+- [x] 3. Build Product folder concatenation logic
+  - [x] 3.1 Write tests for Product folder concatenation service
+  - [x] 3.2 Create service to read and concatenate .agent-os/product/ files (mission, roadmap, tech-stack, decisions)
+  - [x] 3.3 Implement section header generation from filenames
+  - [x] 3.4 Strip top-level headings from non-first files
+  - [x] 3.5 Add horizontal rule separators between sections
+  - [x] 3.6 Implement caching with Livewire #[Computed] attribute
+  - [x] 3.7 Verify all tests pass
+
+- [x] 4. Build Spec concatenation logic
+  - [x] 4.1 Write tests for Spec concatenation service
+  - [x] 4.2 Create service to read and concatenate spec files (spec.md + sub-specs/*.md + tasks.md)
+  - [x] 4.3 Implement correct ordering (spec.md first, sub-specs alphabetically, tasks.md last)
+  - [x] 4.4 Generate section headers from sub-spec filenames
+  - [x] 4.5 Strip top-level headings and add separators
+  - [x] 4.6 Handle missing tasks.md gracefully
+  - [x] 4.7 Implement caching for concatenated spec content
+  - [x] 4.8 Verify all tests pass
+
+- [x] 5. Implement markdown parsing and rendering
+  - [x] 5.1 Write tests for markdown parser with CommonMark
+  - [x] 5.2 Configure CommonMark with GitHub Flavored Markdown extension
+  - [x] 5.3 Create custom renderer for Agent OS @ reference links
+  - [x] 5.4 Convert @ links to internal navigation (e.g., @.agent-os/product/mission.md)
+  - [x] 5.5 Add syntax highlighting configuration for code blocks
+  - [x] 5.6 Test table rendering, task lists, and HTML escaping
+  - [x] 5.7 Verify all tests pass
+
+- [x] 6. Build search functionality
+  - [x] 6.1 Write tests for AgentOsSearchService
+  - [x] 6.2 Create AgentOsSearchService class in src/Services/
+  - [x] 6.3 Implement recursive file scanning across .agent-os and configured paths
+  - [x] 6.4 Implement case-insensitive string matching
+  - [x] 6.5 Add context snippet extraction (150 chars before/after match)
+  - [x] 6.6 Implement multi-word phrase search with quote support
+  - [x] 6.7 Add result ranking by match count and limit to 50 results
+  - [x] 6.8 Include source directory in results for display
+  - [x] 6.9 Verify all tests pass
+
+- [x] 7. Create SidebarNavigation Livewire component
+  - [x] 7.1 Write tests for SidebarNavigation component
+  - [x] 7.2 Create SidebarNavigation component class in src/Livewire/
+  - [x] 7.3 Build navigation structure (Product, Specs, Additional Dirs, README)
+  - [x] 7.4 Implement spec sorting (reverse chronological)
+  - [x] 7.5 Create component view with Flux UI base components
+  - [x] 7.6 Style with Tailwind CSS for sidebar layout
+  - [x] 7.7 Add active item highlighting
+  - [x] 7.8 Implement mobile responsive collapsing
+  - [x] 7.9 Verify all tests pass
+
+- [x] 8. Create AgentOsViewer Livewire component
+  - [x] 8.1 Write tests for AgentOsViewer component
+  - [x] 8.2 Create AgentOsViewer component class in src/Livewire/
+  - [x] 8.3 Implement main layout with sidebar and content area
+  - [x] 8.4 Add route handling for index (Product view), specs, and README
+  - [x] 8.5 Integrate Product concatenation logic
+  - [x] 8.6 Integrate Spec concatenation logic
+  - [x] 8.7 Implement single file view for README and other docs
+  - [x] 8.8 Create component view with proper layout structure
+  - [x] 8.9 Add dark mode support with Tailwind classes
+  - [x] 8.10 Verify all tests pass
+
+- [ ] 9. Create SearchResults Livewire component
+  - [ ] 9.1 Write tests for SearchResults component
+  - [ ] 9.2 Create SearchResults component class in src/Livewire/
+  - [ ] 9.3 Integrate AgentOsSearchService
+  - [ ] 9.4 Implement search input with Flux UI components
+  - [ ] 9.5 Create results display with highlighting
+  - [ ] 9.6 Show file path, context snippet, and source directory
+  - [ ] 9.7 Add loading state and "no results" message
+  - [ ] 9.8 Make results clickable to navigate to file
+  - [ ] 9.9 Verify all tests pass
+
+- [x] 10. Implement access control and middleware
+  - [x] 10.1 Write tests for AgentOsViewerMiddleware
+  - [x] 10.2 Create AgentOsViewerMiddleware class
+  - [x] 10.3 Implement default behavior (allow local, require auth in production)
+  - [x] 10.4 Add customizable gate checking
+  - [x] 10.5 Apply middleware to routes based on config
+  - [x] 10.6 Document middleware customization in package README
+  - [x] 10.7 Verify all tests pass
+
+- [x] 11. Add views and styling
+  - [x] 11.1 Create Blade view for AgentOsViewer component layout
+  - [x] 11.2 Create Blade view for SidebarNavigation component
+  - [ ] 11.3 Create Blade view for SearchResults component (skipped - search moved to separate spec)
+  - [x] 11.4 Build custom card/badge components with Tailwind CSS (no Pro components)
+  - [x] 11.5 Ensure responsive layout works on mobile
+  - [x] 11.6 Add syntax highlighting assets (Highlight.js via CDN)
+  - [x] 11.7 Test dark mode styling
+  - [x] 11.8 Verify all tests pass
+
+- [ ] 12. Integration testing and polish
+  - [ ] 12.1 Write feature tests for complete workflows (browsing, search, navigation)
+  - [ ] 12.2 Test Product folder view displays correctly on index route
+  - [ ] 12.3 Test spec unified view with all concatenated sections
+  - [ ] 12.4 Test navigation between Product, specs, and README
+  - [ ] 12.5 Test search across all documentation types
+  - [ ] 12.6 Test route prefix customization via environment variable
+  - [ ] 12.7 Test additional directories configuration
+  - [ ] 12.8 Test access control with different middleware configurations
+  - [ ] 12.9 Verify all tests pass
+
+- [x] 13. Documentation and package publishing
+  - [x] 13.1 Update package README with installation instructions
+  - [x] 13.2 Document configuration options and examples
+  - [x] 13.3 Document middleware customization
+  - [x] 13.4 Add usage examples for route prefix and additional directories
+  - [x] 13.5 Document @ reference link syntax
+  - [ ] 13.6 Add screenshots or GIFs of the interface (optional)
+  - [ ] 13.7 Update CHANGELOG with new features (will do on release)
+  - [ ] 13.8 Verify composer ready passes
