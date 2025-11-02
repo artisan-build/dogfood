@@ -3,7 +3,7 @@
         {{-- Sidebar --}}
         <aside class="w-64 min-h-screen p-4 overflow-y-auto" style="border-right: 1px solid var(--color-border-default); background: var(--color-canvas-subtle);">
             <div class="mb-6">
-                <h1 class="text-xl font-bold" style="color: var(--color-fg-default);">Agent OS</h1>
+                <h1 class="text-xl font-bold" style="color: var(--color-fg-default);">{{ config('app.name') }}</h1>
                 <p class="text-sm" style="color: var(--color-fg-muted);">Documentation</p>
             </div>
 

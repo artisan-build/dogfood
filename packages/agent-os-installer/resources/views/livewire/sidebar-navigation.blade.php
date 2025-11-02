@@ -13,14 +13,17 @@
                     'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800' => ! $item['active'],
                 ])
                 wire:navigate
+                @if ($item['type'] === 'spec')
+                    title="{{ $item['label'] }}"
+                @endif
             >
                 @if ($item['type'] === 'spec' && isset($item['date']))
-                    <div class="flex items-baseline gap-2">
+                    <div class="flex flex-col">
+                        <span class="truncate">{{ $item['label'] }}</span>
                         <span class="text-xs text-gray-500 dark:text-gray-400">{{ $item['date'] }}</span>
-                        <span>{{ $item['label'] }}</span>
                     </div>
                 @else
-                    {{ $item['label'] }}
+                    <span class="truncate block">{{ $item['label'] }}</span>
                 @endif
             </a>
         @endif
