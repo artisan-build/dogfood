@@ -10,7 +10,7 @@ test('it renders basic markdown to HTML', function (): void {
     $markdown = '# Heading 1';
     $html = $renderer->render($markdown);
 
-    expect($html)->toContain('<h1>Heading 1</h1>');
+    expect($html)->toContain('<h1 id="heading-1">Heading 1</h1>');
 });
 
 test('it renders GitHub Flavored Markdown', function (): void {
@@ -27,7 +27,7 @@ test('it renders GitHub Flavored Markdown', function (): void {
     $html = $renderer->render($markdown);
 
     expect($html)
-        ->toContain('<h1>Heading</h1>')
+        ->toContain('<h1 id="heading">Heading</h1>')
         ->toContain('<strong>bold</strong>')
         ->toContain('<em>italic</em>')
         ->toContain('<del>Strikethrough</del>');

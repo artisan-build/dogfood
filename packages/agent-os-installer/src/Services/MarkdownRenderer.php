@@ -7,6 +7,7 @@ namespace ArtisanBuild\AgentOsInstaller\Services;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
 use League\CommonMark\MarkdownConverter;
@@ -23,11 +24,21 @@ class MarkdownRenderer
         $config = [
             'html_input' => 'allow', // Allow HTML since all content is developer-created and trusted
             'allow_unsafe_links' => false,
+            'heading_permalink' => [
+                'html_class' => 'heading-permalink',
+                'id_prefix' => '',
+                'fragment_prefix' => '',
+                'insert' => 'none', // Don't insert permalink symbols, just add IDs
+                'apply_id_to_heading' => true, // Add ID attribute to heading elements
+                'min_heading_level' => 1,
+                'max_heading_level' => 6,
+            ],
         ];
 
         $environment = new Environment($config);
         $environment->addExtension(new CommonMarkCoreExtension);
         $environment->addExtension(new GithubFlavoredMarkdownExtension);
+        $environment->addExtension(new HeadingPermalinkExtension);
         $environment->addExtension(new TableExtension);
         $environment->addExtension(new TaskListExtension);
 
