@@ -8,6 +8,7 @@ parameters:
         - packages/
     excludePaths:
         - packages/verbs-flux
+        - packages/opencode-sdk
         - **/*Test.php
         - packages/**/config/*.php
         - **/build/phpstan/cache/**

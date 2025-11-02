@@ -14,6 +14,7 @@
         <testsuite name="Packages">
             <directory>packages/**/tests</directory>
             <directory suffix="Test.php">packages/**/src</directory>
+            <exclude>packages/opencode-sdk/tests</exclude>
         </testsuite>
     </testsuites>
     <source>
