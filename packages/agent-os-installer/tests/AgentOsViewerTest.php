@@ -146,7 +146,7 @@ test('it renders markdown to HTML', function (): void {
     $component = Livewire::test(AgentOsViewer::class, ['basePath' => $this->testDir, 'path' => 'test.md']);
     $html = $component->instance()->content;
 
-    expect($html)->toContain('<h1>Heading</h1>');
+    expect($html)->toContain('<h1 id="heading">Heading</h1>');
 });
 
 test('it includes sidebar navigation', function (): void {
