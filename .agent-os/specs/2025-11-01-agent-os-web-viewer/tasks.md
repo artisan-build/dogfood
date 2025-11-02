@@ -73,17 +73,17 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [x] 7.8 Implement mobile responsive collapsing
   - [x] 7.9 Verify all tests pass
 
-- [ ] 8. Create AgentOsViewer Livewire component
-  - [ ] 8.1 Write tests for AgentOsViewer component
-  - [ ] 8.2 Create AgentOsViewer component class in src/Livewire/
-  - [ ] 8.3 Implement main layout with sidebar and content area
-  - [ ] 8.4 Add route handling for index (Product view), specs, and README
-  - [ ] 8.5 Integrate Product concatenation logic
-  - [ ] 8.6 Integrate Spec concatenation logic
-  - [ ] 8.7 Implement single file view for README and other docs
-  - [ ] 8.8 Create component view with proper layout structure
-  - [ ] 8.9 Add dark mode support with Tailwind classes
-  - [ ] 8.10 Verify all tests pass
+- [x] 8. Create AgentOsViewer Livewire component
+  - [x] 8.1 Write tests for AgentOsViewer component
+  - [x] 8.2 Create AgentOsViewer component class in src/Livewire/
+  - [x] 8.3 Implement main layout with sidebar and content area
+  - [x] 8.4 Add route handling for index (Product view), specs, and README
+  - [x] 8.5 Integrate Product concatenation logic
+  - [x] 8.6 Integrate Spec concatenation logic
+  - [x] 8.7 Implement single file view for README and other docs
+  - [x] 8.8 Create component view with proper layout structure
+  - [x] 8.9 Add dark mode support with Tailwind classes
+  - [x] 8.10 Verify all tests pass
 
 - [ ] 9. Create SearchResults Livewire component
   - [ ] 9.1 Write tests for SearchResults component
@@ -96,14 +96,14 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [ ] 9.8 Make results clickable to navigate to file
   - [ ] 9.9 Verify all tests pass
 
-- [ ] 10. Implement access control and middleware
-  - [ ] 10.1 Write tests for AgentOsViewerMiddleware
-  - [ ] 10.2 Create AgentOsViewerMiddleware class
-  - [ ] 10.3 Implement default behavior (allow local, require auth in production)
-  - [ ] 10.4 Add customizable gate checking
-  - [ ] 10.5 Apply middleware to routes based on config
-  - [ ] 10.6 Document middleware customization in package README
-  - [ ] 10.7 Verify all tests pass
+- [x] 10. Implement access control and middleware
+  - [x] 10.1 Write tests for AgentOsViewerMiddleware
+  - [x] 10.2 Create AgentOsViewerMiddleware class
+  - [x] 10.3 Implement default behavior (allow local, require auth in production)
+  - [x] 10.4 Add customizable gate checking
+  - [x] 10.5 Apply middleware to routes based on config
+  - [x] 10.6 Document middleware customization in package README
+  - [x] 10.7 Verify all tests pass
 
 - [ ] 11. Add views and styling
   - [ ] 11.1 Create Blade view for AgentOsViewer component layout

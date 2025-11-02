@@ -6,8 +6,11 @@ namespace ArtisanBuild\AgentOsInstaller;
 
 use ArtisanBuild\AgentOsInstaller\Commands\InstallCommand;
 use ArtisanBuild\AgentOsInstaller\Commands\OptimizeClaudeReviewsCommand;
+use ArtisanBuild\AgentOsInstaller\Livewire\AgentOsViewer;
+use ArtisanBuild\AgentOsInstaller\Livewire\SidebarNavigation;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use Override;
 
 /**
@@ -34,6 +37,10 @@ class AgentOsInstallerServiceProvider extends ServiceProvider
     {
         // Load views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'agent-os-installer');
+
+        // Register Livewire components
+        Livewire::component('agent-os-viewer', AgentOsViewer::class);
+        Livewire::component('sidebar-navigation', SidebarNavigation::class);
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
