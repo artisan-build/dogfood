@@ -31,10 +31,17 @@ class AgentOsInstallerServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Load views
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'agent-os-installer');
+
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/agent-os-installer.php' => config_path('agent-os-installer.php'),
             ], 'agent-os-installer-config');
+
+            $this->publishes([
+                __DIR__.'/../resources/views' => resource_path('views/vendor/agent-os-installer'),
+            ], 'agent-os-installer-views');
 
             $this->commands([
                 InstallCommand::class,
