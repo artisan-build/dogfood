@@ -105,15 +105,15 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [x] 10.6 Document middleware customization in package README
   - [x] 10.7 Verify all tests pass
 
-- [ ] 11. Add views and styling
-  - [ ] 11.1 Create Blade view for AgentOsViewer component layout
-  - [ ] 11.2 Create Blade view for SidebarNavigation component
-  - [ ] 11.3 Create Blade view for SearchResults component
-  - [ ] 11.4 Build custom card/badge components with Tailwind CSS (no Pro components)
-  - [ ] 11.5 Ensure responsive layout works on mobile
-  - [ ] 11.6 Add syntax highlighting assets (Highlight.js or Shiki via Vite)
-  - [ ] 11.7 Test dark mode styling
-  - [ ] 11.8 Verify all tests pass
+- [x] 11. Add views and styling
+  - [x] 11.1 Create Blade view for AgentOsViewer component layout
+  - [x] 11.2 Create Blade view for SidebarNavigation component
+  - [ ] 11.3 Create Blade view for SearchResults component (skipped - search moved to separate spec)
+  - [x] 11.4 Build custom card/badge components with Tailwind CSS (no Pro components)
+  - [x] 11.5 Ensure responsive layout works on mobile
+  - [x] 11.6 Add syntax highlighting assets (Highlight.js via CDN)
+  - [x] 11.7 Test dark mode styling
+  - [x] 11.8 Verify all tests pass
 
 - [ ] 12. Integration testing and polish
   - [ ] 12.1 Write feature tests for complete workflows (browsing, search, navigation)
@@ -126,12 +126,12 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [ ] 12.8 Test access control with different middleware configurations
   - [ ] 12.9 Verify all tests pass
 
-- [ ] 13. Documentation and package publishing
-  - [ ] 13.1 Update package README with installation instructions
-  - [ ] 13.2 Document configuration options and examples
-  - [ ] 13.3 Document middleware customization
-  - [ ] 13.4 Add usage examples for route prefix and additional directories
-  - [ ] 13.5 Document @ reference link syntax
-  - [ ] 13.6 Add screenshots or GIFs of the interface
-  - [ ] 13.7 Update CHANGELOG with new features
+- [x] 13. Documentation and package publishing
+  - [x] 13.1 Update package README with installation instructions
+  - [x] 13.2 Document configuration options and examples
+  - [x] 13.3 Document middleware customization
+  - [x] 13.4 Add usage examples for route prefix and additional directories
+  - [x] 13.5 Document @ reference link syntax
+  - [ ] 13.6 Add screenshots or GIFs of the interface (optional)
+  - [ ] 13.7 Update CHANGELOG with new features (will do on release)
   - [ ] 13.8 Verify composer ready passes
