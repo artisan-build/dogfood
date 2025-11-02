@@ -63,6 +63,7 @@ class MarkdownRenderer
      * For other references, converts to navigation links (/path)
      *
      * Example: @.agent-os/specs/2025-11-01-spec/sub-specs/technical-spec.md becomes #technical-spec
+     * Example: @.agent-os/specs/2025-11-01-spec/spec.md becomes #spec-requirements-document
      * Example: @.agent-os/product/mission.md becomes /.agent-os/product/mission.md
      */
     protected function convertReferenceLinks(string $markdown): string
@@ -72,6 +73,11 @@ class MarkdownRenderer
             function ($matches) {
                 $path = $matches[1];
                 $displayPath = str_replace('.agent-os/', '', $path);
+
+                // Check if this is a spec.md reference within a spec folder
+                if (preg_match('/\.agent-os\/specs\/[^\/]+\/spec\.md$/', $path)) {
+                    return "[{$displayPath}](#spec-requirements-document)";
+                }
 
                 // Check if this is a sub-spec reference (within specs/.../sub-specs/)
                 if (preg_match('/\.agent-os\/specs\/[^\/]+\/sub-specs\/(.+)\.md$/', $path, $subMatches)) {

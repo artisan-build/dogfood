@@ -142,7 +142,7 @@ test('it handles @ reference links in lists', function (): void {
 
     expect($html)
         ->toContain('<a href="/.agent-os/product/mission.md">')
-        ->toContain('<a href="/.agent-os/specs/2025-11-01-test-spec/spec.md">');
+        ->toContain('<a href="#spec-requirements-document">'); // spec.md becomes anchor link
 });
 
 test('it only converts @ links with .md extension', function (): void {
@@ -192,4 +192,15 @@ test('it handles multiple sub-spec anchor links', function (): void {
     expect($html)
         ->toContain('<a href="#technical-spec">')
         ->toContain('<a href="#database-schema">');
+});
+
+test('it converts spec.md references to anchor links', function (): void {
+    $renderer = new MarkdownRenderer;
+
+    $markdown = 'See @.agent-os/specs/2025-11-01-test-spec/spec.md for the overview.';
+    $html = $renderer->render($markdown);
+
+    expect($html)
+        ->toContain('<a href="#spec-requirements-document">')
+        ->toContain('specs/2025-11-01-test-spec/spec.md</a>');
 });
