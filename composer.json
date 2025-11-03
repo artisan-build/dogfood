@@ -28,6 +28,7 @@
         "artisan-build/marketing": "*",
         "artisan-build/marketing-mailcoach": "*",
         "artisan-build/mirror": "*",
+        "artisan-build/opencode-sdk": "*",
         "artisan-build/packagist": "*",
         "artisan-build/till": "*",
         "artisan-build/till-stripe": "*",
@@ -166,6 +167,10 @@
         "flux-pro": {
             "type": "composer",
             "url": "https://composer.fluxui.dev"
+        },
+        "saloon-sdk-generator": {
+            "type": "vcs",
+            "url": "https://github.com/artisan-build/saloon-sdk-generator.git"
         }
     }
 }
