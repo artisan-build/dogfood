@@ -80,5 +80,6 @@ As a developer, I want a clean PHP API for conversion operations, so that I can 
 
 ## Spec Documentation
 
+- Tasks: @.agent-os/specs/2025-11-03-json-markdown-conversion/tasks.md
 - Technical Specification: @.agent-os/specs/2025-11-03-json-markdown-conversion/sub-specs/technical-spec.md
 - Tests Specification: @.agent-os/specs/2025-11-03-json-markdown-conversion/sub-specs/tests.md
