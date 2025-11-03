@@ -21,6 +21,8 @@ use League\CommonMark\Extension\Table\TableCell;
 use League\CommonMark\Extension\Table\TableRow;
 use League\CommonMark\Extension\Table\TableSection;
 use League\CommonMark\Extension\TaskList\TaskListItemMarker;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Emphasis;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
 use League\CommonMark\Node\Block\Document;
 use League\CommonMark\Node\Block\Paragraph;
 use League\CommonMark\Node\Inline\Link;
@@ -210,6 +212,54 @@ class MarkdownToJson
                     'url' => $child->getUrl(),
                     'content' => self::extractTextContent($child),
                 ];
+            } elseif ($child instanceof Strong) {
+                $hasFormatting = true;
+                // Check if it contains an Emphasis node (bold + italic)
+                $hasEmphasis = false;
+                foreach ($child->children() as $grandChild) {
+                    if ($grandChild instanceof Emphasis) {
+                        $hasEmphasis = true;
+                        break;
+                    }
+                }
+
+                // Check if parent is Emphasis (bold + italic)
+                $parentIsEmphasis = false;
+                $parent = $child->parent();
+                if ($parent instanceof Emphasis) {
+                    $parentIsEmphasis = true;
+                }
+
+                if (! $parentIsEmphasis) {
+                    $content[] = [
+                        'type' => $hasEmphasis ? 'strong-emphasis' : 'strong',
+                        'content' => self::extractTextContent($child),
+                    ];
+                }
+            } elseif ($child instanceof Emphasis) {
+                $hasFormatting = true;
+                // Check if it contains a Strong node (bold + italic)
+                $hasStrong = false;
+                foreach ($child->children() as $grandChild) {
+                    if ($grandChild instanceof Strong) {
+                        $hasStrong = true;
+                        break;
+                    }
+                }
+
+                // Check if parent is Strong (already handled above)
+                $parentIsStrong = false;
+                $parent = $child->parent();
+                if ($parent instanceof Strong) {
+                    $parentIsStrong = true;
+                }
+
+                if (! $parentIsStrong) {
+                    $content[] = [
+                        'type' => $hasStrong ? 'strong-emphasis' : 'emphasis',
+                        'content' => self::extractTextContent($child),
+                    ];
+                }
             } else {
                 // For other inline nodes, just extract text
                 $literal = self::extractTextContent($child);

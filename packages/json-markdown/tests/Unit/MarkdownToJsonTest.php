@@ -320,3 +320,52 @@ MD;
         ->and($result['children'][1]['language'])->toBeNull()
         ->and($result['children'][1]['content'])->toBe("indented code\nanother line");
 });
+
+// Emphasis tests
+test('it converts bold text to JSON structure', function () {
+    $markdown = 'This is **bold** text.';
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['children'])->toHaveCount(1)
+        ->and($result['children'][0]['type'])->toBe('paragraph')
+        ->and($result['children'][0]['content'])->toBeArray()
+        ->and($result['children'][0]['content'])->toMatchArray([
+            ['type' => 'text', 'content' => 'This is '],
+            ['type' => 'strong', 'content' => 'bold'],
+            ['type' => 'text', 'content' => ' text.'],
+        ]);
+});
+
+test('it converts italic text to JSON structure', function () {
+    $markdown = 'This is *italic* text.';
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['children'])->toHaveCount(1)
+        ->and($result['children'][0]['type'])->toBe('paragraph')
+        ->and($result['children'][0]['content'])->toBeArray()
+        ->and($result['children'][0]['content'])->toMatchArray([
+            ['type' => 'text', 'content' => 'This is '],
+            ['type' => 'emphasis', 'content' => 'italic'],
+            ['type' => 'text', 'content' => ' text.'],
+        ]);
+});
+
+test('it converts bold and italic text to JSON structure', function () {
+    $markdown = 'This is ***bold italic*** text.';
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['children'])->toHaveCount(1)
+        ->and($result['children'][0]['type'])->toBe('paragraph')
+        ->and($result['children'][0]['content'])->toBeArray()
+        ->and($result['children'][0]['content'])->toMatchArray([
+            ['type' => 'text', 'content' => 'This is '],
+            ['type' => 'strong-emphasis', 'content' => 'bold italic'],
+            ['type' => 'text', 'content' => ' text.'],
+        ]);
+});
