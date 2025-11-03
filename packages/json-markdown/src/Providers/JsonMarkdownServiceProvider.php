@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\JsonMarkdown\Providers;
 
+use ArtisanBuild\JsonMarkdown\MarkdownDirectory;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Override;
 
@@ -13,6 +15,10 @@ class JsonMarkdownServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/json-markdown.php', 'json-markdown');
+
+        $this->app->singleton(MarkdownDirectory::class, function ($app) {
+            return new MarkdownDirectory($app->make(Filesystem::class));
+        });
     }
 
     public function boot(): void

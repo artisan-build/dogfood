@@ -92,71 +92,71 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [x] 10.8 Implement link Markdown generation
   - [x] 10.9 Verify all reconstruction tests pass
 
-- [ ] 11. Implement MarkdownDirectory class for directory operations
-  - [ ] 11.1 Write tests for single file directory conversion
-  - [ ] 11.2 Write tests for flat directory with multiple files
-  - [ ] 11.3 Write tests for nested directory structures
-  - [ ] 11.4 Create MarkdownDirectory class with Filesystem injection
-  - [ ] 11.5 Implement toJson() method using Filesystem::allFiles()
-  - [ ] 11.6 Filter files by .md and .markdown extensions
-  - [ ] 11.7 Build nested JSON structure preserving directory hierarchy
-  - [ ] 11.8 Verify directory parsing tests pass
+- [x] 11. Implement MarkdownDirectory class for directory operations
+  - [x] 11.1 Write tests for single file directory conversion
+  - [x] 11.2 Write tests for flat directory with multiple files
+  - [x] 11.3 Write tests for nested directory structures
+  - [x] 11.4 Create MarkdownDirectory class with Filesystem injection
+  - [x] 11.5 Implement toJson() method using Filesystem::allFiles()
+  - [x] 11.6 Filter files by .md and .markdown extensions
+  - [x] 11.7 Build nested JSON structure preserving directory hierarchy
+  - [x] 11.8 Verify directory parsing tests pass
 
-- [ ] 12. Implement directory writing functionality
-  - [ ] 12.1 Write tests for fromJson() creating directory structures
-  - [ ] 12.2 Write tests for file creation from JSON
-  - [ ] 12.3 Write tests for overwrite behavior
-  - [ ] 12.4 Write tests for permission errors
-  - [ ] 12.5 Implement fromJson() method with JSON decoding
-  - [ ] 12.6 Recursively process directory/file nodes from JSON
-  - [ ] 12.7 Create directories with Filesystem::makeDirectory()
-  - [ ] 12.8 Write files with Filesystem::put()
-  - [ ] 12.9 Handle overwrite configuration
-  - [ ] 12.10 Verify all directory writing tests pass
+- [x] 12. Implement directory writing functionality
+  - [x] 12.1 Write tests for fromJson() creating directory structures
+  - [x] 12.2 Write tests for file creation from JSON
+  - [x] 12.3 Write tests for overwrite behavior
+  - [x] 12.4 Write tests for permission errors
+  - [x] 12.5 Implement fromJson() method with JSON decoding
+  - [x] 12.6 Recursively process directory/file nodes from JSON
+  - [x] 12.7 Create directories with Filesystem::makeDirectory()
+  - [x] 12.8 Write files with Filesystem::put()
+  - [x] 12.9 Handle overwrite configuration
+  - [x] 12.10 Verify all directory writing tests pass
 
-- [ ] 13. Create Laravel facades and service provider integration
-  - [ ] 13.1 Create MarkdownToJson facade
-  - [ ] 13.2 Create JsonToMarkdown facade
-  - [ ] 13.3 Create MarkdownDirectory facade
-  - [ ] 13.4 Update JsonMarkdownServiceProvider to bind MarkdownDirectory to container
-  - [ ] 13.5 Register facades in service provider
-  - [ ] 13.6 Write tests verifying facades work correctly
-  - [ ] 13.7 Verify all facade tests pass
+- [x] 13. Create Laravel facades and service provider integration
+  - [x] 13.1 Create MarkdownToJson facade
+  - [x] 13.2 Create JsonToMarkdown facade
+  - [x] 13.3 Create MarkdownDirectory facade
+  - [x] 13.4 Update JsonMarkdownServiceProvider to bind MarkdownDirectory to container
+  - [x] 13.5 Register facades in service provider
+  - [x] 13.6 Write tests verifying facades work correctly
+  - [x] 13.7 Verify all facade tests pass
 
-- [ ] 14. Add round-trip conversion tests
-  - [ ] 14.1 Write tests for Markdown → JSON → Markdown preserving simple documents
-  - [ ] 14.2 Write tests for Markdown → JSON → Markdown preserving complex formatting
-  - [ ] 14.3 Write tests for frontmatter preservation through round-trip
-  - [ ] 14.4 Write tests for GFM features preservation (tables, task lists)
-  - [ ] 14.5 Write tests for directory round-trip conversions
-  - [ ] 14.6 Verify all round-trip tests pass
+- [x] 14. Add round-trip conversion tests
+  - [x] 14.1 Write tests for Markdown → JSON → Markdown preserving simple documents
+  - [x] 14.2 Write tests for Markdown → JSON → Markdown preserving complex formatting
+  - [x] 14.3 Write tests for frontmatter preservation through round-trip
+  - [x] 14.4 Write tests for GFM features preservation (tables, task lists)
+  - [x] 14.5 Write tests for directory round-trip conversions
+  - [x] 14.6 Verify all round-trip tests pass
 
-- [ ] 15. Create test fixtures for comprehensive testing
-  - [ ] 15.1 Create tests/fixtures/markdown/ directory with sample files
-  - [ ] 15.2 Create simple.md, complex.md, minimal.md, empty.md
-  - [ ] 15.3 Create headings.md, code-blocks.md, lists.md
-  - [ ] 15.4 Create with-frontmatter.md and no-frontmatter.md
-  - [ ] 15.5 Create tables.md, task-lists.md, gfm-features.md
-  - [ ] 15.6 Create corresponding JSON fixtures in tests/fixtures/json/
-  - [ ] 15.7 Create sample directories in tests/fixtures/directories/
-  - [ ] 15.8 Verify all fixtures are used in tests
+- [x] 15. Create test fixtures for comprehensive testing
+  - [x] 15.1 Create tests/fixtures/markdown/ directory with sample files
+  - [x] 15.2 Create simple.md, complex.md, minimal.md, empty.md
+  - [x] 15.3 Create headings.md, code-blocks.md, lists.md
+  - [x] 15.4 Create with-frontmatter.md and no-frontmatter.md
+  - [x] 15.5 Create tables.md, task-lists.md, gfm-features.md
+  - [x] 15.6 Create corresponding JSON fixtures in tests/fixtures/json/
+  - [x] 15.7 Create sample directories in tests/fixtures/directories/
+  - [x] 15.8 Verify all fixtures are used in tests
 
-- [ ] 16. Error handling and edge cases
-  - [ ] 16.1 Write tests for invalid JSON input
-  - [ ] 16.2 Write tests for malformed JSON structure
-  - [ ] 16.3 Write tests for non-existent directory paths
-  - [ ] 16.4 Write tests for filesystem permission errors
-  - [ ] 16.5 Implement InvalidArgumentException for invalid JSON
-  - [ ] 16.6 Implement graceful handling of malformed Markdown
-  - [ ] 16.7 Add proper exception messages for all error conditions
-  - [ ] 16.8 Verify all error handling tests pass
+- [x] 16. Error handling and edge cases
+  - [x] 16.1 Write tests for invalid JSON input
+  - [x] 16.2 Write tests for malformed JSON structure
+  - [x] 16.3 Write tests for non-existent directory paths
+  - [x] 16.4 Write tests for filesystem permission errors
+  - [x] 16.5 Implement InvalidArgumentException for invalid JSON
+  - [x] 16.6 Implement graceful handling of malformed Markdown
+  - [x] 16.7 Add proper exception messages for all error conditions
+  - [x] 16.8 Verify all error handling tests pass
 
-- [ ] 17. Documentation and final polish
-  - [ ] 17.1 Update package README.md with installation instructions
-  - [ ] 17.2 Add usage examples to README for MarkdownToJson
-  - [ ] 17.3 Add usage examples to README for JsonToMarkdown
-  - [ ] 17.4 Add usage examples to README for MarkdownDirectory
-  - [ ] 17.5 Document frontmatter and GFM support
-  - [ ] 17.6 Add API documentation to all public methods
-  - [ ] 17.7 Run `composer ready` and ensure all checks pass
-  - [ ] 17.8 Verify all tests pass
+- [x] 17. Documentation and final polish
+  - [x] 17.1 Update package README.md with installation instructions
+  - [x] 17.2 Add usage examples to README for MarkdownToJson
+  - [x] 17.3 Add usage examples to README for JsonToMarkdown
+  - [x] 17.4 Add usage examples to README for MarkdownDirectory
+  - [x] 17.5 Document frontmatter and GFM support
+  - [x] 17.6 Add API documentation to all public methods
+  - [x] 17.7 Run `composer ready` and ensure all checks pass
+  - [x] 17.8 Verify all tests pass
