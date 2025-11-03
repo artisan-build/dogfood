@@ -24,6 +24,7 @@
         "artisan-build/gh": "*",
         "artisan-build/hallway-core": "*",
         "artisan-build/hallway-flux": "*",
+        "artisan-build/json-markdown": "*",
         "artisan-build/kibble": "*",
         "artisan-build/marketing": "*",
         "artisan-build/marketing-mailcoach": "*",

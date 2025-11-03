@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c19d95f8cabb2778803014f9404640c6",
+    "content-hash": "f2beb4ef192081022f1a003d8be338d7",
     "packages": [
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -87,7 +87,7 @@
         },
         {
             "name": "artisan-build/agent-os-installer",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/agent-os-installer",
@@ -153,7 +153,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -230,7 +230,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -348,7 +348,7 @@
         },
         {
             "name": "artisan-build/claudecode",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/claudecode",
@@ -428,7 +428,7 @@
         },
         {
             "name": "artisan-build/code-chat-client",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/code-chat-client",
@@ -509,7 +509,7 @@
         },
         {
             "name": "artisan-build/docsidian",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -591,7 +591,7 @@
         },
         {
             "name": "artisan-build/embeddable-links",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/embeddable-links",
@@ -670,7 +670,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -748,7 +748,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -828,7 +828,7 @@
         },
         {
             "name": "artisan-build/forge-client",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/forge-client",
@@ -911,7 +911,7 @@
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -987,7 +987,7 @@
         },
         {
             "name": "artisan-build/hallway-core",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-core",
@@ -1085,7 +1085,7 @@
         },
         {
             "name": "artisan-build/hallway-flux",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
@@ -1183,8 +1183,87 @@
             }
         },
         {
+            "name": "artisan-build/json-markdown",
+            "version": "dev-json-markdown-conversion",
+            "dist": {
+                "type": "path",
+                "url": "packages/json-markdown",
+                "reference": "f7dbe43e6acb8119d03ec29cc5b12df630a74f45"
+            },
+            "require": {
+                "illuminate/support": "^11.36|^12.0",
+                "league/commonmark": "^2.4",
+                "symfony/yaml": "^6.0|^7.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^v3.0.2",
+                "laravel/pint": "^1.19.0",
+                "orchestra/testbench": "^v9.9.0",
+                "pestphp/pest": "^v3.7.1",
+                "phpstan/phpstan": "^2.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArtisanBuild\\JsonMarkdown\\Providers\\JsonMarkdownServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArtisanBuild\\JsonMarkdown\\": "src/",
+                    "ArtisanBuild\\JsonMarkdown\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@composer run prepare"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-bench --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@composer run prepare",
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "start": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@composer run build",
+                    "@php vendor/bin/testbench serve"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "lint": [
+                    "vendor/bin/pint"
+                ],
+                "stan": [
+                    "vendor/bin/phpstan analyse --memory-limit=-1"
+                ],
+                "ready": [
+                    "@composer lint",
+                    "@composer stan",
+                    "@composer test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A package that handles the conversion of markdown to json and back",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "artisan-build/kibble",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
@@ -1266,7 +1345,7 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -1345,7 +1424,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -1422,7 +1501,7 @@
         },
         {
             "name": "artisan-build/mirror",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/mirror",
@@ -1499,7 +1578,7 @@
         },
         {
             "name": "artisan-build/opencode-sdk",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/opencode-sdk",
@@ -1576,7 +1655,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -1654,7 +1733,7 @@
         },
         {
             "name": "artisan-build/till",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -1734,7 +1813,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -1812,7 +1891,7 @@
         },
         {
             "name": "artisan-build/turbulence",
-            "version": "dev-laravel-12-upgrade",
+            "version": "dev-json-markdown-conversion",
             "dist": {
                 "type": "path",
                 "url": "packages/turbulence",
@@ -12863,16 +12942,16 @@
         },
         {
             "name": "larastan/larastan",
-            "version": "v3.7.2",
+            "version": "v3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/larastan/larastan.git",
-                "reference": "a761859a7487bd7d0cb8b662a7538a234d5bb5ae"
+                "reference": "d13ef96d652d1b2a8f34f1760ba6bf5b9c98112e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/larastan/larastan/zipball/a761859a7487bd7d0cb8b662a7538a234d5bb5ae",
-                "reference": "a761859a7487bd7d0cb8b662a7538a234d5bb5ae",
+                "url": "https://api.github.com/repos/larastan/larastan/zipball/d13ef96d652d1b2a8f34f1760ba6bf5b9c98112e",
+                "reference": "d13ef96d652d1b2a8f34f1760ba6bf5b9c98112e",
                 "shasum": ""
             },
             "require": {
@@ -12886,7 +12965,7 @@
                 "illuminate/pipeline": "^11.44.2 || ^12.4.1",
                 "illuminate/support": "^11.44.2 || ^12.4.1",
                 "php": "^8.2",
-                "phpstan/phpstan": "^2.1.28"
+                "phpstan/phpstan": "^2.1.29"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^13",
@@ -12899,7 +12978,8 @@
                 "phpunit/phpunit": "^10.5.35 || ^11.5.15"
             },
             "suggest": {
-                "orchestra/testbench": "Using Larastan for analysing a package needs Testbench"
+                "orchestra/testbench": "Using Larastan for analysing a package needs Testbench",
+                "phpmyadmin/sql-parser": "Install to enable Larastan's optional phpMyAdmin-based SQL parser automatically"
             },
             "type": "phpstan-extension",
             "extra": {
@@ -12940,7 +13020,7 @@
             ],
             "support": {
                 "issues": "https://github.com/larastan/larastan/issues",
-                "source": "https://github.com/larastan/larastan/tree/v3.7.2"
+                "source": "https://github.com/larastan/larastan/tree/v3.8.0"
             },
             "funding": [
                 {
@@ -12948,7 +13028,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-19T09:03:05+00:00"
+            "time": "2025-10-27T23:09:14+00:00"
         },
         {
             "name": "laravel/pail",

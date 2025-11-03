@@ -108,3 +108,146 @@ test('it handles malformed markdown gracefully', function () {
     // Should parse as paragraph since it's malformed
     expect($result['children'][0]['type'])->toBe('paragraph');
 });
+
+// Frontmatter tests
+test('it parses YAML frontmatter and includes in JSON', function () {
+    $markdown = <<<'MD'
+---
+title: My Document
+date: 2025-11-03
+tags:
+  - example
+  - markdown
+---
+
+# Content Heading
+
+This is the content.
+MD;
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result)->toHaveKey('frontmatter')
+        ->and($result['frontmatter'])->toBeArray()
+        ->and($result['frontmatter']['title'])->toBe('My Document')
+        ->and($result['frontmatter']['date'])->toBeInt() // YAML parses dates as timestamps
+        ->and($result['frontmatter']['tags'])->toBe(['example', 'markdown'])
+        ->and($result['children'])->toHaveCount(2)
+        ->and($result['children'][0]['type'])->toBe('heading');
+});
+
+test('it handles documents with no frontmatter', function () {
+    $markdown = '# Just a heading';
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result)->not->toHaveKey('frontmatter')
+        ->and($result['children'][0]['type'])->toBe('heading');
+});
+
+test('it handles complex frontmatter with nested objects', function () {
+    $markdown = <<<'MD'
+---
+title: Complex Document
+author:
+  name: John Doe
+  email: john@example.com
+metadata:
+  version: 1.0
+  published: true
+---
+
+Content here.
+MD;
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['frontmatter'])->toBeArray()
+        ->and($result['frontmatter']['author'])->toBeArray()
+        ->and($result['frontmatter']['author']['name'])->toBe('John Doe')
+        ->and($result['frontmatter']['metadata']['version'])->toBeNumeric() // YAML parses numeric values
+        ->and($result['frontmatter']['metadata']['published'])->toBe(true);
+});
+
+// GFM tests
+test('it converts markdown tables to JSON structure', function () {
+    $markdown = <<<'MD'
+| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |
+MD;
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['children'])->toHaveCount(1)
+        ->and($result['children'][0]['type'])->toBe('table')
+        ->and($result['children'][0]['header'])->toBe(['Header 1', 'Header 2'])
+        ->and($result['children'][0]['rows'])->toHaveCount(2)
+        ->and($result['children'][0]['rows'][0])->toBe(['Cell 1', 'Cell 2'])
+        ->and($result['children'][0]['rows'][1])->toBe(['Cell 3', 'Cell 4']);
+});
+
+test('it converts task lists to JSON structure', function () {
+    $markdown = <<<'MD'
+- [ ] Unchecked task
+- [x] Checked task
+- [ ] Another unchecked task
+MD;
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['children'])->toHaveCount(1)
+        ->and($result['children'][0]['type'])->toBe('list')
+        ->and($result['children'][0]['ordered'])->toBe(false)
+        ->and($result['children'][0]['items'])->toHaveCount(3)
+        ->and($result['children'][0]['items'][0])->toMatchArray([
+            'checked' => false,
+            'content' => 'Unchecked task',
+        ])
+        ->and($result['children'][0]['items'][1])->toMatchArray([
+            'checked' => true,
+            'content' => 'Checked task',
+        ])
+        ->and($result['children'][0]['items'][2])->toMatchArray([
+            'checked' => false,
+            'content' => 'Another unchecked task',
+        ]);
+});
+
+test('it converts strikethrough text to JSON structure', function () {
+    $markdown = 'This is ~~strikethrough~~ text.';
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['children'])->toHaveCount(1)
+        ->and($result['children'][0]['type'])->toBe('paragraph')
+        ->and($result['children'][0]['content'])->toBeArray()
+        ->and($result['children'][0]['content'])->toMatchArray([
+            ['type' => 'text', 'content' => 'This is '],
+            ['type' => 'strikethrough', 'content' => 'strikethrough'],
+            ['type' => 'text', 'content' => ' text.'],
+        ]);
+});
+
+test('it converts links to JSON structure', function () {
+    $markdown = 'Visit [my website](https://example.com) for more info.';
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['children'])->toHaveCount(1)
+        ->and($result['children'][0]['type'])->toBe('paragraph')
+        ->and($result['children'][0]['content'])->toBeArray()
+        ->and($result['children'][0]['content'])->toMatchArray([
+            ['type' => 'text', 'content' => 'Visit '],
+            ['type' => 'link', 'url' => 'https://example.com', 'content' => 'my website'],
+            ['type' => 'text', 'content' => ' for more info.'],
+        ]);
+});
