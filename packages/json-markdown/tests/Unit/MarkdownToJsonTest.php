@@ -251,3 +251,72 @@ test('it converts links to JSON structure', function () {
             ['type' => 'text', 'content' => ' for more info.'],
         ]);
 });
+
+// List and code block tests
+test('it converts unordered lists to JSON structure', function () {
+    $markdown = <<<'MD'
+- Item 1
+- Item 2
+- Item 3
+MD;
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['children'])->toHaveCount(1)
+        ->and($result['children'][0]['type'])->toBe('list')
+        ->and($result['children'][0]['ordered'])->toBe(false)
+        ->and($result['children'][0]['items'])->toBe(['Item 1', 'Item 2', 'Item 3']);
+});
+
+test('it converts ordered lists to JSON structure', function () {
+    $markdown = <<<'MD'
+1. First item
+2. Second item
+3. Third item
+MD;
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['children'])->toHaveCount(1)
+        ->and($result['children'][0]['type'])->toBe('list')
+        ->and($result['children'][0]['ordered'])->toBe(true)
+        ->and($result['children'][0]['items'])->toBe(['First item', 'Second item', 'Third item']);
+});
+
+test('it converts fenced code blocks to JSON structure', function () {
+    $markdown = <<<'MD'
+```php
+function hello() {
+    return 'world';
+}
+```
+MD;
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['children'])->toHaveCount(1)
+        ->and($result['children'][0]['type'])->toBe('code')
+        ->and($result['children'][0]['language'])->toBe('php')
+        ->and($result['children'][0]['content'])->toBe("function hello() {\n    return 'world';\n}");
+});
+
+test('it converts indented code blocks to JSON structure', function () {
+    $markdown = <<<'MD'
+Regular paragraph.
+
+    indented code
+    another line
+MD;
+
+    $json = MarkdownToJson::convert($markdown);
+    $result = json_decode($json, true);
+
+    expect($result['children'])->toHaveCount(2)
+        ->and($result['children'][0]['type'])->toBe('paragraph')
+        ->and($result['children'][1]['type'])->toBe('code')
+        ->and($result['children'][1]['language'])->toBeNull()
+        ->and($result['children'][1]['content'])->toBe("indented code\nanother line");
+});

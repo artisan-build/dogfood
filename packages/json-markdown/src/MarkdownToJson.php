@@ -11,6 +11,8 @@ use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
 use League\CommonMark\Extension\FrontMatter\FrontMatterParser;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
+use League\CommonMark\Extension\CommonMark\Node\Block\IndentedCode;
 use League\CommonMark\Extension\CommonMark\Node\Block\ListBlock;
 use League\CommonMark\Extension\CommonMark\Node\Block\ListItem;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension\Strikethrough;
@@ -137,6 +139,24 @@ class MarkdownToJson
         // Handle List nodes
         if ($node instanceof ListBlock) {
             return self::processList($node);
+        }
+
+        // Handle FencedCode nodes
+        if ($node instanceof FencedCode) {
+            return [
+                'type' => 'code',
+                'language' => $node->getInfo() ?: null,
+                'content' => rtrim($node->getLiteral()),
+            ];
+        }
+
+        // Handle IndentedCode nodes
+        if ($node instanceof IndentedCode) {
+            return [
+                'type' => 'code',
+                'language' => null,
+                'content' => rtrim($node->getLiteral()),
+            ];
         }
 
         return null;
