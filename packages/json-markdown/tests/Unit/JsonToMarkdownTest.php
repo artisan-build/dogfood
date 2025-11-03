@@ -282,3 +282,176 @@ test('it converts JSON with inline formatting to markdown', function () {
 
     expect($markdown)->toBe('This is ~~strikethrough~~ text.');
 });
+
+// Remaining features tests
+test('it converts JSON with unordered list to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            [
+                'type' => 'list',
+                'ordered' => false,
+                'items' => ['Item 1', 'Item 2', 'Item 3'],
+            ],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    $expected = <<<'MD'
+- Item 1
+- Item 2
+- Item 3
+MD;
+
+    expect($markdown)->toBe($expected);
+});
+
+test('it converts JSON with ordered list to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            [
+                'type' => 'list',
+                'ordered' => true,
+                'items' => ['First item', 'Second item', 'Third item'],
+            ],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    $expected = <<<'MD'
+1. First item
+2. Second item
+3. Third item
+MD;
+
+    expect($markdown)->toBe($expected);
+});
+
+test('it converts JSON with fenced code block to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            [
+                'type' => 'code',
+                'language' => 'php',
+                'content' => "function hello() {\n    return 'world';\n}",
+            ],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    $expected = <<<'MD'
+```php
+function hello() {
+    return 'world';
+}
+```
+MD;
+
+    expect($markdown)->toBe($expected);
+});
+
+test('it converts JSON with indented code block to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            ['type' => 'paragraph', 'content' => 'Regular paragraph.'],
+            ['type' => 'code', 'language' => null, 'content' => "indented code\nanother line"],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    $expected = <<<'MD'
+Regular paragraph.
+
+    indented code
+    another line
+MD;
+
+    expect($markdown)->toBe($expected);
+});
+
+test('it converts JSON with emphasis to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            [
+                'type' => 'paragraph',
+                'content' => [
+                    ['type' => 'text', 'content' => 'This is '],
+                    ['type' => 'strong', 'content' => 'bold'],
+                    ['type' => 'text', 'content' => ' text.'],
+                ],
+            ],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    expect($markdown)->toBe('This is **bold** text.');
+});
+
+test('it converts JSON with italic to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            [
+                'type' => 'paragraph',
+                'content' => [
+                    ['type' => 'text', 'content' => 'This is '],
+                    ['type' => 'emphasis', 'content' => 'italic'],
+                    ['type' => 'text', 'content' => ' text.'],
+                ],
+            ],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    expect($markdown)->toBe('This is *italic* text.');
+});
+
+test('it converts JSON with bold and italic to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            [
+                'type' => 'paragraph',
+                'content' => [
+                    ['type' => 'text', 'content' => 'This is '],
+                    ['type' => 'strong-emphasis', 'content' => 'bold italic'],
+                    ['type' => 'text', 'content' => ' text.'],
+                ],
+            ],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    expect($markdown)->toBe('This is ***bold italic*** text.');
+});
+
+test('it converts JSON with link to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            [
+                'type' => 'paragraph',
+                'content' => [
+                    ['type' => 'text', 'content' => 'Visit '],
+                    ['type' => 'link', 'url' => 'https://example.com', 'content' => 'my website'],
+                    ['type' => 'text', 'content' => ' for more info.'],
+                ],
+            ],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    expect($markdown)->toBe('Visit [my website](https://example.com) for more info.');
+});
