@@ -207,3 +207,78 @@ test('it handles documents without frontmatter', function () {
 
     expect($markdown)->toBe('# Just a heading');
 });
+
+// GFM tests
+test('it converts JSON table to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            [
+                'type' => 'table',
+                'header' => ['Header 1', 'Header 2'],
+                'rows' => [
+                    ['Cell 1', 'Cell 2'],
+                    ['Cell 3', 'Cell 4'],
+                ],
+            ],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    $expected = <<<'MD'
+| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1 | Cell 2 |
+| Cell 3 | Cell 4 |
+MD;
+
+    expect($markdown)->toBe($expected);
+});
+
+test('it converts JSON task list to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            [
+                'type' => 'list',
+                'ordered' => false,
+                'items' => [
+                    ['checked' => false, 'content' => 'Unchecked task'],
+                    ['checked' => true, 'content' => 'Checked task'],
+                    ['checked' => false, 'content' => 'Another unchecked task'],
+                ],
+            ],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    $expected = <<<'MD'
+- [ ] Unchecked task
+- [x] Checked task
+- [ ] Another unchecked task
+MD;
+
+    expect($markdown)->toBe($expected);
+});
+
+test('it converts JSON with inline formatting to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            [
+                'type' => 'paragraph',
+                'content' => [
+                    ['type' => 'text', 'content' => 'This is '],
+                    ['type' => 'strikethrough', 'content' => 'strikethrough'],
+                    ['type' => 'text', 'content' => ' text.'],
+                ],
+            ],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    expect($markdown)->toBe('This is ~~strikethrough~~ text.');
+});
