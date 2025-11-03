@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\JsonMarkdown;
 
+use Symfony\Component\Yaml\Yaml;
+
 class JsonToMarkdown
 {
     /**
@@ -17,14 +19,17 @@ class JsonToMarkdown
             throw new \InvalidArgumentException('Invalid JSON structure. Expected a document with type "document".');
         }
 
+        $frontmatter = $data['frontmatter'] ?? null;
         $children = $data['children'] ?? [];
-
-        if (empty($children)) {
-            return '';
-        }
 
         $markdown = [];
 
+        // Add frontmatter if present
+        if ($frontmatter !== null && ! empty($frontmatter)) {
+            $markdown[] = self::processFrontmatter($frontmatter);
+        }
+
+        // Process children
         foreach ($children as $child) {
             $result = self::processNode($child);
             if ($result !== null) {
@@ -32,7 +37,21 @@ class JsonToMarkdown
             }
         }
 
+        if (empty($markdown)) {
+            return '';
+        }
+
         return implode("\n\n", $markdown);
+    }
+
+    /**
+     * Process frontmatter into YAML.
+     */
+    protected static function processFrontmatter(array $frontmatter): string
+    {
+        $yaml = Yaml::dump($frontmatter, 10, 2);
+
+        return "---\n" . rtrim($yaml) . "\n---";
     }
 
     /**

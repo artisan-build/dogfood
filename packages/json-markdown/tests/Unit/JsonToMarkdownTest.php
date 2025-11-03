@@ -122,3 +122,88 @@ test('it converts empty JSON document to empty string', function () {
 
     expect($markdown)->toBe('');
 });
+
+// Frontmatter tests
+test('it converts JSON with frontmatter to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'frontmatter' => [
+            'title' => 'My Document',
+            'date' => '2025-11-03',
+            'tags' => ['example', 'markdown'],
+        ],
+        'children' => [
+            ['type' => 'heading', 'level' => 1, 'content' => 'Content Heading'],
+            ['type' => 'paragraph', 'content' => 'This is the content.'],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    $expected = <<<'MD'
+---
+title: 'My Document'
+date: '2025-11-03'
+tags:
+  - example
+  - markdown
+---
+
+# Content Heading
+
+This is the content.
+MD;
+
+    expect($markdown)->toBe($expected);
+});
+
+test('it converts JSON with complex nested frontmatter to markdown', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'frontmatter' => [
+            'title' => 'Complex Document',
+            'author' => [
+                'name' => 'John Doe',
+                'email' => 'john@example.com',
+            ],
+            'metadata' => [
+                'version' => 1.0,
+                'published' => true,
+            ],
+        ],
+        'children' => [
+            ['type' => 'paragraph', 'content' => 'Content here.'],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    $expected = <<<'MD'
+---
+title: 'Complex Document'
+author:
+  name: 'John Doe'
+  email: john@example.com
+metadata:
+  version: 1
+  published: true
+---
+
+Content here.
+MD;
+
+    expect($markdown)->toBe($expected);
+});
+
+test('it handles documents without frontmatter', function () {
+    $json = json_encode([
+        'type' => 'document',
+        'children' => [
+            ['type' => 'heading', 'level' => 1, 'content' => 'Just a heading'],
+        ],
+    ]);
+
+    $markdown = JsonToMarkdown::convert($json);
+
+    expect($markdown)->toBe('# Just a heading');
+});
