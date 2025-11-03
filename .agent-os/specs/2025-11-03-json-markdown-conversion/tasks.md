@@ -7,91 +7,90 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
 
 ## Tasks
 
-- [ ] 1. Set up package dependencies and configuration
-  - [ ] 1.1 Add `league/commonmark` ^2.4 to composer.json
-  - [ ] 1.2 Add `symfony/yaml` ^6.0|^7.0 to composer.json
-  - [ ] 1.3 Run `composer update` to install dependencies
-  - [ ] 1.4 Update config/json-markdown.php with pretty_print, extensions, and overwrite options
-  - [ ] 1.5 Verify all tests pass after dependency installation
+- [x] 1. Set up package dependencies and configuration
+  - [x] 1.1 Add `league/commonmark` ^2.4 to composer.json
+  - [x] 1.2 Add `symfony/yaml` ^6.0|^7.0 to composer.json
+  - [x] 1.3 Run `composer update` to install dependencies
+  - [x] 1.4 Update config/json-markdown.php with pretty_print, extensions, and overwrite options
+  - [x] 1.5 Verify all tests pass after dependency installation
 
-- [ ] 2. Implement MarkdownToJson class with core conversion
-  - [ ] 2.1 Write tests for MarkdownToJson with simple documents (paragraphs, headings)
-  - [ ] 2.2 Create MarkdownToJson class with static convert() method
-  - [ ] 2.3 Configure Environment with FrontMatterExtension and GithubFlavoredMarkdownExtension
-  - [ ] 2.4 Implement AST parsing and node walking with NodeWalker
-  - [ ] 2.5 Build JSON structure from AST nodes (document, heading, paragraph)
-  - [ ] 2.6 Implement JSON pretty-printing based on configuration
-  - [ ] 2.7 Verify tests pass for basic document structures
+- [x] 2. Implement MarkdownToJson class with core conversion
+  - [x] 2.1 Write tests for MarkdownToJson with simple documents (paragraphs, headings)
+  - [x] 2.2 Create MarkdownToJson class with static convert() method
+  - [x] 2.3 Configure Environment with FrontMatterExtension and GithubFlavoredMarkdownExtension
+  - [x] 2.4 Implement AST parsing and node walking with NodeWalker
+  - [x] 2.5 Build JSON structure from AST nodes (document, heading, paragraph)
+  - [x] 2.6 Implement JSON pretty-printing based on configuration
+  - [x] 2.7 Verify tests pass for basic document structures
 
-- [ ] 3. Add frontmatter support to MarkdownToJson
-  - [ ] 3.1 Write tests for documents with YAML frontmatter
-  - [ ] 3.2 Write tests for documents without frontmatter
-  - [ ] 3.3 Extract frontmatter from ConverterResult
-  - [ ] 3.4 Include frontmatter as top-level property in JSON
-  - [ ] 3.5 Handle various frontmatter data types (strings, arrays, objects)
-  - [ ] 3.6 Verify all frontmatter tests pass
+- [x] 3. Add frontmatter support to MarkdownToJson
+  - [x] 3.1 Write tests for documents with YAML frontmatter
+  - [x] 3.2 Write tests for documents without frontmatter
+  - [x] 3.3 Extract frontmatter from ConverterResult
+  - [x] 3.4 Include frontmatter as top-level property in JSON
+  - [x] 3.5 Handle various frontmatter data types (strings, arrays, objects)
+  - [x] 3.6 Verify all frontmatter tests pass
 
-- [ ] 4. Add GFM support to MarkdownToJson
-  - [ ] 4.1 Write tests for tables conversion
-  - [ ] 4.2 Write tests for task lists with checked/unchecked states
-  - [ ] 4.3 Write tests for strikethrough text
-  - [ ] 4.4 Write tests for autolinks
-  - [ ] 4.5 Implement table node handling in AST walker
-  - [ ] 4.6 Implement task list node handling with checked property
-  - [ ] 4.7 Implement strikethrough node handling
-  - [ ] 4.8 Implement autolink node handling
-  - [ ] 4.9 Verify all GFM tests pass
+- [x] 4. Add GFM support to MarkdownToJson
+  - [x] 4.1 Write tests for tables conversion
+  - [x] 4.2 Write tests for task lists with checked/unchecked states
+  - [x] 4.3 Write tests for strikethrough text
+  - [x] 4.4 Write tests for links
+  - [x] 4.5 Implement table node handling in AST walker
+  - [x] 4.6 Implement task list node handling with checked property
+  - [x] 4.7 Implement strikethrough node handling
+  - [x] 4.8 Implement link node handling
+  - [x] 4.9 Verify all GFM tests pass
 
-- [ ] 5. Add list and code block support to MarkdownToJson
-  - [ ] 5.1 Write tests for ordered and unordered lists
-  - [ ] 5.2 Write tests for nested lists
-  - [ ] 5.3 Write tests for code blocks with language metadata
-  - [ ] 5.4 Implement list node handling (ordered and unordered)
-  - [ ] 5.5 Implement code block node handling with language extraction
-  - [ ] 5.6 Verify all list and code block tests pass
+- [x] 5. Add list and code block support to MarkdownToJson
+  - [x] 5.1 Write tests for ordered and unordered lists
+  - [x] 5.2 Write tests for code blocks with language metadata
+  - [x] 5.3 Implement list node handling (ordered and unordered)
+  - [x] 5.4 Implement code block node handling (fenced and indented)
+  - [x] 5.5 Verify all list and code block tests pass
 
-- [ ] 6. Add emphasis and link support to MarkdownToJson
-  - [ ] 6.1 Write tests for bold and italic text
-  - [ ] 6.2 Write tests for links with URL and text
-  - [ ] 6.3 Implement emphasis node handling (bold, italic)
-  - [ ] 6.4 Implement link node handling with URL and text extraction
-  - [ ] 6.5 Verify all emphasis and link tests pass
+- [x] 6. Add emphasis and link support to MarkdownToJson
+  - [x] 6.1 Write tests for bold and italic text
+  - [x] 6.2 Write tests for links with URL and text
+  - [x] 6.3 Implement emphasis node handling (bold, italic, bold+italic)
+  - [x] 6.4 Implement link node handling with URL and text extraction
+  - [x] 6.5 Verify all emphasis and link tests pass
 
-- [ ] 7. Implement JsonToMarkdown class with core reconstruction
-  - [ ] 7.1 Write tests for basic JSON to Markdown conversion
-  - [ ] 7.2 Create JsonToMarkdown class with static convert() method
-  - [ ] 7.3 Implement JSON decoding with error handling
-  - [ ] 7.4 Implement recursive Markdown building from JSON structure
-  - [ ] 7.5 Handle document, heading, and paragraph node types
-  - [ ] 7.6 Verify tests pass for basic reconstructions
+- [x] 7. Implement JsonToMarkdown class with core reconstruction
+  - [x] 7.1 Write tests for basic JSON to Markdown conversion
+  - [x] 7.2 Create JsonToMarkdown class with static convert() method
+  - [x] 7.3 Implement JSON decoding with error handling
+  - [x] 7.4 Implement recursive Markdown building from JSON structure
+  - [x] 7.5 Handle document, heading, and paragraph node types
+  - [x] 7.6 Verify tests pass for basic reconstructions
 
-- [ ] 8. Add frontmatter reconstruction to JsonToMarkdown
-  - [ ] 8.1 Write tests for frontmatter reconstruction with various data types
-  - [ ] 8.2 Write tests for JSON without frontmatter property
-  - [ ] 8.3 Extract frontmatter from JSON structure
-  - [ ] 8.4 Convert frontmatter to YAML using symfony/yaml
-  - [ ] 8.5 Prepend YAML frontmatter block with --- delimiters
-  - [ ] 8.6 Verify all frontmatter reconstruction tests pass
+- [x] 8. Add frontmatter reconstruction to JsonToMarkdown
+  - [x] 8.1 Write tests for frontmatter reconstruction with various data types
+  - [x] 8.2 Write tests for JSON without frontmatter property
+  - [x] 8.3 Extract frontmatter from JSON structure
+  - [x] 8.4 Convert frontmatter to YAML using symfony/yaml
+  - [x] 8.5 Prepend YAML frontmatter block with --- delimiters
+  - [x] 8.6 Verify all frontmatter reconstruction tests pass
 
-- [ ] 9. Add GFM reconstruction to JsonToMarkdown
-  - [ ] 9.1 Write tests for table reconstruction with pipe syntax
-  - [ ] 9.2 Write tests for task list reconstruction with [ ] and [x]
-  - [ ] 9.3 Write tests for strikethrough reconstruction with ~~text~~
-  - [ ] 9.4 Implement table Markdown generation from JSON
-  - [ ] 9.5 Implement task list Markdown generation with checkbox syntax
-  - [ ] 9.6 Implement strikethrough Markdown generation
-  - [ ] 9.7 Verify all GFM reconstruction tests pass
+- [x] 9. Add GFM reconstruction to JsonToMarkdown
+  - [x] 9.1 Write tests for table reconstruction with pipe syntax
+  - [x] 9.2 Write tests for task list reconstruction with [ ] and [x]
+  - [x] 9.3 Write tests for strikethrough reconstruction with ~~text~~
+  - [x] 9.4 Implement table Markdown generation from JSON
+  - [x] 9.5 Implement task list Markdown generation with checkbox syntax
+  - [x] 9.6 Implement strikethrough Markdown generation
+  - [x] 9.7 Verify all GFM reconstruction tests pass
 
-- [ ] 10. Add list, code block, emphasis, and link reconstruction to JsonToMarkdown
-  - [ ] 10.1 Write tests for list reconstruction (ordered and unordered)
-  - [ ] 10.2 Write tests for code block reconstruction with language
-  - [ ] 10.3 Write tests for emphasis reconstruction (bold, italic)
-  - [ ] 10.4 Write tests for link reconstruction
-  - [ ] 10.5 Implement list Markdown generation
-  - [ ] 10.6 Implement code block Markdown generation with language annotation
-  - [ ] 10.7 Implement emphasis Markdown generation
-  - [ ] 10.8 Implement link Markdown generation
-  - [ ] 10.9 Verify all reconstruction tests pass
+- [x] 10. Add list, code block, emphasis, and link reconstruction to JsonToMarkdown
+  - [x] 10.1 Write tests for list reconstruction (ordered and unordered)
+  - [x] 10.2 Write tests for code block reconstruction with language
+  - [x] 10.3 Write tests for emphasis reconstruction (bold, italic)
+  - [x] 10.4 Write tests for link reconstruction
+  - [x] 10.5 Implement list Markdown generation
+  - [x] 10.6 Implement code block Markdown generation with language annotation
+  - [x] 10.7 Implement emphasis Markdown generation
+  - [x] 10.8 Implement link Markdown generation
+  - [x] 10.9 Verify all reconstruction tests pass
 
 - [ ] 11. Implement MarkdownDirectory class for directory operations
   - [ ] 11.1 Write tests for single file directory conversion
