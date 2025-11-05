@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use ArtisanBuild\JsonMarkdown\MarkdownToJson;
 
-test('it converts a simple paragraph to JSON structure', function () {
+test('it converts a simple paragraph to JSON structure', function (): void {
     $markdown = 'This is a simple paragraph.';
 
     $json = MarkdownToJson::convert($markdown);
@@ -17,7 +17,7 @@ test('it converts a simple paragraph to JSON structure', function () {
         ->and($result['children'][0]['content'])->toBe('This is a simple paragraph.');
 });
 
-test('it converts heading level 1 to JSON with correct level', function () {
+test('it converts heading level 1 to JSON with correct level', function (): void {
     $markdown = '# My Heading';
 
     $json = MarkdownToJson::convert($markdown);
@@ -28,7 +28,7 @@ test('it converts heading level 1 to JSON with correct level', function () {
         ->and($result['children'][0]['content'])->toBe('My Heading');
 });
 
-test('it converts heading level 2 to JSON', function () {
+test('it converts heading level 2 to JSON', function (): void {
     $markdown = '## Section Heading';
 
     $json = MarkdownToJson::convert($markdown);
@@ -41,7 +41,7 @@ test('it converts heading level 2 to JSON', function () {
     ]);
 });
 
-test('it converts multiple headings H1-H6', function () {
+test('it converts multiple headings H1-H6', function (): void {
     $markdown = <<<'MD'
 # Heading 1
 ## Heading 2
@@ -65,7 +65,7 @@ MD;
     }
 });
 
-test('it converts document with mixed headings and paragraphs', function () {
+test('it converts document with mixed headings and paragraphs', function (): void {
     $markdown = <<<'MD'
 # Main Title
 
@@ -88,7 +88,7 @@ MD;
         ->and($result['children'][3]['type'])->toBe('paragraph');
 });
 
-test('it converts empty string to minimal document structure', function () {
+test('it converts empty string to minimal document structure', function (): void {
     $markdown = '';
 
     $json = MarkdownToJson::convert($markdown);
@@ -99,7 +99,7 @@ test('it converts empty string to minimal document structure', function () {
         ->and($result['children'])->toBeEmpty();
 });
 
-test('it handles malformed markdown gracefully', function () {
+test('it handles malformed markdown gracefully', function (): void {
     $markdown = '######## Too many hashes';
 
     $json = MarkdownToJson::convert($markdown);
@@ -110,7 +110,7 @@ test('it handles malformed markdown gracefully', function () {
 });
 
 // Frontmatter tests
-test('it parses YAML frontmatter and includes in JSON', function () {
+test('it parses YAML frontmatter and includes in JSON', function (): void {
     $markdown = <<<'MD'
 ---
 title: My Document
@@ -137,7 +137,7 @@ MD;
         ->and($result['children'][0]['type'])->toBe('heading');
 });
 
-test('it handles documents with no frontmatter', function () {
+test('it handles documents with no frontmatter', function (): void {
     $markdown = '# Just a heading';
 
     $json = MarkdownToJson::convert($markdown);
@@ -147,7 +147,7 @@ test('it handles documents with no frontmatter', function () {
         ->and($result['children'][0]['type'])->toBe('heading');
 });
 
-test('it handles complex frontmatter with nested objects', function () {
+test('it handles complex frontmatter with nested objects', function (): void {
     $markdown = <<<'MD'
 ---
 title: Complex Document
@@ -173,7 +173,7 @@ MD;
 });
 
 // GFM tests
-test('it converts markdown tables to JSON structure', function () {
+test('it converts markdown tables to JSON structure', function (): void {
     $markdown = <<<'MD'
 | Header 1 | Header 2 |
 |----------|----------|
@@ -192,7 +192,7 @@ MD;
         ->and($result['children'][0]['rows'][1])->toBe(['Cell 3', 'Cell 4']);
 });
 
-test('it converts task lists to JSON structure', function () {
+test('it converts task lists to JSON structure', function (): void {
     $markdown = <<<'MD'
 - [ ] Unchecked task
 - [x] Checked task
@@ -220,7 +220,7 @@ MD;
         ]);
 });
 
-test('it converts strikethrough text to JSON structure', function () {
+test('it converts strikethrough text to JSON structure', function (): void {
     $markdown = 'This is ~~strikethrough~~ text.';
 
     $json = MarkdownToJson::convert($markdown);
@@ -236,7 +236,7 @@ test('it converts strikethrough text to JSON structure', function () {
         ]);
 });
 
-test('it converts links to JSON structure', function () {
+test('it converts links to JSON structure', function (): void {
     $markdown = 'Visit [my website](https://example.com) for more info.';
 
     $json = MarkdownToJson::convert($markdown);
@@ -253,7 +253,7 @@ test('it converts links to JSON structure', function () {
 });
 
 // List and code block tests
-test('it converts unordered lists to JSON structure', function () {
+test('it converts unordered lists to JSON structure', function (): void {
     $markdown = <<<'MD'
 - Item 1
 - Item 2
@@ -269,7 +269,7 @@ MD;
         ->and($result['children'][0]['items'])->toBe(['Item 1', 'Item 2', 'Item 3']);
 });
 
-test('it converts ordered lists to JSON structure', function () {
+test('it converts ordered lists to JSON structure', function (): void {
     $markdown = <<<'MD'
 1. First item
 2. Second item
@@ -285,7 +285,7 @@ MD;
         ->and($result['children'][0]['items'])->toBe(['First item', 'Second item', 'Third item']);
 });
 
-test('it converts fenced code blocks to JSON structure', function () {
+test('it converts fenced code blocks to JSON structure', function (): void {
     $markdown = <<<'MD'
 ```php
 function hello() {
@@ -303,7 +303,7 @@ MD;
         ->and($result['children'][0]['content'])->toBe("function hello() {\n    return 'world';\n}");
 });
 
-test('it converts indented code blocks to JSON structure', function () {
+test('it converts indented code blocks to JSON structure', function (): void {
     $markdown = <<<'MD'
 Regular paragraph.
 
@@ -322,7 +322,7 @@ MD;
 });
 
 // Emphasis tests
-test('it converts bold text to JSON structure', function () {
+test('it converts bold text to JSON structure', function (): void {
     $markdown = 'This is **bold** text.';
 
     $json = MarkdownToJson::convert($markdown);
@@ -338,7 +338,7 @@ test('it converts bold text to JSON structure', function () {
         ]);
 });
 
-test('it converts italic text to JSON structure', function () {
+test('it converts italic text to JSON structure', function (): void {
     $markdown = 'This is *italic* text.';
 
     $json = MarkdownToJson::convert($markdown);
@@ -354,7 +354,7 @@ test('it converts italic text to JSON structure', function () {
         ]);
 });
 
-test('it converts bold and italic text to JSON structure', function () {
+test('it converts bold and italic text to JSON structure', function (): void {
     $markdown = 'This is ***bold italic*** text.';
 
     $json = MarkdownToJson::convert($markdown);

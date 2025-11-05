@@ -5,11 +5,11 @@ declare(strict_types=1);
 use ArtisanBuild\JsonMarkdown\MarkdownDirectory;
 use Illuminate\Support\Facades\Storage;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Storage::fake('local');
 });
 
-test('it converts a single markdown file in directory to JSON', function () {
+test('it converts a single markdown file in directory to JSON', function (): void {
     // Create a test markdown file
     Storage::put('test/simple.md', '# Hello World');
 
@@ -31,7 +31,7 @@ test('it converts a single markdown file in directory to JSON', function () {
         ]);
 });
 
-test('it converts multiple markdown files in flat directory to JSON', function () {
+test('it converts multiple markdown files in flat directory to JSON', function (): void {
     Storage::put('docs/intro.md', '# Introduction');
     Storage::put('docs/guide.md', '# Guide');
     Storage::put('docs/reference.md', '# Reference');
@@ -45,7 +45,7 @@ test('it converts multiple markdown files in flat directory to JSON', function (
         ->toBe(['guide.md', 'intro.md', 'reference.md']);
 });
 
-test('it converts nested directory structure to JSON', function () {
+test('it converts nested directory structure to JSON', function (): void {
     Storage::put('docs/index.md', '# Docs Home');
     Storage::put('docs/guides/getting-started.md', '# Getting Started');
     Storage::put('docs/guides/advanced.md', '# Advanced');
@@ -61,7 +61,7 @@ test('it converts nested directory structure to JSON', function () {
         ->and($result['directories'])->toHaveCount(2);
 });
 
-test('it only processes markdown files with configured extensions', function () {
+test('it only processes markdown files with configured extensions', function (): void {
     Storage::put('docs/readme.md', '# Readme');
     Storage::put('docs/notes.txt', 'Not markdown');
     Storage::put('docs/guide.markdown', '# Guide');
@@ -76,7 +76,7 @@ test('it only processes markdown files with configured extensions', function () 
         ->toBe(['guide.markdown', 'readme.md']);
 });
 
-test('it handles empty directories', function () {
+test('it handles empty directories', function (): void {
     Storage::makeDirectory('empty');
 
     $directory = new MarkdownDirectory(Storage::disk('local'));
@@ -87,12 +87,12 @@ test('it handles empty directories', function () {
         ->and($result['directories'])->toBeArray()->toBeEmpty();
 });
 
-test('it throws exception for non-existent directory', function () {
+test('it throws exception for non-existent directory', function (): void {
     $directory = new MarkdownDirectory(Storage::disk('local'));
     $directory->toJson('nonexistent');
-})->throws(\InvalidArgumentException::class, 'Directory does not exist');
+})->throws(InvalidArgumentException::class, 'Directory does not exist');
 
-test('it creates files from JSON structure', function () {
+test('it creates files from JSON structure', function (): void {
     $json = json_encode([
         'files' => [
             [
@@ -116,7 +116,7 @@ test('it creates files from JSON structure', function () {
         ->and(Storage::get('output/readme.md'))->toBe("# README\n\nThis is a test.");
 });
 
-test('it creates nested directory structures from JSON', function () {
+test('it creates nested directory structures from JSON', function (): void {
     $json = json_encode([
         'files' => [
             ['path' => 'index.md', 'content' => ['type' => 'document', 'children' => [['type' => 'heading', 'level' => 1, 'content' => 'Index']]]],
@@ -143,7 +143,7 @@ test('it creates nested directory structures from JSON', function () {
         ->and(Storage::get('docs/guides/intro.md'))->toBe('# Intro');
 });
 
-test('it respects overwrite configuration when creating files', function () {
+test('it respects overwrite configuration when creating files', function (): void {
     // Create an existing file
     Storage::put('test/existing.md', '# Original Content');
 
@@ -169,7 +169,7 @@ test('it respects overwrite configuration when creating files', function () {
     expect(Storage::get('test/existing.md'))->toBe('# Original Content');
 });
 
-test('it throws exception for invalid JSON in fromJson', function () {
+test('it throws exception for invalid JSON in fromJson', function (): void {
     $directory = new MarkdownDirectory(Storage::disk('local'));
     $directory->fromJson('invalid json', 'output');
-})->throws(\InvalidArgumentException::class, 'Invalid JSON structure');
+})->throws(InvalidArgumentException::class, 'Invalid JSON structure');

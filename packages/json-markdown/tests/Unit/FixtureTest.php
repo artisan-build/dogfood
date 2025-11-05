@@ -7,10 +7,10 @@ use ArtisanBuild\JsonMarkdown\MarkdownToJson;
 
 function loadFixture(string $name): string
 {
-    return file_get_contents(__DIR__ . '/../fixtures/markdown/' . $name);
+    return file_get_contents(__DIR__.'/../fixtures/markdown/'.$name);
 }
 
-test('simple.md fixture converts correctly', function () {
+test('simple.md fixture converts correctly', function (): void {
     $markdown = loadFixture('simple.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -20,7 +20,7 @@ test('simple.md fixture converts correctly', function () {
         ->and($result['children'])->toHaveCount(2); // Heading + paragraph
 });
 
-test('complex.md fixture converts correctly', function () {
+test('complex.md fixture converts correctly', function (): void {
     $markdown = loadFixture('complex.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -31,7 +31,7 @@ test('complex.md fixture converts correctly', function () {
         ->and($result['frontmatter']['title'])->toBe('Complex Document');
 });
 
-test('minimal.md fixture converts correctly', function () {
+test('minimal.md fixture converts correctly', function (): void {
     $markdown = loadFixture('minimal.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -42,7 +42,7 @@ test('minimal.md fixture converts correctly', function () {
         ->and($result['children'][0]['content'])->toBe('Minimal');
 });
 
-test('empty.md fixture converts correctly', function () {
+test('empty.md fixture converts correctly', function (): void {
     $markdown = loadFixture('empty.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -52,7 +52,7 @@ test('empty.md fixture converts correctly', function () {
         ->and($result['children'])->toBeEmpty();
 });
 
-test('headings.md fixture converts correctly', function () {
+test('headings.md fixture converts correctly', function (): void {
     $markdown = loadFixture('headings.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -62,7 +62,7 @@ test('headings.md fixture converts correctly', function () {
         ->and($result['children'][5]['level'])->toBe(6);
 });
 
-test('code-blocks.md fixture converts correctly', function () {
+test('code-blocks.md fixture converts correctly', function (): void {
     $markdown = loadFixture('code-blocks.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -71,7 +71,7 @@ test('code-blocks.md fixture converts correctly', function () {
     expect($codeBlocks)->toHaveCount(3);
 });
 
-test('lists.md fixture converts correctly', function () {
+test('lists.md fixture converts correctly', function (): void {
     $markdown = loadFixture('lists.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -80,7 +80,7 @@ test('lists.md fixture converts correctly', function () {
     expect($lists->count())->toBeGreaterThan(0);
 });
 
-test('with-frontmatter.md fixture converts correctly', function () {
+test('with-frontmatter.md fixture converts correctly', function (): void {
     $markdown = loadFixture('with-frontmatter.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -90,7 +90,7 @@ test('with-frontmatter.md fixture converts correctly', function () {
         ->and($result['frontmatter']['published'])->toBe(true);
 });
 
-test('no-frontmatter.md fixture converts correctly', function () {
+test('no-frontmatter.md fixture converts correctly', function (): void {
     $markdown = loadFixture('no-frontmatter.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -98,7 +98,7 @@ test('no-frontmatter.md fixture converts correctly', function () {
     expect($result)->not->toHaveKey('frontmatter');
 });
 
-test('tables.md fixture converts correctly', function () {
+test('tables.md fixture converts correctly', function (): void {
     $markdown = loadFixture('tables.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -107,7 +107,7 @@ test('tables.md fixture converts correctly', function () {
     expect($tables)->toHaveCount(2);
 });
 
-test('task-lists.md fixture converts correctly', function () {
+test('task-lists.md fixture converts correctly', function (): void {
     $markdown = loadFixture('task-lists.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -116,7 +116,7 @@ test('task-lists.md fixture converts correctly', function () {
     expect($lists->count())->toBeGreaterThan(0);
 });
 
-test('gfm-features.md fixture converts correctly', function () {
+test('gfm-features.md fixture converts correctly', function (): void {
     $markdown = loadFixture('gfm-features.md');
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -126,7 +126,7 @@ test('gfm-features.md fixture converts correctly', function () {
         ->and($result['children'])->not->toBeEmpty();
 });
 
-test('all fixtures round-trip successfully', function () {
+test('all fixtures round-trip successfully', function (): void {
     $fixtures = [
         'simple.md',
         'complex.md',

@@ -7,7 +7,7 @@ use ArtisanBuild\JsonMarkdown\MarkdownDirectory;
 use ArtisanBuild\JsonMarkdown\MarkdownToJson;
 use Illuminate\Support\Facades\Storage;
 
-test('simple document round-trip preserves content', function () {
+test('simple document round-trip preserves content', function (): void {
     $original = '# Hello World';
 
     $json = MarkdownToJson::convert($original);
@@ -16,7 +16,7 @@ test('simple document round-trip preserves content', function () {
     expect($result)->toBe($original);
 });
 
-test('document with paragraphs round-trip preserves content', function () {
+test('document with paragraphs round-trip preserves content', function (): void {
     $original = <<<'MD'
 # Main Title
 
@@ -31,7 +31,7 @@ MD;
     expect($result)->toBe($original);
 });
 
-test('complex document with multiple features round-trip preserves content', function () {
+test('complex document with multiple features round-trip preserves content', function (): void {
     $original = <<<'MD'
 # Main Heading
 
@@ -54,7 +54,7 @@ MD;
     expect($result)->toBe($original);
 });
 
-test('document with frontmatter round-trip preserves content', function () {
+test('document with frontmatter round-trip preserves content', function (): void {
     $original = <<<'MD'
 ---
 title: 'My Document'
@@ -75,7 +75,7 @@ MD;
     expect($result)->toBe($original);
 });
 
-test('document with code blocks round-trip preserves content', function () {
+test('document with code blocks round-trip preserves content', function (): void {
     $original = <<<'MD'
 # Code Example
 
@@ -97,7 +97,7 @@ MD;
     expect($result)->toBe($original);
 });
 
-test('document with inline formatting round-trip preserves content', function () {
+test('document with inline formatting round-trip preserves content', function (): void {
     $original = 'This is **bold** and this is *italic* text.';
 
     $json = MarkdownToJson::convert($original);
@@ -106,7 +106,7 @@ test('document with inline formatting round-trip preserves content', function ()
     expect($result)->toBe($original);
 });
 
-test('document with links round-trip preserves content', function () {
+test('document with links round-trip preserves content', function (): void {
     $original = 'Visit [my website](https://example.com) for more info.';
 
     $json = MarkdownToJson::convert($original);
@@ -115,7 +115,7 @@ test('document with links round-trip preserves content', function () {
     expect($result)->toBe($original);
 });
 
-test('document with tables round-trip preserves content', function () {
+test('document with tables round-trip preserves content', function (): void {
     $original = <<<'MD'
 | Header 1 | Header 2 |
 |----------|----------|
@@ -129,7 +129,7 @@ MD;
     expect($result)->toBe($original);
 });
 
-test('document with task lists round-trip preserves content', function () {
+test('document with task lists round-trip preserves content', function (): void {
     $original = <<<'MD'
 - [ ] Unchecked task
 - [x] Checked task
@@ -142,7 +142,7 @@ MD;
     expect($result)->toBe($original);
 });
 
-test('directory round-trip preserves structure and content', function () {
+test('directory round-trip preserves structure and content', function (): void {
     Storage::fake('local');
 
     // Create source files

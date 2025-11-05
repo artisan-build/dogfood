@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\JsonMarkdown;
 
+use InvalidArgumentException;
 use Symfony\Component\Yaml\Yaml;
 
 class JsonToMarkdown
@@ -16,7 +17,7 @@ class JsonToMarkdown
         $data = json_decode($json, true);
 
         if (! is_array($data) || ! isset($data['type']) || $data['type'] !== 'document') {
-            throw new \InvalidArgumentException('Invalid JSON structure. Expected a document with type "document".');
+            throw new InvalidArgumentException('Invalid JSON structure. Expected a document with type "document".');
         }
 
         $frontmatter = $data['frontmatter'] ?? null;
@@ -51,7 +52,7 @@ class JsonToMarkdown
     {
         $yaml = Yaml::dump($frontmatter, 10, 2);
 
-        return "---\n" . rtrim($yaml) . "\n---";
+        return "---\n".rtrim($yaml)."\n---";
     }
 
     /**
@@ -79,7 +80,7 @@ class JsonToMarkdown
         $level = $node['level'] ?? 1;
         $content = $node['content'] ?? '';
 
-        return str_repeat('#', $level) . ' ' . $content;
+        return str_repeat('#', $level).' '.$content;
     }
 
     /**
@@ -110,11 +111,11 @@ class JsonToMarkdown
 
             $result .= match ($type) {
                 'text' => $text,
-                'strong' => '**' . $text . '**',
-                'emphasis' => '*' . $text . '*',
-                'strong-emphasis' => '***' . $text . '***',
-                'strikethrough' => '~~' . $text . '~~',
-                'link' => '[' . $text . '](' . ($item['url'] ?? '') . ')',
+                'strong' => '**'.$text.'**',
+                'emphasis' => '*'.$text.'*',
+                'strong-emphasis' => '***'.$text.'***',
+                'strikethrough' => '~~'.$text.'~~',
+                'link' => '['.$text.']('.($item['url'] ?? '').')',
                 default => $text,
             };
         }
@@ -134,16 +135,16 @@ class JsonToMarkdown
 
         // Add header row
         if (! empty($header)) {
-            $lines[] = '| ' . implode(' | ', $header) . ' |';
+            $lines[] = '| '.implode(' | ', $header).' |';
 
             // Add separator row
             $separator = array_map(fn () => '----------', $header);
-            $lines[] = '|' . implode('|', $separator) . '|';
+            $lines[] = '|'.implode('|', $separator).'|';
         }
 
         // Add data rows
         foreach ($rows as $row) {
-            $lines[] = '| ' . implode(' | ', $row) . ' |';
+            $lines[] = '| '.implode(' | ', $row).' |';
         }
 
         return implode("\n", $lines);
@@ -165,15 +166,15 @@ class JsonToMarkdown
             if (is_array($item) && isset($item['checked'])) {
                 $checkbox = $item['checked'] ? '[x]' : '[ ]';
                 $content = $item['content'] ?? '';
-                $lines[] = '- ' . $checkbox . ' ' . $content;
+                $lines[] = '- '.$checkbox.' '.$content;
             } else {
                 // Regular list item
                 $content = is_array($item) ? ($item['content'] ?? '') : $item;
                 if ($ordered) {
-                    $lines[] = $counter . '. ' . $content;
+                    $lines[] = $counter.'. '.$content;
                     $counter++;
                 } else {
-                    $lines[] = '- ' . $content;
+                    $lines[] = '- '.$content;
                 }
             }
         }
@@ -191,12 +192,12 @@ class JsonToMarkdown
 
         // Fenced code block
         if ($language !== null) {
-            return '```' . $language . "\n" . $content . "\n```";
+            return '```'.$language."\n".$content."\n```";
         }
 
         // Indented code block
         $lines = explode("\n", $content);
-        $indented = array_map(fn ($line) => '    ' . $line, $lines);
+        $indented = array_map(fn ($line) => '    '.$line, $lines);
 
         return implode("\n", $indented);
     }

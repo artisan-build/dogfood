@@ -22,12 +22,26 @@ class MarkdownDirectory
     public function toJson(string $path): string
     {
         if (! $this->filesystem->exists($path)) {
-            throw new InvalidArgumentException('Directory does not exist: ' . $path);
+            throw new InvalidArgumentException('Directory does not exist: '.$path);
         }
 
         $structure = $this->buildDirectoryStructure($path);
 
         return json_encode($structure, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    }
+
+    /**
+     * Create markdown files from JSON structure.
+     */
+    public function fromJson(string $json, string $basePath): void
+    {
+        $structure = json_decode($json, true);
+
+        if (! is_array($structure)) {
+            throw new InvalidArgumentException('Invalid JSON structure');
+        }
+
+        $this->writeDirectoryStructure($structure, $basePath);
     }
 
     /**
@@ -70,13 +84,7 @@ class MarkdownDirectory
      */
     protected function isMarkdownFile(string $path): bool
     {
-        foreach ($this->extensions as $extension) {
-            if (str_ends_with(strtolower($path), $extension)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->extensions, fn ($extension) => str_ends_with(strtolower($path), (string) $extension));
     }
 
     /**
@@ -91,32 +99,18 @@ class MarkdownDirectory
     }
 
     /**
-     * Create markdown files from JSON structure.
-     */
-    public function fromJson(string $json, string $basePath): void
-    {
-        $structure = json_decode($json, true);
-
-        if (! is_array($structure)) {
-            throw new InvalidArgumentException('Invalid JSON structure');
-        }
-
-        $this->writeDirectoryStructure($structure, $basePath);
-    }
-
-    /**
      * Write directory structure from JSON.
      */
     protected function writeDirectoryStructure(array $structure, string $basePath): void
     {
         // Ensure base directory exists
         if (! $this->filesystem->exists($basePath)) {
-            $this->filesystem->makeDirectory($basePath, 0755, true);
+            $this->filesystem->makeDirectory($basePath);
         }
 
         // Write files
         foreach ($structure['files'] ?? [] as $file) {
-            $filePath = $basePath . '/' . $file['path'];
+            $filePath = $basePath.'/'.$file['path'];
             $markdown = JsonToMarkdown::convert(json_encode($file['content']));
 
             $overwrite = config('json-markdown.overwrite', true);
@@ -128,7 +122,7 @@ class MarkdownDirectory
 
         // Write subdirectories
         foreach ($structure['directories'] ?? [] as $directory) {
-            $dirPath = $basePath . '/' . $directory['path'];
+            $dirPath = $basePath.'/'.$directory['path'];
             $this->writeDirectoryStructure($directory['contents'], $dirPath);
         }
     }

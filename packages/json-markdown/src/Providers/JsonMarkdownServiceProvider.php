@@ -16,9 +16,7 @@ class JsonMarkdownServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/json-markdown.php', 'json-markdown');
 
-        $this->app->singleton(MarkdownDirectory::class, function ($app) {
-            return new MarkdownDirectory($app->make(Filesystem::class));
-        });
+        $this->app->singleton(MarkdownDirectory::class, fn ($app) => new MarkdownDirectory($app->make(Filesystem::class)));
     }
 
     public function boot(): void

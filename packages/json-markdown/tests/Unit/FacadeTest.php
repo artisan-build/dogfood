@@ -7,11 +7,11 @@ use ArtisanBuild\JsonMarkdown\Facades\MarkdownDirectory;
 use ArtisanBuild\JsonMarkdown\Facades\MarkdownToJson;
 use Illuminate\Support\Facades\Storage;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Storage::fake('local');
 });
 
-test('MarkdownToJson facade works', function () {
+test('MarkdownToJson facade works', function (): void {
     $markdown = '# Hello World';
     $json = MarkdownToJson::convert($markdown);
     $result = json_decode($json, true);
@@ -23,7 +23,7 @@ test('MarkdownToJson facade works', function () {
         ->and($result['children'][0]['content'])->toBe('Hello World');
 });
 
-test('JsonToMarkdown facade works', function () {
+test('JsonToMarkdown facade works', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -36,7 +36,7 @@ test('JsonToMarkdown facade works', function () {
     expect($markdown)->toBe('# Test Heading');
 });
 
-test('MarkdownDirectory facade works for toJson', function () {
+test('MarkdownDirectory facade works for toJson', function (): void {
     Storage::put('docs/readme.md', '# README');
     Storage::put('docs/guide.md', '# Guide');
 
@@ -49,7 +49,7 @@ test('MarkdownDirectory facade works for toJson', function () {
         ->and($result['files'])->toHaveCount(2);
 });
 
-test('MarkdownDirectory facade works for fromJson', function () {
+test('MarkdownDirectory facade works for fromJson', function (): void {
     $json = json_encode([
         'files' => [
             [

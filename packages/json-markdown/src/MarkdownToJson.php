@@ -5,27 +5,27 @@ declare(strict_types=1);
 namespace ArtisanBuild\JsonMarkdown;
 
 use League\CommonMark\Environment\Environment;
-use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
-use League\CommonMark\Extension\FrontMatter\Data\SymfonyYamlFrontMatterParser;
-use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
-use League\CommonMark\Extension\FrontMatter\FrontMatterParser;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
-use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
 use League\CommonMark\Extension\CommonMark\Node\Block\IndentedCode;
 use League\CommonMark\Extension\CommonMark\Node\Block\ListBlock;
 use League\CommonMark\Extension\CommonMark\Node\Block\ListItem;
-use League\CommonMark\Extension\GithubFlavoredMarkdownExtension\Strikethrough;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Emphasis;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
+use League\CommonMark\Extension\FrontMatter\Data\SymfonyYamlFrontMatterParser;
+use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
+use League\CommonMark\Extension\FrontMatter\FrontMatterParser;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\Strikethrough\Strikethrough;
 use League\CommonMark\Extension\Table\Table;
 use League\CommonMark\Extension\Table\TableCell;
 use League\CommonMark\Extension\Table\TableRow;
 use League\CommonMark\Extension\Table\TableSection;
 use League\CommonMark\Extension\TaskList\TaskListItemMarker;
-use League\CommonMark\Extension\CommonMark\Node\Inline\Emphasis;
-use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
 use League\CommonMark\Node\Block\Document;
 use League\CommonMark\Node\Block\Paragraph;
-use League\CommonMark\Node\Inline\Link;
 use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Parser\MarkdownParser;
@@ -112,10 +112,10 @@ class MarkdownToJson
      */
     protected static function processNode(Node $node): ?array
     {
-        $className = get_class($node);
+        $className = $node::class;
 
         // Handle Heading nodes
-        if (str_contains($className, 'Heading')) {
+        if (str_contains($className, 'Heading') && method_exists($node, 'getLevel')) {
             return [
                 'type' => 'heading',
                 'level' => $node->getLevel(),
@@ -192,7 +192,7 @@ class MarkdownToJson
         $content = [];
 
         foreach ($node->children() as $child) {
-            $childClass = get_class($child);
+            $childClass = $child::class;
 
             if ($child instanceof Text) {
                 $content[] = [
@@ -205,7 +205,7 @@ class MarkdownToJson
                     'type' => 'strikethrough',
                     'content' => self::extractTextContent($child),
                 ];
-            } elseif ($child instanceof Link || str_contains($childClass, 'Link')) {
+            } elseif (($child instanceof Link || str_contains($childClass, 'Link')) && method_exists($child, 'getUrl')) {
                 $hasFormatting = true;
                 $content[] = [
                     'type' => 'link',

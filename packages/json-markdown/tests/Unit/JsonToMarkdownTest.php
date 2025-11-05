@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use ArtisanBuild\JsonMarkdown\JsonToMarkdown;
 
-test('it converts JSON document with paragraph to markdown', function () {
+test('it converts JSON document with paragraph to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -20,7 +20,7 @@ test('it converts JSON document with paragraph to markdown', function () {
     expect($markdown)->toBe('This is a simple paragraph.');
 });
 
-test('it converts JSON with heading level 1 to markdown', function () {
+test('it converts JSON with heading level 1 to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -37,7 +37,7 @@ test('it converts JSON with heading level 1 to markdown', function () {
     expect($markdown)->toBe('# My Heading');
 });
 
-test('it converts JSON with heading level 2 to markdown', function () {
+test('it converts JSON with heading level 2 to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -54,7 +54,7 @@ test('it converts JSON with heading level 2 to markdown', function () {
     expect($markdown)->toBe('## Section Heading');
 });
 
-test('it converts JSON with multiple headings to markdown', function () {
+test('it converts JSON with multiple headings to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -86,7 +86,7 @@ MD;
     expect($markdown)->toBe($expected);
 });
 
-test('it converts JSON with mixed headings and paragraphs to markdown', function () {
+test('it converts JSON with mixed headings and paragraphs to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -112,7 +112,7 @@ MD;
     expect($markdown)->toBe($expected);
 });
 
-test('it converts empty JSON document to empty string', function () {
+test('it converts empty JSON document to empty string', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [],
@@ -124,7 +124,7 @@ test('it converts empty JSON document to empty string', function () {
 });
 
 // Frontmatter tests
-test('it converts JSON with frontmatter to markdown', function () {
+test('it converts JSON with frontmatter to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'frontmatter' => [
@@ -157,7 +157,7 @@ MD;
     expect($markdown)->toBe($expected);
 });
 
-test('it converts JSON with complex nested frontmatter to markdown', function () {
+test('it converts JSON with complex nested frontmatter to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'frontmatter' => [
@@ -195,7 +195,7 @@ MD;
     expect($markdown)->toBe($expected);
 });
 
-test('it handles documents without frontmatter', function () {
+test('it handles documents without frontmatter', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -209,7 +209,7 @@ test('it handles documents without frontmatter', function () {
 });
 
 // GFM tests
-test('it converts JSON table to markdown', function () {
+test('it converts JSON table to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -236,7 +236,7 @@ MD;
     expect($markdown)->toBe($expected);
 });
 
-test('it converts JSON task list to markdown', function () {
+test('it converts JSON task list to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -263,7 +263,7 @@ MD;
     expect($markdown)->toBe($expected);
 });
 
-test('it converts JSON with inline formatting to markdown', function () {
+test('it converts JSON with inline formatting to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -284,7 +284,7 @@ test('it converts JSON with inline formatting to markdown', function () {
 });
 
 // Remaining features tests
-test('it converts JSON with unordered list to markdown', function () {
+test('it converts JSON with unordered list to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -307,7 +307,7 @@ MD;
     expect($markdown)->toBe($expected);
 });
 
-test('it converts JSON with ordered list to markdown', function () {
+test('it converts JSON with ordered list to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -330,7 +330,7 @@ MD;
     expect($markdown)->toBe($expected);
 });
 
-test('it converts JSON with fenced code block to markdown', function () {
+test('it converts JSON with fenced code block to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -355,7 +355,7 @@ MD;
     expect($markdown)->toBe($expected);
 });
 
-test('it converts JSON with indented code block to markdown', function () {
+test('it converts JSON with indented code block to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -376,7 +376,7 @@ MD;
     expect($markdown)->toBe($expected);
 });
 
-test('it converts JSON with emphasis to markdown', function () {
+test('it converts JSON with emphasis to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -396,7 +396,7 @@ test('it converts JSON with emphasis to markdown', function () {
     expect($markdown)->toBe('This is **bold** text.');
 });
 
-test('it converts JSON with italic to markdown', function () {
+test('it converts JSON with italic to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -416,7 +416,7 @@ test('it converts JSON with italic to markdown', function () {
     expect($markdown)->toBe('This is *italic* text.');
 });
 
-test('it converts JSON with bold and italic to markdown', function () {
+test('it converts JSON with bold and italic to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
@@ -436,7 +436,7 @@ test('it converts JSON with bold and italic to markdown', function () {
     expect($markdown)->toBe('This is ***bold italic*** text.');
 });
 
-test('it converts JSON with link to markdown', function () {
+test('it converts JSON with link to markdown', function (): void {
     $json = json_encode([
         'type' => 'document',
         'children' => [
