@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\SqliteVector\Providers;
 
+use ArtisanBuild\SqliteVector\Commands\DiagnoseCommand;
 use ArtisanBuild\SqliteVector\Commands\InstallSqliteVecCommand;
 use ArtisanBuild\SqliteVector\EmbeddingManager;
 use Illuminate\Database\Events\ConnectionEstablished;
@@ -38,6 +39,7 @@ class SqliteVectorServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallSqliteVecCommand::class,
+                DiagnoseCommand::class,
             ]);
         }
 
