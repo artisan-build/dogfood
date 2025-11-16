@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ArtisanBuild\SqliteVector\Providers;
 
 use ArtisanBuild\SqliteVector\Commands\InstallSqliteVecCommand;
+use ArtisanBuild\SqliteVector\EmbeddingManager;
 use Illuminate\Database\Events\ConnectionEstablished;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
@@ -18,6 +19,10 @@ class SqliteVectorServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/sqlite-vector.php', 'sqlite-vector');
+
+        $this->app->singleton('sqlite-vector.manager', function ($app) {
+            return new EmbeddingManager;
+        });
     }
 
     public function boot(): void
