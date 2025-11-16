@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 use ArtisanBuild\SqliteVector\Commands\DiagnoseCommand;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 
 test('command can be instantiated', function () {
     $command = new DiagnoseCommand;
