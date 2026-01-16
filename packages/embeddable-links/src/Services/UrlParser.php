@@ -78,6 +78,11 @@ readonly class UrlParser
 
     protected function extractVimeoId(string $url): ?string
     {
+        // Review: vimeo.com/reviews/{review_id}/videos/VIDEO_ID
+        if (preg_match('/vimeo\.com\/reviews\/[^\/]+\/videos\/(\d+)/', $url, $matches)) {
+            return $matches[1];
+        }
+
         // Standard: vimeo.com/VIDEO_ID
         if (preg_match('/vimeo\.com\/(\d+)/', $url, $matches)) {
             return $matches[1];
