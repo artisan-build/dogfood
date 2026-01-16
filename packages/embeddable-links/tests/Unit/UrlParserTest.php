@@ -44,6 +44,14 @@ test('detects Vimeo player URL', function (): void {
         ->id->toBe('123456789');
 });
 
+test('detects Vimeo review URL', function (): void {
+    $parser = new UrlParser;
+
+    expect($parser->parse('https://vimeo.com/reviews/2ac9fd34-2efb-439c-be44-828462a64c44/videos/1135525785'))
+        ->service->toBe('vimeo')
+        ->id->toBe('1135525785');
+});
+
 test('detects GitHub Gist URL', function (): void {
     $parser = new UrlParser;
 
