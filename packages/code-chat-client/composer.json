@@ -4,7 +4,7 @@
 	"type": "library",
 	"license": "MIT",
 	"require": {
-        "illuminate/support": "^11.36|^12.0",
+        "illuminate/support": "^11.36|^12.0|^13.0",
         "livewire/livewire": "^3.0",
         "livewire/flux": "^2.0",
         "livewire/flux-pro": "^2.0",

@@ -19,7 +19,7 @@
         "livewire/livewire": "^v3.5.9",
         "livewire/flux": "*",
         "livewire/flux-pro": "*",
-        "illuminate/contracts": "^11.0|^12.0",
+        "illuminate/contracts": "^11.0|^12.0|^13.0",
         "spatie/livewire-filepond": "*",
         "spatie/php-structure-discoverer": "*"
     },
