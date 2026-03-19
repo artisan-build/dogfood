@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\ForgeClient\Requests\Servers;
 
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Traits\Body\HasJsonBody;
 
 /**
  * organizations.servers.php.max-execution-time.update
@@ -14,8 +16,10 @@ use Saloon\Http\Request;
  *
  * Processing mode: <small><code>async</code></small>
  */
-class OrganizationsServersPhpMaxExecutionTimeUpdate extends Request
+class OrganizationsServersPhpMaxExecutionTimeUpdate extends Request implements HasBody
 {
+    use HasJsonBody;
+
     protected Method $method = Method::PUT;
 
     /**

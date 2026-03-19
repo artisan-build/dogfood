@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\ForgeClient\Requests\Deployments;
 
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Traits\Body\HasJsonBody;
 
 /**
  * organizations.servers.sites.deployments.deploy-hook.update
@@ -15,8 +17,10 @@ use Saloon\Http\Request;
  *
  * Processing mode: <small><code>sync</code></small>
  */
-class OrganizationsServersSitesDeploymentsDeployHookUpdate extends Request
+class OrganizationsServersSitesDeploymentsDeployHookUpdate extends Request implements HasBody
 {
+    use HasJsonBody;
+
     protected Method $method = Method::PUT;
 
     /**
