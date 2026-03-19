@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\ForgeClient\Requests\Roles;
 
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Traits\Body\HasJsonBody;
 
 /**
  * organizations.roles.update
@@ -14,8 +16,10 @@ use Saloon\Http\Request;
  *
  * Processing mode: <small><code>sync</code></small>
  */
-class OrganizationsRolesUpdate extends Request
+class OrganizationsRolesUpdate extends Request implements HasBody
 {
+    use HasJsonBody;
+
     protected Method $method = Method::PUT;
 
     /**
