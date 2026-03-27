@@ -40,6 +40,7 @@ class EnumCollection extends Collection
         }
 
         if ($items === []) {
+            $this->enumClass = '';
             parent::__construct([]);
 
             return;
