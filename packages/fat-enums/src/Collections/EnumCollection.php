@@ -39,6 +39,12 @@ class EnumCollection extends Collection
             $items = iterator_to_array($items);
         }
 
+        if ($items === []) {
+            parent::__construct([]);
+
+            return;
+        }
+
         // check that every item is an enum
         foreach ($items as $item) {
             if (! $item instanceof BackedEnum && ! $item instanceof UnitEnum) {
