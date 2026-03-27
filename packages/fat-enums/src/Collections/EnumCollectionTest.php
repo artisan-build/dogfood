@@ -168,3 +168,28 @@ describe('EnumCollection inherits Collection methods', function (): void {
         expect($collection->contains(CollectibleIntEnum::One))->toBeFalse();
     });
 });
+
+describe('EnumCollection with empty arrays', function (): void {
+    it('can be constructed with an empty array', function (): void {
+        $collection = new EnumCollection([]);
+
+        expect($collection)->toBeEmpty()
+            ->and($collection)->toBeInstanceOf(EnumCollection::class);
+    });
+
+    it('does not crash when filter returns empty', function (): void {
+        $collection = new EnumCollection(CollectibleStringEnum::class);
+
+        $filtered = $collection->filter(fn ($case) => false);
+
+        expect($filtered)->toBeEmpty();
+    });
+
+    it('does not crash when reject returns empty', function (): void {
+        $collection = new EnumCollection(CollectibleStringEnum::class);
+
+        $rejected = $collection->reject(fn ($case) => true);
+
+        expect($rejected)->toBeEmpty();
+    });
+});
