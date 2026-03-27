@@ -10,10 +10,11 @@
 		}
 	],
 	"require": {
-        "crescat-io/saloon-sdk-generator": "dev-laravel-12-support",
-        "saloonphp/saloon": "^3.0"
+        "saloonphp/saloon": "^4.0",
+        "spatie/laravel-data": "^4.0"
     },
     "require-dev": {
+        "crescat-io/saloon-sdk-generator": "dev-laravel-12-support",
         "orchestra/testbench": "^v9.9.0",
         "pestphp/pest": "^v3.7.1",
         "laravel/pint": "^1.19.0",
