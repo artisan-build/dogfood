@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\FatEnums\StateMachine;
 
-use ArtisanBuild\FatEnums\Attributes\CanTransitionTo;
-use ArtisanBuild\FatEnums\Attributes\CanTransitionToSelf;
-use ArtisanBuild\FatEnums\Attributes\FinalState;
 use BackedEnum;
 use Exception;
 use Illuminate\Support\Collection;
@@ -73,6 +70,7 @@ trait HasStateMachine
                 ->reject(fn ($attributes) => empty($attributes))
                 ->map(fn ($attributes) => $attributes[0]->newInstance()->destinations)
                 ->map(fn ($destinations) => collect($destinations)
+                    /** @phpstan-ignore argument.type */
                     ->map(fn (BackedEnum $destination) => $destination->value)
                     ->sort($caseValueSorter)
                     ->values()
