@@ -6,6 +6,7 @@ namespace ArtisanBuild\Bonfire\Providers;
 
 use ArtisanBuild\Bonfire\BonfireManager;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use Override;
 
 class BonfireServiceProvider extends ServiceProvider
@@ -21,6 +22,13 @@ class BonfireServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'bonfire');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+
+        Livewire::addNamespace(
+            namespace: 'bonfire',
+            viewPath: __DIR__.'/../../resources/views/components',
+        );
 
         $this->publishes([
             __DIR__.'/../../config/bonfire.php' => config_path('bonfire.php'),
