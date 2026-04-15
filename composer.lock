@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e73b5d9c3b19a855dda39427f97d912",
+    "content-hash": "2ac952417e9d239c1a6aebf2471b2af0",
     "packages": [
         {
             "name": "artisan-build/adverbs",
@@ -342,6 +342,83 @@
                 "laravel",
                 "packages"
             ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "artisan-build/bonfire",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "packages/bonfire",
+                "reference": "20b20ebd0edc182e20464d5e8b96403681cb1ffe"
+            },
+            "require": {
+                "illuminate/support": "^11.36|^12.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^v3.0.2",
+                "laravel/pint": "^1.19.0",
+                "orchestra/testbench": "^v9.9.0",
+                "pestphp/pest": "^v3.7.1",
+                "phpstan/phpstan": "^2.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArtisanBuild\\Bonfire\\Providers\\BonfireServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArtisanBuild\\Bonfire\\": "src/",
+                    "ArtisanBuild\\Bonfire\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@composer run prepare"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-bench --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@composer run prepare",
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "start": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@composer run build",
+                    "@php vendor/bin/testbench serve"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "lint": [
+                    "vendor/bin/pint"
+                ],
+                "stan": [
+                    "vendor/bin/phpstan analyse --memory-limit=-1"
+                ],
+                "ready": [
+                    "@composer lint",
+                    "@composer stan",
+                    "@composer test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A chat package inspired by Campfire from 37 Signals",
             "transport-options": {
                 "relative": true
             }
