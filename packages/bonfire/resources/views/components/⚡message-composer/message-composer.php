@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use ArtisanBuild\Bonfire\Facades\Bonfire;
+use ArtisanBuild\Bonfire\Models\Member;
 use ArtisanBuild\Bonfire\Models\Message;
 use ArtisanBuild\Bonfire\Models\Room;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component
@@ -19,6 +21,12 @@ new class extends Component
     {
         $this->room = $room;
         $this->parentId = $parentId;
+    }
+
+    #[Computed]
+    public function member(): ?Member
+    {
+        return Bonfire::memberFor(auth()->user());
     }
 
     public function send(): void

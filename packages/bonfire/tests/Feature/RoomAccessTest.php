@@ -8,6 +8,7 @@ use ArtisanBuild\Bonfire\Facades\Bonfire;
 use ArtisanBuild\Bonfire\Models\Member;
 use ArtisanBuild\Bonfire\Models\Room;
 use ArtisanBuild\Bonfire\Tests\Fixtures\TestUser;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 
 function makeMember(string $name, BonfireRole $role = BonfireRole::Member): Member
@@ -21,7 +22,7 @@ function makeRoom(string $name, int $type, Member $creator): Room
 {
     return Room::query()->create([
         'name' => $name,
-        'slug' => Illuminate\Support\Str::slug($name),
+        'slug' => Str::slug($name),
         'type' => $type,
         'created_by' => $creator->getKey(),
     ]);

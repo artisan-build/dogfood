@@ -5,6 +5,7 @@ declare(strict_types=1);
 use ArtisanBuild\Bonfire\Enums\RoomType;
 use ArtisanBuild\Bonfire\Facades\Bonfire;
 use ArtisanBuild\Bonfire\Models\Room;
+use ArtisanBuild\Bonfire\Support\UnreadTracker;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -29,14 +30,20 @@ new class extends Component
             ->orderBy('name');
 
         if ($member === null || ! $member->is_active) {
-            return $query->whereRaw('(type & ?) = 0', [RoomType::Private->value])->get();
+            $rooms = $query->whereRaw('(type & ?) = 0', [RoomType::Private->value])->get();
+        } else {
+            $privateRoomIds = $member->rooms()->pluck('bonfire_rooms.id');
+
+            $rooms = $query->where(function ($q) use ($privateRoomIds): void {
+                $q->whereRaw('(type & ?) = 0', [RoomType::Private->value])
+                    ->orWhereIn('id', $privateRoomIds);
+            })->get();
         }
 
-        $privateRoomIds = $member->rooms()->pluck('bonfire_rooms.id');
+        $tracker = resolve(UnreadTracker::class);
 
-        return $query->where(function ($q) use ($privateRoomIds): void {
-            $q->whereRaw('(type & ?) = 0', [RoomType::Private->value])
-                ->orWhereIn('id', $privateRoomIds);
-        })->get();
+        return $rooms->each(function (Room $room) use ($tracker, $member): void {
+            $room->setAttribute('has_unread', $tracker->hasUnread($room, $member));
+        });
     }
 };

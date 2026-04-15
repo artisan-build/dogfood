@@ -7,6 +7,7 @@ namespace ArtisanBuild\Bonfire\Tests;
 use ArtisanBuild\Bonfire\Providers\BonfireServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -33,7 +34,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            \Livewire\LivewireServiceProvider::class,
+            LivewireServiceProvider::class,
             BonfireServiceProvider::class,
         ];
     }
@@ -48,5 +49,6 @@ abstract class TestCase extends Orchestra
             'prefix' => '',
         ]);
         $app['config']->set('bonfire.tenant_id', fn () => null);
+        $app['config']->set('bonfire.route_middleware', ['web']);
     }
 }

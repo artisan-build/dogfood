@@ -6,6 +6,7 @@ namespace ArtisanBuild\Bonfire\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 class Reaction extends Model
 {
@@ -19,10 +20,6 @@ class Reaction extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'created_at' => 'datetime',
-    ];
-
     public function message(): BelongsTo
     {
         return $this->belongsTo(Message::class, 'message_id');
@@ -31,5 +28,13 @@ class Reaction extends Model
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'member_id');
+    }
+
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'datetime',
+        ];
     }
 }

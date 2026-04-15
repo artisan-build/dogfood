@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -18,8 +20,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $description
  * @property int $type
  * @property int $created_by
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class Room extends Model
 {
@@ -27,11 +29,7 @@ class Room extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'type' => 'integer',
-        'tenant_id' => 'integer',
-    ];
-
+    #[Override]
     public function getRouteKeyName(): string
     {
         return 'slug';
@@ -110,5 +108,14 @@ class Room extends Model
         }
 
         return $this->hasMember($member);
+    }
+
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'type' => 'integer',
+            'tenant_id' => 'integer',
+        ];
     }
 }

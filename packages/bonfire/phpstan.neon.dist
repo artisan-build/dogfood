@@ -7,7 +7,10 @@ parameters:
         - src
         - config
     excludePaths:
-        - src/**/*Test.php
+        analyseAndScan:
+            - vendor/orchestra/testbench-core/laravel/vendor
+        analyse:
+            - src/**/*Test.php
     ignoreErrors:
         - identifier: trait.unused
     tmpDir: build/phpstan

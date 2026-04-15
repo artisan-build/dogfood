@@ -6,6 +6,8 @@ namespace ArtisanBuild\Bonfire\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -15,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $filename
  * @property string $mime_type
  * @property int $size
- * @property \Illuminate\Support\Carbon|null $created_at
+ * @property Carbon|null $created_at
  */
 class Attachment extends Model
 {
@@ -25,11 +27,6 @@ class Attachment extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'size' => 'integer',
-        'created_at' => 'datetime',
-    ];
-
     public function message(): BelongsTo
     {
         return $this->belongsTo(Message::class, 'message_id');
@@ -38,5 +35,14 @@ class Attachment extends Model
     public function isImage(): bool
     {
         return str_starts_with((string) $this->mime_type, 'image/');
+    }
+
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'size' => 'integer',
+            'created_at' => 'datetime',
+        ];
     }
 }

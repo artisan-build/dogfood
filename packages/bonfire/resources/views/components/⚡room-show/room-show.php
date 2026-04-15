@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use ArtisanBuild\Bonfire\Enums\BonfireRole;
 use ArtisanBuild\Bonfire\Facades\Bonfire;
 use ArtisanBuild\Bonfire\Models\Room;
+use ArtisanBuild\Bonfire\Support\UnreadTracker;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -19,21 +21,8 @@ new class extends Component
         $this->room = $room;
 
         abort_unless($this->canView(), 403);
-    }
 
-    protected function canView(): bool
-    {
-        $member = Bonfire::memberFor(auth()->user());
-
-        if (! $this->room->isPrivate()) {
-            return true;
-        }
-
-        if ($member === null) {
-            return false;
-        }
-
-        return $this->room->isAccessibleBy($member);
+        resolve(UnreadTracker::class)->markRead($room, $this->currentMember());
     }
 
     #[Computed]
@@ -56,7 +45,7 @@ new class extends Component
         }
 
         if ($this->room->isAnnouncements()) {
-            return $member->hasRoleAtLeast(ArtisanBuild\Bonfire\Enums\BonfireRole::Moderator);
+            return $member->hasRoleAtLeast(BonfireRole::Moderator);
         }
 
         return $this->room->isAccessibleBy($member);
@@ -72,5 +61,20 @@ new class extends Component
     public function closeThread(): void
     {
         $this->openThreadId = null;
+    }
+
+    protected function canView(): bool
+    {
+        $member = Bonfire::memberFor(auth()->user());
+
+        if (! $this->room->isPrivate()) {
+            return true;
+        }
+
+        if ($member === null) {
+            return false;
+        }
+
+        return $this->room->isAccessibleBy($member);
     }
 };

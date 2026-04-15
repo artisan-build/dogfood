@@ -6,6 +6,7 @@ namespace ArtisanBuild\Bonfire\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 class LinkPreview extends Model
 {
@@ -15,13 +16,17 @@ class LinkPreview extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'failed' => 'boolean',
-        'fetched_at' => 'datetime',
-    ];
-
     public function message(): BelongsTo
     {
         return $this->belongsTo(Message::class, 'message_id');
+    }
+
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'failed' => 'boolean',
+            'fetched_at' => 'datetime',
+        ];
     }
 }

@@ -4,12 +4,20 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Bonfire\Models;
 
+use ArtisanBuild\Bonfire\Events\MessageDeleted;
+use ArtisanBuild\Bonfire\Events\MessagePosted;
+use ArtisanBuild\Bonfire\Jobs\FetchLinkPreview;
+use ArtisanBuild\Bonfire\Notifications\MentionedInMessage;
+use ArtisanBuild\Bonfire\Support\MarkdownRenderer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Notification;
+use Override;
 
 /**
  * @property int $id
@@ -18,9 +26,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $member_id
  * @property int|null $parent_id
  * @property string $body
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
+ * @property Carbon|null $deleted_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class Message extends Model
 {
@@ -30,9 +38,24 @@ class Message extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'tenant_id' => 'integer',
-    ];
+    #[Override]
+    protected static function booted(): void
+    {
+        static::created(function (self $message): void {
+            $message->syncMentions();
+            $message->dispatchLinkPreview();
+
+            event(new MessagePosted($message));
+        });
+
+        static::deleted(function (self $message): void {
+            if ($message->isForceDeleting()) {
+                return;
+            }
+
+            event(new MessageDeleted($message->id, $message->room_id));
+        });
+    }
 
     public function room(): BelongsTo
     {
@@ -79,8 +102,62 @@ class Message extends Model
         return $this->parent_id !== null;
     }
 
-    public function scopeRoots(Builder $query): Builder
+    /**
+     * Parse @mentions from body, persist them, and notify mentioned members.
+     */
+    public function syncMentions(): void
+    {
+        $renderer = resolve(MarkdownRenderer::class);
+        $names = $renderer->extractMentionNames($this->body);
+
+        if ($names === []) {
+            return;
+        }
+
+        $members = Member::query()
+            ->whereIn('display_name', $names)
+            ->where('tenant_id', $this->tenant_id)
+            ->where('id', '!=', $this->member_id)
+            ->get();
+
+        foreach ($members as $member) {
+            Mention::query()->insert([
+                'message_id' => $this->id,
+                'member_id' => $member->id,
+                'created_at' => now(),
+            ]);
+        }
+
+        if ($members->isNotEmpty()) {
+            Notification::send($members, new MentionedInMessage($this));
+        }
+    }
+
+    public function dispatchLinkPreview(): void
+    {
+        if (! (bool) config('bonfire.link_preview_enabled', true)) {
+            return;
+        }
+
+        $url = FetchLinkPreview::extractFirstUrl($this->body);
+
+        if ($url === null) {
+            return;
+        }
+
+        dispatch(new FetchLinkPreview($this->id, $url));
+    }
+
+    protected function scopeRoots(Builder $query): Builder
     {
         return $query->whereNull('parent_id');
+    }
+
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'tenant_id' => 'integer',
+        ];
     }
 }

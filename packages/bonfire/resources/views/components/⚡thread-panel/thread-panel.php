@@ -38,8 +38,7 @@ new class extends Component
     {
         return Message::query()
             ->with('member')
-            ->where('parent_id', $this->parentId)
-            ->orderBy('created_at')
+            ->where('parent_id', $this->parentId)->oldest()
             ->get();
     }
 

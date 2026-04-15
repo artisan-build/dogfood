@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ArtisanBuild\Bonfire\Providers;
 
 use ArtisanBuild\Bonfire\BonfireManager;
+use ArtisanBuild\Bonfire\Console\Commands\CreateRoomCommand;
+use ArtisanBuild\Bonfire\Console\Commands\InstallCommand;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Override;
@@ -37,5 +39,12 @@ class BonfireServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../database/migrations' => database_path('migrations'),
         ], 'bonfire-migrations');
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallCommand::class,
+                CreateRoomCommand::class,
+            ]);
+        }
     }
 }

@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @property int $id
@@ -20,20 +22,14 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string|null $avatar_url
  * @property BonfireRole $role
  * @property bool $is_active
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class Member extends Model
 {
     protected $table = 'bonfire_members';
 
     protected $guarded = [];
-
-    protected $casts = [
-        'is_active' => 'boolean',
-        'role' => BonfireRole::class,
-        'tenant_id' => 'integer',
-    ];
 
     public function memberable(): MorphTo
     {
@@ -51,18 +47,28 @@ class Member extends Model
         return $this->hasMany(Message::class, 'member_id');
     }
 
-    public function scopeActive(Builder $query): Builder
+    public function hasRoleAtLeast(BonfireRole $role): bool
+    {
+        return $this->role->hasAtLeast($role);
+    }
+
+    protected function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
 
-    public function scopeForTenant(Builder $query, ?int $tenantId): Builder
+    protected function scopeForTenant(Builder $query, ?int $tenantId): Builder
     {
         return $query->where('tenant_id', $tenantId);
     }
 
-    public function hasRoleAtLeast(BonfireRole $role): bool
+    #[Override]
+    protected function casts(): array
     {
-        return $this->role->hasAtLeast($role);
+        return [
+            'is_active' => 'boolean',
+            'role' => BonfireRole::class,
+            'tenant_id' => 'integer',
+        ];
     }
 }
