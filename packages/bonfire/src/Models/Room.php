@@ -22,6 +22,8 @@ use Override;
  * @property int $created_by
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @mixin IdeHelperRoom
  */
 class Room extends Model
 {

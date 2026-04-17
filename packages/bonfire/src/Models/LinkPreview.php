@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Override;
 
+/**
+ * @mixin IdeHelperLinkPreview
+ */
 class LinkPreview extends Model
 {
     public $timestamps = false;

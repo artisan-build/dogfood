@@ -29,6 +29,8 @@ use Override;
  * @property Carbon|null $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @mixin IdeHelperMessage
  */
 class Message extends Model
 {

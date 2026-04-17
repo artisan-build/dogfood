@@ -14,7 +14,7 @@ it('renders the chat component', function (): void {
     $mockDriver->shouldReceive('isAvailable')->andReturn(true);
     $mockDriver->shouldReceive('getName')->andReturn('Test Driver');
 
-    $manager = app(ChatManager::class);
+    $manager = resolve(ChatManager::class);
     $manager->extend('test', fn () => $mockDriver);
 
     config()->set('code-chat-client.default', 'test');
@@ -35,7 +35,7 @@ it('sends messages and displays responses', function (): void {
         ->with('Hello', [])
         ->andReturn(ChatResponse::success('Hi there!'));
 
-    $manager = app(ChatManager::class);
+    $manager = resolve(ChatManager::class);
     $manager->extend('test', fn () => $mockDriver);
 
     Livewire::test(CodeChatComponent::class, ['driver' => 'test'])
@@ -56,7 +56,7 @@ it('handles errors gracefully', function (): void {
     $mockDriver->shouldReceive('send')
         ->andThrow(new Exception('API Error'));
 
-    $manager = app(ChatManager::class);
+    $manager = resolve(ChatManager::class);
     $manager->extend('test', fn () => $mockDriver);
 
     Livewire::test(CodeChatComponent::class, ['driver' => 'test'])

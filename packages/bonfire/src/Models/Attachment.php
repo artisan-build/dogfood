@@ -18,6 +18,8 @@ use Override;
  * @property string $mime_type
  * @property int $size
  * @property Carbon|null $created_at
+ *
+ * @mixin IdeHelperAttachment
  */
 class Attachment extends Model
 {

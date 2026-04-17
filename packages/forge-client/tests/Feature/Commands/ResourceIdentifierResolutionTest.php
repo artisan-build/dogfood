@@ -52,7 +52,7 @@ test('get server command resolves server by name', function (): void {
         ], 200),
     ]);
 
-    app(ForgeClient::class)->withMockClient($mockClient);
+    resolve(ForgeClient::class)->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
         'server' => 'my-staging-server',
@@ -83,7 +83,7 @@ test('get server command resolves server by ID', function (): void {
         ], 200),
     ]);
 
-    app(ForgeClient::class)->withMockClient($mockClient);
+    resolve(ForgeClient::class)->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
         'server' => 456,
@@ -101,7 +101,7 @@ test('get server command fails when server name not found', function (): void {
         ], 200),
     ]);
 
-    app(ForgeClient::class)->withMockClient($mockClient);
+    resolve(ForgeClient::class)->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
         'server' => 'non-existent-server',
@@ -146,7 +146,7 @@ test('get server command fails when multiple servers have same name', function (
         ], 200),
     ]);
 
-    app(ForgeClient::class)->withMockClient($mockClient);
+    resolve(ForgeClient::class)->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
         'server' => 'staging',
@@ -193,7 +193,7 @@ test('get server command resolves organization by ID', function (): void {
         ], 200),
     ]);
 
-    app(ForgeClient::class)->withMockClient($mockClient);
+    resolve(ForgeClient::class)->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
         'server' => 789,

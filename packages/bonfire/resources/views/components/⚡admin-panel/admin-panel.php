@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-new class extends Component
+return new class extends Component
 {
     public string $tab = 'rooms';
 

@@ -14,8 +14,8 @@ test('service provider is registered', function (): void {
 });
 
 test('forge client connector is registered as singleton', function (): void {
-    $first = app(ForgeClient::class);
-    $second = app(ForgeClient::class);
+    $first = resolve(ForgeClient::class);
+    $second = resolve(ForgeClient::class);
 
     expect($first)->toBeInstanceOf(ForgeClient::class)
         ->and($first)->toBe($second);
@@ -24,7 +24,7 @@ test('forge client connector is registered as singleton', function (): void {
 test('forge client resolves with api token from config', function (): void {
     Config::set('forge-client.api_token', 'test-api-token');
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
 
     expect($sdk)->toBeInstanceOf(ForgeClient::class);
     expect(config('forge-client.api_token'))->toBe('test-api-token');

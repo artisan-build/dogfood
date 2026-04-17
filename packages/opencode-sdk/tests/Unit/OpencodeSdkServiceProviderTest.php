@@ -10,14 +10,14 @@ test('service provider registers connector in container', function (): void {
 });
 
 test('connector can be resolved from container', function (): void {
-    $connector = app(OpenCode::class);
+    $connector = resolve(OpenCode::class);
 
     expect($connector)->toBeInstanceOf(OpenCode::class);
 });
 
 test('connector is bound as singleton', function (): void {
-    $connector1 = app(OpenCode::class);
-    $connector2 = app(OpenCode::class);
+    $connector1 = resolve(OpenCode::class);
+    $connector2 = resolve(OpenCode::class);
 
     expect($connector1)->toBe($connector2);
 });
@@ -25,13 +25,13 @@ test('connector is bound as singleton', function (): void {
 test('connector receives base URL from config', function (): void {
     Config::set('opencode-sdk.base_url', 'https://test-api.example.com');
 
-    $connector = app(OpenCode::class);
+    $connector = resolve(OpenCode::class);
 
     expect($connector->resolveBaseUrl())->toBe('https://test-api.example.com');
 });
 
 test('connector uses default base URL when not configured', function (): void {
-    $connector = app(OpenCode::class);
+    $connector = resolve(OpenCode::class);
     $baseUrl = $connector->resolveBaseUrl();
 
     expect($baseUrl)->toBe('http://localhost:3333');

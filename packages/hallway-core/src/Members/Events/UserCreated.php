@@ -58,7 +58,7 @@ class UserCreated extends Event
             $user->forceFill(['current_team_id' => $team->id])->save();
             $user->teams()->attach($team, ['role' => 'owner']);
 
-            app(FireIfDefined::class)(
+            resolve(FireIfDefined::class)(
                 event: NewSubscriberAddedToDefaultPlan::class,
                 properties: ['subscriber_id' => $team->id],
             );

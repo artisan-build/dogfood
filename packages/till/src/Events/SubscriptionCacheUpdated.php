@@ -24,7 +24,7 @@ class SubscriptionCacheUpdated extends Event
 
     public function apply(SubscriberState $state): void
     {
-        $state->plan_id ??= data_get(app(GetDefaultPlan::class)(), 'id');
+        $state->plan_id ??= data_get(resolve(GetDefaultPlan::class)(), 'id');
     }
 
     public function handle(): bool

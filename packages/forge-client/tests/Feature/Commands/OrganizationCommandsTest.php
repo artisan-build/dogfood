@@ -33,7 +33,7 @@ test('list organizations command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListOrganizationsCommand::class)
@@ -47,7 +47,7 @@ test('list organizations command handles errors gracefully', function (): void {
         MockResponse::make(['error' => 'Unauthorized'], 401),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListOrganizationsCommand::class)
@@ -67,7 +67,7 @@ test('get organization command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetOrganizationCommand::class, ['organization' => 'test-org'])
@@ -81,7 +81,7 @@ test('get organization command handles not found', function (): void {
         MockResponse::make(['error' => 'Organization not found'], 404),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetOrganizationCommand::class, ['organization' => 'non-existent'])
@@ -103,7 +103,7 @@ test('list organizations command accepts pagination options', function (): void 
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListOrganizationsCommand::class, [

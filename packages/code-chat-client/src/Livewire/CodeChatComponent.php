@@ -138,11 +138,11 @@ class CodeChatComponent extends Component
 
     protected function getChatDriver(): ChatDriverContract
     {
-        return app(ChatManager::class)->driver($this->driver);
+        return resolve(ChatManager::class)->driver($this->driver);
     }
 
     protected function getAvailableDrivers(): array
     {
-        return app(ChatManager::class)->getAvailableDrivers();
+        return resolve(ChatManager::class)->getAvailableDrivers();
     }
 }

@@ -9,7 +9,7 @@ use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
 test('connector can be resolved from Laravel container', function (): void {
-    $connector = app(OpenCode::class);
+    $connector = resolve(OpenCode::class);
 
     expect($connector)->toBeInstanceOf(OpenCode::class);
 });
@@ -53,8 +53,8 @@ test('can create session with mocked response', function (): void {
 });
 
 test('connector maintains singleton instance from container', function (): void {
-    $connector1 = app(OpenCode::class);
-    $connector2 = app(OpenCode::class);
+    $connector1 = resolve(OpenCode::class);
+    $connector2 = resolve(OpenCode::class);
 
     expect($connector1)->toBe($connector2);
 });

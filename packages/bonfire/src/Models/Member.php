@@ -24,6 +24,8 @@ use Override;
  * @property bool $is_active
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @mixin IdeHelperMember
  */
 class Member extends Model
 {

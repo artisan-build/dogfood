@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Override;
 
+/**
+ * @mixin IdeHelperMention
+ */
 class Mention extends Model
 {
     public $incrementing = false;

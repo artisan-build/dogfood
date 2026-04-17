@@ -13,7 +13,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-new class extends Component
+return new class extends Component
 {
     use WithPagination;
 

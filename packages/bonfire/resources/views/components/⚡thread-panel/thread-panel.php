@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-new class extends Component
+return new class extends Component
 {
     public Room $room;
 

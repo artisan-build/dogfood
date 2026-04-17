@@ -113,7 +113,7 @@ class MemberState extends State
                 ->getAttributes(ChannelPermissions::class)[0]->newInstance()->{$key};
 
             foreach ($actions as $action) {
-                if (! app($action)()) {
+                if (! resolve($action)()) {
                     return false;
                 }
             }

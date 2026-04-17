@@ -63,7 +63,7 @@ test('list sites command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListSitesCommand::class, [
@@ -102,7 +102,7 @@ test('list sites command handles filters', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListSitesCommand::class, [
@@ -136,7 +136,7 @@ test('get site command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetSiteCommand::class, [
@@ -161,7 +161,7 @@ test('create site command requires confirmation', function (): void {
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateSiteCommand::class, [
@@ -187,7 +187,7 @@ test('create site command can skip confirmation', function (): void {
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateSiteCommand::class, [
@@ -215,7 +215,7 @@ test('update site command requires confirmation', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(UpdateSiteCommand::class, [
@@ -234,7 +234,7 @@ test('destroy site command requires confirmation', function (): void {
         MockResponse::make([], 204),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroySiteCommand::class, [
@@ -252,7 +252,7 @@ test('destroy site command can skip confirmation', function (): void {
         MockResponse::make([], 204),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroySiteCommand::class, [
@@ -277,7 +277,7 @@ test('deploy site command requires confirmation', function (): void {
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DeploySiteCommand::class, [
@@ -300,7 +300,7 @@ test('enable quick deploy command requires confirmation', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(EnableQuickDeployCommand::class, [
@@ -323,7 +323,7 @@ test('disable quick deploy command requires confirmation', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DisableQuickDeployCommand::class, [
@@ -345,7 +345,7 @@ test('list sites command handles API errors gracefully', function (): void {
         ], 401),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListSitesCommand::class, [
@@ -365,7 +365,7 @@ test('get site command handles 404 errors', function (): void {
         ], 404),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetSiteCommand::class, [

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
+use Override;
 use Sushi\Sushi;
 
 /**
@@ -68,6 +69,7 @@ class TillUser extends User
         ];
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

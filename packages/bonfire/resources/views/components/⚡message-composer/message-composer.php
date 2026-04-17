@@ -9,7 +9,7 @@ use ArtisanBuild\Bonfire\Models\Room;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-new class extends Component
+return new class extends Component
 {
     public Room $room;
 
