@@ -36,9 +36,10 @@ function anAttachmentInRoom(int $roomType = 0): array
 }
 
 it('serves attachments from public rooms to anyone', function (): void {
-    [, $attachment] = anAttachmentInRoom();
+    [, $attachment, $author] = anAttachmentInRoom();
 
-    $this->get(route('bonfire.attachments.show', $attachment))
+    $this->actingAs($author->memberable)
+        ->get(route('bonfire.attachments.show', $attachment))
         ->assertOk();
 });
 
@@ -66,10 +67,11 @@ it('serves private-room attachments to pivot members', function (): void {
 });
 
 it('returns 404 when the stored file is missing', function (): void {
-    [, $attachment] = anAttachmentInRoom();
+    [, $attachment, $author] = anAttachmentInRoom();
 
     Storage::disk('public')->delete($attachment->path);
 
-    $this->get(route('bonfire.attachments.show', $attachment))
+    $this->actingAs($author->memberable)
+        ->get(route('bonfire.attachments.show', $attachment))
         ->assertNotFound();
 });
