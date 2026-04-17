@@ -4,7 +4,10 @@
 	"type": "library",
 	"license": "MIT",
 	"require": {
-        "illuminate/support": "^11.36|^12.0"
+        "php": "^8.2",
+        "illuminate/support": "^11.36|^12.0",
+        "livewire/livewire": "^4.0",
+        "league/commonmark": "^2.0"
     },
     "require-dev": {
         "larastan/larastan": "^v3.0.2",
@@ -15,7 +18,11 @@
     },
 	"autoload": {
 		"psr-4": {
-			"ArtisanBuild\\Bonfire\\": "src/",
+			"ArtisanBuild\\Bonfire\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
 			"ArtisanBuild\\Bonfire\\Tests\\": "tests/"
 		}
 	},

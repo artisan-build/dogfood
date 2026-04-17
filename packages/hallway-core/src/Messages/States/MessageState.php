@@ -53,17 +53,17 @@ class MessageState extends State
 
     public function rendered(): string
     {
-        return Blade::render(app(ConvertsMarkdownToHtml::class)($this->content)->parsed);
+        return Blade::render(resolve(ConvertsMarkdownToHtml::class)($this->content)->parsed);
     }
 
     public function preview(): string
     {
-        return Blade::render(app(ConvertsMarkdownToHtml::class)($this->content)->preview);
+        return Blade::render(resolve(ConvertsMarkdownToHtml::class)($this->content)->preview);
     }
 
     public function media(): array
     {
-        return app(ConvertsMarkdownToHtml::class)($this->content)->media;
+        return resolve(ConvertsMarkdownToHtml::class)($this->content)->media;
     }
 
     public function needsPreview(): bool

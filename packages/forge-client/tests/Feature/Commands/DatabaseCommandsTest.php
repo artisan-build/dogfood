@@ -42,7 +42,7 @@ test('list databases command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListDatabasesCommand::class, [
@@ -67,7 +67,7 @@ test('get database command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetDatabaseCommand::class, [
@@ -91,7 +91,7 @@ test('create database command executes successfully with confirmation', function
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateDatabaseCommand::class, [
@@ -115,7 +115,7 @@ test('destroy database command requires confirmation', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyDatabaseCommand::class, [
@@ -140,7 +140,7 @@ test('destroy database command executes with confirmation skip', function (): vo
         MockResponse::make([], 204),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyDatabaseCommand::class, [
@@ -169,7 +169,7 @@ test('list database users command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListDatabaseUsersCommand::class, [
@@ -193,7 +193,7 @@ test('get database user command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetDatabaseUserCommand::class, [
@@ -217,7 +217,7 @@ test('create database user command executes successfully with confirmation', fun
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateDatabaseUserCommand::class, [
@@ -240,7 +240,7 @@ test('update database user command executes successfully with confirmation', fun
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(UpdateDatabaseUserCommand::class, [
@@ -264,7 +264,7 @@ test('destroy database user command requires confirmation', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyDatabaseUserCommand::class, [
@@ -289,7 +289,7 @@ test('destroy database user command executes with confirmation skip', function (
         MockResponse::make([], 204),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyDatabaseUserCommand::class, [

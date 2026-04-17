@@ -23,6 +23,6 @@ class AddSeats
             return false;
         }
 
-        return app(CacheAbility::class)('till-add-seats', Auth::user()->currentTeam->allUsers()->count() < $limit);
+        return resolve(CacheAbility::class)('till-add-seats', Auth::user()->currentTeam->allUsers()->count() < $limit);
     }
 }

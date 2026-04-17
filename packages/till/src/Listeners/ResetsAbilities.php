@@ -22,6 +22,6 @@ class ResetsAbilities
             return;
         }
 
-        app(ClearAbilitiesCache::class)();
+        resolve(ClearAbilitiesCache::class)();
     }
 }

@@ -26,6 +26,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
+use Override;
 
 /**
  * @template TFactory of Factory
@@ -153,6 +154,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->teams->contains($team) || $this->ownsTeam($team);
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

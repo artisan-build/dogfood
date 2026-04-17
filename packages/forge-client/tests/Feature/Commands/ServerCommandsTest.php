@@ -35,7 +35,7 @@ test('list servers command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListServersCommand::class, ['organization' => 'test-org'])
@@ -63,7 +63,7 @@ test('list servers command handles filters', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListServersCommand::class, [
@@ -96,7 +96,7 @@ test('get server command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
@@ -120,7 +120,7 @@ test('create server command requires confirmation', function (): void {
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateServerCommand::class, [
@@ -148,7 +148,7 @@ test('create server command can skip confirmation', function (): void {
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateServerCommand::class, [
@@ -204,7 +204,7 @@ test('create server command uses config defaults for php and database', function
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateServerCommand::class, [
@@ -237,7 +237,7 @@ test('destroy server command requires confirmation', function (): void {
         MockResponse::make([], 204),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyServerCommand::class, [
@@ -265,7 +265,7 @@ test('destroy server command can skip confirmation', function (): void {
         MockResponse::make([], 204),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyServerCommand::class, [
@@ -292,7 +292,7 @@ test('destroy server command can be cancelled', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyServerCommand::class, [
@@ -320,7 +320,7 @@ test('reboot server command requires confirmation', function (): void {
         MockResponse::make([], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(RebootServerCommand::class, [
@@ -346,7 +346,7 @@ test('reboot server command can skip confirmation', function (): void {
         MockResponse::make([], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(RebootServerCommand::class, [
@@ -381,7 +381,7 @@ test('list servers command uses default organization from config', function (): 
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListServersCommand::class)
@@ -420,7 +420,7 @@ test('get server command uses default organization and server from config', func
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class)
@@ -451,7 +451,7 @@ test('get server command argument overrides config default', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetServerCommand::class, [
@@ -478,7 +478,7 @@ test('destroy server command handles protected server gracefully', function (): 
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyServerCommand::class, [

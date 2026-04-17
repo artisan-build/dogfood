@@ -21,7 +21,7 @@ class PricingSectionComponent extends Component
 
     public function render()
     {
-        $plans = app(GetVisiblePlans::class)();
+        $plans = resolve(GetVisiblePlans::class)();
 
         $displays = [
             'month' => $plans->some(fn ($plan) => $plan->prices['month'] !== null),

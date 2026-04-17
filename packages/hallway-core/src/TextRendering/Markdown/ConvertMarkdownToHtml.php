@@ -43,7 +43,7 @@ class ConvertMarkdownToHtml
 
         $this->converter = new MarkdownConverter($environment);
 
-        $content = app(HandlesEmbeddableLinks::class)($content);
+        $content = resolve(HandlesEmbeddableLinks::class)($content);
 
         return Cache::rememberForever(sha1((string) $content), fn () => $this->converter->convert($content)->getContent());
 

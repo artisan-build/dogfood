@@ -11,6 +11,6 @@ class HeaderRightNavbarComponent extends Component
 {
     public function render()
     {
-        return view('flux-themes::livewire.header-right-navbar', ['items' => app(LoadsHeaderRightNavbarItems::class)()]);
+        return view('flux-themes::livewire.header-right-navbar', ['items' => resolve(LoadsHeaderRightNavbarItems::class)()]);
     }
 }

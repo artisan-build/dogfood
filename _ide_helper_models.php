@@ -168,6 +168,155 @@ namespace ArtisanBuild\Adverbs\Models{
 	class IdeHelperDummy {}
 }
 
+namespace ArtisanBuild\Bonfire\Models{
+/**
+ * @property int $id
+ * @property int $message_id
+ * @property string $disk
+ * @property string $path
+ * @property string $filename
+ * @property string $mime_type
+ * @property int $size
+ * @property Carbon|null $created_at
+ * @property-read \ArtisanBuild\Bonfire\Models\Message|null $message
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment query()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperAttachment {}
+}
+
+namespace ArtisanBuild\Bonfire\Models{
+/**
+ * @property-read \ArtisanBuild\Bonfire\Models\Message|null $message
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LinkPreview newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LinkPreview newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LinkPreview query()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperLinkPreview {}
+}
+
+namespace ArtisanBuild\Bonfire\Models{
+/**
+ * @property int $id
+ * @property int|null $tenant_id
+ * @property string $memberable_type
+ * @property int $memberable_id
+ * @property string $display_name
+ * @property string|null $avatar_url
+ * @property BonfireRole $role
+ * @property bool $is_active
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $memberable
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \ArtisanBuild\Bonfire\Models\Message> $messages
+ * @property-read int|null $messages_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \ArtisanBuild\Bonfire\Models\Room> $rooms
+ * @property-read int|null $rooms_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member forTenant(?int $tenantId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member query()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperMember {}
+}
+
+namespace ArtisanBuild\Bonfire\Models{
+/**
+ * @property-read \ArtisanBuild\Bonfire\Models\Member|null $member
+ * @property-read \ArtisanBuild\Bonfire\Models\Message|null $message
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Mention newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Mention newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Mention query()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperMention {}
+}
+
+namespace ArtisanBuild\Bonfire\Models{
+/**
+ * @property int $id
+ * @property int|null $tenant_id
+ * @property int $room_id
+ * @property int $member_id
+ * @property int|null $parent_id
+ * @property string $body
+ * @property Carbon|null $deleted_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \ArtisanBuild\Bonfire\Models\Attachment> $attachments
+ * @property-read int|null $attachments_count
+ * @property-read \ArtisanBuild\Bonfire\Models\LinkPreview|null $linkPreview
+ * @property-read \ArtisanBuild\Bonfire\Models\Member|null $member
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \ArtisanBuild\Bonfire\Models\Mention> $mentions
+ * @property-read int|null $mentions_count
+ * @property-read Message|null $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \ArtisanBuild\Bonfire\Models\Reaction> $reactions
+ * @property-read int|null $reactions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Message> $replies
+ * @property-read int|null $replies_count
+ * @property-read \ArtisanBuild\Bonfire\Models\Room|null $room
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message roots()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperMessage {}
+}
+
+namespace ArtisanBuild\Bonfire\Models{
+/**
+ * @property-read \ArtisanBuild\Bonfire\Models\Member|null $member
+ * @property-read \ArtisanBuild\Bonfire\Models\Message|null $message
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Reaction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Reaction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Reaction query()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperReaction {}
+}
+
+namespace ArtisanBuild\Bonfire\Models{
+/**
+ * @property int $id
+ * @property int|null $tenant_id
+ * @property string $name
+ * @property string $slug
+ * @property string|null $description
+ * @property int $type
+ * @property int $created_by
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property-read \ArtisanBuild\Bonfire\Models\Member|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \ArtisanBuild\Bonfire\Models\Member> $members
+ * @property-read int|null $members_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \ArtisanBuild\Bonfire\Models\Message> $messages
+ * @property-read int|null $messages_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \ArtisanBuild\Bonfire\Models\Message> $rootMessages
+ * @property-read int|null $root_messages_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room query()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperRoom {}
+}
+
 namespace ArtisanBuild\Till\Models{
 /**
  * @property int $id

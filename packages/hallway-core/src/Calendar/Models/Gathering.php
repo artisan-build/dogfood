@@ -10,6 +10,7 @@ use ArtisanBuild\Hallway\Calendar\States\GatheringState;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 /**
  * @property Carbon $start
@@ -24,6 +25,7 @@ class Gathering extends Model
 
     protected string $state_class = GatheringState::class;
 
+    #[Override]
     public function casts()
     {
         return [

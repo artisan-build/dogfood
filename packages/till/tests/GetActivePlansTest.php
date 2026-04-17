@@ -6,5 +6,5 @@ use ArtisanBuild\Till\Actions\GetActivePlans;
 use Illuminate\Support\Collection;
 
 it('gets all of the tests', function (): void {
-    expect(app(GetActivePlans::class)())->toBeInstanceOf(Collection::class)->toHaveCount(4);
+    expect(resolve(GetActivePlans::class)())->toBeInstanceOf(Collection::class)->toHaveCount(4);
 });

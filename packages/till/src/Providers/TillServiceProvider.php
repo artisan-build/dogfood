@@ -29,9 +29,9 @@ class TillServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        app(Dispatcher::class)->register(new AuthorizesLedgerTransactionsListener);
-        app(Dispatcher::class)->register(new ProcessesLedgerTransactionsListener);
-        app(Dispatcher::class)->register(new ResetsAbilities);
+        resolve(Dispatcher::class)->register(new AuthorizesLedgerTransactionsListener);
+        resolve(Dispatcher::class)->register(new ProcessesLedgerTransactionsListener);
+        resolve(Dispatcher::class)->register(new ResetsAbilities);
 
         if ($this->app->runningInConsole()) {
             $this->commands([

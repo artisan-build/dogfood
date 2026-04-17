@@ -32,6 +32,6 @@ class SubscriptionStarted extends Event
     public function validate(SubscriberState $state): bool
     {
         return $state->plan_id === null
-            && app(GetPlanById::class)($this->plan_id) instanceof PlanInterface;
+            && resolve(GetPlanById::class)($this->plan_id) instanceof PlanInterface;
     }
 }

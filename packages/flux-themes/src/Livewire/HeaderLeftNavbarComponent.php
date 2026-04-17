@@ -14,6 +14,6 @@ class HeaderLeftNavbarComponent extends Component
 {
     public function render(): Application|\Illuminate\Contracts\View\View|Factory|View|null
     {
-        return view('flux-themes::livewire.header-left-sidebar', ['items' => app(LoadsHeaderLeftNavbarItems::class)()]);
+        return view('flux-themes::livewire.header-left-sidebar', ['items' => resolve(LoadsHeaderLeftNavbarItems::class)()]);
     }
 }

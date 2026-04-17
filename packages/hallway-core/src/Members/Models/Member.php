@@ -10,6 +10,7 @@ use ArtisanBuild\Hallway\Members\Enums\MemberRoles;
 use ArtisanBuild\Hallway\Members\States\MemberState;
 use ArtisanBuild\Hallway\Members\Traits\HasChannelMemberships;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 /**
  * @property MemberRoles $role
@@ -26,6 +27,7 @@ class Member extends Model
 
     protected $guarded = [];
 
+    #[Override]
     public function casts(): array
     {
         return [

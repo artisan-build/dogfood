@@ -9,6 +9,7 @@ use ArtisanBuild\Adverbs\Traits\HasVerbsState;
 use ArtisanBuild\Hallway\Channels\States\ChannelState;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 class Channel extends Model
 {
@@ -19,6 +20,7 @@ class Channel extends Model
 
     protected $guarded = [];
 
+    #[Override]
     public function casts()
     {
         return [

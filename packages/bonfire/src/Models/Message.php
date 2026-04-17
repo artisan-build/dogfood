@@ -1,0 +1,165 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ArtisanBuild\Bonfire\Models;
+
+use ArtisanBuild\Bonfire\Events\MessageDeleted;
+use ArtisanBuild\Bonfire\Events\MessagePosted;
+use ArtisanBuild\Bonfire\Jobs\FetchLinkPreview;
+use ArtisanBuild\Bonfire\Notifications\MentionedInMessage;
+use ArtisanBuild\Bonfire\Support\MarkdownRenderer;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Notification;
+use Override;
+
+/**
+ * @property int $id
+ * @property int|null $tenant_id
+ * @property int $room_id
+ * @property int $member_id
+ * @property int|null $parent_id
+ * @property string $body
+ * @property Carbon|null $deleted_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ *
+ * @mixin IdeHelperMessage
+ */
+class Message extends Model
+{
+    use SoftDeletes;
+
+    protected $table = 'bonfire_messages';
+
+    protected $guarded = [];
+
+    #[Override]
+    protected static function booted(): void
+    {
+        static::created(function (self $message): void {
+            $message->syncMentions();
+            $message->dispatchLinkPreview();
+
+            event(new MessagePosted($message));
+        });
+
+        static::deleted(function (self $message): void {
+            if ($message->isForceDeleting()) {
+                return;
+            }
+
+            event(new MessageDeleted($message->id, $message->room_id));
+        });
+    }
+
+    public function room(): BelongsTo
+    {
+        return $this->belongsTo(Room::class, 'room_id');
+    }
+
+    public function member(): BelongsTo
+    {
+        return $this->belongsTo(Member::class, 'member_id');
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    public function replies(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
+    public function reactions(): HasMany
+    {
+        return $this->hasMany(Reaction::class, 'message_id');
+    }
+
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(Attachment::class, 'message_id');
+    }
+
+    public function linkPreview(): HasOne
+    {
+        return $this->hasOne(LinkPreview::class, 'message_id');
+    }
+
+    public function mentions(): HasMany
+    {
+        return $this->hasMany(Mention::class, 'message_id');
+    }
+
+    public function isReply(): bool
+    {
+        return $this->parent_id !== null;
+    }
+
+    /**
+     * Parse @mentions from body, persist them, and notify mentioned members.
+     */
+    public function syncMentions(): void
+    {
+        $renderer = resolve(MarkdownRenderer::class);
+        $names = $renderer->extractMentionNames($this->body);
+
+        if ($names === []) {
+            return;
+        }
+
+        $members = Member::query()
+            ->whereIn('display_name', $names)
+            ->where('tenant_id', $this->tenant_id)
+            ->where('id', '!=', $this->member_id)
+            ->get();
+
+        foreach ($members as $member) {
+            Mention::query()->insert([
+                'message_id' => $this->id,
+                'member_id' => $member->id,
+                'created_at' => now(),
+            ]);
+        }
+
+        if ($members->isNotEmpty()) {
+            Notification::send($members, new MentionedInMessage($this));
+        }
+    }
+
+    public function dispatchLinkPreview(): void
+    {
+        if (! (bool) config('bonfire.link_preview_enabled', true)) {
+            return;
+        }
+
+        $url = FetchLinkPreview::extractFirstUrl($this->body);
+
+        if ($url === null) {
+            return;
+        }
+
+        dispatch(new FetchLinkPreview($this->id, $url));
+    }
+
+    protected function scopeRoots(Builder $query): Builder
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'tenant_id' => 'integer',
+        ];
+    }
+}

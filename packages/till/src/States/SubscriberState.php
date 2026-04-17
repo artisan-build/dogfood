@@ -25,7 +25,7 @@ class SubscriberState extends State
 
     public function plan(): PlanInterface
     {
-        return app(GetPlanById::class)($this->plan_id);
+        return resolve(GetPlanById::class)($this->plan_id);
     }
 
     public function spend(Ledgers $ledger, int $amount = 1): void
@@ -43,7 +43,7 @@ class SubscriberState extends State
     {
         $arguments['state'] = $this;
 
-        return app($action)(...$arguments);
+        return resolve($action)(...$arguments);
     }
 
     public function deposit(string $ledger, int|float $amount = 1): void

@@ -32,7 +32,7 @@ test('list background processes command executes successfully', function (): voi
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListBackgroundProcessesCommand::class, [
@@ -57,7 +57,7 @@ test('get background process command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetBackgroundProcessCommand::class, [
@@ -81,7 +81,7 @@ test('create background process command executes successfully with confirmation'
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateBackgroundProcessCommand::class, [
@@ -104,7 +104,7 @@ test('update background process command executes successfully with confirmation'
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(UpdateBackgroundProcessCommand::class, [
@@ -129,7 +129,7 @@ test('restart background process command requires confirmation', function (): vo
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(RestartBackgroundProcessCommand::class, [
@@ -154,7 +154,7 @@ test('destroy background process command requires confirmation', function (): vo
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyBackgroundProcessCommand::class, [
@@ -179,7 +179,7 @@ test('destroy background process command executes with confirmation skip', funct
         MockResponse::make([], 204),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyBackgroundProcessCommand::class, [

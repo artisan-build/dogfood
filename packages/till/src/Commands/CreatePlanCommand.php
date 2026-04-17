@@ -30,7 +30,7 @@ class CreatePlanCommand extends Command
     {
         $replace = [];
 
-        $replace['namespace'] = app(GetPlanNamespace::class)();
+        $replace['namespace'] = resolve(GetPlanNamespace::class)();
 
         $replace['imports'] = collect([
             'use ArtisanBuild\Till\Attributes\IndividualPlan;' => ! config('till.team_mode'),

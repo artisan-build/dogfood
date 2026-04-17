@@ -43,7 +43,7 @@ test('list deployments command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListDeploymentsCommand::class, [
@@ -75,7 +75,7 @@ test('get deployment command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetDeploymentCommand::class, [
@@ -100,7 +100,7 @@ test('trigger deployment command requires confirmation', function (): void {
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(TriggerDeploymentCommand::class, [
@@ -123,7 +123,7 @@ test('trigger deployment command can skip confirmation', function (): void {
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(TriggerDeploymentCommand::class, [
@@ -148,7 +148,7 @@ test('update deployment script command requires confirmation', function (): void
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(UpdateDeploymentScriptCommand::class, [
@@ -172,7 +172,7 @@ test('update deployment script command can skip confirmation', function (): void
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(UpdateDeploymentScriptCommand::class, [
@@ -197,7 +197,7 @@ test('list deployments command handles API errors gracefully', function (): void
         ], 401),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListDeploymentsCommand::class, [
@@ -218,7 +218,7 @@ test('get deployment command handles 404 errors', function (): void {
         ], 404),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetDeploymentCommand::class, [
