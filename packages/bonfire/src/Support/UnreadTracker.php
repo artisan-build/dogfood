@@ -7,7 +7,7 @@ namespace ArtisanBuild\Bonfire\Support;
 use ArtisanBuild\Bonfire\Models\Member;
 use ArtisanBuild\Bonfire\Models\Message;
 use ArtisanBuild\Bonfire\Models\Room;
-use Illuminate\Support\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Session;
 
@@ -36,7 +36,7 @@ final class UnreadTracker
         Session::put(self::SESSION_KEY, $store);
     }
 
-    public function lastReadAt(Room $room, ?Member $member): ?Carbon
+    public function lastReadAt(Room $room, ?Member $member): ?CarbonInterface
     {
         if ($room->isPrivate() && $member !== null) {
             $pivot = $room->members()
@@ -49,7 +49,7 @@ final class UnreadTracker
                 return null;
             }
 
-            return $value instanceof Carbon ? $value : Date::parse((string) $value);
+            return $value instanceof CarbonInterface ? $value : Date::parse((string) $value);
         }
 
         $stored = $this->sessionStore()[$room->getKey()] ?? null;
