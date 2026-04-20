@@ -14,7 +14,7 @@ use Throwable;
 /**
  * Fetches Open Graph metadata for the first URL in a Bonfire message.
  */
-final class FetchLinkPreview implements ShouldQueue
+class FetchLinkPreview implements ShouldQueue
 {
     use Queueable;
 

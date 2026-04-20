@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Session;
  * Tracks last-read timestamps for rooms, session-backed for public rooms and
  * pivot-backed for private rooms.
  */
-final class UnreadTracker
+class UnreadTracker
 {
     private const string SESSION_KEY = 'bonfire.last_read';
 

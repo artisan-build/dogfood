@@ -12,7 +12,7 @@ use Illuminate\Notifications\Notification;
 /**
  * Notifies a Bonfire member that they were mentioned in a message.
  */
-final class MentionedInMessage extends Notification
+class MentionedInMessage extends Notification
 {
     use Queueable;
 

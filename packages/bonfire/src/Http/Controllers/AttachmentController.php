@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 /**
  * Serves Bonfire attachments with per-room access control.
  */
-final class AttachmentController extends Controller
+class AttachmentController extends Controller
 {
     public function show(Attachment $attachment): StreamedResponse|Response
     {

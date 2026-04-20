@@ -11,7 +11,7 @@ use ArtisanBuild\Bonfire\Models\Room;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
-final class BonfireManager
+class BonfireManager
 {
     public function ensureMember(
         Model $memberable,

@@ -9,7 +9,7 @@ use Illuminate\Console\Command;
 /**
  * Publishes Bonfire config and migrations, then runs migrate.
  */
-final class InstallCommand extends Command
+class InstallCommand extends Command
 {
     protected $signature = 'bonfire:install {--force : Overwrite any existing published files}';
 

@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 /**
  * Creates a Bonfire room from the command line.
  */
-final class CreateRoomCommand extends Command
+class CreateRoomCommand extends Command
 {
     protected $signature = 'bonfire:create-room {name : Room display name}
         {--type=0 : RoomType bitmask value (0=public, 1=private, 2=archived, 4=announcements)}
