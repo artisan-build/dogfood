@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Override;
 
@@ -29,6 +30,8 @@ use Override;
  */
 class Member extends Model
 {
+    use Notifiable;
+
     protected $table = 'bonfire_members';
 
     protected $guarded = [];

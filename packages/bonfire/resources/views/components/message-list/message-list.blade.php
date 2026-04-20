@@ -2,6 +2,20 @@
      x-data="{
          pinned: true,
          typing: {},
+         pendingDeleteId: null,
+         pendingDeletePreview: '',
+         askDelete(id, preview) {
+             this.pendingDeleteId = id;
+             this.pendingDeletePreview = preview;
+             this.$dispatch('modal-show', { name: 'delete-message' });
+         },
+         confirmDelete() {
+             if (this.pendingDeleteId === null) return;
+             this.$wire.deleteMessage(this.pendingDeleteId);
+             this.$dispatch('modal-close', { name: 'delete-message' });
+             this.pendingDeleteId = null;
+             this.pendingDeletePreview = '';
+         },
          init() {
              $el.scrollTop = $el.scrollHeight;
              if (typeof window.Echo === 'undefined') return;
@@ -28,36 +42,81 @@
              return names.length + ' people are typing…';
          }
      }">
-    <ul role="list" class="divide-y divide-zinc-100 dark:divide-zinc-800">
+    @php
+        $previous = null;
+        $groupThresholdSeconds = 5 * 60;
+    @endphp
+
+    @if ($this->messages->hasMorePages())
+        <div class="p-3 text-center">
+            <button wire:click="$set('perPage', {{ $this->perPage + 40 }})"
+                    type="button"
+                    class="text-xs text-zinc-600 hover:text-zinc-900
+                           dark:text-zinc-400 dark:hover:text-zinc-200">
+                Load earlier messages
+            </button>
+        </div>
+    @endif
+
+    <ul role="list" class="flex flex-col py-2">
         @forelse ($this->messages as $message)
-            <li wire:key="message-{{ $message->id }}" class="flex gap-3 p-3">
-                <img src="{{ $message->member?->avatar_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($message->member?->display_name ?? '?') }}"
-                     alt=""
-                     class="size-8 flex-shrink-0 rounded-full bg-zinc-200
-                            dark:bg-zinc-800">
-                <div class="min-w-0 flex-1">
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-sm font-semibold text-zinc-900
-                                     dark:text-zinc-100">
-                            {{ $message->member?->display_name ?? 'Unknown' }}
-                        </span>
-                        <time class="text-xs text-zinc-500 dark:text-zinc-400">
-                            {{ $message->created_at?->diffForHumans() }}
+            @php
+                $sameAuthor = $previous
+                    && $previous->member_id === $message->member_id
+                    && $previous->created_at
+                    && $message->created_at
+                    && $previous->created_at->diffInSeconds($message->created_at) <= $groupThresholdSeconds;
+                $previous = $message;
+            @endphp
+            <li wire:key="message-{{ $message->id }}"
+                class="group relative flex gap-3 px-4 {{ $sameAuthor ? 'py-0.5' : 'mt-3 py-1 first:mt-0' }}
+                       hover:bg-zinc-50 dark:hover:bg-zinc-900/50">
+                <div class="flex w-10 flex-shrink-0 justify-center">
+                    @if ($sameAuthor)
+                        <time class="mt-1 hidden w-full text-center text-[10px] leading-none text-zinc-400
+                                     group-hover:block
+                                     dark:text-zinc-500">
+                            {{ $message->created_at?->format('g:i') }}
                         </time>
-                    </div>
-                    <div class="mt-1 text-sm text-zinc-800
-                                dark:text-zinc-200">
+                    @else
+                        <img src="{{ $message->member?->avatar_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($message->member?->display_name ?? '?') }}"
+                             alt=""
+                             class="size-9 rounded bg-zinc-200 dark:bg-zinc-800">
+                    @endif
+                </div>
+
+                <div class="min-w-0 flex-1">
+                    @unless ($sameAuthor)
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                                {{ $message->member?->display_name ?? 'Unknown' }}
+                            </span>
+                            <time class="text-xs text-zinc-500 dark:text-zinc-400">
+                                {{ $message->created_at?->format('g:i A') }}
+                            </time>
+                        </div>
+                    @endunless
+
+                    <div class="text-sm text-zinc-800 dark:text-zinc-200">
                         @if ($message->trashed())
                             <em class="text-zinc-500">This message was deleted.</em>
                         @else
-                            <div class="prose prose-sm max-w-none break-words dark:prose-invert">
-                                {!! app(\ArtisanBuild\Bonfire\Support\MarkdownRenderer::class)->render($message->body, $message->tenant_id) !!}
+                            <div class="bonfire-message-body max-w-none break-words">
+                                @php
+                                    $bodyLooksLikeHtml = preg_match('/<\\w+[^>]*>/', (string) $message->body) === 1;
+                                @endphp
+                                @if ($bodyLooksLikeHtml)
+                                    {!! $message->body !!}
+                                @else
+                                    {!! app(\ArtisanBuild\Bonfire\Support\MarkdownRenderer::class)->render($message->body, $message->tenant_id) !!}
+                                @endif
                             </div>
+
                             @if ($message->relationLoaded('linkPreview') && $message->linkPreview && ! $message->linkPreview->failed)
                                 <a href="{{ $message->linkPreview->url }}"
                                    target="_blank"
                                    rel="noopener"
-                                   class="mt-2 flex gap-3 rounded-md border border-zinc-200 p-3
+                                   class="mt-2 flex max-w-lg gap-3 rounded-md border border-zinc-200 p-3
                                           hover:bg-zinc-50
                                           dark:border-zinc-800 dark:hover:bg-zinc-900">
                                     @if ($message->linkPreview->image_url)
@@ -86,6 +145,7 @@
                                     </div>
                                 </a>
                             @endif
+
                             @if ($message->attachments->isNotEmpty())
                                 <div class="mt-2 flex flex-wrap gap-2">
                                     @foreach ($message->attachments as $attachment)
@@ -116,37 +176,48 @@
                             @endif
                         @endif
                     </div>
-                    @if (! $message->trashed())
-                        <div class="mt-2 flex items-center gap-3 text-xs text-zinc-500
-                                    dark:text-zinc-400">
-                            <button wire:click="openThread({{ $message->id }})"
-                                    type="button"
-                                    class="hover:text-zinc-900
-                                           dark:hover:text-zinc-200">
-                                Reply
-                                @if ($message->replies->isNotEmpty())
-                                    <span class="ml-1 rounded-full bg-zinc-100 px-1.5 py-0.5 text-zinc-700
-                                                 dark:bg-zinc-800 dark:text-zinc-300">
-                                        {{ $message->replies->count() }}
-                                    </span>
-                                @endif
-                            </button>
-                            @if ($this->canDelete($message))
-                                <button wire:click="deleteMessage({{ $message->id }})"
-                                        type="button"
-                                        wire:confirm="Delete this message?"
-                                        class="text-rose-600 hover:text-rose-700
-                                               dark:text-rose-400 dark:hover:text-rose-300">
-                                    Delete
-                                </button>
-                            @endif
-                        </div>
+
+                    @if (! $message->trashed() && $message->replies->isNotEmpty())
+                        <button wire:click="openThread({{ $message->id }})"
+                                type="button"
+                                class="mt-1 inline-flex items-center gap-1.5 rounded border border-transparent
+                                       px-1.5 py-0.5 text-xs font-medium text-sky-700
+                                       hover:border-zinc-200 hover:bg-white
+                                       dark:text-sky-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-900">
+                            <flux:icon name="chat-bubble-left-right" class="size-3.5" />
+                            {{ $message->replies->count() }}
+                            {{ \Illuminate\Support\Str::plural('reply', $message->replies->count()) }}
+                        </button>
                     @endif
                 </div>
+
+                @if (! $message->trashed())
+                    <div class="pointer-events-none absolute right-4 -top-3 z-10 hidden items-center gap-0.5
+                                rounded-md border border-zinc-200 bg-white p-0.5 shadow-sm
+                                group-hover:pointer-events-auto group-hover:flex
+                                dark:border-zinc-700 dark:bg-zinc-900">
+                        <button wire:click="openThread({{ $message->id }})"
+                                type="button"
+                                title="Reply in thread"
+                                class="rounded p-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900
+                                       dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
+                            <flux:icon name="chat-bubble-left-right" class="size-4" />
+                        </button>
+                        @if ($this->canDelete($message))
+                            <button
+                                    type="button"
+                                    @click="askDelete({{ $message->id }}, @js(\Illuminate\Support\Str::limit($message->body, 120)))"
+                                    title="Delete"
+                                    class="rounded p-1 text-zinc-500 hover:bg-rose-50 hover:text-rose-600
+                                           dark:text-zinc-400 dark:hover:bg-rose-950 dark:hover:text-rose-400">
+                                <flux:icon name="trash" class="size-4" />
+                            </button>
+                        @endif
+                    </div>
+                @endif
             </li>
         @empty
-            <li class="p-6 text-center text-sm text-zinc-600
-                       dark:text-zinc-400">
+            <li class="p-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
                 No messages yet. Say hello.
             </li>
         @endforelse
@@ -154,16 +225,29 @@
 
     <div x-show="typingLabel"
          x-text="typingLabel"
-         class="px-3 py-1 text-xs italic text-zinc-500 dark:text-zinc-400"></div>
+         class="px-4 py-1 text-xs italic text-zinc-500 dark:text-zinc-400"></div>
 
-    @if ($this->messages->hasMorePages())
-        <div class="p-3 text-center">
-            <button wire:click="$set('perPage', {{ $this->perPage + 40 }})"
-                    type="button"
-                    class="text-xs text-zinc-600 hover:text-zinc-900
-                           dark:text-zinc-400 dark:hover:text-zinc-200">
-                Load more
-            </button>
+    <flux:modal name="delete-message" class="max-w-md">
+        <div class="space-y-5">
+            <div>
+                <flux:heading size="lg">Delete message?</flux:heading>
+                <flux:text class="mt-2">
+                    This will remove the message for everyone. You can't undo this.
+                </flux:text>
+            </div>
+
+            <div x-show="pendingDeletePreview"
+                 class="rounded-md border border-zinc-200 bg-zinc-50 p-3 text-sm text-zinc-700
+                        dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+                <span x-text="pendingDeletePreview"></span>
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <flux:modal.close>
+                    <flux:button variant="ghost">Cancel</flux:button>
+                </flux:modal.close>
+                <flux:button variant="danger" @click="confirmDelete()">Delete</flux:button>
+            </div>
         </div>
-    @endif
+    </flux:modal>
 </div>

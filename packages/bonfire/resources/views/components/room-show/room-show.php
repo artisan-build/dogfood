@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 use ArtisanBuild\Bonfire\Enums\BonfireRole;
 use ArtisanBuild\Bonfire\Facades\Bonfire;
+use ArtisanBuild\Bonfire\Models\Member;
 use ArtisanBuild\Bonfire\Models\Room;
 use ArtisanBuild\Bonfire\Support\UnreadTracker;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -61,6 +64,74 @@ return new class extends Component
     public function closeThread(): void
     {
         $this->openThreadId = null;
+    }
+
+    /**
+     * @return Collection<int, Member>
+     */
+    #[Computed]
+    public function channelMembers(): Collection
+    {
+        return $this->room->members()
+            ->orderBy('display_name')
+            ->get(['bonfire_members.id', 'display_name', 'avatar_url']);
+    }
+
+    #[Computed]
+    public function isStarred(): bool
+    {
+        $member = $this->currentMember();
+
+        if ($member === null) {
+            return false;
+        }
+
+        return DB::table('bonfire_starred_rooms')
+            ->where('member_id', $member->id)
+            ->where('room_id', $this->room->id)
+            ->exists();
+    }
+
+    public function toggleStar(): void
+    {
+        $member = $this->currentMember();
+
+        if ($member === null) {
+            return;
+        }
+
+        $exists = DB::table('bonfire_starred_rooms')
+            ->where('member_id', $member->id)
+            ->where('room_id', $this->room->id)
+            ->exists();
+
+        if ($exists) {
+            DB::table('bonfire_starred_rooms')
+                ->where('member_id', $member->id)
+                ->where('room_id', $this->room->id)
+                ->delete();
+        } else {
+            DB::table('bonfire_starred_rooms')->insert([
+                'member_id' => $member->id,
+                'room_id' => $this->room->id,
+                'created_at' => now(),
+            ]);
+        }
+
+        unset($this->isStarred);
+    }
+
+    public function leaveChannel()
+    {
+        $member = $this->currentMember();
+
+        if ($member === null || $this->room->isPrivate() === false) {
+            return null;
+        }
+
+        $this->room->removeMember($member);
+
+        return $this->redirect(route('bonfire.index'), navigate: true);
     }
 
     protected function canView(): bool

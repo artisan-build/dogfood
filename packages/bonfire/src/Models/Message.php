@@ -160,6 +160,7 @@ class Message extends Model
     {
         return [
             'tenant_id' => 'integer',
+            'scheduled_for' => 'datetime',
         ];
     }
 }

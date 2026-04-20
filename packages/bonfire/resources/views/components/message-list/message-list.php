@@ -21,19 +21,36 @@ return new class extends Component
 
     public int $perPage = 40;
 
+    public string $search = '';
+
     public function mount(Room $room): void
     {
         $this->room = $room;
     }
 
+    #[On('bonfire-search')]
+    public function setSearch(string $value): void
+    {
+        $this->search = trim($value);
+        $this->resetPage();
+        unset($this->messages);
+    }
+
     #[Computed]
     public function messages(): CursorPaginator
     {
-        return Message::query()
+        $query = Message::query()
             ->with(['member', 'replies', 'attachments', 'linkPreview'])
             ->where('room_id', $this->room->getKey())
-            ->whereNull('parent_id')->oldest()
-            ->cursorPaginate($this->perPage);
+            ->whereNull('parent_id')
+            ->where(fn ($q) => $q->whereNull('scheduled_for')->orWhere('scheduled_for', '<=', now()));
+
+        if ($this->search !== '') {
+            $needle = '%'.str_replace(['%', '_'], ['\%', '\_'], $this->search).'%';
+            $query->where('body', 'like', $needle);
+        }
+
+        return $query->oldest()->cursorPaginate($this->perPage);
     }
 
     #[On('echo:bonfire.room.{room.id},MessagePosted')]
