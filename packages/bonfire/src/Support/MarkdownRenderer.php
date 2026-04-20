@@ -14,7 +14,7 @@ use League\CommonMark\MarkdownConverter;
 /**
  * Converts raw Markdown into XSS-safe HTML with mention chip rendering.
  */
-final class MarkdownRenderer
+class MarkdownRenderer
 {
     public const string MENTION_PATTERN = '/(?<![\w`])@([A-Za-z0-9][A-Za-z0-9_\-]*)/';
 

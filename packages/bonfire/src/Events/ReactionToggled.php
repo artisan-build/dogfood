@@ -14,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 /**
  * Fired when a reaction is added or removed from a message.
  */
-final class ReactionToggled implements ShouldBroadcast
+class ReactionToggled implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;

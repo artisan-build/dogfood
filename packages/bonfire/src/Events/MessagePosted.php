@@ -15,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
 /**
  * Fired when a new root message or reply is saved.
  */
-final class MessagePosted implements ShouldBroadcast
+class MessagePosted implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;

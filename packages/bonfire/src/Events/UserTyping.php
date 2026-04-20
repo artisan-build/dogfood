@@ -14,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 /**
  * Whispered when a member is typing in a room's composer. Transient only.
  */
-final class UserTyping implements ShouldBroadcast
+class UserTyping implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;

@@ -15,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
 /**
  * Fired when a message is soft-deleted.
  */
-final class MessageDeleted implements ShouldBroadcast
+class MessageDeleted implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
