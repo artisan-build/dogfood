@@ -10,6 +10,7 @@ use ArtisanBuild\Bonfire\Models\Room;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -24,6 +25,8 @@ return new class extends Component
     public string $body = '';
 
     public ?string $scheduledFor = null;
+
+    public ?string $lastScheduledAt = null;
 
     public bool $alsoSendToChannel = false;
 
@@ -40,6 +43,12 @@ return new class extends Component
     public function member(): ?Member
     {
         return Bonfire::memberFor(auth()->user());
+    }
+
+    #[On('bonfire:member-updated')]
+    public function onMemberUpdated(): void
+    {
+        unset($this->member, $this->mentionables);
     }
 
     /**
@@ -106,7 +115,31 @@ return new class extends Component
             Bonfire::postAs($member, $this->room, $effectiveBody, null);
         }
 
+        if ($scheduledAt !== null) {
+            $this->lastScheduledAt = $scheduledAt->toIso8601String();
+        }
+
         $this->reset('body', 'pendingAttachments', 'scheduledFor', 'alsoSendToChannel');
+    }
+
+    public function dismissScheduled(): void
+    {
+        $this->lastScheduledAt = null;
+    }
+
+    public function scheduledMessagesCount(): int
+    {
+        $member = $this->currentMember();
+
+        if ($member === null) {
+            return 0;
+        }
+
+        return Message::query()
+            ->where('member_id', $member->id)
+            ->whereNotNull('scheduled_for')
+            ->where('scheduled_for', '>', now())
+            ->count();
     }
 
     private function createMessage(Member $member, ?Message $parent, string $body, ?Carbon $scheduledAt): Message

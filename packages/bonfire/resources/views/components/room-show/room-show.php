@@ -74,7 +74,24 @@ return new class extends Component
     {
         return $this->room->members()
             ->orderBy('display_name')
-            ->get(['bonfire_members.id', 'display_name', 'avatar_url']);
+            ->get([
+                'bonfire_members.id',
+                'display_name',
+                'avatar_url',
+                'memberable_type',
+                'memberable_id',
+                'phone',
+                'timezone',
+                'is_away',
+                'status_emoji',
+                'status_text',
+            ]);
+    }
+
+    #[On('bonfire:member-updated')]
+    public function onMemberUpdated(): void
+    {
+        unset($this->channelMembers);
     }
 
     #[Computed]
@@ -119,6 +136,8 @@ return new class extends Component
         }
 
         unset($this->isStarred);
+
+        $this->dispatch('bonfire:star-toggled');
     }
 
     public function leaveChannel()

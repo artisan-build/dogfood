@@ -39,6 +39,16 @@ class Attachment extends Model
         return str_starts_with((string) $this->mime_type, 'image/');
     }
 
+    public function isAudio(): bool
+    {
+        return str_starts_with((string) $this->mime_type, 'audio/');
+    }
+
+    public function isVideo(): bool
+    {
+        return str_starts_with((string) $this->mime_type, 'video/');
+    }
+
     #[Override]
     protected function casts(): array
     {

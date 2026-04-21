@@ -17,7 +17,43 @@
          isOpen(key) {
              return this.sections[key] !== false;
          },
+         deleteTarget: { id: null, name: '' },
+         deleteCountdown: 0,
+         deleteTimer: null,
+         askDelete(detail) {
+             this.deleteTarget = { id: detail.id, name: detail.name };
+             this.deleteCountdown = 3;
+             clearInterval(this.deleteTimer);
+             this.deleteTimer = setInterval(() => {
+                 this.deleteCountdown = Math.max(0, this.deleteCountdown - 1);
+                 if (this.deleteCountdown === 0) {
+                     clearInterval(this.deleteTimer);
+                     this.deleteTimer = null;
+                 }
+             }, 1000);
+             this.$dispatch('modal-show', { name: 'delete-channel' });
+         },
+         confirmDelete() {
+             if (this.deleteCountdown > 0 || this.deleteTarget.id === null) return;
+             const id = this.deleteTarget.id;
+             const currentRoomEl = document.querySelector('[data-bonfire-room-id]');
+             const currentRoomId = currentRoomEl ? Number(currentRoomEl.dataset.bonfireRoomId) : null;
+             this.$dispatch('modal-close', { name: 'delete-channel' });
+             this.cancelDelete();
+             try {
+                 this.$wire.deleteChannel(id, currentRoomId);
+             } catch (err) {
+                 console.error('Delete failed', err);
+             }
+         },
+         cancelDelete() {
+             clearInterval(this.deleteTimer);
+             this.deleteTimer = null;
+             this.deleteCountdown = 0;
+             this.deleteTarget = { id: null, name: '' };
+         },
      }"
+     @bonfire-ask-delete-channel.window="askDelete($event.detail)"
      class="flex min-h-0 flex-1 flex-col text-sm">
 
     <div class="flex min-h-0 flex-1 flex-col overflow-y-auto pt-2">
@@ -81,15 +117,82 @@
                 <span class="ml-1 normal-case tracking-normal">Channels</span>
             </button>
             <div x-show="isOpen('channels')">
-                <ul class="flex flex-col">
+                <ul x-data="{
+                        order: JSON.parse(localStorage.getItem('bonfire.channel.order') || '[]'),
+                        draggingId: null,
+                        observer: null,
+                        init() {
+                            this.applyOrder();
+                            this.observer = new MutationObserver(() => {
+                                this.observer?.disconnect();
+                                this.applyOrder();
+                                queueMicrotask(() => this.observer?.observe(this.$el, { childList: true }));
+                            });
+                            this.observer.observe(this.$el, { childList: true });
+                        },
+                        destroy() { this.observer?.disconnect(); },
+                        applyOrder() {
+                            if (this.order.length === 0) return;
+                            const ul = this.$el;
+                            const items = Array.from(ul.querySelectorAll('[data-channel-id]'));
+                            if (items.length === 0) return;
+                            const rank = new Map(this.order.map((id, i) => [String(id), i]));
+                            const currentOrder = items.map(el => el.dataset.channelId);
+                            const sorted = [...items].sort((a, b) => {
+                                const ai = rank.has(a.dataset.channelId) ? rank.get(a.dataset.channelId) : 9999;
+                                const bi = rank.has(b.dataset.channelId) ? rank.get(b.dataset.channelId) : 9999;
+                                return ai - bi;
+                            });
+                            const sortedOrder = sorted.map(el => el.dataset.channelId);
+                            if (currentOrder.every((id, i) => id === sortedOrder[i])) return;
+                            const addBtn = ul.querySelector('[data-channel-add]');
+                            sorted.forEach(item => ul.insertBefore(item, addBtn || null));
+                        },
+                        onDragStart(e, id) {
+                            this.draggingId = id;
+                            e.dataTransfer.effectAllowed = 'move';
+                            e.currentTarget.classList.add('opacity-40');
+                        },
+                        onDragOver(e, id) {
+                            e.preventDefault();
+                            if (this.draggingId === null || String(id) === String(this.draggingId)) return;
+                            const ul = this.$el;
+                            const from = ul.querySelector('[data-channel-id=\'' + this.draggingId + '\']');
+                            const to = ul.querySelector('[data-channel-id=\'' + id + '\']');
+                            if (!from || !to) return;
+                            const rect = to.getBoundingClientRect();
+                            const middle = rect.top + rect.height / 2;
+                            if (e.clientY < middle) {
+                                if (from.nextSibling !== to) ul.insertBefore(from, to);
+                            } else {
+                                if (to.nextSibling !== from) ul.insertBefore(from, to.nextSibling);
+                            }
+                        },
+                        onDragEnd(e) {
+                            e.currentTarget.classList.remove('opacity-40');
+                            this.draggingId = null;
+                            const ul = this.$el;
+                            const ids = Array.from(ul.querySelectorAll('[data-channel-id]')).map(el => el.dataset.channelId);
+                            this.order = ids;
+                            localStorage.setItem('bonfire.channel.order', JSON.stringify(ids));
+                        },
+                    }"
+                    class="flex flex-col">
                     @forelse ($activeRooms as $room)
                         @php
                             $isActive = $room->id === $currentRoomId;
                             $hasUnread = (bool) ($room->has_unread ?? false);
+                            $channelUrl = route('bonfire.room.show', $room);
                         @endphp
-                        <li wire:key="channel-{{ $room->id }}" class="group">
-                            <a href="{{ route('bonfire.room.show', $room) }}"
-                               class="flex items-center gap-2 rounded px-2 py-1
+                        <li wire:key="channel-{{ $room->id }}"
+                            data-channel-id="{{ $room->id }}"
+                            draggable="true"
+                            @dragstart="onDragStart($event, {{ $room->id }})"
+                            @dragover="onDragOver($event, {{ $room->id }})"
+                            @dragend="onDragEnd($event)"
+                            class="group relative">
+                            <a href="{{ $channelUrl }}"
+                               class="flex items-center gap-2 rounded px-2 py-1 pr-14
                                       {{ $isActive
                                           ? 'bg-sky-100 text-sky-900 dark:bg-sky-900/40 dark:text-sky-100'
                                           : 'text-zinc-700 hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100' }}">
@@ -104,25 +207,126 @@
                                 @if ($hasUnread && ! $isActive)
                                     <span class="ml-auto size-1.5 flex-shrink-0 rounded-full bg-sky-500"></span>
                                 @endif
-                                <button type="button"
-                                        wire:click.stop.prevent="toggleStar({{ $room->id }})"
-                                        class="ml-auto hidden text-zinc-400 group-hover:block hover:text-amber-500">
-                                    <flux:icon name="star" class="size-3.5" />
-                                </button>
                             </a>
+
+                            <div x-data="{
+                                    notifyKey: 'bonfire.notify.{{ $room->id }}',
+                                    notify: localStorage.getItem('bonfire.notify.{{ $room->id }}') ?? 'all',
+                                    setNotify(v) {
+                                        this.notify = v;
+                                        localStorage.setItem(this.notifyKey, v);
+                                    },
+                                    move(dir) {
+                                        const ul = document.querySelector('ul [data-channel-id=\'{{ $room->id }}\']')?.parentElement;
+                                        if (! ul) return;
+                                        const items = Array.from(ul.querySelectorAll('[data-channel-id]'));
+                                        const idx = items.findIndex(el => el.dataset.channelId === '{{ $room->id }}');
+                                        if (idx === -1) return;
+                                        const swapIdx = dir === 'up' ? idx - 1 : idx + 1;
+                                        if (swapIdx < 0 || swapIdx >= items.length) return;
+                                        const el = items[idx];
+                                        const target = items[swapIdx];
+                                        if (dir === 'up') ul.insertBefore(el, target);
+                                        else ul.insertBefore(el, target.nextSibling);
+                                        const ids = Array.from(ul.querySelectorAll('[data-channel-id]')).map(x => x.dataset.channelId);
+                                        localStorage.setItem('bonfire.channel.order', JSON.stringify(ids));
+                                    },
+                                    copyLink() {
+                                        navigator.clipboard?.writeText('{{ $channelUrl }}');
+                                    },
+                                }"
+                                 class="pointer-events-none absolute right-1 top-1/2 flex -translate-y-1/2 items-center
+                                        opacity-0 transition-opacity
+                                        group-hover:pointer-events-auto group-hover:opacity-100
+                                        focus-within:pointer-events-auto focus-within:opacity-100">
+                                <flux:dropdown align="end">
+                                    <button type="button"
+                                            title="More actions"
+                                            @click.stop.prevent
+                                            class="rounded p-1 text-zinc-500 hover:bg-zinc-200 hover:text-zinc-900
+                                                   dark:hover:bg-zinc-700 dark:hover:text-zinc-100">
+                                        <flux:icon name="ellipsis-horizontal" class="size-3.5" />
+                                    </button>
+
+                                    <flux:menu>
+                                        <flux:menu.item icon="information-circle"
+                                                        @click="
+                                                            if ({{ $room->id }} === {{ $currentRoomId ?? 'null' }}) {
+                                                                $dispatch('modal-show', { name: 'channel-details' });
+                                                            } else {
+                                                                localStorage.setItem('bonfire.open-details', '{{ $room->id }}');
+                                                                window.location.href = '{{ $channelUrl }}';
+                                                            }
+                                                        ">
+                                            Open channel details
+                                        </flux:menu.item>
+                                        <flux:menu.item icon="star"
+                                                        wire:click="toggleStar({{ $room->id }})">
+                                            {{ $room->is_starred ? 'Unstar channel' : 'Star channel' }}
+                                        </flux:menu.item>
+                                        <flux:menu.separator />
+                                        <div class="px-2 pb-1 pt-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+                                            Notifications
+                                        </div>
+                                        <button type="button" @click="setNotify('all')"
+                                                class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm
+                                                       hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
+                                            <flux:icon name="speaker-wave" class="size-4 text-emerald-600" />
+                                            <span class="flex-1">All messages</span>
+                                            <flux:icon name="check" class="size-4 text-sky-600" ::class="notify === 'all' ? '' : 'invisible'" />
+                                        </button>
+                                        <button type="button" @click="setNotify('mentions')"
+                                                class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm
+                                                       hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
+                                            <flux:icon name="at-symbol" class="size-4 text-amber-500" />
+                                            <span class="flex-1">Only @mentions</span>
+                                            <flux:icon name="check" class="size-4 text-sky-600" ::class="notify === 'mentions' ? '' : 'invisible'" />
+                                        </button>
+                                        <button type="button" @click="setNotify('off')"
+                                                class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm
+                                                       hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
+                                            <flux:icon name="moon" class="size-4 text-zinc-400" />
+                                            <span class="flex-1">Off</span>
+                                            <flux:icon name="check" class="size-4 text-sky-600" ::class="notify === 'off' ? '' : 'invisible'" />
+                                        </button>
+                                        <flux:menu.separator />
+                                        <flux:menu.item icon="arrow-up" @click="move('up')">
+                                            Move up
+                                        </flux:menu.item>
+                                        <flux:menu.item icon="arrow-down" @click="move('down')">
+                                            Move down
+                                        </flux:menu.item>
+                                        <flux:menu.separator />
+                                        <flux:menu.item icon="clipboard-document" @click="copyLink()">
+                                            Copy channel link
+                                        </flux:menu.item>
+                                        @if ($this->isAdmin)
+                                            <flux:menu.separator />
+                                            <flux:menu.item icon="trash"
+                                                            variant="danger"
+                                                            @click="$dispatch('bonfire-ask-delete-channel', { id: {{ $room->id }}, name: {{ Illuminate\Support\Js::from($room->name) }} })">
+                                                Delete channel
+                                            </flux:menu.item>
+                                        @endif
+                                    </flux:menu>
+                                </flux:dropdown>
+                            </div>
                         </li>
                     @empty
                         <li class="px-2 py-1 text-xs text-zinc-500">No channels yet.</li>
                     @endforelse
-                    <li>
-                        <button type="button"
-                                class="flex w-full items-center gap-2 rounded px-2 py-1 text-zinc-500
-                                       hover:bg-zinc-200/60 hover:text-zinc-900
-                                       dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
-                            <flux:icon name="plus" class="size-4" />
-                            <span>Add channels</span>
-                        </button>
-                    </li>
+                    @if ($this->isAdmin)
+                        <li data-channel-add>
+                            <button type="button"
+                                    @click="$dispatch('modal-show', { name: 'create-channel' })"
+                                    class="flex w-full items-center gap-2 rounded px-2 py-1 text-zinc-500
+                                           hover:bg-zinc-200/60 hover:text-zinc-900
+                                           dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
+                                <flux:icon name="plus" class="size-4" />
+                                <span>Add channels</span>
+                            </button>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </section>
@@ -187,10 +391,20 @@
                                 <span class="relative flex-shrink-0">
                                     <img src="{{ $member->avatar_url ?? 'https://ui-avatars.com/api/?name='.urlencode($member->display_name) }}"
                                          alt="" class="size-5 rounded bg-zinc-200 dark:bg-zinc-700">
-                                    <span class="absolute -right-0.5 -bottom-0.5 size-2 rounded-full border-2 border-zinc-50 bg-emerald-500
+                                    <span class="absolute -right-0.5 -bottom-0.5 size-2 rounded-full border-2 border-zinc-50
+                                                 {{ $member->is_away ? 'bg-amber-400' : 'bg-emerald-500' }}
                                                  dark:border-zinc-900"></span>
                                 </span>
-                                <span class="truncate">{{ $member->display_name }}</span>
+                                <span class="flex-1 truncate">{{ $member->display_name }}</span>
+                                @if (in_array($member->id, $this->memberIdsInCall, true))
+                                    <span title="In a call"
+                                          class="flex items-center gap-0.5 text-[10px] text-emerald-600 dark:text-emerald-400">
+                                        <flux:icon name="phone" class="size-3 animate-pulse" />
+                                    </span>
+                                @endif
+                                @if ($member->status_emoji)
+                                    <span class="text-xs">{{ $member->status_emoji }}</span>
+                                @endif
                             </button>
                         </li>
                     @empty
@@ -212,8 +426,182 @@
         <div class="pb-4"></div>
     </div>
 
-    <flux:modal name="new-message" class="max-w-lg"
-                x-data="{
+    @if ($this->isAdmin)
+        <flux:modal name="delete-channel" class="max-w-md" @close="cancelDelete()">
+            <div class="space-y-4">
+                <div>
+                    <flux:heading size="lg">Delete channel?</flux:heading>
+                    <flux:text class="mt-2">
+                        <span x-text="'#' + (deleteTarget.name || '')"></span>
+                        will be removed from the sidebar immediately. You can restore it from the admin panel.
+                    </flux:text>
+                </div>
+                <div class="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800
+                            dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+                    <span x-show="deleteCountdown > 0">
+                        Safety hold — you can confirm in <span x-text="deleteCountdown"></span>
+                        <span x-text="deleteCountdown === 1 ? 'second' : 'seconds'"></span>.
+                    </span>
+                    <span x-show="deleteCountdown === 0">Ready. Click delete to confirm.</span>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <flux:modal.close>
+                        <flux:button variant="ghost" @click="cancelDelete()">Cancel</flux:button>
+                    </flux:modal.close>
+                    <flux:button variant="danger"
+                                 ::disabled="deleteCountdown > 0"
+                                 @click="confirmDelete()">
+                        <span x-show="deleteCountdown > 0" x-text="'Delete in ' + deleteCountdown"></span>
+                        <span x-show="deleteCountdown === 0">Delete channel</span>
+                    </flux:button>
+                </div>
+            </div>
+        </flux:modal>
+
+        <flux:modal name="create-channel" class="max-w-lg">
+            <form wire:submit="createChannel" class="space-y-5">
+                <div>
+                    <flux:heading size="lg">Create a channel</flux:heading>
+                    <flux:text class="mt-1">
+                        Channels are where your team communicates. They're best when organized around a topic.
+                    </flux:text>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="mb-1 block text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                            Name
+                        </label>
+                        <div class="flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-2
+                                    focus-within:border-zinc-500 focus-within:ring-1 focus-within:ring-zinc-500
+                                    dark:border-zinc-700 dark:bg-zinc-900">
+                            <span class="text-zinc-400">#</span>
+                            <input type="text"
+                                   wire:model="newChannelName"
+                                   placeholder="e.g. plan-budget"
+                                   required
+                                   class="w-full border-0 bg-transparent py-2 text-sm focus:outline-none focus:ring-0
+                                          dark:text-zinc-100" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="mb-1 block text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                            Description <span class="text-zinc-400">(optional)</span>
+                        </label>
+                        <input type="text"
+                               wire:model="newChannelDescription"
+                               placeholder="What's this channel about?"
+                               class="w-full rounded-md border border-zinc-300 bg-white px-2 py-2 text-sm
+                                      focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500
+                                      dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" />
+                    </div>
+
+                    <div x-data="{
+                            memberSearch: '',
+                            allMembers: @js($dms->map(fn($m) => ['id' => $m->id, 'display_name' => $m->display_name, 'avatar_url' => $m->avatar_url ?? 'https://ui-avatars.com/api/?name='.urlencode($m->display_name)])->values()->all()),
+                            get filteredMembers() {
+                                const q = this.memberSearch.trim().toLowerCase();
+                                if (q === '') return this.allMembers;
+                                return this.allMembers.filter(m => m.display_name.toLowerCase().includes(q));
+                            },
+                            isSelected(id) {
+                                return this.$wire.newChannelMemberIds.map(Number).includes(Number(id));
+                            },
+                            toggleMember(id) {
+                                const list = this.$wire.newChannelMemberIds.map(Number);
+                                const idx = list.indexOf(Number(id));
+                                if (idx >= 0) list.splice(idx, 1);
+                                else list.push(Number(id));
+                                this.$wire.set('newChannelMemberIds', list);
+                            },
+                        }">
+                        <label class="mb-1 block text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                            Add people <span class="text-zinc-400">(optional — you'll be added automatically)</span>
+                        </label>
+                        <div class="rounded-md border border-zinc-300 dark:border-zinc-700">
+                            <div class="border-b border-zinc-200 p-1 dark:border-zinc-700">
+                                <input type="search"
+                                       x-model="memberSearch"
+                                       placeholder="Search people"
+                                       class="h-7 w-full rounded border-0 bg-transparent px-2 text-xs
+                                              focus:outline-none focus:ring-0
+                                              dark:text-zinc-100" />
+                            </div>
+                            <ul class="max-h-40 overflow-y-auto p-1">
+                                <template x-for="m in filteredMembers" :key="m.id">
+                                    <li>
+                                        <button type="button"
+                                                @click="toggleMember(m.id)"
+                                                class="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-sm
+                                                       hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                                            <input type="checkbox"
+                                                   :checked="isSelected(m.id)"
+                                                   class="size-3.5 rounded border-zinc-300 text-sky-600
+                                                          focus:ring-sky-500
+                                                          dark:border-zinc-600 dark:bg-zinc-900"
+                                                   @click.stop="toggleMember(m.id)" />
+                                            <img :src="m.avatar_url" alt="" class="size-5 flex-shrink-0 rounded bg-zinc-200 dark:bg-zinc-700">
+                                            <span x-text="m.display_name" class="truncate"></span>
+                                        </button>
+                                    </li>
+                                </template>
+                                <template x-if="filteredMembers.length === 0">
+                                    <li class="px-2 py-2 text-xs text-zinc-500">No matches.</li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between rounded-md border border-zinc-200 p-3
+                                dark:border-zinc-700">
+                        <div>
+                            <div class="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                                Make private
+                            </div>
+                            <div class="text-xs text-zinc-500">
+                                Only specific people will see this channel.
+                            </div>
+                        </div>
+                        <input type="checkbox"
+                               wire:model="newChannelPrivate"
+                               class="size-4 rounded border-zinc-300 text-sky-600
+                                      focus:ring-sky-500
+                                      dark:border-zinc-600 dark:bg-zinc-900" />
+                    </div>
+
+                    <div class="flex items-center justify-between rounded-md border border-zinc-200 p-3
+                                dark:border-zinc-700">
+                        <div>
+                            <div class="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                                Announcements only
+                            </div>
+                            <div class="text-xs text-zinc-500">
+                                Only moderators and admins can post here.
+                            </div>
+                        </div>
+                        <input type="checkbox"
+                               wire:model="newChannelAnnouncements"
+                               class="size-4 rounded border-zinc-300 text-sky-600
+                                      focus:ring-sky-500
+                                      dark:border-zinc-600 dark:bg-zinc-900" />
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2">
+                    <flux:modal.close>
+                        <flux:button variant="ghost" type="button">Cancel</flux:button>
+                    </flux:modal.close>
+                    <flux:button type="submit" variant="primary">
+                        Create channel
+                    </flux:button>
+                </div>
+            </form>
+        </flux:modal>
+    @endif
+
+    <flux:modal name="new-message" class="max-w-lg">
+        <div x-data="{
                     query: '',
                     channels: @js($activeRooms->map(fn($r) => ['id' => $r->id, 'name' => $r->name, 'slug' => $r->slug])->values()->all()),
                     members: @js($dms->map(fn($m) => ['id' => $m->id, 'display_name' => $m->display_name, 'avatar_url' => $m->avatar_url ?? 'https://ui-avatars.com/api/?name='.urlencode($m->display_name)])->values()->all()),
@@ -236,8 +624,7 @@
                         this.$wire.openDm(id);
                     },
                 }"
-                @close="query = ''">
-        <div class="space-y-4">
+             class="space-y-4">
             <div>
                 <flux:heading size="lg">New message</flux:heading>
                 <flux:text class="mt-1">

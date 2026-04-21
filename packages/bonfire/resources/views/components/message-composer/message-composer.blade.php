@@ -3,9 +3,13 @@
           showEmoji: false,
           showMentions: false,
           mentionQuery: '',
+          mentionAnchor: null,
+          mentionHead: null,
+          mentionIndex: 0,
           emojis: ['👍','👏','🙏','🎉','🔥','🚀','💯','✅','❌','⭐','❤️','💙','😂','😅','😊','😢','😮','😡','🤔','👀','🙌','🤝','☕','🥳'],
 
           recording: null,
+          recordArmed: false,
           recordKind: null,
           recordStartedAt: null,
           recordElapsed: 0,
@@ -15,17 +19,86 @@
           scheduledFor: @entangle('scheduledFor'),
           scheduleCustom: '',
 
+          editorHeight: parseInt(localStorage.getItem('bonfire.editorHeight') ?? '112', 10),
+          resizingEditor: false,
+          startEditorResize(evt) {
+              this.resizingEditor = true;
+              const startY = evt.clientY;
+              const startHeight = this.editorHeight;
+              document.body.style.cursor = 'row-resize';
+              document.body.style.userSelect = 'none';
+              const move = (e) => {
+                  if (! this.resizingEditor) return;
+                  const delta = startY - e.clientY;
+                  const next = Math.max(72, Math.min(480, startHeight + delta));
+                  this.editorHeight = next;
+                  localStorage.setItem('bonfire.editorHeight', String(next));
+              };
+              const up = () => {
+                  this.resizingEditor = false;
+                  document.body.style.cursor = '';
+                  document.body.style.userSelect = '';
+                  window.removeEventListener('mousemove', move);
+                  window.removeEventListener('mouseup', up);
+              };
+              window.addEventListener('mousemove', move);
+              window.addEventListener('mouseup', up);
+          },
+          resetEditorHeight() {
+              this.editorHeight = 112;
+              localStorage.setItem('bonfire.editorHeight', '112');
+          },
+
           init() {
               const root = this.$root;
               let lastEnterAt = 0;
               let firstEnterWasInList = false;
+              const self = this;
               const getEditor = () => {
                   const el = root.querySelector('[data-flux-editor]');
                   return el?._tiptap || el?.editor || null;
               };
+              this._getEditor = getEditor;
+
+              const attachEditor = () => {
+                  const editor = getEditor();
+                  if (! editor) { setTimeout(attachEditor, 120); return; }
+                  editor.on('update', () => self.checkMentionTrigger(editor));
+                  editor.on('selectionUpdate', () => self.checkMentionTrigger(editor));
+              };
+              attachEditor();
+
               const handleShortcut = (e) => {
                   if (! root.contains(e.target)) return;
                   if (! (e.target.matches('[contenteditable=true]') || e.target.closest('[contenteditable=true]'))) return;
+
+                  if (self.showMentions && ['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].includes(e.key)) {
+                      const list = self.filteredMembers;
+                      if (e.key === 'ArrowDown') {
+                          e.preventDefault();
+                          self.mentionIndex = Math.min(list.length - 1, self.mentionIndex + 1);
+                          return;
+                      }
+                      if (e.key === 'ArrowUp') {
+                          e.preventDefault();
+                          self.mentionIndex = Math.max(0, self.mentionIndex - 1);
+                          return;
+                      }
+                      if (e.key === 'Enter' || e.key === 'Tab') {
+                          if (list.length > 0) {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              self.selectMention(list[self.mentionIndex].display_name);
+                              return;
+                          }
+                      }
+                      if (e.key === 'Escape') {
+                          e.preventDefault();
+                          self.showMentions = false;
+                          return;
+                      }
+                  }
+
                   if (e.key !== 'Enter' || e.shiftKey || e.isComposing) return;
 
                   const now = Date.now();
@@ -37,7 +110,7 @@
                       if (firstEnterWasInList) {
                           getEditor()?.chain().focus().undo().run();
                       }
-                      this.submitForm();
+                      self.submitForm();
                       lastEnterAt = 0;
                       firstEnterWasInList = false;
                       return;
@@ -52,9 +125,28 @@
 
                   e.preventDefault();
                   e.stopPropagation();
-                  this.submitForm();
+                  self.submitForm();
               };
               document.addEventListener('keydown', handleShortcut, true);
+          },
+
+          checkMentionTrigger(editor) {
+              const { from } = editor.state.selection;
+              const start = Math.max(0, from - 60);
+              const textBefore = editor.state.doc.textBetween(start, from, '\n', ' ');
+              const match = textBefore.match(/(?:^|\s)@([\w-]*)$/);
+              if (match) {
+                  this.mentionQuery = match[1];
+                  this.mentionAnchor = from - match[1].length - 1;
+                  this.mentionHead = from;
+                  this.mentionIndex = 0;
+                  this.showMentions = true;
+              } else if (this.showMentions) {
+                  this.showMentions = false;
+                  this.mentionQuery = '';
+                  this.mentionAnchor = null;
+                  this.mentionHead = null;
+              }
           },
 
           submitForm() {
@@ -77,7 +169,10 @@
           },
 
           insertIntoEditor(text) {
-              const el = this.$root.querySelector('[data-flux-editor]');
+              // Search document-wide — the emoji popover lives in a nested x-data
+              // where this.$root points at the popover, not the composer.
+              const el = document.querySelector('.bonfire-composer [data-flux-editor]')
+                  ?? document.querySelector('[data-flux-editor]');
               const editor = el?._tiptap || el?.editor;
               if (editor) {
                   editor.chain().focus().insertContent(text).run();
@@ -96,13 +191,30 @@
           openMentions() {
               this.showEmoji = false;
               this.mentionQuery = '';
-              this.showMentions = true;
-              this.insertIntoEditor('@');
+              this.mentionIndex = 0;
+              this.insertIntoEditor('\u0040');
+              // checkMentionTrigger will pick it up from the editor.update event
           },
           selectMention(name) {
-              this.insertIntoEditor(name + ' ');
+              const editor = this._getEditor ? this._getEditor() : null;
+              const slug = name.replace(/\s+/g, '-');
+              const at = '\u0040';
+              const mentionHtml = '<a href=&quot;#mention-' + slug + '&quot;>' + at + name + '</a>&nbsp;';
+
+              if (editor && this.mentionAnchor !== null && this.mentionHead !== null) {
+                  editor.chain().focus()
+                      .deleteRange({ from: this.mentionAnchor, to: this.mentionHead })
+                      .insertContent(mentionHtml.replace(/&quot;/g, '\u0022'))
+                      .run();
+                  editor.chain().focus().unsetMark('link').run();
+              } else {
+                  this.insertIntoEditor(at + name + ' ');
+              }
               this.showMentions = false;
               this.mentionQuery = '';
+              this.mentionAnchor = null;
+              this.mentionHead = null;
+              this.mentionIndex = 0;
           },
           get filteredMembers() {
               const q = (this.mentionQuery || '').toLowerCase();
@@ -115,9 +227,21 @@
               this.$refs.fileInput?.click();
           },
 
-          async startRecording(kind) {
+          async toggleRecordKind(kind) {
               if (this.recording) return;
-              if (! navigator.mediaDevices?.getUserMedia) {
+              const wasKind = this.recordKind;
+              if (this.recordArmed) this.cancelPreview();
+              if (wasKind === kind) return;
+              await this.openPreview(kind);
+          },
+
+          async openPreview(kind) {
+              if (this.recording || this.recordArmed) return;
+              if (! window.isSecureContext) {
+                  alert('Recording requires a secure connection (https://). Run `herd secure artisan-community` and reload over HTTPS.');
+                  return;
+              }
+              if (! navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === 'undefined') {
                   alert('Your browser does not support recording.');
                   return;
               }
@@ -126,38 +250,107 @@
                       ? { audio: true, video: { width: 640, height: 480 } }
                       : { audio: true };
                   const stream = await navigator.mediaDevices.getUserMedia(constraints);
-                  const mimeType = kind === 'video'
-                      ? (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus') ? 'video/webm;codecs=vp8,opus' : 'video/webm')
-                      : (MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : 'audio/webm');
-                  const recorder = new MediaRecorder(stream, { mimeType });
-                  const chunks = [];
-                  recorder.addEventListener('dataavailable', (e) => { if (e.data.size) chunks.push(e.data); });
-                  recorder.addEventListener('stop', () => {
-                      stream.getTracks().forEach(t => t.stop());
-                      const blob = new Blob(chunks, { type: mimeType });
-                      const ext = kind === 'video' ? 'webm' : 'webm';
-                      const filename = `${kind}-${Date.now()}.${ext}`;
-                      const file = new File([blob], filename, { type: mimeType });
-                      this.$wire.upload('pendingAttachments', file, null, null, null, 'pendingAttachments.' + (this.$wire.pendingAttachments?.length ?? 0));
-                      this.recording = null;
-                      this.recordKind = null;
-                      this.recordStartedAt = null;
-                      this.recordElapsed = 0;
-                      clearInterval(this.recordTimer);
-                  });
-                  this.recording = recorder;
+                  this._stream = stream;
                   this.recordKind = kind;
-                  this.recordStartedAt = Date.now();
-                  this.recordElapsed = 0;
-                  this.recordTimer = setInterval(() => {
-                      this.recordElapsed = Math.floor((Date.now() - this.recordStartedAt) / 1000);
-                      if (this.recordElapsed >= 120) this.stopRecording();
-                  }, 500);
-                  recorder.start();
+                  this.recordArmed = true;
+                  this.$nextTick(() => {
+                      if (kind === 'video' && this.$refs.previewVideo) {
+                          this.$refs.previewVideo.srcObject = stream;
+                      }
+                      if (kind === 'audio' && this.$refs.previewCanvas) {
+                          this.startWaveform(stream);
+                      }
+                  });
               } catch (err) {
                   console.error(err);
-                  alert('Could not start recording: ' + err.message);
+                  alert('Could not start preview: ' + err.message);
               }
+          },
+
+          cancelPreview() {
+              if (this._stream) {
+                  this._stream.getTracks().forEach(t => t.stop());
+                  this._stream = null;
+              }
+              if (this._audioCtx) { try { this._audioCtx.close(); } catch (e) {} this._audioCtx = null; }
+              if (this._waveformRaf) { cancelAnimationFrame(this._waveformRaf); this._waveformRaf = null; }
+              this.recording = null;
+              this.recordArmed = false;
+              this.recordKind = null;
+              this.recordStartedAt = null;
+              this.recordElapsed = 0;
+              clearInterval(this.recordTimer);
+          },
+
+          beginRecording() {
+              if (! this._stream || this.recording) return;
+              const kind = this.recordKind;
+              const stream = this._stream;
+              const mimeType = kind === 'video'
+                  ? (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus') ? 'video/webm;codecs=vp8,opus' : 'video/webm')
+                  : (MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : 'audio/webm');
+              const recorder = new MediaRecorder(stream, { mimeType });
+              const chunks = [];
+              recorder.addEventListener('dataavailable', (e) => { if (e.data.size) chunks.push(e.data); });
+              recorder.addEventListener('stop', () => {
+                  stream.getTracks().forEach(t => t.stop());
+                  if (this._audioCtx) { try { this._audioCtx.close(); } catch (e) {} this._audioCtx = null; }
+                  if (this._waveformRaf) { cancelAnimationFrame(this._waveformRaf); this._waveformRaf = null; }
+                  const blob = new Blob(chunks, { type: mimeType });
+                  const filename = `${kind}-${Date.now()}.webm`;
+                  const file = new File([blob], filename, { type: mimeType });
+                  this.$wire.upload('pendingAttachments', file, null, null, null, 'pendingAttachments.' + (this.$wire.pendingAttachments?.length ?? 0));
+                  this.recording = null;
+                  this.recordArmed = false;
+                  this.recordKind = null;
+                  this.recordStartedAt = null;
+                  this.recordElapsed = 0;
+                  this._stream = null;
+                  clearInterval(this.recordTimer);
+              });
+              this.recording = recorder;
+              this.recordArmed = false;
+              this.recordStartedAt = Date.now();
+              this.recordElapsed = 0;
+              this.recordTimer = setInterval(() => {
+                  this.recordElapsed = Math.floor((Date.now() - this.recordStartedAt) / 1000);
+                  if (this.recordElapsed >= 120) this.stopRecording();
+              }, 500);
+              recorder.start();
+          },
+
+          startWaveform(stream) {
+              const canvas = this.$refs.previewCanvas;
+              if (! canvas) return;
+              const AudioCtx = window.AudioContext || window.webkitAudioContext;
+              if (! AudioCtx) return;
+              const ctx = canvas.getContext('2d');
+              const audioCtx = new AudioCtx();
+              const source = audioCtx.createMediaStreamSource(stream);
+              const analyser = audioCtx.createAnalyser();
+              analyser.fftSize = 256;
+              source.connect(analyser);
+              this._audioCtx = audioCtx;
+              const buf = new Uint8Array(analyser.frequencyBinCount);
+              const draw = () => {
+                  this._waveformRaf = requestAnimationFrame(draw);
+                  analyser.getByteFrequencyData(buf);
+                  const w = canvas.width = canvas.clientWidth;
+                  const h = canvas.height = canvas.clientHeight;
+                  ctx.clearRect(0, 0, w, h);
+                  const bars = 40;
+                  const step = Math.floor(buf.length / bars);
+                  const barW = Math.max(2, (w / bars) - 2);
+                  const accent = document.documentElement.classList.contains('dark') ? '#fca5a5' : '#e11d48';
+                  ctx.fillStyle = accent;
+                  for (let i = 0; i < bars; i++) {
+                      const v = buf[i * step] / 255;
+                      const barH = Math.max(2, v * h * 0.9);
+                      const x = i * (barW + 2);
+                      ctx.fillRect(x, (h - barH) / 2, barW, barH);
+                  }
+              };
+              draw();
           },
 
           stopRecording() {
@@ -212,7 +405,44 @@
           },
       }"
       @click.outside="showEmoji = false; showMentions = false; scheduleOpen = false"
+      :style="'--bonfire-editor-height: ' + editorHeight + 'px'"
       class="bonfire-composer relative">
+
+    <div @mousedown.prevent="startEditorResize($event)"
+         @dblclick="resetEditorHeight()"
+         :class="resizingEditor ? 'bg-sky-500' : 'bg-zinc-200 hover:bg-zinc-400 dark:bg-zinc-700 dark:hover:bg-zinc-500'"
+         title="Drag to resize · Double-click to reset"
+         class="mx-auto mb-2 h-2 w-20 cursor-row-resize rounded-full"></div>
+
+    @if ($this->lastScheduledAt)
+        @php
+            $scheduledCarbon = \Illuminate\Support\Carbon::parse($this->lastScheduledAt);
+            $scheduledLabel = $scheduledCarbon->isToday()
+                ? 'today at '.$scheduledCarbon->format('g:i A')
+                : $scheduledCarbon->format('D M j').' at '.$scheduledCarbon->format('g:i A');
+            $scheduledTotal = $this->scheduledMessagesCount();
+        @endphp
+
+        <div class="mb-2 flex items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs
+                    text-zinc-700
+                    dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+            <flux:icon name="clock" class="size-4 flex-shrink-0 text-zinc-500" />
+            <span>Your message will be sent <strong>{{ $scheduledLabel }}</strong>.</span>
+            <button type="button"
+                    class="font-medium text-sky-600 hover:underline dark:text-sky-400">
+                See all scheduled messages
+                @if ($scheduledTotal > 1)
+                    ({{ $scheduledTotal }})
+                @endif
+            </button>
+            <button type="button"
+                    wire:click="dismissScheduled"
+                    class="ml-auto rounded p-0.5 text-zinc-400 hover:bg-zinc-200 hover:text-zinc-700
+                           dark:hover:bg-zinc-800 dark:hover:text-zinc-200">
+                <flux:icon name="x-mark" class="size-3.5" />
+            </button>
+        </div>
+    @endif
 
     <form wire:submit="send"
           x-ref="form"
@@ -238,20 +468,71 @@
             </div>
         @endif
 
-        <div x-show="recording"
-             class="flex items-center gap-3 rounded-md bg-rose-50 px-3 py-2 text-sm text-rose-700
-                    dark:bg-rose-950/50 dark:text-rose-300">
-            <span class="relative flex size-2">
-                <span class="absolute inline-flex size-full animate-ping rounded-full bg-rose-400 opacity-75"></span>
-                <span class="relative inline-flex size-2 rounded-full bg-rose-500"></span>
-            </span>
-            <span>Recording <span x-text="recordKind"></span> — <span x-text="recordLabel()"></span></span>
-            <button type="button"
-                    @click="stopRecording()"
-                    class="ml-auto rounded bg-rose-600 px-2 py-0.5 text-xs font-semibold text-white
-                           hover:bg-rose-700">
-                Stop
-            </button>
+        <div x-show="recordArmed || recording"
+             :class="recording ? 'border-rose-200 bg-rose-50 dark:border-rose-900/50 dark:bg-rose-950/30'
+                                : 'border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900'"
+             class="flex flex-col gap-2 rounded-md border p-2"
+             style="display: none;">
+
+            <div x-show="recordArmed && ! recording"
+                 class="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-200">
+                <flux:icon name="eye" class="size-4 text-zinc-500" />
+                <span class="font-medium">
+                    Preview — click Record when ready
+                </span>
+                <div class="ml-auto flex items-center gap-2">
+                    <button type="button"
+                            @click="cancelPreview()"
+                            class="rounded px-2 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-200
+                                   dark:text-zinc-300 dark:hover:bg-zinc-700">
+                        Cancel
+                    </button>
+                    <button type="button"
+                            @click="beginRecording()"
+                            class="inline-flex items-center gap-1 rounded bg-rose-600 px-2.5 py-1 text-xs font-semibold text-white
+                                   hover:bg-rose-700">
+                        <span class="size-2 rounded-full bg-white"></span>
+                        Record
+                    </button>
+                </div>
+            </div>
+
+            <div x-show="recording"
+                 class="flex items-center gap-2 text-sm text-rose-700 dark:text-rose-300">
+                <span class="relative flex size-2">
+                    <span class="absolute inline-flex size-full animate-ping rounded-full bg-rose-400 opacity-75"></span>
+                    <span class="relative inline-flex size-2 rounded-full bg-rose-500"></span>
+                </span>
+                <span class="font-medium">
+                    Recording <span x-text="recordKind"></span>
+                </span>
+                <span class="text-rose-600/70 dark:text-rose-400/70" x-text="recordLabel()"></span>
+                <button type="button"
+                        @click="stopRecording()"
+                        class="ml-auto inline-flex items-center gap-1 rounded bg-rose-600 px-2 py-1 text-xs font-semibold text-white
+                               hover:bg-rose-700">
+                    <flux:icon name="stop" class="size-3.5" />
+                    Stop
+                </button>
+            </div>
+
+            <video x-show="recordKind === 'video'"
+                   x-ref="previewVideo"
+                   autoplay
+                   muted
+                   playsinline
+                   :class="recording ? 'border-rose-200 dark:border-rose-900/50' : 'border-zinc-200 dark:border-zinc-700'"
+                   class="max-h-64 w-full rounded border bg-black"
+                   style="display: none;"></video>
+
+            <div x-show="recordKind === 'audio'"
+                 :class="recording ? 'border-rose-200 dark:border-rose-900/50' : 'border-zinc-200 dark:border-zinc-700'"
+                 class="flex items-center justify-center rounded border bg-white py-2
+                        dark:bg-zinc-900"
+                 style="display: none;">
+                <canvas x-ref="previewCanvas"
+                        class="h-12 w-full"></canvas>
+            </div>
         </div>
 
         <flux:editor wire:model="body"
@@ -295,7 +576,7 @@
 
                 <button type="button"
                         title="Record voice note"
-                        @click="recording ? stopRecording() : startRecording('audio')"
+                        @click="toggleRecordKind('audio')"
                         :class="recordKind === 'audio' ? 'text-rose-600 dark:text-rose-400' : ''"
                         class="rounded p-1.5 hover:bg-zinc-100 hover:text-zinc-900
                                dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
@@ -303,7 +584,7 @@
                 </button>
                 <button type="button"
                         title="Record video clip"
-                        @click="recording ? stopRecording() : startRecording('video')"
+                        @click="toggleRecordKind('video')"
                         :class="recordKind === 'video' ? 'text-rose-600 dark:text-rose-400' : ''"
                         class="rounded p-1.5 hover:bg-zinc-100 hover:text-zinc-900
                                dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
@@ -331,7 +612,8 @@
             <div class="flex items-center gap-2">
                 <span x-show="scheduledFor"
                       class="inline-flex items-center gap-1 rounded-md bg-sky-100 px-2 py-1 text-xs text-sky-800
-                             dark:bg-sky-950/50 dark:text-sky-300">
+                             dark:bg-sky-950/50 dark:text-sky-300"
+                      style="display: none;">
                     <flux:icon name="clock" class="size-3.5" />
                     Scheduled: <span x-text="scheduleLabel"></span>
                     <button type="button" @click="clearSchedule()" class="hover:text-sky-950 dark:hover:text-sky-100">
@@ -340,15 +622,16 @@
                 </span>
 
 
-                <div class="flex items-stretch overflow-hidden rounded-md">
-                    <flux:button type="submit" variant="primary" size="sm" icon="paper-airplane">
+                <div class="flex items-stretch">
+                    <flux:button type="submit" variant="primary" size="sm" icon="paper-airplane"
+                                 class="rounded-r-none!">
                         <span x-text="scheduledFor ? 'Schedule' : 'Send'"></span>
                     </flux:button>
                     <div class="relative">
                         <button type="button"
                                 @click.stop="scheduleOpen = ! scheduleOpen"
                                 title="Schedule for later"
-                                class="flex h-full items-center border-l border-white/20 bg-zinc-800 px-1.5 text-white
+                                class="flex h-full items-center rounded-r-md border-l border-white/20 bg-zinc-800 px-1.5 text-white
                                        hover:bg-zinc-700
                                        dark:border-black/20">
                             <flux:icon name="chevron-down" class="size-3.5" />
@@ -411,37 +694,125 @@
     </form>
 
     <div x-show="showEmoji"
+         x-data="{
+             baseCats: (window.BonfireEmojis || []),
+             emojiSearch: '',
+             recent: (() => {
+                 try { return JSON.parse(localStorage.getItem('bonfire.emoji.recent') || '[]'); }
+                 catch (e) { return []; }
+             })(),
+             emojiActiveCat: '',
+             init() {
+                 this.emojiActiveCat = this.recent.length > 0 ? 'recent' : (this.baseCats[0]?.key || 'smileys');
+             },
+             trackRecent(glyph) {
+                 const idx = this.recent.indexOf(glyph);
+                 if (idx !== -1) this.recent.splice(idx, 1);
+                 this.recent.unshift(glyph);
+                 this.recent = this.recent.slice(0, 24);
+                 localStorage.setItem('bonfire.emoji.recent', JSON.stringify(this.recent));
+             },
+             get emojiCats() {
+                 if (this.recent.length === 0) return this.baseCats;
+                 return [
+                     {
+                         key: 'recent',
+                         label: 'Recently used',
+                         tab: '🕒',
+                         emojis: this.recent.map(c => ({ c, k: 'recent' })),
+                     },
+                     ...this.baseCats,
+                 ];
+             },
+             get emojiVisible() {
+                 const q = this.emojiSearch.trim().toLowerCase();
+                 if (q === '') {
+                     return this.emojiCats.filter(c => c.key === this.emojiActiveCat);
+                 }
+                 return this.emojiCats
+                     .filter(c => c.key !== 'recent')
+                     .map(cat => ({
+                         ...cat,
+                         emojis: cat.emojis.filter(e => e.k.includes(q)),
+                     }))
+                     .filter(cat => cat.emojis.length > 0);
+             },
+         }"
          x-transition.opacity.duration.100ms
          @click.stop
-         class="absolute bottom-14 left-12 z-20 grid grid-cols-6 gap-1 rounded-lg border border-zinc-200
-                bg-white p-2 shadow-lg
+         class="absolute left-0 z-20 flex w-96 flex-col overflow-hidden rounded-lg border border-zinc-200
+                bg-white shadow-lg
                 dark:border-zinc-700 dark:bg-zinc-900"
-         style="display: none;">
-        <template x-for="emoji in emojis" :key="emoji">
-            <button type="button"
-                    @mousedown.prevent @click="pickEmoji(emoji)"
-                    class="size-8 rounded text-lg hover:bg-zinc-100
-                           dark:hover:bg-zinc-800"
-                    x-text="emoji"></button>
-        </template>
+         style="display: none; bottom: calc(var(--bonfire-editor-height, 7rem) + 2.75rem);">
+
+        <div class="flex items-center gap-1 border-b border-zinc-200 p-2
+                    dark:border-zinc-800">
+            <input type="search"
+                   x-model="emojiSearch"
+                   placeholder="Search all emoji"
+                   class="h-7 flex-1 rounded border border-zinc-200 bg-zinc-50 px-2 text-xs
+                          focus:border-zinc-400 focus:outline-none focus:ring-0
+                          dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" />
+        </div>
+
+        <div x-show="! emojiSearch"
+             class="flex items-center gap-0 border-b border-zinc-200 px-1
+                    dark:border-zinc-800">
+            <template x-for="cat in emojiCats" :key="cat.key">
+                <button type="button"
+                        @mousedown.prevent @click="emojiActiveCat = cat.key"
+                        :class="emojiActiveCat === cat.key ? 'border-sky-500' : 'border-transparent opacity-60 hover:opacity-100'"
+                        :title="cat.label"
+                        class="flex h-8 flex-1 items-center justify-center border-b-2 text-base"
+                        x-text="cat.tab"></button>
+            </template>
+        </div>
+
+        <div class="max-h-72 overflow-y-auto px-2 py-1">
+            <template x-for="cat in emojiVisible" :key="cat.key">
+                <div>
+                    <div class="sticky top-0 bg-white px-1 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-zinc-500
+                                dark:bg-zinc-900 dark:text-zinc-400"
+                         x-text="cat.label"></div>
+                    <div class="grid grid-cols-8 gap-0.5">
+                        <template x-for="e in cat.emojis" :key="cat.key + e.c">
+                            <button type="button"
+                                    @mousedown.prevent @click="trackRecent(e.c); pickEmoji(e.c)"
+                                    :title="e.k"
+                                    class="size-8 rounded text-lg hover:bg-zinc-100
+                                           dark:hover:bg-zinc-800"
+                                    x-text="e.c"></button>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <template x-if="emojiSearch && emojiVisible.length === 0">
+                <div class="px-2 py-6 text-center text-xs text-zinc-500 dark:text-zinc-400">
+                    No matches for "<span x-text="emojiSearch"></span>"
+                </div>
+            </template>
+        </div>
     </div>
 
     <div x-show="showMentions"
          x-transition.opacity.duration.100ms
          @click.stop
-         class="absolute bottom-14 left-4 z-20 w-64 overflow-hidden rounded-lg border border-zinc-200
+         class="absolute left-0 z-20 w-72 overflow-hidden rounded-lg border border-zinc-200
                 bg-white shadow-lg
                 dark:border-zinc-700 dark:bg-zinc-900"
-         style="display: none;">
+         style="display: none; bottom: calc(var(--bonfire-editor-height, 7rem) + 2.75rem);">
         <div class="border-b border-zinc-200 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-500
                     dark:border-zinc-800 dark:text-zinc-400">
             People
         </div>
         <ul class="max-h-60 overflow-y-auto py-1">
-            <template x-for="member in filteredMembers" :key="member.id">
+            <template x-for="(member, idx) in filteredMembers" :key="member.id">
                 <li>
                     <button type="button"
                             @mousedown.prevent @click="selectMention(member.display_name)"
+                            @mouseenter="mentionIndex = idx"
+                            :class="idx === mentionIndex ? 'bg-sky-50 text-sky-900 dark:bg-sky-900/40 dark:text-sky-100' : ''"
                             class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-sm
                                    hover:bg-zinc-100
                                    dark:hover:bg-zinc-800">

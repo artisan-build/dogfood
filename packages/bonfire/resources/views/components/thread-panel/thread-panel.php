@@ -7,6 +7,7 @@ use ArtisanBuild\Bonfire\Models\Message;
 use ArtisanBuild\Bonfire\Models\Room;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 return new class extends Component
@@ -45,5 +46,11 @@ return new class extends Component
     public function close(): void
     {
         $this->dispatch('thread-close');
+    }
+
+    #[On('bonfire:member-updated')]
+    public function onMemberUpdated(): void
+    {
+        unset($this->parent, $this->replies);
     }
 };

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ArtisanBuild\Bonfire\Models;
 
+use ArtisanBuild\Bonfire\Events\MemberMentioned;
 use ArtisanBuild\Bonfire\Events\MessageDeleted;
 use ArtisanBuild\Bonfire\Events\MessagePosted;
 use ArtisanBuild\Bonfire\Jobs\FetchLinkPreview;
@@ -130,8 +131,19 @@ class Message extends Model
             ]);
         }
 
-        if ($members->isNotEmpty()) {
-            Notification::send($members, new MentionedInMessage($this));
+        if ($members->isEmpty()) {
+            return;
+        }
+
+        Notification::send($members, new MentionedInMessage($this));
+
+        $author = $this->member;
+        $room = $this->room;
+
+        if ($author !== null && $room !== null) {
+            foreach ($members as $member) {
+                event(new MemberMentioned($member, $author, $this, $room));
+            }
         }
     }
 

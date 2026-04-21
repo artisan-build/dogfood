@@ -53,14 +53,20 @@ return new class extends Component
         return $query->oldest()->cursorPaginate($this->perPage);
     }
 
-    #[On('echo:bonfire.room.{room.id},MessagePosted')]
+    #[On('echo-presence:bonfire.room.{room.id},.message.posted')]
     public function onMessagePosted(): void
     {
         unset($this->messages);
     }
 
-    #[On('echo:bonfire.room.{room.id},MessageDeleted')]
+    #[On('echo-presence:bonfire.room.{room.id},.message.deleted')]
     public function onMessageDeleted(): void
+    {
+        unset($this->messages);
+    }
+
+    #[On('bonfire:member-updated')]
+    public function onMemberUpdated(): void
     {
         unset($this->messages);
     }

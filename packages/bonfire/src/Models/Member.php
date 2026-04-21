@@ -72,6 +72,8 @@ class Member extends Model
     {
         return [
             'is_active' => 'boolean',
+            'is_away' => 'boolean',
+            'status_expires_at' => 'datetime',
             'role' => BonfireRole::class,
             'tenant_id' => 'integer',
         ];

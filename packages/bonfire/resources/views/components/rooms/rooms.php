@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
+use ArtisanBuild\Bonfire\Enums\BonfireRole;
 use ArtisanBuild\Bonfire\Enums\RoomType;
 use ArtisanBuild\Bonfire\Facades\Bonfire;
+use ArtisanBuild\Bonfire\Models\CallSession;
 use ArtisanBuild\Bonfire\Models\Member;
 use ArtisanBuild\Bonfire\Models\Room;
 use ArtisanBuild\Bonfire\Support\UnreadTracker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -18,6 +21,35 @@ return new class extends Component
     public string $filter = 'all';
 
     public string $sort = 'alpha';
+
+    public string $newChannelName = '';
+
+    public string $newChannelDescription = '';
+
+    public bool $newChannelPrivate = false;
+
+    public bool $newChannelAnnouncements = false;
+
+    /** @var array<int, int> */
+    public array $newChannelMemberIds = [];
+
+    #[On('bonfire:star-toggled')]
+    public function onStarToggled(): void
+    {
+        unset($this->starredRoomIds, $this->visibleRooms);
+    }
+
+    #[On('bonfire:rooms-changed')]
+    public function onRoomsChanged(): void
+    {
+        unset($this->visibleRooms);
+    }
+
+    #[On('bonfire:member-updated')]
+    public function onMemberUpdated(): void
+    {
+        unset($this->visibleRooms, $this->directMessageMembers, $this->currentMember);
+    }
 
     #[On('bonfire-filter')]
     public function setFilter(string $value): void
@@ -111,7 +143,7 @@ return new class extends Component
             ->where('is_active', true)
             ->when($current !== null, fn ($q) => $q->where('id', '!=', $current->id))
             ->orderBy('display_name')
-            ->get(['id', 'display_name', 'avatar_url']);
+            ->get(['id', 'display_name', 'avatar_url', 'is_away', 'status_emoji', 'status_text']);
     }
 
     public function openDm(int $memberId)
@@ -147,6 +179,131 @@ return new class extends Component
         return $this->redirect(route('bonfire.room.show', $room), navigate: true);
     }
 
+    /**
+     * @return array<int, int>
+     */
+    #[Computed]
+    public function memberIdsInCall(): array
+    {
+        return CallSession::query()
+            ->whereIn('status', ['ringing', 'active'])
+            ->where(function ($q): void {
+                $q->whereNull('tenant_id')
+                    ->orWhere('tenant_id', Bonfire::tenantId());
+            })
+            ->get(['caller_member_id', 'callee_member_id'])
+            ->flatMap(fn (CallSession $s) => [$s->caller_member_id, $s->callee_member_id])
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    #[Computed]
+    public function isAdmin(): bool
+    {
+        $member = $this->currentMember();
+
+        return $member !== null && $member->is_active && $member->hasRoleAtLeast(BonfireRole::Admin);
+    }
+
+    public function createChannel()
+    {
+        abort_unless($this->isAdmin, 403);
+
+        $name = trim($this->newChannelName);
+        if ($name === '') {
+            return null;
+        }
+
+        $member = $this->currentMember();
+
+        $type = 0;
+        if ($this->newChannelPrivate) {
+            $type = RoomType::add($type, RoomType::Private);
+        }
+        if ($this->newChannelAnnouncements) {
+            $type = RoomType::add($type, RoomType::Announcements);
+        }
+
+        $slug = Str::slug($name);
+        $originalSlug = $slug;
+        $suffix = 1;
+        while (Room::query()->where('slug', $slug)->where('tenant_id', Bonfire::tenantId())->exists()) {
+            $suffix++;
+            $slug = $originalSlug.'-'.$suffix;
+        }
+
+        $room = Room::query()->create([
+            'tenant_id' => Bonfire::tenantId(),
+            'name' => $name,
+            'slug' => $slug,
+            'description' => trim($this->newChannelDescription) ?: null,
+            'type' => $type,
+            'created_by' => $member->id,
+        ]);
+
+        if ($member !== null) {
+            $room->addMember($member, $member);
+        }
+
+        foreach ($this->newChannelMemberIds as $memberId) {
+            $target = Member::query()->find($memberId);
+            if ($target !== null && ($member === null || $target->id !== $member->id)) {
+                $room->addMember($target, $member);
+            }
+        }
+
+        $this->reset(['newChannelName', 'newChannelDescription', 'newChannelPrivate', 'newChannelAnnouncements', 'newChannelMemberIds']);
+        unset($this->visibleRooms);
+
+        $this->dispatch('modal-close', name: 'create-channel');
+
+        return $this->redirect(route('bonfire.room.show', $room), navigate: true);
+    }
+
+    public function deleteChannel(int $roomId, ?int $currentRoomId = null)
+    {
+        abort_unless($this->isAdmin, 403);
+
+        $room = Room::query()->find($roomId);
+        if ($room === null) {
+            return null;
+        }
+
+        $room->delete();
+        unset($this->visibleRooms);
+
+        if ($currentRoomId === $roomId) {
+            $fallback = Room::query()
+                ->where('tenant_id', Bonfire::tenantId())
+                ->whereRaw('(type & ?) = 0', [RoomType::Archived->value])
+                ->where('slug', 'not like', 'dm-%')
+                ->orderBy('name')
+                ->first();
+
+            $target = $fallback !== null
+                ? route('bonfire.room.show', $fallback)
+                : route('bonfire.index');
+
+            return $this->redirect($target, navigate: true);
+        }
+
+        return null;
+    }
+
+    public function restoreChannel(int $roomId): void
+    {
+        abort_unless($this->isAdmin, 403);
+
+        $room = Room::withTrashed()->find($roomId);
+        if ($room === null || ! $room->trashed()) {
+            return;
+        }
+
+        $room->restore();
+        unset($this->visibleRooms);
+    }
+
     public function toggleStar(int $roomId): void
     {
         $member = $this->currentMember();
@@ -174,5 +331,7 @@ return new class extends Component
         }
 
         unset($this->starredRoomIds, $this->visibleRooms);
+
+        $this->dispatch('bonfire:star-toggled');
     }
 };

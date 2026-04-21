@@ -46,6 +46,48 @@ return new class extends Component
     }
 
     #[Computed]
+    public function deletedRooms(): Collection
+    {
+        return Room::onlyTrashed()
+            ->where('tenant_id', Bonfire::tenantId())
+            ->orderByDesc('deleted_at')
+            ->get();
+    }
+
+    public function restoreRoom(int $roomId): void
+    {
+        $room = Room::onlyTrashed()->where('tenant_id', Bonfire::tenantId())->find($roomId);
+
+        if ($room !== null) {
+            $room->restore();
+            unset($this->rooms, $this->deletedRooms);
+            $this->dispatch('bonfire:rooms-changed');
+        }
+    }
+
+    public function forceDeleteRoom(int $roomId): void
+    {
+        $room = Room::onlyTrashed()->where('tenant_id', Bonfire::tenantId())->find($roomId);
+
+        if ($room !== null) {
+            $room->forceDelete();
+            unset($this->rooms, $this->deletedRooms);
+            $this->dispatch('bonfire:rooms-changed');
+        }
+    }
+
+    public function deleteRoom(int $roomId): void
+    {
+        $room = Room::query()->where('tenant_id', Bonfire::tenantId())->find($roomId);
+
+        if ($room !== null) {
+            $room->delete();
+            unset($this->rooms, $this->deletedRooms);
+            $this->dispatch('bonfire:rooms-changed');
+        }
+    }
+
+    #[Computed]
     public function members(): Collection
     {
         return Member::query()
@@ -87,6 +129,7 @@ return new class extends Component
 
         $this->reset(['newName', 'newDescription', 'newPrivate', 'newArchived', 'newAnnouncements']);
         unset($this->rooms);
+        $this->dispatch('bonfire:rooms-changed');
     }
 
     public function updateRoom(int $roomId, string $field, string|bool $value): void
@@ -97,6 +140,7 @@ return new class extends Component
             $room->setAttribute($field, is_string($value) ? (trim($value) ?: null) : null);
             $room->save();
             unset($this->rooms);
+            $this->dispatch('bonfire:rooms-changed');
 
             return;
         }
@@ -117,6 +161,7 @@ return new class extends Component
             : RoomType::remove($room->type, $flag);
         $room->save();
         unset($this->rooms);
+        $this->dispatch('bonfire:rooms-changed');
     }
 
     public function changeRole(int $memberId, string $role): void
