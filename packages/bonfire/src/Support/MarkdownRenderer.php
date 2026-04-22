@@ -27,7 +27,13 @@ class MarkdownRenderer
 
         $highlighted = preg_replace_callback(
             '/(?<=^|[>\s(\[])@([A-Za-z0-9][A-Za-z0-9_\-]*)/u',
-            fn (array $m): string => '<span class="bonfire-mention">@'.htmlspecialchars($m[1], ENT_QUOTES | ENT_HTML5, 'UTF-8').'</span>',
+            function (array $m): string {
+                $name = htmlspecialchars($m[1], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                $isBroadcast = in_array(strtolower($m[1]), ['channel', 'here', 'everyone'], true);
+                $class = $isBroadcast ? 'bonfire-mention bonfire-mention-broadcast' : 'bonfire-mention';
+
+                return '<span class="'.$class.'">@'.$name.'</span>';
+            },
             $html
         ) ?? $html;
 

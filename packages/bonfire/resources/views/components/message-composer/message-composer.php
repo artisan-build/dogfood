@@ -86,7 +86,7 @@ return new class extends Component
     public function send(): void
     {
         $body = trim($this->body);
-        $plain = trim(strip_tags($body));
+        $plain = trim(strip_tags(html_entity_decode($body, ENT_QUOTES | ENT_HTML5)));
 
         if ($plain === '' && $this->pendingAttachments === []) {
             return;
@@ -96,6 +96,8 @@ return new class extends Component
         abort_unless($member !== null && $member->is_active, 403);
 
         $parent = $this->parentId !== null ? Message::query()->findOrFail($this->parentId) : null;
+
+        $poll = $this->parsePollCommand($plain);
 
         $effectiveBody = $plain === '' ? '📎' : $body;
 
@@ -107,7 +109,11 @@ return new class extends Component
             $scheduledAt = null;
         }
 
-        $message = $this->createMessage($member, $parent, $effectiveBody, $scheduledAt);
+        if ($poll !== null) {
+            $effectiveBody = $poll['question'];
+        }
+
+        $message = $this->createMessage($member, $parent, $effectiveBody, $scheduledAt, $poll);
 
         $this->storeAttachments($message);
 
@@ -120,6 +126,35 @@ return new class extends Component
         }
 
         $this->reset('body', 'pendingAttachments', 'scheduledFor', 'alsoSendToChannel');
+    }
+
+    /**
+     * Parse `/poll Question | Option 1 | Option 2` from a plain-text body.
+     *
+     * @return array{question: string, options: array<int, string>}|null
+     */
+    private function parsePollCommand(string $plain): ?array
+    {
+        if (! preg_match('#^/poll\s+(.+)$#si', $plain, $matches)) {
+            return null;
+        }
+
+        $parts = array_values(array_filter(
+            array_map('trim', explode('|', $matches[1])),
+            fn (string $part): bool => $part !== '',
+        ));
+
+        if (count($parts) < 3) {
+            return null;
+        }
+
+        $question = array_shift($parts);
+        $options = array_slice($parts, 0, 10);
+
+        return [
+            'question' => $question,
+            'options' => array_values($options),
+        ];
     }
 
     public function dismissScheduled(): void
@@ -142,20 +177,27 @@ return new class extends Component
             ->count();
     }
 
-    private function createMessage(Member $member, ?Message $parent, string $body, ?Carbon $scheduledAt): Message
+    private function createMessage(Member $member, ?Message $parent, string $body, ?Carbon $scheduledAt, ?array $poll = null): Message
     {
-        if ($scheduledAt === null) {
+        if ($scheduledAt === null && $poll === null) {
             return Bonfire::postAs($member, $this->room, $body, $parent);
         }
 
-        return Message::withoutEvents(fn (): Message => Message::query()->create([
+        $attrs = [
             'tenant_id' => Bonfire::tenantId(),
             'room_id' => $this->room->getKey(),
             'member_id' => $member->getKey(),
             'parent_id' => $parent?->getKey(),
             'body' => $body,
+            'poll' => $poll,
             'scheduled_for' => $scheduledAt,
-        ]));
+        ];
+
+        if ($scheduledAt !== null) {
+            return Message::withoutEvents(fn (): Message => Message::query()->create($attrs));
+        }
+
+        return Message::query()->create($attrs);
     }
 
     private function storeAttachments(Message $message): void

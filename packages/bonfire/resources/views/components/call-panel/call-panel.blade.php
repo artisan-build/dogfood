@@ -8,8 +8,8 @@
      data-my-name="{{ $myName }}"
      data-my-avatar="{{ $myAvatar }}"
      x-on:bonfire-start-call.window="startCall($event.detail)"
-     class="pointer-events-none fixed inset-0 z-[60]"
-     :class="state === 'idle' ? 'pointer-events-none' : 'pointer-events-auto'">
+     class="fixed inset-0 z-[60]"
+     :style="'pointer-events: ' + (state === 'idle' ? 'none' : 'auto')">
 
     {{-- Incoming call toast --}}
     <div x-show="state === 'incoming'"
@@ -90,6 +90,8 @@
             <video x-ref="remoteVideo"
                    autoplay
                    playsinline
+                   @mousemove="sendPointer($event)"
+                   @mouseleave="sendPointer(null)"
                    class="h-full w-full bg-zinc-950 object-cover"></video>
 
             <div class="pointer-events-none absolute left-4 bottom-4 inline-flex items-center gap-1.5 rounded-md bg-black/50 px-2 py-1 text-xs text-white backdrop-blur-sm">
@@ -113,11 +115,18 @@
             </div>
 
             <div class="absolute bottom-4 right-4 flex flex-col items-end gap-1">
-                <video x-ref="localVideo"
-                       autoplay
-                       playsinline
-                       muted
-                       class="h-32 w-48 rounded-lg border border-zinc-700 bg-zinc-950 object-cover shadow-lg"></video>
+                <div class="relative">
+                    <video x-ref="localVideo"
+                           autoplay
+                           playsinline
+                           muted
+                           class="h-32 w-48 rounded-lg border border-zinc-700 bg-zinc-950 object-cover shadow-lg"></video>
+                    <div x-show="remotePointer.active && sharing"
+                         x-transition.opacity.duration.80ms
+                         :style="'left: calc(' + (remotePointer.x * 100) + '% - 9px); top: calc(' + (remotePointer.y * 100) + '% - 9px);'"
+                         class="pointer-events-none absolute size-[18px] rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.9)] ring-2 ring-white/90"
+                         style="display: none;"></div>
+                </div>
                 <span class="inline-flex items-center gap-1.5 rounded-md bg-black/50 px-2 py-0.5 text-[11px] text-white backdrop-blur-sm">
                     <span x-show="! sharing">You — </span>
                     <span x-show="! sharing" x-text="me.name"></span>
@@ -135,26 +144,26 @@
                     @click="toggleMic()"
                     :title="micOn ? 'Mute' : 'Unmute'"
                     :class="micOn
-                        ? 'bg-zinc-700 text-white hover:bg-zinc-600'
-                        : 'bg-rose-600 text-white hover:bg-rose-700'"
-                    class="inline-flex items-center justify-center rounded-full p-3">
-                <flux:icon :name="'microphone'" class="size-5" x-show="micOn" />
-                <svg x-show="! micOn" class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m3 3 18 18"/>
+                        ? 'bg-zinc-700 text-white ring-1 ring-zinc-500/40 hover:bg-zinc-600'
+                        : 'bg-rose-600 text-white ring-4 ring-rose-400/70 shadow-lg shadow-rose-500/30 hover:bg-rose-700'"
+                    class="inline-flex items-center justify-center rounded-full p-3 transition">
+                <flux:icon variant="solid" name="microphone" class="size-5" x-show="micOn" />
+                <svg x-show="! micOn" class="size-5" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                    <path d="M12 2a3 3 0 0 0-3 3v3.88l6 6V5a3 3 0 0 0-3-3Z"/>
+                    <path d="M16.5 10.5a.75.75 0 0 1 1.5 0v2c0 .86-.18 1.68-.51 2.43l-1.15-1.16c.1-.4.16-.83.16-1.27v-2Z"/>
+                    <path d="M13.9 18.45a7.5 7.5 0 0 1-7.9-7.45v-.75a.75.75 0 0 1 1.5 0v.75a6 6 0 0 0 8.61 5.42l-1.2-1.22a4.5 4.5 0 0 1-6.9-3.95V10.5 10h-.01L5.11 8.22A.75.75 0 0 0 6 8.5v2a4.5 4.5 0 0 0 4.5 4.5h.2l-.2 3.25H8.25a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5H13.2l.7-1.75v1.95Z"/>
+                    <path fill-rule="evenodd" d="M3.28 3.22a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18Z" clip-rule="evenodd"/>
                 </svg>
             </button>
             <button type="button"
                     @click="toggleCam()"
                     :title="camOn ? 'Turn camera off' : 'Turn camera on'"
                     :class="camOn
-                        ? 'bg-zinc-700 text-white hover:bg-zinc-600'
-                        : 'bg-rose-600 text-white hover:bg-rose-700'"
-                    class="inline-flex items-center justify-center rounded-full p-3">
-                <flux:icon name="video-camera" class="size-5" x-show="camOn" />
-                <svg x-show="! camOn" class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5 21 6.75v10.5L15.75 13.5m-12-3v6a2.25 2.25 0 0 0 2.25 2.25h7.5M3 3l18 18"/>
-                </svg>
+                        ? 'bg-zinc-700 text-white ring-1 ring-zinc-500/40 hover:bg-zinc-600'
+                        : 'bg-rose-600 text-white ring-4 ring-rose-400/70 shadow-lg shadow-rose-500/30 hover:bg-rose-700'"
+                    class="inline-flex items-center justify-center rounded-full p-3 transition">
+                <flux:icon variant="solid" name="video-camera" class="size-5" x-show="camOn" />
+                <flux:icon variant="solid" name="video-camera-slash" class="size-5" x-show="! camOn" style="display: none;" />
             </button>
 
             <div class="relative">
@@ -162,10 +171,16 @@
                         @click="sharing ? stopScreenShare() : (showShareOptions = ! showShareOptions)"
                         :title="sharing ? 'Stop sharing' : 'Share screen'"
                         :class="sharing
-                            ? 'bg-emerald-600 text-white ring-2 ring-emerald-300 hover:bg-emerald-700'
-                            : 'bg-sky-600 text-white ring-2 ring-sky-400/50 hover:bg-sky-500'"
-                        class="inline-flex items-center justify-center rounded-full p-3">
-                    <flux:icon name="computer-desktop" class="size-5" />
+                            ? 'bg-emerald-500 text-white ring-4 ring-emerald-300 shadow-lg shadow-emerald-500/50 hover:bg-emerald-600'
+                            : 'bg-zinc-700 text-white ring-1 ring-zinc-500/40 hover:bg-zinc-600'"
+                        class="relative inline-flex items-center justify-center rounded-full p-3 transition">
+                    <flux:icon variant="solid" name="computer-desktop" class="size-5" />
+                    <span x-show="sharing"
+                          class="absolute -right-0.5 -top-0.5 flex size-2.5"
+                          style="display: none;">
+                        <span class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex size-2.5 rounded-full bg-emerald-300"></span>
+                    </span>
                 </button>
                 <div x-show="showShareOptions && ! sharing"
                      @click.outside="showShareOptions = false"
@@ -212,7 +227,7 @@
                         @click="showDevices = ! showDevices; if (showDevices) loadDevices()"
                         title="Devices"
                         class="inline-flex items-center justify-center rounded-full bg-zinc-700 p-3 text-white hover:bg-zinc-600">
-                    <flux:icon name="cog-6-tooth" class="size-5" />
+                    <flux:icon variant="solid" name="cog-6-tooth" class="size-5" />
                 </button>
                 <div x-show="showDevices"
                      @click.outside="showDevices = false"
@@ -265,8 +280,8 @@
             <button type="button"
                     @click="hangUp()"
                     title="End call"
-                    class="inline-flex items-center justify-center rounded-full bg-rose-600 p-3 text-white hover:bg-rose-700">
-                <flux:icon name="phone-x-mark" class="size-5" />
+                    class="inline-flex items-center justify-center rounded-full bg-rose-600 p-3 text-white ring-2 ring-rose-400/60 shadow-lg shadow-rose-500/30 transition hover:bg-rose-700">
+                <flux:icon variant="solid" name="phone-x-mark" class="size-5" />
             </button>
         </div>
     </div>
@@ -301,6 +316,9 @@
                 showShareOptions: false,
                 shareQuality: 1080,
                 shareFps: 30,
+                dc: null,
+                remotePointer: { active: false, x: 0, y: 0 },
+                pointerSendAt: 0,
                 devices: { mics: [], cams: [], speakers: [] },
                 selectedMic: '',
                 selectedCam: '',
@@ -482,6 +500,12 @@
                 async createPeerConnection(isInitiator) {
                     this.pc = new RTCPeerConnection({ iceServers: this.iceServers });
 
+                    if (isInitiator) {
+                        this.attachDataChannel(this.pc.createDataChannel('bonfire', { ordered: false, maxRetransmits: 0 }));
+                    } else {
+                        this.pc.addEventListener('datachannel', (e) => this.attachDataChannel(e.channel));
+                    }
+
                     this.localStream.getTracks().forEach(track => this.pc.addTrack(track, this.localStream));
 
                     this.remoteStream = new MediaStream();
@@ -578,6 +602,42 @@
                         this.devices.speakers = list.filter(d => d.kind === 'audiooutput');
                     } catch (e) { /* permission not granted yet */ }
                 },
+                attachDataChannel(channel) {
+                    this.dc = channel;
+                    channel.addEventListener('message', (e) => {
+                        try {
+                            const data = JSON.parse(e.data);
+                            if (data.type === 'pointer') {
+                                this.remotePointer = {
+                                    active: !! data.active,
+                                    x: Number(data.x) || 0,
+                                    y: Number(data.y) || 0,
+                                };
+                            }
+                        } catch (err) { /* ignore malformed */ }
+                    });
+                    channel.addEventListener('close', () => {
+                        this.remotePointer = { active: false, x: 0, y: 0 };
+                    });
+                },
+                sendPointer(event) {
+                    if (! this.dc || this.dc.readyState !== 'open') return;
+                    const now = performance.now();
+                    if (event && now - this.pointerSendAt < 33) return; // throttle to ~30fps
+                    this.pointerSendAt = now;
+                    if (! event) {
+                        try { this.dc.send(JSON.stringify({ type: 'pointer', active: false })); }
+                        catch (e) {}
+                        return;
+                    }
+                    const target = event.currentTarget;
+                    const rect = target.getBoundingClientRect();
+                    if (rect.width === 0 || rect.height === 0) return;
+                    const x = (event.clientX - rect.left) / rect.width;
+                    const y = (event.clientY - rect.top) / rect.height;
+                    try { this.dc.send(JSON.stringify({ type: 'pointer', active: true, x, y })); }
+                    catch (e) {}
+                },
                 async startScreenShare() {
                     if (! this.pc || this.sharing) return;
                     this.showShareOptions = false;
@@ -668,6 +728,8 @@
                     if (this.cameraTrack) { this.cameraTrack = null; }
                     this.sharing = false;
                     this.showShareOptions = false;
+                    if (this.dc) { try { this.dc.close(); } catch (e) {} this.dc = null; }
+                    this.remotePointer = { active: false, x: 0, y: 0 };
                     if (this.durationTimer) { clearInterval(this.durationTimer); this.durationTimer = null; }
                     if (this.pc) { try { this.pc.close(); } catch (e) {} this.pc = null; }
                     if (this.localStream) { this.localStream.getTracks().forEach(t => t.stop()); this.localStream = null; }

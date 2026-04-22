@@ -6,6 +6,7 @@ use ArtisanBuild\Bonfire\Facades\Bonfire;
 use ArtisanBuild\Bonfire\Models\Member;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -50,7 +51,7 @@ return new class extends Component
     public function timezones(): array
     {
         $options = [];
-        foreach (\DateTimeZone::listIdentifiers() as $tz) {
+        foreach (DateTimeZone::listIdentifiers() as $tz) {
             if (str_starts_with($tz, 'Etc/') || $tz === 'UTC') {
                 continue;
             }
@@ -122,10 +123,20 @@ return new class extends Component
         $member->save();
 
         $this->profileAvatar = null;
+        $this->profileDisplayName = (string) $member->display_name;
+        $this->profilePhone = (string) ($member->phone ?? '');
+        $this->profileTimezone = (string) ($member->timezone ?? '');
+
         unset($this->member);
 
-        $this->dispatch('bonfire:member-updated', memberId: $member->id);
         $this->dispatch('modal-close', name: 'user-profile');
+        $this->dispatch('bonfire:member-updated', memberId: $member->id);
+    }
+
+    #[On('bonfire:member-updated')]
+    public function onMemberUpdated(): void
+    {
+        unset($this->member);
     }
 
     public function toggleAway(): void

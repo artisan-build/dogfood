@@ -10,13 +10,32 @@
             dark:border-zinc-800"
      x-data="{
          dndUntil: parseInt(localStorage.getItem('bonfire.dnd.until') ?? '0', 10),
-         get dndActive() { return this.dndUntil > Date.now(); },
+         quietEnabled: localStorage.getItem('bonfire.dnd.quiet.enabled') === '1',
+         quietFrom: localStorage.getItem('bonfire.dnd.quiet.from') || '22:00',
+         quietTo: localStorage.getItem('bonfire.dnd.quiet.to') || '08:00',
+         now: Date.now(),
+         get inQuiet() {
+             if (! this.quietEnabled) return false;
+             const parse = (s) => {
+                 const m = /^(\d{1,2}):(\d{2})$/.exec(s || '');
+                 return m ? (parseInt(m[1], 10) * 60 + parseInt(m[2], 10)) : null;
+             };
+             const f = parse(this.quietFrom), t = parse(this.quietTo);
+             if (f === null || t === null || f === t) return false;
+             const d = new Date(this.now);
+             const n = d.getHours() * 60 + d.getMinutes();
+             return f < t ? (n >= f && n < t) : (n >= f || n < t);
+         },
+         get dndActive() { return this.dndUntil > this.now || this.inQuiet; },
          get dndLabel() {
-             if (! this.dndActive) return '';
-             const d = new Date(this.dndUntil);
-             const sameDay = d.toDateString() === new Date().toDateString();
-             if (sameDay) return 'Paused until ' + d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
-             return 'Paused until ' + d.toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' });
+             if (this.dndUntil > this.now) {
+                 const d = new Date(this.dndUntil);
+                 const sameDay = d.toDateString() === new Date().toDateString();
+                 if (sameDay) return 'Paused until ' + d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+                 return 'Paused until ' + d.toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' });
+             }
+             if (this.inQuiet) return 'Quiet hours · ' + this.quietFrom + '–' + this.quietTo;
+             return '';
          },
          pause(minutes) {
              const until = minutes ? Date.now() + minutes * 60 * 1000 : 0;
@@ -31,9 +50,20 @@
              this.dndUntil = t.getTime();
              localStorage.setItem('bonfire.dnd.until', String(this.dndUntil));
          },
+         toggleQuiet() {
+             this.quietEnabled = ! this.quietEnabled;
+             localStorage.setItem('bonfire.dnd.quiet.enabled', this.quietEnabled ? '1' : '0');
+         },
+         saveQuiet() {
+             localStorage.setItem('bonfire.dnd.quiet.from', this.quietFrom);
+             localStorage.setItem('bonfire.dnd.quiet.to', this.quietTo);
+             if (this.quietEnabled) localStorage.setItem('bonfire.dnd.quiet.enabled', '1');
+         },
          init() {
-             // Auto-expire stale DND
-             setInterval(() => { if (this.dndUntil && this.dndUntil <= Date.now()) this.pause(0); }, 60_000);
+             setInterval(() => {
+                 this.now = Date.now();
+                 if (this.dndUntil && this.dndUntil <= this.now) this.pause(0);
+             }, 30_000);
          },
      }">
     <flux:dropdown position="top" align="start">
@@ -121,7 +151,7 @@
                 <flux:icon name="moon" class="size-4 text-zinc-500" />
                 <span>Until tomorrow</span>
             </button>
-            <button x-show="dndActive" type="button" @click="pause(0)"
+            <button x-show="dndUntil > now" type="button" @click="pause(0)"
                     class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm
                            text-sky-600 hover:bg-zinc-100 dark:text-sky-400 dark:hover:bg-zinc-800">
                 <flux:icon name="arrow-uturn-left" class="size-4" />
@@ -129,6 +159,17 @@
             </button>
 
             <flux:menu.separator />
+
+            <div x-show="quietEnabled" class="px-2 pb-1 pt-1 text-[10px] text-sky-600 dark:text-sky-400">
+                <flux:icon name="moon" class="mr-1 inline size-3" />
+                <span x-text="'Quiet hours ' + quietFrom + '–' + quietTo + (inQuiet ? ' (active)' : '')"></span>
+            </div>
+
+            <flux:menu.separator />
+            <flux:menu.item icon="bell"
+                            href="{{ route('notifications.edit', absolute: false) }}" wire:navigate>
+                Notification settings
+            </flux:menu.item>
             <flux:menu.item icon="cog-6-tooth" href="{{ route('profile.edit', absolute: false) }}" wire:navigate>
                 Preferences
             </flux:menu.item>

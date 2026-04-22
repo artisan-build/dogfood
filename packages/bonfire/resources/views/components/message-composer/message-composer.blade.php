@@ -60,13 +60,43 @@
               };
               this._getEditor = getEditor;
 
+              // Draft persistence: scope by room + thread parent + user, so switching
+              // channels or refreshing restores exactly what you were typing.
+              const draftKey = 'bonfire.draft.{{ $room->id }}.{{ $parentId ?? 'root' }}.{{ auth()->id() ?? 'guest' }}';
+              this._draftKey = draftKey;
+              this._draftSaveTimer = null;
+
+              const saveDraft = (html) => {
+                  clearTimeout(this._draftSaveTimer);
+                  this._draftSaveTimer = setTimeout(() => {
+                      try {
+                          const trimmed = (html || '').replace(/<p>\s*<\/p>/g, '').trim();
+                          if (trimmed === '') localStorage.removeItem(draftKey);
+                          else localStorage.setItem(draftKey, html);
+                      } catch (e) {}
+                  }, 400);
+              };
+
               const attachEditor = () => {
                   const editor = getEditor();
                   if (! editor) { setTimeout(attachEditor, 120); return; }
                   editor.on('update', () => self.checkMentionTrigger(editor));
                   editor.on('selectionUpdate', () => self.checkMentionTrigger(editor));
+                  editor.on('update', () => {
+                      try { saveDraft(editor.getHTML()); } catch (e) {}
+                  });
+
+                  // Restore any saved draft on mount.
+                  try {
+                      const saved = localStorage.getItem(draftKey);
+                      if (saved && saved.trim() !== '' && saved !== '<p></p>') {
+                          editor.commands.setContent(saved, false);
+                          self.$wire.set('body', saved, false);
+                      }
+                  } catch (e) {}
               };
               attachEditor();
+
 
               const handleShortcut = (e) => {
                   if (! root.contains(e.target)) return;
@@ -188,6 +218,38 @@
               this.showEmoji = false;
           },
 
+          insertPollTemplate() {
+              const template = '/poll What should we do? | Option 1 | Option 2 | Option 3';
+              const el = document.querySelector('.bonfire-composer [data-flux-editor]')
+                  ?? document.querySelector('[data-flux-editor]');
+              const editor = el?._tiptap || el?.editor;
+              if (editor) {
+                  editor.chain().focus()
+                      .clearContent()
+                      .insertContent(template)
+                      .run();
+              }
+              try {
+                  this.$wire.set('body', '<p>' + template + '</p>', false);
+              } catch (e) {}
+          },
+
+          pollPreview() {
+              const raw = (this.body || '').replace(/<[^>]+>/g, ' ')
+                  .replace(/&nbsp;/g, ' ')
+                  .replace(/&amp;/g, '&')
+                  .replace(/&lt;/g, '<')
+                  .replace(/&gt;/g, '>')
+                  .replace(/&#39;/g, '\u0027')
+                  .replace(/&quot;/g, '\u0022')
+                  .trim();
+              const m = raw.match(/^\/poll\s+(.+)$/is);
+              if (! m) return null;
+              const parts = m[1].split('|').map(s => s.trim()).filter(Boolean);
+              if (parts.length < 3) return { question: parts[0] || '', options: parts.slice(1), valid: false };
+              return { question: parts[0], options: parts.slice(1, 11), valid: true };
+          },
+
           openMentions() {
               this.showEmoji = false;
               this.mentionQuery = '';
@@ -219,8 +281,17 @@
           get filteredMembers() {
               const q = (this.mentionQuery || '').toLowerCase();
               const all = @js($this->mentionables);
-              if (q === '') return all.slice(0, 6);
-              return all.filter(m => m.display_name.toLowerCase().includes(q)).slice(0, 6);
+              const specials = [
+                  { id: 'channel', display_name: 'channel', avatar_url: null, broadcast: true, hint: 'Everyone in this channel' },
+                  { id: 'here', display_name: 'here', avatar_url: null, broadcast: true, hint: 'Active members only' },
+                  { id: 'everyone', display_name: 'everyone', avatar_url: null, broadcast: true, hint: 'Everyone in the workspace' },
+              ];
+              if (q === '') {
+                  return [...specials, ...all.slice(0, 6)];
+              }
+              const s = specials.filter(sp => sp.display_name.startsWith(q));
+              const m = all.filter(m => m.display_name.toLowerCase().includes(q)).slice(0, 6);
+              return [...s, ...m];
           },
 
           triggerFile() {
@@ -535,6 +606,23 @@
             </div>
         </div>
 
+        <template x-if="pollPreview()">
+            <div class="mb-1 rounded-md border px-2.5 py-1.5 text-xs"
+                 :class="pollPreview().valid
+                    ? 'border-sky-200 bg-sky-50 text-sky-800 dark:border-sky-800 dark:bg-sky-950/40 dark:text-sky-200'
+                    : 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200'">
+                <div class="flex items-center gap-1.5 font-semibold">
+                    <flux:icon name="chart-bar" class="size-3.5" />
+                    <span x-text="pollPreview().valid ? 'Poll ready to send' : 'Poll needs at least 2 options'"></span>
+                </div>
+                <div class="mt-0.5 text-[11px] opacity-90">
+                    <span x-text="'Question: ' + (pollPreview().question || '(empty)')"></span>
+                    <span class="mx-1">·</span>
+                    <span x-text="pollPreview().options.length + ' option(s): ' + pollPreview().options.join(' / ')"></span>
+                </div>
+            </div>
+        </template>
+
         <flux:editor wire:model="body"
                      @input.debounce.250ms="whisperTyping()"
                      toolbar="bold italic strike | bullet ordered blockquote | link | code" />
@@ -606,6 +694,13 @@
                         class="rounded p-1.5 hover:bg-zinc-100 hover:text-zinc-900
                                dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
                     <flux:icon name="at-symbol" class="size-4" />
+                </button>
+                <button type="button"
+                        title="Create a poll (/poll Question? | Option 1 | Option 2)"
+                        @mousedown.prevent @click="insertPollTemplate()"
+                        class="rounded p-1.5 hover:bg-zinc-100 hover:text-zinc-900
+                               dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
+                    <flux:icon name="chart-bar" class="size-4" />
                 </button>
             </div>
 
@@ -697,8 +792,9 @@
          x-data="{
              baseCats: (window.BonfireEmojis || []),
              emojiSearch: '',
+             recentKey: 'bonfire.emoji.recent.{{ auth()->id() ?? 'guest' }}',
              recent: (() => {
-                 try { return JSON.parse(localStorage.getItem('bonfire.emoji.recent') || '[]'); }
+                 try { return JSON.parse(localStorage.getItem('bonfire.emoji.recent.{{ auth()->id() ?? 'guest' }}') || '[]'); }
                  catch (e) { return []; }
              })(),
              emojiActiveCat: '',
@@ -710,7 +806,7 @@
                  if (idx !== -1) this.recent.splice(idx, 1);
                  this.recent.unshift(glyph);
                  this.recent = this.recent.slice(0, 24);
-                 localStorage.setItem('bonfire.emoji.recent', JSON.stringify(this.recent));
+                 localStorage.setItem(this.recentKey, JSON.stringify(this.recent));
              },
              get emojiCats() {
                  if (this.recent.length === 0) return this.baseCats;
@@ -812,12 +908,26 @@
                     <button type="button"
                             @mousedown.prevent @click="selectMention(member.display_name)"
                             @mouseenter="mentionIndex = idx"
-                            :class="idx === mentionIndex ? 'bg-sky-50 text-sky-900 dark:bg-sky-900/40 dark:text-sky-100' : ''"
+                            :class="idx === mentionIndex
+                                ? (member.broadcast ? 'bg-amber-50 text-amber-900 dark:bg-amber-900/40 dark:text-amber-100'
+                                                     : 'bg-sky-50 text-sky-900 dark:bg-sky-900/40 dark:text-sky-100')
+                                : ''"
                             class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-sm
                                    hover:bg-zinc-100
                                    dark:hover:bg-zinc-800">
-                        <img :src="member.avatar_url" alt="" class="size-6 rounded bg-zinc-200 dark:bg-zinc-800">
-                        <span x-text="member.display_name" class="truncate"></span>
+                        <template x-if="member.broadcast">
+                            <span class="flex size-6 flex-shrink-0 items-center justify-center rounded bg-amber-500/20 text-sm text-amber-600 dark:text-amber-300">📣</span>
+                        </template>
+                        <template x-if="! member.broadcast">
+                            <img :src="member.avatar_url" alt="" class="size-6 flex-shrink-0 rounded bg-zinc-200 dark:bg-zinc-800">
+                        </template>
+                        <span class="flex min-w-0 flex-1 items-center gap-1">
+                            <span :class="member.broadcast ? 'font-semibold' : ''"
+                                  x-text="'@' + member.display_name" class="truncate"></span>
+                            <template x-if="member.hint">
+                                <span class="truncate text-[11px] text-zinc-500" x-text="member.hint"></span>
+                            </template>
+                        </span>
                     </button>
                 </li>
             </template>

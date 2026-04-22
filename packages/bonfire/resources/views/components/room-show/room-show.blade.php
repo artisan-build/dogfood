@@ -192,8 +192,13 @@
                     </button>
                 @else
                     <button type="button"
-                            title="Start or join call in this channel"
-                            @click="$dispatch('modal-show', { name: 'channel-call' })"
+                            title="Start or join meeting in this channel"
+                            data-room-id="{{ $room->id }}"
+                            data-room-name="{{ $room->name }}"
+                            @click="$dispatch('bonfire-join-meeting', {
+                                roomId: Number($event.currentTarget.dataset.roomId),
+                                roomName: $event.currentTarget.dataset.roomName,
+                            })"
                             class="rounded p-1.5 text-emerald-600 hover:bg-emerald-50
                                    dark:text-emerald-400 dark:hover:bg-emerald-950/30">
                         <flux:icon name="video-camera" class="size-4" />
@@ -385,6 +390,22 @@
                         Members
                         <span class="ml-1 text-xs text-zinc-500">{{ $memberCount }}</span>
                     </button>
+                    <button type="button" @click="tab = 'pinned'"
+                            :class="tab === 'pinned'
+                                ? 'border-zinc-900 text-zinc-900 dark:border-zinc-100 dark:text-zinc-100'
+                                : 'border-transparent text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'"
+                            class="border-b-2 px-3 py-2 font-medium">
+                        Pinned
+                        <span class="ml-1 text-xs text-zinc-500">{{ $this->pinnedMessages->count() }}</span>
+                    </button>
+                    <button type="button" @click="tab = 'files'"
+                            :class="tab === 'files'
+                                ? 'border-zinc-900 text-zinc-900 dark:border-zinc-100 dark:text-zinc-100'
+                                : 'border-transparent text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'"
+                            class="border-b-2 px-3 py-2 font-medium">
+                        Files
+                        <span class="ml-1 text-xs text-zinc-500">{{ $this->roomAttachments->count() }}</span>
+                    </button>
                 </div>
             @endunless
 
@@ -511,6 +532,161 @@
                             </li>
                         @endforeach
                     </ul>
+                </div>
+
+                <div x-show="tab === 'files'" style="display: none;"
+                     x-data="{ filter: 'all' }">
+                    @if ($this->roomAttachments->isEmpty())
+                        <div class="rounded-md border border-dashed border-zinc-300 p-8 text-center text-sm text-zinc-500
+                                    dark:border-zinc-700">
+                            No files shared in this channel yet.
+                        </div>
+                    @else
+                        @php
+                            $attachments = $this->roomAttachments;
+                            $imageCount = $attachments->filter(fn ($a) => $a->isImage())->count();
+                            $videoCount = $attachments->filter(fn ($a) => $a->isVideo())->count();
+                            $audioCount = $attachments->filter(fn ($a) => $a->isAudio())->count();
+                            $docCount = $attachments->count() - $imageCount - $videoCount - $audioCount;
+                        @endphp
+                        <div class="mb-3 flex flex-wrap gap-1 text-xs">
+                            @foreach ([
+                                ['all', 'All', $attachments->count()],
+                                ['image', 'Images', $imageCount],
+                                ['video', 'Videos', $videoCount],
+                                ['audio', 'Audio', $audioCount],
+                                ['doc', 'Docs', $docCount],
+                            ] as [$key, $label, $count])
+                                <button type="button"
+                                        @click="filter = '{{ $key }}'"
+                                        :class="filter === '{{ $key }}'
+                                            ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
+                                            : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700'"
+                                        class="rounded-full px-2.5 py-1 font-medium">
+                                    {{ $label }}
+                                    <span class="ml-0.5 opacity-70">{{ $count }}</span>
+                                </button>
+                            @endforeach
+                        </div>
+
+                        <div class="max-h-96 space-y-1.5 overflow-y-auto pr-1">
+                            @foreach ($attachments as $att)
+                                @php
+                                    if ($att->isImage()) {
+                                        $kind = 'image';
+                                    } elseif ($att->isVideo()) {
+                                        $kind = 'video';
+                                    } elseif ($att->isAudio()) {
+                                        $kind = 'audio';
+                                    } else {
+                                        $kind = 'doc';
+                                    }
+                                    $url = route('bonfire.attachments.show', $att);
+                                    $author = $att->message?->member?->display_name ?? 'Unknown';
+                                    $sharedAt = $att->created_at ?? $att->message?->created_at;
+                                    $sizeKb = $att->size ? number_format($att->size / 1024, 1).' KB' : '—';
+                                @endphp
+                                <div x-show="filter === 'all' || filter === '{{ $kind }}'"
+                                     class="flex items-center gap-3 rounded-md border border-zinc-200 bg-white p-2
+                                            hover:bg-zinc-50
+                                            dark:border-zinc-700 dark:bg-zinc-900 dark:hover:bg-zinc-800">
+                                    <div class="flex size-11 flex-shrink-0 items-center justify-center overflow-hidden rounded
+                                                bg-zinc-100 dark:bg-zinc-800">
+                                        @if ($kind === 'image')
+                                            <img src="{{ $url }}" alt="" class="size-full object-cover">
+                                        @elseif ($kind === 'video')
+                                            <flux:icon name="film" class="size-5 text-sky-500" />
+                                        @elseif ($kind === 'audio')
+                                            <flux:icon name="musical-note" class="size-5 text-purple-500" />
+                                        @else
+                                            <flux:icon name="document" class="size-5 text-zinc-500" />
+                                        @endif
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <a href="{{ $url }}" target="_blank" rel="noopener"
+                                           class="block truncate text-sm font-medium text-zinc-800 hover:text-sky-600
+                                                  dark:text-zinc-200 dark:hover:text-sky-400">
+                                            {{ $att->filename }}
+                                        </a>
+                                        <div class="truncate text-[11px] text-zinc-500">
+                                            <span>{{ $author }} · </span>
+                                            <span x-data="bonfireRelativeTime({{ Illuminate\Support\Js::from($sharedAt?->toIso8601String()) }})"
+                                                  x-init="start()"
+                                                  x-text="text || '—'"></span>
+                                            <span> · {{ $sizeKb }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-shrink-0 items-center gap-1">
+                                        @if ($att->message_id)
+                                            <a href="#m-{{ $att->message_id }}"
+                                               @click="$dispatch('modal-close', { name: 'channel-details' })"
+                                               title="Jump to message"
+                                               class="rounded p-1 text-zinc-500 hover:bg-zinc-100 hover:text-sky-600
+                                                      dark:hover:bg-zinc-800 dark:hover:text-sky-400">
+                                                <flux:icon name="arrow-top-right-on-square" class="size-4" />
+                                            </a>
+                                        @endif
+                                        <a href="{{ $url }}" download
+                                           title="Download"
+                                           class="rounded p-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900
+                                                  dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
+                                            <flux:icon name="arrow-down-tray" class="size-4" />
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
+                <div x-show="tab === 'pinned'" style="display: none;">
+                    @if ($this->pinnedMessages->isEmpty())
+                        <div class="rounded-md border border-dashed border-zinc-300 p-8 text-center text-sm text-zinc-500
+                                    dark:border-zinc-700">
+                            No pinned messages yet. Hover any message and click the bookmark icon to pin it.
+                        </div>
+                    @else
+                        <ul class="max-h-96 space-y-2 overflow-y-auto pr-1">
+                            @foreach ($this->pinnedMessages as $pm)
+                                <li class="rounded-md border border-zinc-200 bg-zinc-50 p-3
+                                           dark:border-zinc-700 dark:bg-zinc-900">
+                                    <div class="flex items-center gap-2 text-xs">
+                                        <img src="{{ $pm->member?->avatar_url ?? 'https://ui-avatars.com/api/?name='.urlencode($pm->member?->display_name ?? '?') }}"
+                                             alt="" class="size-5 rounded bg-zinc-200 dark:bg-zinc-700">
+                                        <span class="font-semibold text-zinc-800 dark:text-zinc-200">
+                                            {{ $pm->member?->display_name ?? 'Unknown' }}
+                                        </span>
+                                        <span class="text-zinc-500"
+                                              x-data="bonfireRelativeTime({{ Illuminate\Support\Js::from($pm->created_at?->toIso8601String()) }})"
+                                              x-init="start()"
+                                              x-text="'· ' + text"></span>
+                                    </div>
+                                    <div class="bonfire-message-body mt-1.5 max-w-none break-words text-sm text-zinc-800 dark:text-zinc-200">
+                                        @php
+                                            $pinnedBodyIsHtml = preg_match('/<\\w+[^>]*>/', (string) $pm->body) === 1;
+                                        @endphp
+                                        @if ($pinnedBodyIsHtml)
+                                            {!! app(\ArtisanBuild\Bonfire\Support\MarkdownRenderer::class)->highlightMentions($pm->body) !!}
+                                        @else
+                                            {!! app(\ArtisanBuild\Bonfire\Support\MarkdownRenderer::class)->render($pm->body, $pm->tenant_id) !!}
+                                        @endif
+                                    </div>
+                                    <div class="mt-2 flex items-center justify-between">
+                                        <a href="#m-{{ $pm->id }}"
+                                           @click="$dispatch('modal-close', { name: 'channel-details' })"
+                                           class="text-[11px] font-medium text-sky-600 hover:underline
+                                                  dark:text-sky-400">
+                                            Jump to message
+                                        </a>
+                                        <span class="text-[10px] text-zinc-500"
+                                              x-data="bonfireRelativeTime({{ Illuminate\Support\Js::from($pm->pinned_at?->toIso8601String()) }})"
+                                              x-init="start()"
+                                              x-text="'Pinned ' + text"></span>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
             @endunless
 

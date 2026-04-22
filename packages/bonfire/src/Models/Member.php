@@ -57,6 +57,17 @@ class Member extends Model
         return $this->role->hasAtLeast($role);
     }
 
+    public function getAvatarUrlAttribute(?string $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        // Rewrite any stale absolute URLs pointing at localhost/127.0.0.1 to
+        // relative paths so the browser uses the current origin.
+        return preg_replace('#^https?://(localhost|127\.0\.0\.1)(:\d+)?/#', '/', $value);
+    }
+
     protected function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);

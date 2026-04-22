@@ -27,6 +27,7 @@ use Override;
  * @property int $member_id
  * @property int|null $parent_id
  * @property string $body
+ * @property array|null $poll
  * @property Carbon|null $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -100,9 +101,21 @@ class Message extends Model
         return $this->hasMany(Mention::class, 'message_id');
     }
 
+    public function pollVotes(): HasMany
+    {
+        return $this->hasMany(PollVote::class, 'message_id');
+    }
+
     public function isReply(): bool
     {
         return $this->parent_id !== null;
+    }
+
+    public function isPoll(): bool
+    {
+        return is_array($this->poll)
+            && isset($this->poll['question'], $this->poll['options'])
+            && is_array($this->poll['options']);
     }
 
     /**
@@ -117,11 +130,52 @@ class Message extends Model
             return;
         }
 
-        $members = Member::query()
-            ->whereIn('display_name', $names)
-            ->where('tenant_id', $this->tenant_id)
-            ->where('id', '!=', $this->member_id)
-            ->get();
+        $broadcast = array_values(array_filter(
+            $names,
+            fn (string $n) => in_array(strtolower($n), ['channel', 'here', 'everyone'], true),
+        ));
+        $explicit = array_values(array_filter(
+            $names,
+            fn (string $n) => ! in_array(strtolower($n), ['channel', 'here', 'everyone'], true),
+        ));
+
+        $members = collect();
+
+        if ($explicit !== []) {
+            $members = $members->merge(
+                Member::query()
+                    ->whereIn('display_name', $explicit)
+                    ->where('tenant_id', $this->tenant_id)
+                    ->where('id', '!=', $this->member_id)
+                    ->get(),
+            );
+        }
+
+        // Resolve broadcast tokens into member sets.
+        foreach ($broadcast as $token) {
+            $t = strtolower($token);
+            $query = Member::query()
+                ->where('tenant_id', $this->tenant_id)
+                ->where('is_active', true)
+                ->where('id', '!=', $this->member_id);
+
+            if ($t === 'channel' || $t === 'here') {
+                $roomMemberIds = $this->room?->members()->pluck('bonfire_members.id') ?? collect();
+                $query->whereIn('id', $roomMemberIds);
+                if ($t === 'here') {
+                    $query->where('is_away', false);
+                }
+            }
+            // @everyone: no further filter — all active workspace members.
+
+            $members = $members->merge($query->get());
+        }
+
+        $members = $members->unique('id')->values();
+
+        if ($members->isEmpty()) {
+            return;
+        }
 
         foreach ($members as $member) {
             Mention::query()->insert([
@@ -129,10 +183,6 @@ class Message extends Model
                 'member_id' => $member->id,
                 'created_at' => now(),
             ]);
-        }
-
-        if ($members->isEmpty()) {
-            return;
         }
 
         Notification::send($members, new MentionedInMessage($this));
@@ -150,6 +200,11 @@ class Message extends Model
     public function dispatchLinkPreview(): void
     {
         if (! (bool) config('bonfire.link_preview_enabled', true)) {
+            return;
+        }
+
+        // Forwarded messages embed a synthetic "Jump to original" link — never unfurl.
+        if (str_contains((string) $this->body, 'data-bonfire-forward')) {
             return;
         }
 
@@ -173,6 +228,8 @@ class Message extends Model
         return [
             'tenant_id' => 'integer',
             'scheduled_for' => 'datetime',
+            'pinned_at' => 'datetime',
+            'poll' => 'array',
         ];
     }
 }

@@ -48,7 +48,7 @@ class Room extends Model
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(Member::class, 'bonfire_member_room', 'room_id', 'member_id')
-            ->withPivot(['created_by', 'last_read_at', 'created_at']);
+            ->withPivot(['created_by', 'last_read_at', 'created_at', 'section_id']);
     }
 
     public function messages(): HasMany

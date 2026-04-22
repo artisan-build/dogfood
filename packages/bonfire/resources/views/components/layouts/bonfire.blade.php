@@ -220,28 +220,59 @@
             </form>
 
             <livewire:bonfire::call-panel />
+            <livewire:bonfire::meeting-panel />
 
+            {{-- Desktop notifications enable banner (dismissible, only shown if permission is "default"). --}}
             <div x-data="{
-                     toasts: [],
-                     push(payload) {
-                         const id = Date.now() + Math.random();
-                         this.toasts.push({ id, ...payload });
-                         setTimeout(() => this.toasts = this.toasts.filter(t => t.id !== id), 6000);
+                     show: typeof Notification !== 'undefined'
+                         && Notification.permission === 'default'
+                         && localStorage.getItem('bonfire.notif.dismissed') !== '1',
+                     async enable() {
+                         if (typeof Notification === 'undefined') return;
+                         try {
+                             const result = await Notification.requestPermission();
+                             if (result === 'granted') {
+                                 try { new Notification('Bonfire notifications on', { body: 'We\u2019ll ping you when you\u2019re mentioned or get a DM.', icon: '/favicon.ico' }); } catch (e) {}
+                             }
+                         } catch (e) {}
+                         this.show = false;
                      },
-                     init() {
-                         if (typeof window.Echo === 'undefined') return;
-                         window.Echo.private('App.Models.User.{{ auth()->id() }}')
-                             .listen('.member.mentioned', (e) => {
-                                 this.push({
-                                     author_name: e.author_name,
-                                     author_avatar: e.author_avatar,
-                                     room_name: e.room_name,
-                                     room_slug: e.room_slug,
-                                     preview: e.preview,
-                                 });
-                             });
+                     dismiss() {
+                         localStorage.setItem('bonfire.notif.dismissed', '1');
+                         this.show = false;
                      },
                  }"
+                 x-show="show"
+                 x-transition
+                 class="fixed bottom-4 left-1/2 z-40 flex w-[22rem] -translate-x-1/2 items-center gap-3 rounded-lg
+                        border border-zinc-200 bg-white p-3 shadow-xl
+                        dark:border-zinc-700 dark:bg-zinc-900"
+                 style="display: none;">
+                <div class="flex size-9 flex-shrink-0 items-center justify-center rounded-full bg-sky-100 text-sky-600
+                            dark:bg-sky-950/60 dark:text-sky-300">
+                    <flux:icon name="bell" class="size-5" />
+                </div>
+                <div class="min-w-0 flex-1">
+                    <div class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                        Turn on desktop notifications
+                    </div>
+                    <div class="text-xs text-zinc-500">
+                        We'll ping you when you're mentioned or get a DM.
+                    </div>
+                </div>
+                <button type="button" @click="dismiss()"
+                        class="rounded px-2 py-1 text-xs text-zinc-500 hover:bg-zinc-100
+                               dark:hover:bg-zinc-800">
+                    Later
+                </button>
+                <button type="button" @click="enable()"
+                        class="rounded-md bg-sky-600 px-3 py-1.5 text-xs font-semibold text-white
+                               hover:bg-sky-700">
+                    Enable
+                </button>
+            </div>
+
+            <div x-data="bonfireNotifications()"
                  class="pointer-events-none fixed bottom-4 right-4 z-50 flex w-80 flex-col gap-2">
                 <template x-for="toast in toasts" :key="toast.id">
                     <a :href="'{{ url(config('bonfire.route_prefix', 'bonfire')) }}/' + toast.room_slug"
@@ -269,6 +300,128 @@
                     </a>
                 </template>
             </div>
+            @once
+                <script>
+                    window.bonfireNotifications = function () {
+                        const routePrefix = @json(url(config('bonfire.route_prefix', 'bonfire')));
+                        return {
+                            toasts: [],
+                            push(payload) {
+                                const id = Date.now() + Math.random();
+                                this.toasts.push({ id, ...payload });
+                                setTimeout(() => this.toasts = this.toasts.filter(t => t.id !== id), 6000);
+                            },
+                            inQuietWindow() {
+                                if (localStorage.getItem('bonfire.dnd.quiet.enabled') !== '1') return false;
+                                const from = localStorage.getItem('bonfire.dnd.quiet.from') || '';
+                                const to = localStorage.getItem('bonfire.dnd.quiet.to') || '';
+                                const parse = (s) => {
+                                    const m = /^(\d{1,2}):(\d{2})$/.exec(s || '');
+                                    return m ? (parseInt(m[1], 10) * 60 + parseInt(m[2], 10)) : null;
+                                };
+                                const f = parse(from), t = parse(to);
+                                if (f === null || t === null) return false;
+                                const now = new Date();
+                                const n = now.getHours() * 60 + now.getMinutes();
+                                return f === t ? false : (f < t ? (n >= f && n < t) : (n >= f || n < t));
+                            },
+                            dndActive() {
+                                const until = parseInt(localStorage.getItem('bonfire.dnd.until') ?? '0', 10);
+                                if (until > Date.now()) return true;
+                                return this.inQuietWindow();
+                            },
+                            channelMuted(roomId) {
+                                return localStorage.getItem('bonfire.notify.' + roomId) === 'off';
+                            },
+                            maybeDesktop(payload) {
+                                if (typeof Notification === 'undefined') return;
+                                if (Notification.permission !== 'granted') return;
+                                if (! document.hidden) return; // in-app toast is enough when tab is visible
+                                if (this.dndActive()) return;
+                                try {
+                                    const n = new Notification(
+                                        payload.title || 'New activity',
+                                        {
+                                            body: payload.body || '',
+                                            icon: payload.icon || '/favicon.ico',
+                                            tag: payload.tag || undefined,
+                                        },
+                                    );
+                                    if (payload.url) {
+                                        n.onclick = () => {
+                                            window.focus();
+                                            window.location.href = payload.url;
+                                            n.close();
+                                        };
+                                    }
+                                } catch (e) {}
+                            },
+                            init() {
+                                if (typeof window.Echo === 'undefined') return;
+                                const userId = {{ auth()->id() ?? 'null' }};
+                                if (! userId) return;
+                                window.Echo.private('App.Models.User.' + userId)
+                                    .listen('.member.mentioned', (e) => {
+                                        this.push({
+                                            author_name: e.author_name,
+                                            author_avatar: e.author_avatar,
+                                            room_name: e.room_name,
+                                            room_slug: e.room_slug,
+                                            preview: e.preview,
+                                        });
+                                        // Respect per-channel mute.
+                                        if (e.room_id && this.channelMuted(e.room_id)) return;
+                                        this.maybeDesktop({
+                                            title: e.author_name + ' mentioned you in #' + e.room_name,
+                                            body: e.preview || '',
+                                            icon: e.author_avatar,
+                                            tag: 'mention-' + (e.message_id || e.room_slug),
+                                            url: routePrefix + '/' + e.room_slug
+                                                + (e.message_id ? '#m-' + e.message_id : ''),
+                                        });
+                                    })
+                                    .listen('.call.initiated', (e) => {
+                                        // Incoming 1-on-1 call — ring the desktop.
+                                        if (this.dndActive()) return;
+                                        this.maybeDesktop({
+                                            title: 'Incoming call',
+                                            body: (e.callerName || 'Someone') + ' is calling…',
+                                            icon: e.callerAvatar || '/favicon.ico',
+                                            tag: 'call-' + (e.sessionId || ''),
+                                        });
+                                    });
+                            },
+                        };
+                    };
+
+                    window.bonfireRelativeTime = function (iso) {
+                        const format = (isoStr) => {
+                            if (! isoStr) return '';
+                            const then = new Date(isoStr).getTime();
+                            if (Number.isNaN(then)) return '';
+                            const s = Math.max(0, Math.floor((Date.now() - then) / 1000));
+                            if (s < 10) return 'just now';
+                            if (s < 60) return s + 's ago';
+                            if (s < 3600) return Math.floor(s / 60) + 'm ago';
+                            if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+                            if (s < 604800) return Math.floor(s / 86400) + 'd ago';
+                            return new Date(isoStr).toLocaleDateString();
+                        };
+                        return {
+                            iso,
+                            text: format(iso),
+                            _timer: null,
+                            start() {
+                                this.text = format(this.iso);
+                                this._timer = setInterval(() => { this.text = format(this.iso); }, 30000);
+                            },
+                            destroy() {
+                                if (this._timer) clearInterval(this._timer);
+                            },
+                        };
+                    };
+                </script>
+            @endonce
         @endauth
 
         @fluxScripts

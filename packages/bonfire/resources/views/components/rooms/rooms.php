@@ -6,7 +6,9 @@ use ArtisanBuild\Bonfire\Enums\BonfireRole;
 use ArtisanBuild\Bonfire\Enums\RoomType;
 use ArtisanBuild\Bonfire\Facades\Bonfire;
 use ArtisanBuild\Bonfire\Models\CallSession;
+use ArtisanBuild\Bonfire\Models\ChannelSection;
 use ArtisanBuild\Bonfire\Models\Member;
+use ArtisanBuild\Bonfire\Models\Message;
 use ArtisanBuild\Bonfire\Models\Room;
 use ArtisanBuild\Bonfire\Support\UnreadTracker;
 use Illuminate\Support\Collection;
@@ -130,6 +132,159 @@ return new class extends Component
     }
 
     /**
+     * @return Collection<int, ChannelSection>
+     */
+    #[Computed]
+    public function channelSections(): Collection
+    {
+        $member = $this->currentMember();
+
+        if ($member === null) {
+            return collect();
+        }
+
+        return ChannelSection::query()
+            ->where('member_id', $member->id)
+            ->orderBy('position')
+            ->orderBy('id')
+            ->get();
+    }
+
+    /**
+     * @return array<int, int> Map of roomId => sectionId (if assigned)
+     */
+    #[Computed]
+    public function roomSectionMap(): array
+    {
+        $member = $this->currentMember();
+
+        if ($member === null) {
+            return [];
+        }
+
+        return DB::table('bonfire_member_room')
+            ->where('member_id', $member->id)
+            ->whereNotNull('section_id')
+            ->pluck('section_id', 'room_id')
+            ->map(fn ($v) => (int) $v)
+            ->all();
+    }
+
+    public function createSection(string $name): void
+    {
+        $member = $this->currentMember();
+
+        if ($member === null) {
+            return;
+        }
+
+        $clean = Str::limit(trim($name), 80, '');
+
+        if ($clean === '') {
+            return;
+        }
+
+        $position = (int) ChannelSection::query()
+            ->where('member_id', $member->id)
+            ->max('position');
+
+        ChannelSection::query()->create([
+            'member_id' => $member->id,
+            'name' => $clean,
+            'position' => $position + 1,
+        ]);
+
+        unset($this->channelSections);
+    }
+
+    public function renameSection(int $sectionId, string $name): void
+    {
+        $member = $this->currentMember();
+        if ($member === null) {
+            return;
+        }
+
+        $clean = Str::limit(trim($name), 80, '');
+        if ($clean === '') {
+            return;
+        }
+
+        ChannelSection::query()
+            ->where('member_id', $member->id)
+            ->where('id', $sectionId)
+            ->update(['name' => $clean]);
+
+        unset($this->channelSections);
+    }
+
+    public function deleteSection(int $sectionId): void
+    {
+        $member = $this->currentMember();
+        if ($member === null) {
+            return;
+        }
+
+        $section = ChannelSection::query()
+            ->where('member_id', $member->id)
+            ->where('id', $sectionId)
+            ->first();
+
+        if ($section === null) {
+            return;
+        }
+
+        DB::table('bonfire_member_room')
+            ->where('member_id', $member->id)
+            ->where('section_id', $sectionId)
+            ->update(['section_id' => null]);
+
+        $section->delete();
+
+        unset($this->channelSections, $this->roomSectionMap);
+    }
+
+    public function assignRoomToSection(int $roomId, ?int $sectionId): void
+    {
+        $member = $this->currentMember();
+        if ($member === null) {
+            return;
+        }
+
+        $pivotExists = DB::table('bonfire_member_room')
+            ->where('member_id', $member->id)
+            ->where('room_id', $roomId)
+            ->exists();
+
+        if (! $pivotExists) {
+            // User isn't a member of this room — create pivot so section assignment sticks.
+            // (Public rooms aren't formally joined; still, assignment is per-user sidebar state.)
+            DB::table('bonfire_member_room')->insert([
+                'member_id' => $member->id,
+                'room_id' => $roomId,
+                'section_id' => $sectionId,
+                'created_by' => $member->id,
+                'created_at' => now(),
+            ]);
+        } else {
+            $validSection = $sectionId === null || ChannelSection::query()
+                ->where('member_id', $member->id)
+                ->where('id', $sectionId)
+                ->exists();
+
+            if (! $validSection) {
+                return;
+            }
+
+            DB::table('bonfire_member_room')
+                ->where('member_id', $member->id)
+                ->where('room_id', $roomId)
+                ->update(['section_id' => $sectionId]);
+        }
+
+        unset($this->roomSectionMap);
+    }
+
+    /**
      * @return Collection<int, Member>
      */
     #[Computed]
@@ -177,6 +332,33 @@ return new class extends Component
         }
 
         return $this->redirect(route('bonfire.room.show', $room), navigate: true);
+    }
+
+    /**
+     * @return array<int, int>
+     */
+    #[Computed]
+    public function activeMeetingRoomIds(): array
+    {
+        return Message::query()
+            ->where('body', 'like', '%data-bonfire-join-meeting%')
+            ->where('created_at', '>=', now()->subHours(2))
+            ->pluck('room_id')
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    #[On('bonfire:meeting-changed')]
+    public function onMeetingChanged(): void
+    {
+        unset($this->activeMeetingRoomIds);
+    }
+
+    #[On('bonfire:call-state-changed')]
+    public function onCallStateChanged(): void
+    {
+        unset($this->memberIdsInCall, $this->directMessageMembers);
     }
 
     /**

@@ -6,6 +6,11 @@
     $unstarred = $all->where('is_starred', false);
     [$activeRooms, $archivedRooms] = $unstarred->partition(fn ($room) => ! $room->isArchived());
     $dms = $this->directMessageMembers;
+
+    $userSections = $this->channelSections;
+    $roomSectionMap = $this->roomSectionMap;
+    $roomsBySection = $activeRooms->groupBy(fn ($room) => $roomSectionMap[$room->id] ?? 0);
+    $unsectionedRooms = $roomsBySection->get(0, collect());
 @endphp
 
 <div x-data="{
@@ -105,6 +110,98 @@
 
         <div class="mx-3 my-3 h-px bg-zinc-200 dark:bg-zinc-800"></div>
 
+        <div class="px-2 pb-1"
+             x-data="{ creating: false, newName: '' }">
+            <button x-show="! creating" type="button"
+                    @click="creating = true; $nextTick(() => $refs.sectionInput?.focus())"
+                    class="flex w-full items-center gap-1 rounded px-2 py-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-500
+                           hover:bg-zinc-200/60 hover:text-zinc-900
+                           dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
+                <flux:icon name="plus" class="size-3" />
+                <span>New section</span>
+            </button>
+            <form x-show="creating" x-cloak
+                  @submit.prevent="if (newName.trim()) { $wire.createSection(newName); newName = ''; creating = false; }"
+                  class="flex items-center gap-1 px-1">
+                <input x-ref="sectionInput"
+                       x-model="newName"
+                       @keydown.escape="creating = false; newName = ''"
+                       placeholder="Section name"
+                       class="flex-1 rounded border border-zinc-300 bg-white px-1.5 py-0.5 text-xs
+                              focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500
+                              dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100">
+                <button type="submit"
+                        class="rounded bg-sky-600 px-1.5 py-0.5 text-[10px] font-semibold text-white hover:bg-sky-700">
+                    Add
+                </button>
+            </form>
+        </div>
+
+        @foreach ($userSections as $section)
+            @php
+                $sectionRooms = $roomsBySection->get($section->id, collect());
+                $sectionKey = 'section-'.$section->id;
+            @endphp
+            <section class="group/section px-2 pb-2"
+                     x-data="{ editing: false, editName: @js($section->name) }">
+                <div class="flex items-center gap-1">
+                    <button type="button"
+                            @click="toggle('{{ $sectionKey }}')"
+                            class="group flex flex-1 items-center gap-1 rounded px-2 py-1 text-xs font-semibold uppercase
+                                   tracking-wider text-zinc-500 hover:bg-zinc-200/60 hover:text-zinc-900
+                                   dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
+                        <flux:icon name="chevron-down"
+                                   class="size-3 transition"
+                                   ::class="{ '-rotate-90': ! isOpen('{{ $sectionKey }}') }" />
+                        <span x-show="! editing" class="ml-1 truncate normal-case tracking-normal"
+                              x-text="editName">{{ $section->name }}</span>
+                        <span x-show="! editing" class="text-zinc-400">{{ $sectionRooms->count() }}</span>
+                        <input x-show="editing" x-cloak
+                               x-model="editName"
+                               @click.stop
+                               @keydown.enter.prevent="editing = false; $wire.renameSection({{ $section->id }}, editName)"
+                               @keydown.escape.prevent="editing = false; editName = @js($section->name)"
+                               @blur="editing = false; $wire.renameSection({{ $section->id }}, editName)"
+                               class="w-full rounded border border-sky-400 bg-white px-1 py-0 text-xs normal-case tracking-normal
+                                      focus:outline-none focus:ring-1 focus:ring-sky-500
+                                      dark:border-sky-600 dark:bg-zinc-900 dark:text-zinc-100">
+                    </button>
+                    <div class="pointer-events-none opacity-0 transition-opacity
+                                group-hover/section:pointer-events-auto group-hover/section:opacity-100">
+                        <flux:dropdown align="end">
+                            <button type="button"
+                                    title="Section actions"
+                                    class="rounded p-1 text-zinc-500 hover:bg-zinc-200 hover:text-zinc-900
+                                           dark:hover:bg-zinc-700 dark:hover:text-zinc-100">
+                                <flux:icon name="ellipsis-horizontal" class="size-3.5" />
+                            </button>
+                            <flux:menu>
+                                <flux:menu.item icon="pencil-square"
+                                                @click="editing = true; $nextTick(() => $root.querySelector('input')?.focus())">
+                                    Rename section
+                                </flux:menu.item>
+                                <flux:menu.item icon="trash"
+                                                variant="danger"
+                                                wire:click="deleteSection({{ $section->id }})"
+                                                wire:confirm="Delete this section? Channels will move back to Channels.">
+                                    Delete section
+                                </flux:menu.item>
+                            </flux:menu>
+                        </flux:dropdown>
+                    </div>
+                </div>
+                <div x-show="isOpen('{{ $sectionKey }}')">
+                    <ul class="flex flex-col">
+                        @forelse ($sectionRooms as $room)
+                            @include('bonfire::partials._channel-row', ['room' => $room, 'currentRoomId' => $currentRoomId])
+                        @empty
+                            <li class="px-2 py-1 text-xs text-zinc-400">Empty — drop channels here via the "Move to section" menu.</li>
+                        @endforelse
+                    </ul>
+                </div>
+            </section>
+        @endforeach
+
         <section class="px-2">
             <button type="button"
                     @click="toggle('channels')"
@@ -178,11 +275,13 @@
                         },
                     }"
                     class="flex flex-col">
-                    @forelse ($activeRooms as $room)
+                    @forelse ($unsectionedRooms as $room)
                         @php
                             $isActive = $room->id === $currentRoomId;
                             $hasUnread = (bool) ($room->has_unread ?? false);
                             $channelUrl = route('bonfire.room.show', $room);
+                            $currentSectionId = $roomSectionMap[$room->id] ?? null;
+                            $sectionsForMove = $userSections;
                         @endphp
                         <li wire:key="channel-{{ $room->id }}"
                             data-channel-id="{{ $room->id }}"
@@ -204,7 +303,13 @@
                                 <span class="truncate {{ $hasUnread ? 'font-semibold text-zinc-900 dark:text-zinc-100' : '' }}">
                                     {{ $room->name }}
                                 </span>
-                                @if ($hasUnread && ! $isActive)
+                                @if (in_array($room->id, $this->activeMeetingRoomIds, true))
+                                    <span title="Meeting in progress"
+                                          class="ml-auto inline-flex items-center gap-1 text-[10px] font-medium text-emerald-600
+                                                 dark:text-emerald-400">
+                                        <flux:icon name="video-camera" class="size-3 animate-pulse" />
+                                    </span>
+                                @elseif ($hasUnread && ! $isActive)
                                     <span class="ml-auto size-1.5 flex-shrink-0 rounded-full bg-sky-500"></span>
                                 @endif
                             </a>
@@ -296,6 +401,18 @@
                                         <flux:menu.item icon="arrow-down" @click="move('down')">
                                             Move down
                                         </flux:menu.item>
+                                        @if ($sectionsForMove->isNotEmpty())
+                                            <flux:menu.separator />
+                                            <div class="px-2 pb-1 pt-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+                                                Move to section
+                                            </div>
+                                            @foreach ($sectionsForMove as $sect)
+                                                <flux:menu.item icon="folder"
+                                                                wire:click="assignRoomToSection({{ $room->id }}, {{ $sect->id }})">
+                                                    {{ $sect->name }}
+                                                </flux:menu.item>
+                                            @endforeach
+                                        @endif
                                         <flux:menu.separator />
                                         <flux:menu.item icon="clipboard-document" @click="copyLink()">
                                             Copy channel link

@@ -11,6 +11,7 @@ use ArtisanBuild\Bonfire\Models\CallSession;
 use ArtisanBuild\Bonfire\Models\Member;
 use ArtisanBuild\Bonfire\Models\Message;
 use ArtisanBuild\Bonfire\Models\Room;
+use Carbon\CarbonInterface;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -64,6 +65,8 @@ return new class extends Component
             $caller->avatar_url,
             $targetUserId,
         ));
+
+        $this->dispatch('bonfire:call-state-changed');
 
         return [
             'session_id' => $session->id,
@@ -156,6 +159,8 @@ return new class extends Component
         }
 
         broadcast(new CallEnded($session->id, $targetUserId, $reason));
+
+        $this->dispatch('bonfire:call-state-changed');
     }
 
     private function postCallSummary(CallSession $session): void
@@ -177,15 +182,15 @@ return new class extends Component
         $caller = Member::query()->find($session->caller_member_id);
         $body = str_replace('{caller}', $caller?->display_name ?? 'Unknown', $body);
 
-        Message::withoutEvents(fn () => Message::create([
+        Message::create([
             'tenant_id' => $session->tenant_id,
             'room_id' => $session->room_id,
             'member_id' => $session->caller_member_id,
             'body' => $icon.' '.$body,
-        ]));
+        ]);
     }
 
-    private function formatDuration(\Carbon\CarbonInterface $start, ?\Carbon\CarbonInterface $end): string
+    private function formatDuration(CarbonInterface $start, ?CarbonInterface $end): string
     {
         $endTs = ($end ?? now())->getTimestamp();
         $seconds = max(0, $endTs - $start->getTimestamp());
@@ -203,5 +208,4 @@ return new class extends Component
 
         return null;
     }
-
 };
