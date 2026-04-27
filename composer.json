@@ -14,7 +14,6 @@
         "artisan-build/agent-os-installer": "*",
         "artisan-build/artisan-ui": "*",
         "artisan-build/bench": "*",
-        "artisan-build/bonfire": "*",
         "artisan-build/claudecode": "*",
         "artisan-build/code-chat-client": "*",
         "artisan-build/docsidian": "*",
