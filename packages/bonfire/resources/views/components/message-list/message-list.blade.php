@@ -112,11 +112,57 @@
              }
              requestAnimationFrame(() => { this._highlighting = false; });
          },
+         nearBottom: true,
+         forceScrollNext: false,
+         updateNearBottom() {
+             const threshold = 100;
+             this.nearBottom = $el.scrollTop + $el.clientHeight >= $el.scrollHeight - threshold;
+         },
+         scrollToBottom(smooth = true) {
+             $el.scrollTo({ top: $el.scrollHeight, behavior: smooth ? 'smooth' : 'auto' });
+         },
          init() {
              $el.scrollTop = $el.scrollHeight;
              this.$nextTick(() => this.applyHighlight());
-             const obs = new MutationObserver(() => this.applyHighlight());
+
+             // Track whether the user is parked at the bottom so auto-scroll only kicks
+             // in when it won't yank them away from history they're reading.
+             this.updateNearBottom();
+             $el.addEventListener('scroll', () => this.updateNearBottom(), { passive: true });
+
+             const isMessageLi = (n) => n && n.nodeType === 1
+                 && n.tagName === 'LI'
+                 && typeof n.id === 'string'
+                 && n.id.indexOf('m-') === 0;
+             const containsMessageLi = (n) => {
+                 if (! n || n.nodeType !== 1 || typeof n.querySelectorAll !== 'function') return false;
+                 const lis = n.querySelectorAll('li');
+                 for (let i = 0; i < lis.length; i++) {
+                     if (isMessageLi(lis[i])) return true;
+                 }
+                 return false;
+             };
+
+             const obs = new MutationObserver((mutations) => {
+                 this.applyHighlight();
+
+                 const hasNewMessage = mutations.some(m =>
+                     m.type === 'childList' && Array.from(m.addedNodes).some(n =>
+                         isMessageLi(n) || containsMessageLi(n)
+                     )
+                 );
+
+                 if (hasNewMessage && (this.nearBottom || this.forceScrollNext)) {
+                     this.forceScrollNext = false;
+                     this.$nextTick(() => this.scrollToBottom());
+                 }
+             });
              obs.observe($el, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['data-search'] });
+
+             // After we send our own message, force-scroll regardless of current position.
+             window.addEventListener('bonfire-own-message-sent', () => {
+                 this.forceScrollNext = true;
+             });
 
              // If the URL has a #m-123 hash when we arrive, jump to that message.
              this.$nextTick(() => this.focusHashMessage());
@@ -270,7 +316,19 @@
                                         $myOption = $currentMember
                                             ? (int) ($votes->firstWhere('member_id', $currentMember->id)?->option_index ?? -1)
                                             : -1;
+                                        $pollBodyPlain = trim(strip_tags(html_entity_decode((string) $message->body, ENT_QUOTES | ENT_HTML5)));
+                                        $questionPlain = trim((string) ($poll['question'] ?? ''));
+                                        $hasIntro = $pollBodyPlain !== '' && $pollBodyPlain !== $questionPlain;
                                     @endphp
+                                    @if ($hasIntro)
+                                        <div class="mb-2 max-w-none break-words">
+                                            @if ($bodyLooksLikeHtml)
+                                                {!! app(\ArtisanBuild\Bonfire\Support\MarkdownRenderer::class)->highlightMentions($message->body) !!}
+                                            @else
+                                                {!! app(\ArtisanBuild\Bonfire\Support\MarkdownRenderer::class)->render($message->body, $message->tenant_id) !!}
+                                            @endif
+                                        </div>
+                                    @endif
                                     <div class="mt-0.5 max-w-lg rounded-md border border-zinc-200 bg-white p-3
                                                 dark:border-zinc-700 dark:bg-zinc-900">
                                         <div class="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400">

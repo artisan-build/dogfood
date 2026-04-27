@@ -123,60 +123,49 @@
 
             <flux:menu.separator />
 
-            <div class="px-2 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
-                <span x-show="! dndActive">Pause notifications</span>
-                <span x-show="dndActive" x-text="dndLabel"></span>
+            <flux:menu.submenu icon="bell-slash" heading="Pause notifications">
+                <div class="px-2 pb-1 pt-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-500"
+                     x-show="dndActive"
+                     x-text="dndLabel"></div>
+                <flux:menu.item icon="bell-slash" @click="pause(30)">For 30 minutes</flux:menu.item>
+                <flux:menu.item icon="bell-slash" @click="pause(60)">For 1 hour</flux:menu.item>
+                <flux:menu.item icon="bell-slash" @click="pause(240)">For 4 hours</flux:menu.item>
+                <flux:menu.item icon="moon" @click="pauseUntilTomorrow()">Until tomorrow</flux:menu.item>
+                <template x-if="dndUntil > now">
+                    <div>
+                        <flux:menu.separator />
+                        <flux:menu.item icon="arrow-uturn-left"
+                                        class="!text-sky-600 dark:!text-sky-400"
+                                        @click="pause(0)">
+                            Resume notifications
+                        </flux:menu.item>
+                    </div>
+                </template>
+            </flux:menu.submenu>
+
+            <div x-show="dndActive" class="px-2 pb-1 pt-1 text-[10px] text-sky-600 dark:text-sky-400">
+                <flux:icon name="moon" class="mr-1 inline size-3" />
+                <span x-text="dndLabel"></span>
             </div>
-            <button type="button" @click="pause(30)"
-                    class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm
-                           hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
-                <flux:icon name="bell-slash" class="size-4 text-zinc-500" />
-                <span>For 30 minutes</span>
-            </button>
-            <button type="button" @click="pause(60)"
-                    class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm
-                           hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
-                <flux:icon name="bell-slash" class="size-4 text-zinc-500" />
-                <span>For 1 hour</span>
-            </button>
-            <button type="button" @click="pause(240)"
-                    class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm
-                           hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
-                <flux:icon name="bell-slash" class="size-4 text-zinc-500" />
-                <span>For 4 hours</span>
-            </button>
-            <button type="button" @click="pauseUntilTomorrow()"
-                    class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm
-                           hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
-                <flux:icon name="moon" class="size-4 text-zinc-500" />
-                <span>Until tomorrow</span>
-            </button>
-            <button x-show="dndUntil > now" type="button" @click="pause(0)"
-                    class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm
-                           text-sky-600 hover:bg-zinc-100 dark:text-sky-400 dark:hover:bg-zinc-800">
-                <flux:icon name="arrow-uturn-left" class="size-4" />
-                <span>Resume notifications</span>
-            </button>
-
-            <flux:menu.separator />
-
-            <div x-show="quietEnabled" class="px-2 pb-1 pt-1 text-[10px] text-sky-600 dark:text-sky-400">
+            <div x-show="quietEnabled && ! dndUntil" class="px-2 pb-1 pt-1 text-[10px] text-sky-600 dark:text-sky-400">
                 <flux:icon name="moon" class="mr-1 inline size-3" />
                 <span x-text="'Quiet hours ' + quietFrom + '–' + quietTo + (inQuiet ? ' (active)' : '')"></span>
             </div>
 
             <flux:menu.separator />
-            <flux:menu.item icon="bell"
-                            href="{{ route('notifications.edit', absolute: false) }}" wire:navigate>
-                Notification settings
-            </flux:menu.item>
             <flux:menu.item icon="cog-6-tooth" href="{{ route('profile.edit', absolute: false) }}" wire:navigate>
-                Preferences
+                Settings
             </flux:menu.item>
+            @if (auth()->user()?->is_admin && \Illuminate\Support\Facades\Route::has('admin.features.index'))
+                <flux:menu.item icon="adjustments-horizontal"
+                                href="{{ route('admin.features.index', absolute: false) }}" wire:navigate>
+                    Feature flags
+                </flux:menu.item>
+            @endif
             <flux:menu.separator />
             <flux:menu.item icon="arrow-right-start-on-rectangle"
                             href="{{ route('logout', absolute: false) }}" wire:navigate>
-                Sign out of {{ config('app.name') }}
+                Sign out
             </flux:menu.item>
         </flux:menu>
     </flux:dropdown>

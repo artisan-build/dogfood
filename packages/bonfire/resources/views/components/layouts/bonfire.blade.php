@@ -71,11 +71,6 @@
                                                     wire:navigate>
                                         Workspace settings
                                     </flux:menu.item>
-                                    <flux:menu.item icon="shield-check"
-                                                    href="{{ route('bonfire.admin.index') }}"
-                                                    wire:navigate>
-                                        Admin panel
-                                    </flux:menu.item>
                                 @else
                                     <flux:menu.item icon="cog-6-tooth" disabled>Workspace settings</flux:menu.item>
                                 @endif
