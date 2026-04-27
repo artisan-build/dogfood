@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-define('KIBBLE_MONOREPO', true);
-
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -31,13 +29,6 @@ use Thunk\Verbs\Event;
 pest()->extends(TestCase::class, LazilyRefreshDatabase::class)
     ->in('Feature', '../packages/*')
     ->beforeEach(fn () => $this->withoutVite());
-
-// Auto-discover package-specific monorepo test setup files.
-// Packages that need extra setup (fixture tables, config, etc.) in monorepo
-// context can provide a tests/PestSetup.php file alongside their Pest.php.
-foreach (glob(__DIR__.'/../packages/*/tests/PestSetup.php') as $packageSetup) {
-    require_once $packageSetup;
-}
 
 expect()->extend('toBeIgnoringWhitespace', function (string $expected): void {
     expect(preg_replace('/\s+/', ' ', (string) $this->value))->toBe(preg_replace('/\s+/', ' ', $expected));

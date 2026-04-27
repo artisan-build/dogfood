@@ -12,20 +12,15 @@ use Override;
 /**
  * @property int $id
  * @property int $message_id
- * @property string $disk
- * @property string $path
- * @property string $filename
- * @property string $mime_type
- * @property int $size
+ * @property int $member_id
+ * @property int $option_index
  * @property Carbon|null $created_at
- *
- * @mixin IdeHelperAttachment
  */
-class Attachment extends Model
+class PollVote extends Model
 {
     public $timestamps = false;
 
-    protected $table = 'bonfire_attachments';
+    protected $table = 'bonfire_poll_votes';
 
     protected $guarded = [];
 
@@ -34,26 +29,16 @@ class Attachment extends Model
         return $this->belongsTo(Message::class, 'message_id');
     }
 
-    public function isImage(): bool
+    public function member(): BelongsTo
     {
-        return str_starts_with((string) $this->mime_type, 'image/');
-    }
-
-    public function isAudio(): bool
-    {
-        return str_starts_with((string) $this->mime_type, 'audio/');
-    }
-
-    public function isVideo(): bool
-    {
-        return str_starts_with((string) $this->mime_type, 'video/');
+        return $this->belongsTo(Member::class, 'member_id');
     }
 
     #[Override]
     protected function casts(): array
     {
         return [
-            'size' => 'integer',
+            'option_index' => 'integer',
             'created_at' => 'datetime',
         ];
     }

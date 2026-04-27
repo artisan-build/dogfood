@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Override;
 
@@ -29,6 +30,8 @@ use Override;
  */
 class Member extends Model
 {
+    use Notifiable;
+
     protected $table = 'bonfire_members';
 
     protected $guarded = [];
@@ -54,6 +57,17 @@ class Member extends Model
         return $this->role->hasAtLeast($role);
     }
 
+    public function getAvatarUrlAttribute(?string $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        // Rewrite any stale absolute URLs pointing at localhost/127.0.0.1 to
+        // relative paths so the browser uses the current origin.
+        return preg_replace('#^https?://(localhost|127\.0\.0\.1)(:\d+)?/#', '/', $value);
+    }
+
     protected function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
@@ -69,6 +83,8 @@ class Member extends Model
     {
         return [
             'is_active' => 'boolean',
+            'is_away' => 'boolean',
+            'status_expires_at' => 'datetime',
             'role' => BonfireRole::class,
             'tenant_id' => 'integer',
         ];

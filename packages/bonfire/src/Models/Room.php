@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Override;
 
@@ -27,6 +28,8 @@ use Override;
  */
 class Room extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'bonfire_rooms';
 
     protected $guarded = [];
@@ -45,7 +48,7 @@ class Room extends Model
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(Member::class, 'bonfire_member_room', 'room_id', 'member_id')
-            ->withPivot(['created_by', 'last_read_at', 'created_at']);
+            ->withPivot(['created_by', 'last_read_at', 'created_at', 'section_id']);
     }
 
     public function messages(): HasMany
