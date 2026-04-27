@@ -218,22 +218,6 @@
               this.showEmoji = false;
           },
 
-          insertPollTemplate() {
-              const template = '/poll What should we do? | Option 1 | Option 2 | Option 3';
-              const el = document.querySelector('.bonfire-composer [data-flux-editor]')
-                  ?? document.querySelector('[data-flux-editor]');
-              const editor = el?._tiptap || el?.editor;
-              if (editor) {
-                  editor.chain().focus()
-                      .clearContent()
-                      .insertContent(template)
-                      .run();
-              }
-              try {
-                  this.$wire.set('body', '<p>' + template + '</p>', false);
-              } catch (e) {}
-          },
-
           pollPreview() {
               const raw = (this.body || '').replace(/<[^>]+>/g, ' ')
                   .replace(/&nbsp;/g, ' ')
@@ -243,7 +227,7 @@
                   .replace(/&#39;/g, '\u0027')
                   .replace(/&quot;/g, '\u0022')
                   .trim();
-              const m = raw.match(/^\/poll\s+(.+)$/is);
+              const m = raw.match(/\/poll\s+(.+)$/is);
               if (! m) return null;
               const parts = m[1].split('|').map(s => s.trim()).filter(Boolean);
               if (parts.length < 3) return { question: parts[0] || '', options: parts.slice(1), valid: false };
@@ -606,7 +590,45 @@
             </div>
         </div>
 
-        <template x-if="pollPreview()">
+        @if ($pendingPoll !== null)
+            <div class="mb-1 block w-full rounded-md border border-sky-200 bg-sky-50 p-3
+                        dark:border-sky-800 dark:bg-sky-950/40">
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex min-w-0 items-center gap-2">
+                        <flux:icon name="chart-bar" class="size-4 shrink-0 text-sky-600 dark:text-sky-400" />
+                        <span class="text-[11px] font-semibold uppercase tracking-wider text-sky-700 dark:text-sky-300">
+                            {{ __('Poll attached') }}
+                        </span>
+                        <span class="text-[11px] text-sky-500/80 dark:text-sky-400/80">
+                            · {{ trans_choice('{1}1 option|[2,*]:count options', count($pendingPoll['options'] ?? [])) }}
+                        </span>
+                    </div>
+                    <div class="flex shrink-0 items-center gap-1">
+                        <button type="button"
+                                wire:click="editPendingPoll"
+                                title="{{ __('Edit poll') }}"
+                                class="rounded p-1 text-sky-700 hover:bg-sky-100
+                                       dark:text-sky-300 dark:hover:bg-sky-900/40">
+                            <flux:icon name="pencil-square" class="size-4" />
+                        </button>
+                        <button type="button"
+                                wire:click="discardPendingPoll"
+                                title="{{ __('Remove poll') }}"
+                                class="rounded p-1 text-sky-700 hover:bg-sky-100
+                                       dark:text-sky-300 dark:hover:bg-sky-900/40">
+                            <flux:icon name="x-mark" class="size-4" />
+                        </button>
+                    </div>
+                </div>
+                @if (! empty($pendingPoll['question']))
+                    <div class="mt-1 truncate text-sm text-zinc-900 dark:text-zinc-100">
+                        {{ $pendingPoll['question'] }}
+                    </div>
+                @endif
+            </div>
+        @endif
+
+        <template x-if="!@js((bool) $pendingPoll) && pollPreview()">
             <div class="mb-1 rounded-md border px-2.5 py-1.5 text-xs"
                  :class="pollPreview().valid
                     ? 'border-sky-200 bg-sky-50 text-sky-800 dark:border-sky-800 dark:bg-sky-950/40 dark:text-sky-200'
@@ -696,8 +718,9 @@
                     <flux:icon name="at-symbol" class="size-4" />
                 </button>
                 <button type="button"
-                        title="Create a poll (/poll Question? | Option 1 | Option 2)"
-                        @mousedown.prevent @click="insertPollTemplate()"
+                        title="Create a poll"
+                        @mousedown.prevent
+                        @click="$dispatch('modal-show', { name: 'create-poll' })"
                         class="rounded p-1.5 hover:bg-zinc-100 hover:text-zinc-900
                                dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
                     <flux:icon name="chart-bar" class="size-4" />
@@ -936,4 +959,98 @@
             </template>
         </ul>
     </div>
+
+    {{-- Poll creation modal --}}
+    <flux:modal name="create-poll" class="md:w-[28rem]" @close="$wire.resetPollDraft()">
+        <form wire:submit.prevent="createPoll" class="space-y-6">
+            <div class="flex items-start gap-3">
+                <div class="flex size-9 flex-shrink-0 items-center justify-center rounded-lg bg-sky-100 text-sky-600
+                            dark:bg-sky-950/60 dark:text-sky-400">
+                    <flux:icon name="chart-bar" class="size-5" />
+                </div>
+                <div class="min-w-0 flex-1">
+                    <flux:heading size="lg">{{ __('Create a poll') }}</flux:heading>
+                    <flux:text class="mt-0.5 text-sm">
+                        {{ __('Anything you typed in the message box (including @mentions) will be sent above the poll.') }}
+                    </flux:text>
+                </div>
+            </div>
+
+            <flux:field>
+                <flux:label>{{ __('Question') }}</flux:label>
+                <flux:input wire:model="pollQuestion"
+                            maxlength="500"
+                            :placeholder="__('What should we do?')" />
+                <flux:error name="pollQuestion" />
+            </flux:field>
+
+            <flux:field>
+                <flux:label>{{ __('Options') }}</flux:label>
+
+                <div class="space-y-2">
+                    @foreach ($pollOptions as $index => $option)
+                        <div wire:key="poll-option-{{ $index }}"
+                             class="group flex items-center gap-2">
+                            <span class="flex size-7 flex-shrink-0 items-center justify-center rounded-md
+                                         border border-zinc-200 bg-zinc-50 text-xs font-semibold text-zinc-500 tabular-nums
+                                         dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-zinc-400">
+                                {{ $index + 1 }}
+                            </span>
+
+                            <div class="min-w-0 flex-1">
+                                <flux:input wire:model="pollOptions.{{ $index }}"
+                                            maxlength="200"
+                                            :placeholder="__('Option :n', ['n' => $index + 1])" />
+                            </div>
+
+                            @if (count($pollOptions) > 2)
+                                <flux:button type="button"
+                                             variant="subtle"
+                                             size="sm"
+                                             icon="trash"
+                                             square
+                                             :title="__('Remove option')"
+                                             wire:click="removePollOption({{ $index }})"
+                                             class="opacity-0 transition group-hover:opacity-100 focus:opacity-100" />
+                            @else
+                                <span class="size-8 flex-shrink-0"></span>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+
+                <flux:error name="pollOptions" />
+
+                @if (count($pollOptions) < 10)
+                    <div class="pt-1">
+                        <flux:button type="button"
+                                     variant="ghost"
+                                     size="sm"
+                                     icon="plus"
+                                     wire:click="addPollOption">
+                            {{ __('Add option') }}
+                        </flux:button>
+                    </div>
+                @endif
+            </flux:field>
+
+            <div class="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 pt-4 dark:border-zinc-700">
+                <flux:text class="text-xs text-zinc-500">
+                    {{ trans_choice('{0}No options yet|{1}1 option|[2,*]:count options', count(array_filter($pollOptions, fn ($o) => trim((string) $o) !== ''))) }}
+                </flux:text>
+                <div class="flex flex-wrap gap-2">
+                    <flux:modal.close>
+                        <flux:button variant="ghost" type="button">{{ __('Cancel') }}</flux:button>
+                    </flux:modal.close>
+                    <flux:button type="button" variant="filled" icon="document-plus"
+                                 wire:click="stagePoll">
+                        {{ __('Add to message') }}
+                    </flux:button>
+                    <flux:button type="submit" variant="primary" icon="paper-airplane">
+                        {{ __('Send poll') }}
+                    </flux:button>
+                </div>
+            </div>
+        </form>
+    </flux:modal>
 </div>

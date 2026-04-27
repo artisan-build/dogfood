@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use ArtisanBuild\Bonfire\Enums\BonfireRole;
 use ArtisanBuild\Bonfire\Facades\Bonfire;
 use ArtisanBuild\Bonfire\Models\Attachment;
 use ArtisanBuild\Bonfire\Models\Member;
@@ -32,6 +33,14 @@ return new class extends Component
 
     /** @var array<int, UploadedFile> */
     public array $pendingAttachments = [];
+
+    public string $pollQuestion = '';
+
+    /** @var array<int, string> */
+    public array $pollOptions = ['', ''];
+
+    /** @var array{question: string, options: array<int, string>}|null */
+    public ?array $pendingPoll = null;
 
     public function mount(Room $room, ?int $parentId = null): void
     {
@@ -88,18 +97,22 @@ return new class extends Component
         $body = trim($this->body);
         $plain = trim(strip_tags(html_entity_decode($body, ENT_QUOTES | ENT_HTML5)));
 
-        if ($plain === '' && $this->pendingAttachments === []) {
+        if ($plain === '' && $this->pendingAttachments === [] && $this->pendingPoll === null) {
             return;
         }
 
         $member = Bonfire::memberFor(auth()->user());
         abort_unless($member !== null && $member->is_active, 403);
+        $this->ensureMemberMayPost($member);
 
         $parent = $this->parentId !== null ? Message::query()->findOrFail($this->parentId) : null;
 
-        $poll = $this->parsePollCommand($plain);
+        // Staged poll wins over a typed /poll command.
+        $poll = $this->pendingPoll ?? $this->parsePollCommand($plain);
 
-        $effectiveBody = $plain === '' ? '📎' : $body;
+        $effectiveBody = $plain === ''
+            ? ($poll !== null ? (string) ($poll['question'] ?? '📎') : '📎')
+            : $body;
 
         $scheduledAt = $this->scheduledFor !== null && $this->scheduledFor !== ''
             ? Carbon::parse($this->scheduledFor)
@@ -109,7 +122,10 @@ return new class extends Component
             $scheduledAt = null;
         }
 
-        if ($poll !== null) {
+        // /poll slash-command: replace body with the bare question (the slash-command
+        // string itself is not useful as visible body). Staged poll: keep the user's
+        // typed body so @mentions and accompanying text survive.
+        if ($poll !== null && $this->pendingPoll === null) {
             $effectiveBody = $poll['question'];
         }
 
@@ -125,7 +141,9 @@ return new class extends Component
             $this->lastScheduledAt = $scheduledAt->toIso8601String();
         }
 
+        $this->pendingPoll = null;
         $this->reset('body', 'pendingAttachments', 'scheduledFor', 'alsoSendToChannel');
+        $this->dispatch('bonfire-own-message-sent');
     }
 
     /**
@@ -198,6 +216,136 @@ return new class extends Component
         }
 
         return Message::query()->create($attrs);
+    }
+
+    /**
+     * Reject if the room is announcement-only and the member is not at least a moderator.
+     */
+    private function ensureMemberMayPost(Member $member): void
+    {
+        if (! $this->room->isAnnouncements()) {
+            return;
+        }
+
+        abort_unless($member->hasRoleAtLeast(BonfireRole::Moderator), 403);
+    }
+
+    public function addPollOption(): void
+    {
+        if (count($this->pollOptions) < 10) {
+            $this->pollOptions[] = '';
+        }
+    }
+
+    public function removePollOption(int $index): void
+    {
+        if (count($this->pollOptions) <= 2) {
+            return;
+        }
+
+        unset($this->pollOptions[$index]);
+        $this->pollOptions = array_values($this->pollOptions);
+    }
+
+    public function resetPollDraft(): void
+    {
+        $this->pollQuestion = '';
+        $this->pollOptions = ['', ''];
+        $this->resetErrorBag(['pollQuestion', 'pollOptions']);
+    }
+
+    /**
+     * @return array{question: string, options: array<int, string>}|null
+     */
+    private function validatePollDraft(): ?array
+    {
+        $this->validate([
+            'pollQuestion' => ['required', 'string', 'min:1', 'max:500'],
+            'pollOptions' => ['array', 'min:2', 'max:10'],
+            'pollOptions.*' => ['nullable', 'string', 'max:200'],
+        ]);
+
+        $options = array_values(array_filter(
+            array_map(fn (string $o): string => trim($o), $this->pollOptions),
+            fn (string $o): bool => $o !== '',
+        ));
+
+        if (count($options) < 2) {
+            $this->addError('pollOptions', __('Add at least 2 non-empty options.'));
+
+            return null;
+        }
+
+        return [
+            'question' => trim($this->pollQuestion),
+            'options' => array_slice($options, 0, 10),
+        ];
+    }
+
+    public function createPoll(): void
+    {
+        $poll = $this->validatePollDraft();
+        if ($poll === null) {
+            return;
+        }
+
+        $member = Bonfire::memberFor(auth()->user());
+        abort_unless($member !== null && $member->is_active, 403);
+        $this->ensureMemberMayPost($member);
+
+        $parent = $this->parentId !== null ? Message::query()->findOrFail($this->parentId) : null;
+
+        $bodyHtml = trim($this->body);
+        $bodyPlain = trim(strip_tags(html_entity_decode($bodyHtml, ENT_QUOTES | ENT_HTML5)));
+        $effectiveBody = $bodyPlain === '' ? $poll['question'] : $bodyHtml;
+
+        $this->createMessage($member, $parent, $effectiveBody, null, $poll);
+
+        if ($parent !== null && $this->alsoSendToChannel) {
+            Bonfire::postAs($member, $this->room, $effectiveBody, null);
+        }
+
+        $this->reset('body');
+        $this->pendingPoll = null;
+        $this->resetPollDraft();
+        $this->dispatch('modal-close', name: 'create-poll');
+        $this->dispatch('bonfire-own-message-sent');
+    }
+
+    /**
+     * Stage the poll into the draft so the user can keep typing before sending.
+     */
+    public function stagePoll(): void
+    {
+        $poll = $this->validatePollDraft();
+        if ($poll === null) {
+            return;
+        }
+
+        $this->pendingPoll = $poll;
+        $this->resetPollDraft();
+        $this->dispatch('modal-close', name: 'create-poll');
+    }
+
+    /**
+     * Reopen the modal pre-filled with the staged poll for editing.
+     */
+    public function editPendingPoll(): void
+    {
+        if ($this->pendingPoll === null) {
+            return;
+        }
+
+        $this->pollQuestion = (string) ($this->pendingPoll['question'] ?? '');
+        $options = $this->pendingPoll['options'] ?? [];
+        $this->pollOptions = count($options) >= 2 ? array_values($options) : ['', ''];
+
+        $this->dispatch('modal-show', name: 'create-poll');
+    }
+
+    public function discardPendingPoll(): void
+    {
+        $this->pendingPoll = null;
     }
 
     private function storeAttachments(Message $message): void
