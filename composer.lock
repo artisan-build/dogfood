@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e73b5d9c3b19a855dda39427f97d912",
+    "content-hash": "574d41b30d2fcd0e5f0651b51d6729f4",
     "packages": [
         {
             "name": "artisan-build/adverbs",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/adverbs",
@@ -87,7 +87,7 @@
         },
         {
             "name": "artisan-build/agent-os-installer",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/agent-os-installer",
@@ -153,7 +153,7 @@
         },
         {
             "name": "artisan-build/artisan-ui",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/artisan-ui",
@@ -230,7 +230,7 @@
         },
         {
             "name": "artisan-build/bench",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/bench",
@@ -348,7 +348,7 @@
         },
         {
             "name": "artisan-build/claudecode",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/claudecode",
@@ -428,7 +428,7 @@
         },
         {
             "name": "artisan-build/code-chat-client",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/code-chat-client",
@@ -509,7 +509,7 @@
         },
         {
             "name": "artisan-build/docsidian",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/docsidian",
@@ -591,7 +591,7 @@
         },
         {
             "name": "artisan-build/embeddable-links",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/embeddable-links",
@@ -670,7 +670,7 @@
         },
         {
             "name": "artisan-build/fat-enums",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/fat-enums",
@@ -749,7 +749,7 @@
         },
         {
             "name": "artisan-build/flux-themes",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/flux-themes",
@@ -829,7 +829,7 @@
         },
         {
             "name": "artisan-build/forge-client",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/forge-client",
@@ -912,7 +912,7 @@
         },
         {
             "name": "artisan-build/gh",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/gh",
@@ -988,7 +988,7 @@
         },
         {
             "name": "artisan-build/hallway-core",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-core",
@@ -1086,7 +1086,7 @@
         },
         {
             "name": "artisan-build/hallway-flux",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/hallway-flux",
@@ -1185,7 +1185,7 @@
         },
         {
             "name": "artisan-build/json-markdown",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/json-markdown",
@@ -1264,7 +1264,7 @@
         },
         {
             "name": "artisan-build/kibble",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/kibble",
@@ -1346,7 +1346,7 @@
         },
         {
             "name": "artisan-build/marketing",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing",
@@ -1425,7 +1425,7 @@
         },
         {
             "name": "artisan-build/marketing-mailcoach",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/marketing-mailcoach",
@@ -1502,7 +1502,7 @@
         },
         {
             "name": "artisan-build/mirror",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/mirror",
@@ -1579,7 +1579,7 @@
         },
         {
             "name": "artisan-build/opencode-sdk",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/opencode-sdk",
@@ -1657,7 +1657,7 @@
         },
         {
             "name": "artisan-build/packagist",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/packagist",
@@ -1734,8 +1734,85 @@
             }
         },
         {
+            "name": "artisan-build/sqlite-vector",
+            "version": "dev-fix-phpstan-errors",
+            "dist": {
+                "type": "path",
+                "url": "packages/sqlite-vector",
+                "reference": "bf7aeb9d21e29bbcf3e1ce325a71c06594a85261"
+            },
+            "require": {
+                "illuminate/support": "^11.36|^12.0|^13.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^v3.0.2",
+                "laravel/pint": "^1.19.0",
+                "orchestra/testbench": "^9.9|^10.0|^11.0",
+                "pestphp/pest": "^v3.7.1",
+                "phpstan/phpstan": "^2.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArtisanBuild\\SqliteVector\\Providers\\SqliteVectorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArtisanBuild\\SqliteVector\\": "src/",
+                    "ArtisanBuild\\SqliteVector\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@composer run prepare"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-bench --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@composer run prepare",
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "start": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@composer run build",
+                    "@php vendor/bin/testbench serve"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "lint": [
+                    "vendor/bin/pint"
+                ],
+                "stan": [
+                    "vendor/bin/phpstan analyse --memory-limit=-1"
+                ],
+                "ready": [
+                    "@composer lint",
+                    "@composer stan",
+                    "@composer test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel package that sets up asg017/sqlite-vec the way we like to use it in Laravel",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "artisan-build/till",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/till",
@@ -1815,7 +1892,7 @@
         },
         {
             "name": "artisan-build/till-stripe",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/till-stripe",
@@ -1893,7 +1970,7 @@
         },
         {
             "name": "artisan-build/turbulence",
-            "version": "dev-remove-bonfire-package",
+            "version": "dev-fix-phpstan-errors",
             "dist": {
                 "type": "path",
                 "url": "packages/turbulence",

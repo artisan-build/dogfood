@@ -31,13 +31,6 @@ return RectorConfig::configure()
         RectorLaravel\Rector\ArrayDimFetch\ServerVariableToRequestFacadeRector::class => [
             __DIR__.'/packages/agent-os-installer/src/Actions/EnsureAgentOsIsInstalled.php',
         ],
-        // Skip converting fn() to first-class callables in certain contexts
-        // - Pest beforeEach(): First-class callables create static closures that can't be bound to $this
-        // - Till GetPlans: First-class callable signature doesn't match PHPStan collection type expectations
-        Rector\CodingStyle\Rector\FunctionLike\FunctionLikeToFirstClassCallableRector::class => [
-            __DIR__.'/packages/gh/tests',
-            __DIR__.'/packages/till/src/Actions/GetPlans.php',
-        ],
     ])
     ->withImportNames(true, false, true, true)
     // uncomment to reach your current PHP version
