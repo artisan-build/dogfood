@@ -31,6 +31,7 @@
         "artisan-build/mirror": "*",
         "artisan-build/opencode-sdk": "*",
         "artisan-build/packagist": "*",
+        "artisan-build/sqlite-vector": "*",
         "artisan-build/till": "*",
         "artisan-build/till-stripe": "*",
         "artisan-build/turbulence": "*",

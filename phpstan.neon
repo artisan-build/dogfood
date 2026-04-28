@@ -15,6 +15,7 @@ parameters:
         - packages/*/vendor
         - packages/*/vendor/**
         - app/SetCashierModelCommand.php
+        - packages/**/Traits/*.php
 
     level: 5
 
