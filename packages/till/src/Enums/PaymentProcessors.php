@@ -33,7 +33,7 @@ enum PaymentProcessors: string
     public function subscribed(PlanInterface $plan): bool
     {
         return class_exists("ArtisanBuild\Till{$this->name}\Actions\IsSubscribed")
-            ? app("ArtisanBuild\Till{$this->name}\Actions\IsSubscribed")
+            ? resolve("ArtisanBuild\Till{$this->name}\Actions\IsSubscribed")
             : false;
     }
 
@@ -43,7 +43,7 @@ enum PaymentProcessors: string
     public function sync(PlanInterface $plan): bool
     {
         $changed = class_exists("ArtisanBuild\Till{$this->name}\Actions\SyncSubscriptionStatus")
-        ? app("ArtisanBuild\Till{$this->name}\Actions\SyncSubscriptionStatus")
+        ? resolve("ArtisanBuild\Till{$this->name}\Actions\SyncSubscriptionStatus")
         : false;
 
         if ($changed) {

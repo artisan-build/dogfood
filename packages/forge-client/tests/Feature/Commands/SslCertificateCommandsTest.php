@@ -44,7 +44,7 @@ test('get ssl certificate command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetSslCertificateCommand::class, [
@@ -72,7 +72,7 @@ test('create ssl certificate command executes successfully with confirmation', f
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateSslCertificateCommand::class, [
@@ -112,7 +112,7 @@ test('destroy ssl certificate command requires confirmation', function (): void 
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroySslCertificateCommand::class, [
@@ -140,7 +140,7 @@ test('destroy ssl certificate command executes with confirmation skip', function
         MockResponse::make([], 204),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroySslCertificateCommand::class, [
@@ -167,7 +167,7 @@ test('destroy ssl certificate command can be cancelled', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroySslCertificateCommand::class, [

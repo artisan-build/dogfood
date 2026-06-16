@@ -31,7 +31,7 @@ test('list providers command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListProvidersCommand::class)
@@ -45,7 +45,7 @@ test('list providers command handles errors gracefully', function (): void {
         MockResponse::make(['error' => 'Unauthorized'], 401),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListProvidersCommand::class)
@@ -66,7 +66,7 @@ test('list providers command accepts pagination options', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListProvidersCommand::class, [
@@ -116,7 +116,7 @@ test('list provider sizes command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListProviderSizesCommand::class, ['provider' => 1])
@@ -130,7 +130,7 @@ test('list provider sizes command handles errors gracefully', function (): void 
         MockResponse::make(['error' => 'Unauthorized'], 401),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListProviderSizesCommand::class, ['provider' => 1])
@@ -161,7 +161,7 @@ test('list provider sizes command accepts pagination options', function (): void
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListProviderSizesCommand::class, [
@@ -179,7 +179,7 @@ test('list provider sizes command handles provider not found', function (): void
         MockResponse::make(['error' => 'Provider not found'], 404),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListProviderSizesCommand::class, ['provider' => 999])

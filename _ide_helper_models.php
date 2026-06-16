@@ -168,6 +168,28 @@ namespace ArtisanBuild\Adverbs\Models{
 	class IdeHelperDummy {}
 }
 
+namespace ArtisanBuild\SqliteVector\Models{
+/**
+ * Stores embedding metadata linked to a morphable model.
+ *
+ * @property int $id
+ * @property string $embeddable_type
+ * @property int $embeddable_id
+ * @property array|null $metadata
+ * @property string|null $source
+ * @property string|null $model
+ * @property Carbon|null $embedded_at
+ * @property float|null $distance
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $embeddable
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Embedding newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Embedding newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Embedding query()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperEmbedding {}
+}
+
 namespace ArtisanBuild\Till\Models{
 /**
  * @property int $id

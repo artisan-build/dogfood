@@ -16,8 +16,8 @@ class RefreshSubscriptionCache
     public function __invoke(?User $user = null, ?CarbonInterface $expiration = null): array
     {
         $abilities = [];
-        foreach (data_get(app(GetPlanById::class)($this->state->plan_id), 'can') as $ability) {
-            $abilities[last(explode('\\', (string) $ability[0]))] = app($ability[0])(...$ability[1]);
+        foreach (data_get(resolve(GetPlanById::class)($this->state->plan_id), 'can') as $ability) {
+            $abilities[last(explode('\\', (string) $ability[0]))] = resolve($ability[0])(...$ability[1]);
         }
 
         Cache::put('subscription-'.$this->state->id, $abilities, $expiration ?? $this->getCacheExpiration());

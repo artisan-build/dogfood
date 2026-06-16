@@ -32,12 +32,12 @@ class NewSubscriberAddedToDefaultPlan extends Event
 
     public function __construct()
     {
-        $this->plan_id = app(GetDefaultPlan::class)()->getId();
+        $this->plan_id = resolve(GetDefaultPlan::class)()->getId();
     }
 
     public function validate(SubscriberState $state): bool
     {
         return $state->plan_id === null
-            && app(GetPlanById::class)($this->plan_id) instanceof PlanInterface;
+            && resolve(GetPlanById::class)($this->plan_id) instanceof PlanInterface;
     }
 }

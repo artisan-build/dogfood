@@ -41,7 +41,7 @@ test('list firewall rules command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListFirewallRulesCommand::class, [
@@ -71,7 +71,7 @@ test('list firewall rules command handles filters', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListFirewallRulesCommand::class, [
@@ -101,7 +101,7 @@ test('get firewall rule command executes successfully', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(GetFirewallRuleCommand::class, [
@@ -129,7 +129,7 @@ test('create firewall rule command executes successfully with confirmation', fun
         ], 201),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(CreateFirewallRuleCommand::class, [
@@ -152,7 +152,7 @@ test('destroy firewall rule command requires confirmation', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyFirewallRuleCommand::class, [
@@ -177,7 +177,7 @@ test('destroy firewall rule command executes with confirmation skip', function (
         MockResponse::make([], 204),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyFirewallRuleCommand::class, [
@@ -201,7 +201,7 @@ test('destroy firewall rule command can be cancelled', function (): void {
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(DestroyFirewallRuleCommand::class, [

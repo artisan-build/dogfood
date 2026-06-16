@@ -13,15 +13,15 @@ afterEach(function (): void {
 });
 
 it('gets the default plan', function (): void {
-    expect(app(GetDefaultPlan::class)())->toBeInstanceOf(UnsubscribedPlan::class);
+    expect(resolve(GetDefaultPlan::class)())->toBeInstanceOf(UnsubscribedPlan::class);
 });
 
 it('gets the default individual plan', function (): void {
     Config::set('till.team_mode', false);
-    expect(app(GetDefaultPlan::class)())->toBeInstanceOf(UnsubscribedPlan::class);
+    expect(resolve(GetDefaultPlan::class)())->toBeInstanceOf(UnsubscribedPlan::class);
 });
 
 it('throws if there is more than one plan marked as default', function (): void {
     File::put(implode('/', [config('till.plan_path'), 'ExtraDefaultPlan.php']), File::get(__DIR__.'/files/ExtraDefaultPlan.php.stub'));
-    app(GetDefaultPlan::class)();
+    resolve(GetDefaultPlan::class)();
 })->throws(MultipleItemsFoundException::class);

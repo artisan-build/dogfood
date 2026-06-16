@@ -36,7 +36,7 @@ test('list server credentials command executes successfully', function (): void 
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListServerCredentialsCommand::class, ['organization' => 'test-org'])
@@ -50,7 +50,7 @@ test('list server credentials command handles errors gracefully', function (): v
         MockResponse::make(['error' => 'Unauthorized'], 401),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListServerCredentialsCommand::class, ['organization' => 'test-org'])
@@ -74,7 +74,7 @@ test('list server credentials command accepts pagination options', function (): 
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListServerCredentialsCommand::class, [
@@ -96,7 +96,7 @@ test('list server credentials command uses environment organization', function (
         ], 200),
     ]);
 
-    $sdk = app(ForgeClient::class);
+    $sdk = resolve(ForgeClient::class);
     $sdk->withMockClient($mockClient);
 
     $this->artisan(ListServerCredentialsCommand::class)

@@ -44,7 +44,7 @@ class FreshCommand extends Command
         }
 
         foreach (config('bench.fresh-actions') as $action) {
-            app($action)();
+            resolve($action)();
         }
 
         $this->createDatabasesForParallelTesting();

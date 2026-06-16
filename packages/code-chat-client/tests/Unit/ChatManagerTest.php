@@ -6,13 +6,13 @@ use ArtisanBuild\CodeChatClient\ChatManager;
 use ArtisanBuild\CodeChatClient\Contracts\ChatDriverContract;
 
 it('can create a chat manager instance', function (): void {
-    $manager = app(ChatManager::class);
+    $manager = resolve(ChatManager::class);
 
     expect($manager)->toBeInstanceOf(ChatManager::class);
 });
 
 it('can extend the manager with custom drivers', function (): void {
-    $manager = app(ChatManager::class);
+    $manager = resolve(ChatManager::class);
 
     $mockDriver = Mockery::mock(ChatDriverContract::class);
     $mockDriver->shouldReceive('isAvailable')->andReturn(true);
@@ -26,7 +26,7 @@ it('can extend the manager with custom drivers', function (): void {
 });
 
 it('returns available drivers', function (): void {
-    $manager = app(ChatManager::class);
+    $manager = resolve(ChatManager::class);
 
     $mockDriver = Mockery::mock(ChatDriverContract::class);
     $mockDriver->shouldReceive('isAvailable')->andReturn(true);

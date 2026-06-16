@@ -16,7 +16,7 @@
     "require": {
         "php": "^8.3",
         "artisan-build/hallway-core": "*",
-        "livewire/livewire": "^v3.5.9",
+        "livewire/livewire": "^3.0|^4.0",
         "livewire/flux": "*",
         "livewire/flux-pro": "*",
         "illuminate/contracts": "^11.0|^12.0|^13.0",

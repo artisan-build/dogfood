@@ -28,7 +28,7 @@ class AuthorizesLedgerTransactionsListener
         }
 
         collect($reflection->getAttributes(Costs::class))->each(function (ReflectionAttribute $cost) use ($event): void {
-            throw_if(! app(Spend::class)(
+            throw_if(! resolve(Spend::class)(
                 state: $event->state(SubscriberState::class),
                 ledger: $cost->getArguments()[0],
                 attempted_spend: $cost->getArguments()[1],
