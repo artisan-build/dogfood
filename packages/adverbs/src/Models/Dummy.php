@@ -17,6 +17,7 @@ use Thunk\Verbs\State;
  * @property string|null $metadata
  * @property int|null $id
  * @property string|null $last_event_id
+ *
  * @method static Builder<static>|Dummy newModelQuery()
  * @method static Builder<static>|Dummy newQuery()
  * @method static Builder<static>|Dummy query()
@@ -25,6 +26,7 @@ use Thunk\Verbs\State;
  * @method static Builder<static>|Dummy whereLastEventId($value)
  * @method static Builder<static>|Dummy whereMetadata($value)
  * @method static Builder<static>|Dummy whereName($value)
+ *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin IdeHelperDummy
  */
