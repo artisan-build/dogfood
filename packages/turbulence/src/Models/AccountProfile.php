@@ -9,13 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @internal
- *
  * @property-read Account|null $account
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountProfile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountProfile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AccountProfile query()
- *
  * @mixin \Eloquent
  * @mixin IdeHelperAccountProfile
  */

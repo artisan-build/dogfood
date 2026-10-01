@@ -22,14 +22,12 @@ use Sushi\Sushi;
  * @property-read Membership|null $membership
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $users
  * @property-read int|null $users_count
- *
  * @method static Builder<static>|TillTeam newModelQuery()
  * @method static Builder<static>|TillTeam newQuery()
  * @method static Builder<static>|TillTeam query()
  * @method static Builder<static>|TillTeam whereId($value)
  * @method static Builder<static>|TillTeam whereName($value)
  * @method static Builder<static>|TillTeam whereUserId($value)
- *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin IdeHelperTillTeam
  */

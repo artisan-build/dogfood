@@ -30,7 +30,6 @@ use Sushi\Sushi;
  * @property-read int|null $teams_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
- *
  * @method static Builder<static>|TillUser newModelQuery()
  * @method static Builder<static>|TillUser newQuery()
  * @method static Builder<static>|TillUser query()
@@ -39,7 +38,6 @@ use Sushi\Sushi;
  * @method static Builder<static>|TillUser whereId($value)
  * @method static Builder<static>|TillUser whereName($value)
  * @method static Builder<static>|TillUser wherePassword($value)
- *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin IdeHelperTillUser
  */

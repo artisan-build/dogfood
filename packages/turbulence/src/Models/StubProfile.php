@@ -9,11 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @internal
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StubProfile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StubProfile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StubProfile query()
- *
  * @mixin \Eloquent
  * @mixin IdeHelperStubProfile
  */

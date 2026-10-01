@@ -10,13 +10,10 @@ use Override;
 
 /**
  * @internal
- *
  * @property-read StubProfile|null $profile
- *
  * @method static Builder<static>|Stub newModelQuery()
  * @method static Builder<static>|Stub newQuery()
  * @method static Builder<static>|Stub query()
- *
  * @mixin \Eloquent
  * @mixin IdeHelperStub
  */

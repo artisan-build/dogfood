@@ -20,7 +20,6 @@ use Override;
  * @property string|null $model
  * @property Carbon|null $embedded_at
  * @property float|null $distance
- *
  * @mixin IdeHelperEmbedding
  */
 class Embedding extends Model

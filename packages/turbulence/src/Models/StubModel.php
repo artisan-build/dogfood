@@ -9,14 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @internal
- *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Stub> $stubs
  * @property-read int|null $stubs_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StubModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StubModel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|StubModel query()
- *
  * @mixin \Eloquent
  * @mixin IdeHelperStubModel
  */
